@@ -3,14 +3,30 @@
 
 HRESULT mapTool::init()
 {
+	//타일맵 이미지
 	IMAGEMANAGER->addFrameImage("boss_tile", "image/object/tile/boss.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("dirt1_tile", "image/object/tile/dirt1.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("dirt2_tile", "image/object/tile/dirt2.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("shop_tile", "image/object/tile/shop.bmp", 48, 48, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("water_tile", "image/object/tile/water.bmp", 144, 48, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("stair_miniboss_tile", "image/object/tile/stair_miniboss.bmp", 96, 48, 2, 1, true, RGB(255, 0, 255));
+
+	//벽 이미지
 	IMAGEMANAGER->addFrameImage("walls", "image/object/walls/walls.bmp", 384, 864, 8, 9, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("walls1", "image/object/walls/walls1.bmp", 384, 480, 8, 5, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("walls2", "image/object/walls/walls2.bmp", 384, 384, 8, 4, true, RGB(255, 0, 255));
+	
+	//함정 이미지
+	IMAGEMANAGER->addFrameImage("bomb_trap", "imge/object/trapBomb.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("up_trap", "imge/object/trapBounceUp.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("down_trap", "imge/object/trapBounceDown.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("left_trap", "imge/object/trapBounceLeft.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("right_trap", "imge/object/trapBounceRight.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("fast_trap", "imge/object/trapSpeedUp.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("slow_trap", "imge/object/trapSpeedDown.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+
+	IMAGEMANAGER->addFrameImage("spike_trap", "imge/object/trapSpike.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+
 	setup();
 	_worldTime = TIMEMANAGER->getWorldTime();
 	_isEvenLight = false;
@@ -141,7 +157,7 @@ void mapTool::setup()
 	_ctrSelect = CTRL_TERRAINDRAW;
 
 	//샘플 타일 셋 설정
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < SAMPLETILEMAX; i++)
 	{
 		tagSampleTile sample;
 		sample.terrain = (TERRAIN)i;
@@ -173,6 +189,14 @@ void mapTool::setup()
 			_sampleWall2[i*SAMPLEWALLX + j].rc = RectMake(WINSIZEX - IMAGEMANAGER->findImage("walls2")->getWidth() - 150 + j * WALLWIDTH,
 				100 + i * WALLHEIGHT, WALLWIDTH, WALLHEIGHT);
 		}
+	}
+
+	for (int i = 0; i < SAMPLETRAPMAX; i++)
+	{
+		tagSampleObject sample;
+		sample.obj = 
+		sample.rc = RectMake(WINSIZEX - 600 + 100 * i, 100, 100, 100);
+		_vSampleTile.push_back(sample);
 	}
 
 	//카테고리 렉트 설정

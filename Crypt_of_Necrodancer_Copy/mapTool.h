@@ -2,11 +2,20 @@
 #include "gameNode.h"
 #include "tileMap.h"
 
-//#define TILEX 7	//가로 타일 갯수
-//#define TILEY 9	//세로 타일 갯수
 
-//#define TILESIZEX TILESIZE * TILEX	//640 32 * 20
-//#define TILESIZEY TILESIZE * TILEY	//640 32 * 20
+#define SAMPLETILEMAX 5
+
+#define WALLWIDTH 48
+#define WALLHEIGHT 96
+
+#define SAMPLEWALLX 8
+#define SAMPLEWALLY1 5
+#define SAMPLEWALLY2 4
+
+#define SAMPLETRAPMAX 8
+/*======================  필     독   !  ==========================
+TERRAIN, OBJECT, CTRL, CATEGORY enum은 gameNode.h에 있습니다.
+==================================================================*/
 
 struct tagSampleTile
 {
@@ -28,17 +37,13 @@ struct tagCurrentWall
 	int y;
 };
 
-#define WALLWIDTH 48
-#define WALLHEIGHT 96
-
-#define SAMPLEWALLX 8
-#define SAMPLEWALLY1 5
-#define SAMPLEWALLY2 4
 
 class mapTool : public gameNode
 {
 private:
 	vector<tagSampleTile> _vSampleTile;
+	vector<tagSampleObject> _vSampleTrap;
+
 	tagSampleObject _sampleWall1[SAMPLEWALLX * SAMPLEWALLY1];
 	tagSampleObject _sampleWall2[SAMPLEWALLX * SAMPLEWALLY2];
 
