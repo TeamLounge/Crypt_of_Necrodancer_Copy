@@ -3,14 +3,14 @@
 
 HRESULT mapTool::init()
 {
-	IMAGEMANAGER->addFrameImage("boss_tile", "image/boss.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("dirt1_tile", "image/dirt1.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("dirt2_tile", "image/dirt2.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("shop_tile", "image/shop.bmp", 48, 48, 1, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("water_tile", "image/water.bmp", 144, 48, 3, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("walls", "image/walls.bmp", 384, 864, 8, 9, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("walls1", "image/walls1.bmp", 384, 480, 8, 5, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("walls2", "image/walls2.bmp", 384, 384, 8, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("boss_tile", "image/object/tile/boss.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("dirt1_tile", "image/object/tile/dirt1.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("dirt2_tile", "image/object/tile/dirt2.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("shop_tile", "image/object/tile/shop.bmp", 48, 48, 1, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("water_tile", "image/object/tile/water.bmp", 144, 48, 3, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("walls", "image/object/walls/walls.bmp", 384, 864, 8, 9, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("walls1", "image/object/walls/walls1.bmp", 384, 480, 8, 5, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("walls2", "image/object/walls/walls2.bmp", 384, 384, 8, 4, true, RGB(255, 0, 255));
 	setup();
 	_worldTime = TIMEMANAGER->getWorldTime();
 	_isEvenLight = false;
