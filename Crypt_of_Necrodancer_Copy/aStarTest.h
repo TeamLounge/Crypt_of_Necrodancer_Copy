@@ -27,7 +27,6 @@ private:
 	int _count;// 그냥렌더용
 	bool _start; // 그냥 시작용
 
-
 public:
 	aStarTest();
 	~aStarTest();

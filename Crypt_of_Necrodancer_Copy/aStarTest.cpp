@@ -33,13 +33,38 @@ void aStarTest::update()
 	if (_start)
 	{
 		_count++;
-		if (_count % 15 == 0)
+		if (_count % 30 == 0)
 		{
 			pathFinder(_currentTile);
 		
 			_count = 0;
 		}
 	}
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
+	{
+		for (int i = 0; i < _vTotalList.size(); ++i)
+		{
+			if(PtInRect(&_vTotalList[i]->getRect(), _ptMouse))
+			{
+				_vTotalList[i]->setIsOpen(false);
+				_vTotalList[i]->setAttribute("wall");
+				_vTotalList[i]->setColor(RGB(0, 0, 0));
+			}
+		}
+	}
+	if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
+	{
+		for (int i = 0; i < _vTotalList.size(); ++i)
+		{
+			if (PtInRect(&_vTotalList[i]->getRect(), _ptMouse))
+			{
+				_vTotalList[i]->setIsOpen(true);
+				_vTotalList[i]->setAttribute("none");
+				_vTotalList[i]->setColor(RGB(255, 255, 255));
+			}
+		}
+	}
+	
 }
 
 void aStarTest::render()
@@ -47,6 +72,9 @@ void aStarTest::render()
 	for (int i = 0; i < _vTotalList.size(); ++i)
 	{
 		_vTotalList[i]->render();
+		char str[12];
+		sprintf_s(str," %d",_vTotalList[i]->getparentNumber());
+		TextOut(getMemDC(), _vTotalList[i]->getCenter().x - 10, _vTotalList[i]->getCenter().y - 10,str,strlen(str));
 	}
 }
 //타일 셋팅 함수
@@ -88,39 +116,216 @@ void aStarTest::setTile()
 //갈수있는길추가함수
 vector<tile*> aStarTest::addOpenList(tile * currentTile)
 {
-	int startX = currentTile->getIdX() - 1;
-	int startY = currentTile->getIdY() - 1;
-	for (int i = 0; i < 3; ++i)
+	
+	int startX = currentTile->getIdX();
+	int startY = currentTile->getIdY()-1;
+	
+	if (startY < _endTile->getIdY())
 	{
-		for (int j = 0; j < 3; ++j)
+		for (int i = 0; i < 4; ++i)
 		{
-			tile* node = _vTotalList[(startY*TILENUMX) + startX + j + (i*TILENUMX)];
-			//예외처리
-			if (!node->getIsOpen()) continue;
-			if (node->getAttribute() == "start") continue;
-			if (node->getAttribute() == "wall") continue;
-
-			//현재 타일 계속 갱신해준다.
-			node->setParentNode(_currentTile);
-			//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
-			bool addObj = true;
-
-			for (_viOpenList = _vOpenList.begin() ; _viOpenList != _vOpenList.end() ; ++_viOpenList)
+			if (i == 0 || i == 2)
 			{
-				if (*_viOpenList == node)
+				tile* node = _vTotalList[(startY*TILENUMX) + startX + (i*TILENUMX)];
+				//예외처리
+				if (!node->getIsOpen()) continue;
+				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "wall") continue;
+				//현재 타일 계속 갱신해준다.
+				node->setParentNode(_currentTile);
+				node->setparentNumber(_currentTile->getparentNumber() + 1);
+				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
+				bool addObj = true;
+
+				for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
 				{
-					addObj = false;
-					break;
+					if (*_viOpenList == node)
+					{
+						addObj = false;
+						break;
+					}
 				}
+
+
+				//현재 노드가 끝노드가아니면 색칠해준다
+				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+
+				//이미 체크된애는 건너뛴다
+				if (!addObj) continue;
+				//갈수있는 길은 백터에 저장된다
+				_vOpenList.push_back(node);
+
+			}
+			if (i == 1)
+			{
+
+				tile* node = _vTotalList[(startY*TILENUMX) + startX + i + (i*TILENUMX)];
+				//예외처리
+				if (!node->getIsOpen()) continue;
+				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "wall") continue;
+				//현재 타일 계속 갱신해준다.
+				node->setParentNode(_currentTile);
+				node->setparentNumber(_currentTile->getparentNumber() + 1);
+
+				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
+				bool addObj = true;
+
+				for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
+				{
+					if (*_viOpenList == node)
+					{
+						addObj = false;
+						break;
+					}
+				}
+
+
+				//현재 노드가 끝노드가아니면 색칠해준다
+				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+
+				//이미 체크된애는 건너뛴다
+				if (!addObj) continue;
+				//갈수있는 길은 백터에 저장된다
+				_vOpenList.push_back(node);
+
+			}
+			if (i == 3)
+			{
+				tile* node = _vTotalList[(startY*TILENUMX) + startX - 1 + ((i - 2)*TILENUMX)];
+				//예외처리
+				if (!node->getIsOpen()) continue;
+				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "wall") continue;
+				//현재 타일 계속 갱신해준다.
+				node->setParentNode(_currentTile);
+				node->setparentNumber(_currentTile->getparentNumber() + 1);
+
+				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
+				bool addObj = true;
+
+				for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
+				{
+					if (*_viOpenList == node)
+					{
+						addObj = false;
+						break;
+					}
+				}
+
+				//현재 노드가 끝노드가아니면 색칠해준다
+				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+
+				//이미 체크된애는 건너뛴다
+				if (!addObj) continue;
+				//갈수있는 길은 백터에 저장된다
+				_vOpenList.push_back(node);
 			}
 
-			//현재 노드가 끝노드가아니면 색칠해준다
-		if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
-
-			//이미 체크된애는 건너뛴다
-			if (!addObj) continue;
-			//갈수있는 길은 백터에 저장된다
-			_vOpenList.push_back(node);
+		}
+	}
+	else
+	{
+		for (int i = 3; i >= 0; --i)
+		{
+			if (i == 0 || i == 2)
+			{
+				tile* node = _vTotalList[(startY*TILENUMX) + startX + (i*TILENUMX)];
+				//예외처리
+				if (!node->getIsOpen()) continue;
+				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "wall") continue;
+				//현재 타일 계속 갱신해준다.
+				node->setParentNode(_currentTile);
+				node->setparentNumber(_currentTile->getparentNumber() + 1);
+				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
+				bool addObj = true;
+		
+				for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
+				{
+					if (*_viOpenList == node)
+					{
+						addObj = false;
+						break;
+					}
+				}
+		
+		
+				//현재 노드가 끝노드가아니면 색칠해준다
+				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+		
+				//이미 체크된애는 건너뛴다
+				if (!addObj) continue;
+				//갈수있는 길은 백터에 저장된다
+				_vOpenList.push_back(node);
+		
+			}
+			if (i == 1)
+			{
+			
+				tile* node = _vTotalList[(startY*TILENUMX) + startX + i + (i*TILENUMX)];
+				//예외처리
+				if (!node->getIsOpen()) continue;
+				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "wall") continue;
+				//현재 타일 계속 갱신해준다.
+				node->setParentNode(_currentTile);
+				node->setparentNumber(_currentTile->getparentNumber() + 1);
+		
+				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
+				bool addObj = true;
+		
+				for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
+				{
+					if (*_viOpenList == node)
+					{
+						addObj = false;
+						break;
+					}
+				}
+		
+		
+				//현재 노드가 끝노드가아니면 색칠해준다
+				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+		
+				//이미 체크된애는 건너뛴다
+				if (!addObj) continue;
+				//갈수있는 길은 백터에 저장된다
+				_vOpenList.push_back(node);
+		
+			}
+			if (i == 3)
+			{
+				tile* node = _vTotalList[(startY*TILENUMX) + startX-1 + ((i-2)*TILENUMX)];
+				//예외처리
+				if (!node->getIsOpen()) continue;
+				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "wall") continue;
+				//현재 타일 계속 갱신해준다.
+				node->setParentNode(_currentTile);
+				node->setparentNumber(_currentTile->getparentNumber() + 1);
+		
+				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
+				bool addObj = true;
+		
+				for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
+				{
+					if (*_viOpenList == node)
+					{
+						addObj = false;
+						break;
+					}
+				}
+		
+				//현재 노드가 끝노드가아니면 색칠해준다
+				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+		
+				//이미 체크된애는 건너뛴다
+				if (!addObj) continue;
+				//갈수있는 길은 백터에 저장된다
+				_vOpenList.push_back(node);
+			}
+		
 		}
 	}
 	return _vOpenList;
@@ -178,7 +383,11 @@ void aStarTest::pathFinder(tile * currentTile)
 	}
 
 
-	if (tempTile->getAttribute() == "end")
+	if (tempTile == nullptr)
+	{ 
+		return;
+	}
+	else if (tempTile->getAttribute() == "end")
 	{
 		//최단경로를 색칠해줘라
 		while (_currentTile->getParentNode() != NULL)
@@ -186,13 +395,14 @@ void aStarTest::pathFinder(tile * currentTile)
 			_currentTile->setColor(RGB(22, 14, 128));
 			_currentTile = _currentTile->getParentNode();
 		}
-		_start = false;
+		//_start = false;
 		return;
 	}
 
+
 	//최단경로
 	//_vCloseList.push_back(tempTile);
-	//
+	
 	//최단경로를 넣어놧으면
 	for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
 	{
@@ -205,19 +415,25 @@ void aStarTest::pathFinder(tile * currentTile)
 	}
 
 	_currentTile = tempTile;
+	_currentTile->setColor(RGB(255, 0, 0));
+	//pathFinder(_currentTile);
 	for (int i = 0; i < _vTotalList.size(); ++i)
 	{
 		if (_vTotalList[i]->getAttribute() == "start")
 		{
+			
+			_vOpenList.clear();
 			RECT rc;
 			tile* node = new tile;
 			node->init(_startTile->getIdX(), _startTile->getIdY());
+			//node->setIsOpen(false);
 			_startTile->setIdX(_currentTile->getIdX());
 			_startTile->setIdY(_currentTile->getIdY());
 			_startTile->setCetner(PointMake(_currentTile->getIdX()* TILEWIDTH + (TILEWIDTH / 2),
 				_currentTile->getIdY()*TILEHEIGHT + (TILEHEIGHT / 2)));
 			rc = RectMakeCenter(_startTile->getCenter().x, _startTile->getCenter().y, TILEWIDTH, TILEHEIGHT);
 			_startTile->setRect(rc);
+			//swap(_startTile, _vTotalList[_currentTile->getIdY()*TILEWIDTH + _currentTile->getIdX()]);
 			_vTotalList.erase(_vTotalList.begin() + i);
 			_vTotalList.insert(_vTotalList.begin() + i, node);
 			_vTotalList.erase(_vTotalList.begin() + (_currentTile->getIdY()*TILENUMX + _currentTile->getIdX()));
@@ -225,7 +441,7 @@ void aStarTest::pathFinder(tile * currentTile)
 			break;
 		}
 	}
-}
+}	
 
 void aStarTest::endmove()
 {
@@ -264,6 +480,7 @@ void aStarTest::endmove()
 			if (_vTotalList[i]->getAttribute() == "end")
 			{
 				if (_vTotalList[(nextIdy*TILENUMX + nextIdx)]->getAttribute() == "start") break;
+				if (_vTotalList[(nextIdy*TILENUMX + nextIdx)]->getAttribute() == "wall")break;
 				node = new tile;
 				node->init(_endTile->getIdX(), _endTile->getIdY());
 				_endTile->setIdX(nextIdx);
@@ -283,6 +500,10 @@ void aStarTest::endmove()
 		{
 			if (_vTotalList[i]->getAttribute() == "none")
 			{
+				_vTotalList[i]->setParentNode(nullptr);
+				_vTotalList[i]->setCostFromStart(0);
+				_vTotalList[i]->setCostToGoal(0);
+				_vTotalList[i]->setTotalCost(0);
 				_vTotalList[i]->setColor(RGB(255, 255, 255));
 				_vTotalList[i]->setIsOpen(true);
 			}
