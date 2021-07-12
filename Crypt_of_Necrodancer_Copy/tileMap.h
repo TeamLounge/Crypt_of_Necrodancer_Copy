@@ -37,11 +37,12 @@ public:
 	void saveTile();
 	void loadTile();
 
-	void drawTerrain(TERRAIN terrain);
-	void drawWall(int frameX, int frameY, CATEGORY category);
+	void drawTerrain(TERRAIN terrain); //타일 그리기
+	void drawWall(int frameX, int frameY, CATEGORY category); //벽 그리기
+	void drawObject(OBJECT obj); //함정 그리기
 	void deleteObject();
 
-	OBJECT wallSelect(int frameX, int frameY, CATEGORY category);
+	OBJECT wallSelect(int frameX, int frameY, CATEGORY category); //선택한 벽에 따른 OBJECT 구분
 
 	image* getTileBuffer() { return _tileBuffer; }
 

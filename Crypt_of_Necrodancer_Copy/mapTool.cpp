@@ -17,22 +17,26 @@ HRESULT mapTool::init()
 	IMAGEMANAGER->addFrameImage("walls2", "image/object/walls/walls2.bmp", 384, 384, 8, 4, true, RGB(255, 0, 255));
 	
 	//함정 이미지
-	IMAGEMANAGER->addFrameImage("bomb_trap", "imge/object/trapBomb.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("up_trap", "imge/object/trapBounceUp.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("down_trap", "imge/object/trapBounceDown.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("left_trap", "imge/object/trapBounceLeft.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("right_trap", "imge/object/trapBounceRight.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("fast_trap", "imge/object/trapSpeedUp.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("slow_trap", "imge/object/trapSpeedDown.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("bomb_trap", "image/object/trapBomb.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("up_trap", "image/object/trapBounceUp.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("down_trap", "image/object/trapBounceDown.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("left_trap", "image/object/trapBounceLeft.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("right_trap", "image/object/trapBounceRight.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("fast_trap", "image/object/trapSpeedUp.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("slow_trap", "image/object/trapSpeedDown.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("door_trap", "image/object/trapDoor.bmp", 92, 72, 2, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("spike_trap", "image/object/trapSpike.bmp", 126, 68, 3, 2, true, RGB(255, 0, 255));
 
-	IMAGEMANAGER->addFrameImage("spike_trap", "imge/object/trapSpike.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
+	//그 외 오브젝트
+	IMAGEMANAGER->addFrameImage("red_item_box", "image/object/boxRed.bmp", 96, 40, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("black_item_box", "image/object/boxBlack.bmp", 96, 40, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("box", "image/object/box.bmp", 68, 48, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("barrel", "image/object/barrel.bmp", 80, 48, 2, 1, true, RGB(255, 0, 255));
 
 	setup();
-	_worldTime = TIMEMANAGER->getWorldTime();
-	_isEvenLight = false;
 
 	_tileMap = new tileMap;
-	_tileMap->init(5, 5);
+	_tileMap->init();
 	return S_OK;
 }
 
@@ -84,7 +88,17 @@ void mapTool::update()
 				}
 			}
 			break;
-		case CATEGORY_TRAP:
+		case CATEGORY_OBJECT:
+			for (int i = 0; i < _vSampleTrap.size(); i++)
+			{
+				if (PtInRect(&_vSampleTrap[i].rc, _ptMouse))
+				{
+					_ctrSelect = CTRL_OBJECTDRAW;
+					_currentCategory = CATEGORY_OBJECT;
+					_currentTrap = _vSampleTrap[i].obj;
+					break;
+				}
+			}
 			break;
 		}
 		
@@ -96,7 +110,7 @@ void mapTool::update()
 				switch (_category)
 				{
 				case CATEGORY_TERRAIN:
-					if (i == 0) _category = CATEGORY_TRAP;
+					if (i == 0) _category = CATEGORY_OBJECT;
 					else _category = CATEGORY_WALL1;
 					break;
 				case CATEGORY_WALL1:
@@ -105,9 +119,9 @@ void mapTool::update()
 					break;
 				case CATEGORY_WALL2:
 					if (i == 0) _category = CATEGORY_WALL1;
-					else _category = CATEGORY_TRAP;
+					else _category = CATEGORY_OBJECT;
 					break;
-				case CATEGORY_TRAP:
+				case CATEGORY_OBJECT:
 					if (i == 0) _category = CATEGORY_WALL2;
 					else _category = CATEGORY_TERRAIN;
 					break;
@@ -123,6 +137,9 @@ void mapTool::update()
 		break;
 	case CTRL_WALLDRAW:
 		_tileMap->drawWall(_currentWall.x, _currentWall.y, _currentCategory);
+		break;
+	case CTRL_OBJECTDRAW:
+		_tileMap->drawObject(_currentTrap);
 		break;
 	}
 
@@ -161,7 +178,7 @@ void mapTool::setup()
 	{
 		tagSampleTile sample;
 		sample.terrain = (TERRAIN)i;
-		sample.rc = RectMake(WINSIZEX - 600 + 100 * i, 100, 100, 100);
+		sample.rc = RectMake(WINSIZEX - 600 + 100 * (i % 5), 100 + (i / 5) * 100, 100, 100);
 		_vSampleTile.push_back(sample);
 	}
 
@@ -191,12 +208,15 @@ void mapTool::setup()
 		}
 	}
 
+	//함정 샘플 설정
 	for (int i = 0; i < SAMPLETRAPMAX; i++)
 	{
 		tagSampleObject sample;
-		sample.obj = 
-		sample.rc = RectMake(WINSIZEX - 600 + 100 * i, 100, 100, 100);
-		_vSampleTile.push_back(sample);
+		sample.obj = (OBJECT)(i + 7);
+		sample.rc = RectMake(WINSIZEX - 600 + 100 * (i % 5), 100 + (i / 5) * 100, 100, 100);
+		sample.objectFrameX = 0;
+		sample.objectFrameY = 0;
+		_vSampleTrap.push_back(sample);
 	}
 
 	//카테고리 렉트 설정
@@ -218,28 +238,28 @@ void mapTool::drawSample()
 			{
 			case DIRT1:
 				IMAGEMANAGER->frameRender("dirt1_tile", getMemDC(),
-					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - 12,
-					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - 12, 0, 0);
+					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - TILESIZE/2,
+					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - TILESIZE / 2, 0, 0);
 				break;
 			case DIRT2:
 				IMAGEMANAGER->frameRender("dirt2_tile", getMemDC(),
-					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - 12,
-					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - 12, 0, 0);
+					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - TILESIZE / 2,
+					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - TILESIZE / 2, 0, 0);
 				break;
 			case BOSS:
 				IMAGEMANAGER->frameRender("boss_tile", getMemDC(),
-					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - 12,
-					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - 12, 0, 0);
+					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - TILESIZE / 2,
+					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - TILESIZE / 2, 0, 0);
 				break;
 			case WATER:
 				IMAGEMANAGER->frameRender("water_tile", getMemDC(),
-					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - 12,
-					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - 12, 0, 0);
+					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - TILESIZE / 2,
+					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - TILESIZE / 2, 0, 0);
 				break;
 			case SHOP:
 				IMAGEMANAGER->frameRender("shop_tile", getMemDC(),
-					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - 12,
-					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - 12, 0, 0);
+					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - TILESIZE / 2,
+					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - TILESIZE / 2, 0, 0);
 				break;
 			}
 		}
@@ -266,7 +286,80 @@ void mapTool::drawSample()
 			}
 		}
 		break;
-
+	case CATEGORY_OBJECT:
+		//샘플 함정 그리기
+		for (int i = 0; i < _vSampleTrap.size(); i++)
+		{
+			Rectangle(getMemDC(), _vSampleTrap[i].rc);
+			switch (_vSampleTrap[i].obj)
+			{
+			case TR_BOMB:
+				IMAGEMANAGER->frameRender("bomb_trap", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("bomb_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("bomb_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case TR_UP:
+				IMAGEMANAGER->frameRender("up_trap", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case TR_DOWN:
+				IMAGEMANAGER->frameRender("down_trap", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("down_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("down_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case TR_LEFT:
+				IMAGEMANAGER->frameRender("left_trap", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("left_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("left_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case TR_RIGHT:
+				IMAGEMANAGER->frameRender("right_trap", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("right_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("right_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case TR_FAST:
+				IMAGEMANAGER->frameRender("fast_trap", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("fast_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("fast_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case TR_SLOW:
+				IMAGEMANAGER->frameRender("slow_trap", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("slow_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("slow_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case TR_DOOR:
+				IMAGEMANAGER->frameRender("door_trap", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("door_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("door_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case TR_SPIKE:
+				IMAGEMANAGER->frameRender("spike_trap", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case RED_ITEM_BOX:
+				IMAGEMANAGER->frameRender("red_item_box", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case BLACK_ITEM_BOX:
+				IMAGEMANAGER->frameRender("black_item_box", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case BOX:
+				IMAGEMANAGER->frameRender("box", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case BARREL:
+				IMAGEMANAGER->frameRender("barrel", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			}
+		}
 	}
 }
 
@@ -292,8 +385,8 @@ void mapTool::drawCategory()
 	case CATEGORY_WALL2:
 		sprintf_s(str, "Wall2", str, strlen(str));
 		break;
-	case CATEGORY_TRAP:
-		sprintf_s(str, "Trap", str, strlen(str));
+	case CATEGORY_OBJECT:
+		sprintf_s(str, "Object", str, strlen(str));
 		break;
 	}
 	DrawText(getMemDC(), str, strlen(str), &_categoryRect[1], DT_CENTER);

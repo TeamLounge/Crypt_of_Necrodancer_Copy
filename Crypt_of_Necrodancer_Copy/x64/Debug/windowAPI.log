@@ -1,0 +1,12 @@
+﻿  tileMap.cpp
+c:\portfolio\crypt_of_necrodancer_copy\crypt_of_necrodancer_copy\tilemap.cpp(55): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\portfolio\crypt_of_necrodancer_copy\crypt_of_necrodancer_copy\tilemap.cpp(74): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\portfolio\crypt_of_necrodancer_copy\crypt_of_necrodancer_copy\tilemap.cpp(407): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\portfolio\crypt_of_necrodancer_copy\crypt_of_necrodancer_copy\tilemap.cpp(408): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\portfolio\crypt_of_necrodancer_copy\crypt_of_necrodancer_copy\tilemap.cpp(429): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\portfolio\crypt_of_necrodancer_copy\crypt_of_necrodancer_copy\tilemap.cpp(430): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\portfolio\crypt_of_necrodancer_copy\crypt_of_necrodancer_copy\tilemap.cpp(454): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\portfolio\crypt_of_necrodancer_copy\crypt_of_necrodancer_copy\tilemap.cpp(455): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\portfolio\crypt_of_necrodancer_copy\crypt_of_necrodancer_copy\tilemap.cpp(477): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\portfolio\crypt_of_necrodancer_copy\crypt_of_necrodancer_copy\tilemap.cpp(478): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  windowAPI.vcxproj -> C:\portfolio\Crypt_of_Necrodancer_Copy\Crypt_of_Necrodancer_Copy\x64\Debug\windowAPI.exe
