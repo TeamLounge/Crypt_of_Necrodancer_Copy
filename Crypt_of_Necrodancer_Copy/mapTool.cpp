@@ -33,10 +33,11 @@ HRESULT mapTool::init()
 	IMAGEMANAGER->addFrameImage("box", "image/object/box.bmp", 68, 48, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("barrel", "image/object/barrel.bmp", 80, 48, 2, 1, true, RGB(255, 0, 255));
 
-	setup();
-
 	_tileMap = new tileMap;
 	_tileMap->init();
+
+	setup();
+
 	return S_OK;
 }
 
@@ -128,6 +129,37 @@ void mapTool::update()
 				}
 			}
 		}
+
+		for (int i = 0; i < 2; i++)
+		{
+			if (PtInRect(&_tileSizeInput[i].rc, _ptMouse))
+			{
+				if (!_tileSizeInput[i].isSelect)
+				{
+					if (i == 0)
+					{
+						_tileSizeInput[1].isSelect = false;
+					}
+					else
+					{
+						_tileSizeInput[0].isSelect = false;
+					}
+					_tileSizeInput[i].isSelect = true;
+				}
+				else
+				{
+					_tileSizeInput[i].isSelect = false;
+				}
+			}
+		}
+
+		if (PtInRect(&_resizeButton, _ptMouse))
+		{
+			if (!_tileSizeInput[0].str.empty() && !_tileSizeInput[1].str.empty())
+			{
+				_tileMap->resizeTile(stoi(_tileSizeInput[0].str), stoi(_tileSizeInput[1].str));
+			}
+		}
 	}
 
 	switch (_ctrSelect)
@@ -156,6 +188,29 @@ void mapTool::update()
 	}
 
 	_tileMap->update();
+
+	for (int i = 0; i < 2; i++)
+	{
+		if (_tileSizeInput[i].isSelect)
+		{
+			if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+			{
+				if (!_tileSizeInput[i].str.empty())
+				{
+					_tileSizeInput[i].str.erase(_tileSizeInput[i].str.size() - 1);
+				}
+			}
+
+			for (int j = 0; j < 10; j++)
+			{
+				if (KEYMANAGER->isOnceKeyDown(char(j+48)))
+				{
+					_tileSizeInput[i].str.append(to_string(j));
+				}
+			}
+		}
+	}
+
 }
 
 void mapTool::render()
@@ -164,6 +219,39 @@ void mapTool::render()
 	drawSample();
 	drawCategory();
 	_tileMap->render();
+	
+	char str[128];
+	sprintf_s(str, "x :");
+	TextOut(getMemDC(), _tileSizeInput[0].rc.left - 25, _tileSizeInput[0].rc.top + 5, str, strlen(str));
+	sprintf_s(str, "y :");
+	TextOut(getMemDC(), _tileSizeInput[1].rc.left - 25, _tileSizeInput[1].rc.top + 5, str, strlen(str));
+
+	for (int i = 0; i < 2; i++)
+	{
+		if (_tileSizeInput[i].isSelect)
+		{
+			HPEN myPen = (HPEN)CreatePen(1, 3, RGB(0, 0, 0));
+			SelectObject(getMemDC(), myPen);
+			Rectangle(getMemDC(), _tileSizeInput[i].rc);
+			DeleteObject(myPen);
+		}
+		else
+		{
+			HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
+			SelectObject(getMemDC(), myPen);
+			Rectangle(getMemDC(), _tileSizeInput[i].rc);
+			DeleteObject(myPen);
+		}
+	}
+	DrawText(getMemDC(), _tileSizeInput[0].str.c_str(), strlen(_tileSizeInput[0].str.c_str()), &_tileSizeInput[0].rc, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+	DrawText(getMemDC(), _tileSizeInput[1].str.c_str(), strlen(_tileSizeInput[1].str.c_str()), &_tileSizeInput[1].rc, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+
+	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
+	SelectObject(getMemDC(), myPen);
+	Rectangle(getMemDC(), _resizeButton);
+	DeleteObject(myPen);
+	sprintf_s(str, "RESIZE");
+	DrawText(getMemDC(), str, strlen(str), &_resizeButton, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
 }
 
 void mapTool::setup()
@@ -223,6 +311,17 @@ void mapTool::setup()
 	_categoryRect[0] = RectMakeCenter(WINSIZEX - 500, 50, 20, 20);
 	_categoryRect[1] = RectMakeCenter(WINSIZEX - 350, 50, 200, 20);
 	_categoryRect[2] = RectMakeCenter(WINSIZEX - 200, 50, 20, 20);
+
+	//타일 사이즈 관련 구조체 설정
+	for (int i = 0; i < 2; i++)
+	{
+		_tileSizeInput[i].rc = RectMakeCenter(WINSIZEX - 500 + i * 150, WINSIZEY - 200, 100, 30);
+		_tileSizeInput[i].isSelect = false;
+	}
+	_tileSizeInput[0].str = to_string(_tileMap->getTileX());
+	_tileSizeInput[1].str = to_string(_tileMap->getTileY());
+
+	_resizeButton = RectMakeCenter(WINSIZEX - 200, WINSIZEY - 200, 100, 30);
 }
 
 void mapTool::drawSample()

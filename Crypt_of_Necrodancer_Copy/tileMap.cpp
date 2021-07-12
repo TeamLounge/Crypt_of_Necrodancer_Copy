@@ -330,9 +330,18 @@ void tileMap::resizeTile(int tileX, int tileY)
 				tile.terrain = DIRT1;
 				tile.terrainFrameX = 0;
 				tile.terrainFrameY = 0;
-				tile.obj = WALL_END;
-				tile.objectFrameX = 0;
-				tile.objectFrameY = 3;
+				if (j == tileX - 1)
+				{
+					tile.obj = WALL_END;
+					tile.objectFrameX = 0;
+					tile.objectFrameY = 3;
+				}
+				else
+				{
+					tile.obj = OBJ_NONE;
+					tile.objectFrameX = NULL;
+					tile.objectFrameY = NULL;
+				}
 				_tiles[i].push_back(tile);
 			}
 		}
@@ -372,11 +381,20 @@ void tileMap::resizeTile(int tileX, int tileY)
 				tagTile tile;
 				tile.rc = RectMake(j * TILESIZE, i * TILESIZE + 30, TILESIZE, TILESIZE);
 				tile.terrain = DIRT1;
-				tile.obj = WALL_END;
-				tile.objectFrameX = 0;
-				tile.objectFrameY = 3;
 				tile.terrainFrameX = 0;
 				tile.terrainFrameY = 0;
+				if (i == tileY - 1)
+				{
+					tile.obj = WALL_END;
+					tile.objectFrameX = 0;
+					tile.objectFrameY = 3;
+				}
+				else
+				{
+					tile.obj = OBJ_NONE;
+					tile.objectFrameX = NULL;
+					tile.objectFrameY = NULL;
+				}
 				vTile.push_back(tile);
 			}
 			_tiles.push_back(vTile);

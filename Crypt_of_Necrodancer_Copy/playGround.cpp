@@ -44,8 +44,10 @@ void playGround::render()
 {
 	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//================제발 이 사이에 좀 그립시다==========================
+	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
+	SelectObject(getMemDC(), myPen);
 	_mapTool->render();
-
+	DeleteObject(myPen);
 	//TIMEMANAGER->render(getMemDC());
 	//==================================================
 	this->getBackBuffer()->render(getHDC(), 0, 0);

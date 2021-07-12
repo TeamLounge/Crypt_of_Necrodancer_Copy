@@ -37,6 +37,12 @@ struct tagCurrentWall
 	int y;
 };
 
+struct tagTileSizeInput
+{
+	RECT rc;
+	string str;
+	bool isSelect;
+};
 
 class mapTool : public gameNode
 {
@@ -58,7 +64,11 @@ private:
 
 	tileMap* _tileMap; //타일맵 그리는 영역
 
+	tagTileSizeInput _tileSizeInput[2];
+
 	int _ctrSelect; //현재 선택한 것
+
+	RECT _resizeButton;
 
 public:
 	virtual HRESULT init();

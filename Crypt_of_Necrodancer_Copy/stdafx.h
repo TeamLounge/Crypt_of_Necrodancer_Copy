@@ -29,8 +29,8 @@ using namespace SUNFL_UTIL;
 #define WINNAME (LPTSTR)(TEXT("28기 API"))
 #define WINSTARTX 50	//윈도우 창 시작좌표 (left)
 #define WINSTARTY 50	//윈도우 창 시작좌표 (top)
-#define WINSIZEX 800 + 70 + 640	//윈도우 가로크기
-#define WINSIZEY 800	//윈도우 세로크기
+#define WINSIZEX 1440	//윈도우 가로크기
+#define WINSIZEY 810	//윈도우 세로크기
 #define BACKGROUNDX 2048
 #define BACKGROUNDY 2048
 #define CAMERAX 800
