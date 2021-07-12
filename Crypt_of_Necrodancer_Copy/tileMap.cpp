@@ -389,10 +389,12 @@ void tileMap::resizeTile(int tileX, int tileY)
 
 void tileMap::saveTile()
 {
+
 }
 
 void tileMap::loadTile()
 {
+
 }
 
 void tileMap::drawTerrain(TERRAIN terrain)
