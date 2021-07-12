@@ -2,11 +2,20 @@
 #include "gameNode.h"
 #include "tileMap.h"
 
-//#define TILEX 7	//가로 타일 갯수
-//#define TILEY 9	//세로 타일 갯수
 
-//#define TILESIZEX TILESIZE * TILEX	//640 32 * 20
-//#define TILESIZEY TILESIZE * TILEY	//640 32 * 20
+#define SAMPLETILEMAX 5
+
+#define WALLWIDTH 48
+#define WALLHEIGHT 96
+
+#define SAMPLEWALLX 8
+#define SAMPLEWALLY1 5
+#define SAMPLEWALLY2 4
+
+#define SAMPLETRAPMAX 13
+/*======================  필     독   !  ==========================
+TERRAIN, OBJECT, CTRL, CATEGORY enum은 gameNode.h에 있습니다.
+==================================================================*/
 
 struct tagSampleTile
 {
@@ -28,38 +37,28 @@ struct tagCurrentWall
 	int y;
 };
 
-#define WALLWIDTH 48
-#define WALLHEIGHT 96
-
-#define SAMPLEWALLX 8
-#define SAMPLEWALLY1 5
-#define SAMPLEWALLY2 4
 
 class mapTool : public gameNode
 {
 private:
 	vector<tagSampleTile> _vSampleTile;
+	vector<tagSampleObject> _vSampleTrap;
+
 	tagSampleObject _sampleWall1[SAMPLEWALLX * SAMPLEWALLY1];
 	tagSampleObject _sampleWall2[SAMPLEWALLX * SAMPLEWALLY2];
 
-	//tagTile _tiles[TILEX * TILEY];
+	CATEGORY _category; //보여주는 카테고리
+	CATEGORY _currentCategory; //선택된 카테고리
+	RECT _categoryRect[3]; //카테고리 양 옆으로 움직이는 화살표, 텍스트 용 렉트
 
-	tagCurrentWall _currentWall;
 
-	CATEGORY _category;
-	CATEGORY _currentCategory;
+	tagCurrentWall _currentWall; //현재 선택한 벽
+	TERRAIN _currentFloor; //현재 선택한 타일
+	OBJECT _currentTrap; //현재 선택한 함정 오브젝트
 
-	tileMap* _tileMap;
+	tileMap* _tileMap; //타일맵 그리는 영역
 
-	TERRAIN _currentFloor;
-	
-	RECT _categoryRect[3];
-
-	float _worldTime;
-
-	bool _isEvenLight;
-
-	int _ctrSelect;
+	int _ctrSelect; //현재 선택한 것
 
 public:
 	virtual HRESULT init();
@@ -72,7 +71,10 @@ public:
 	//OBJECT objSelect(int frameX, int frameY);
 	tileMap* getTileMap() { return _tileMap; }
 
+	//샘플들 그리기
 	void drawSample();
+
+	//카테고리 화살표, 텍스트 렉트 그리기
 	void drawCategory();
 };
 
