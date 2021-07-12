@@ -18,6 +18,8 @@
 #include "imageManager.h"
 #include "timeManager.h"
 #include "cameraManager.h"
+#include "sceneManager.h"
+
 
 using namespace std;
 using namespace SUNFL_UTIL;
@@ -44,6 +46,7 @@ using namespace SUNFL_UTIL;
 #define IMAGEMANAGER	imageManager::getSingleton()
 #define TIMEMANAGER		timeManager::getSingleton()
 #define CAMERAMANAGER	cameraManager::getSingleton()
+#define SCENEMANAGER	sceneManager::getSingleton()
 
 #define SAFE_DELETE(p) {if(p) {delete(p); (p) = nullptr;}}
 #define SAFE_RELEASE(p) {if(p) {(p)->release(); (p) = NULL;}}
