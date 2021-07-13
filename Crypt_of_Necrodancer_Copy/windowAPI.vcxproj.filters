@@ -37,6 +37,9 @@
     <Filter Include="playGround\mapTool">
       <UniqueIdentifier>{cd709ada-5ed1-4736-a821-b2505936d556}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Astar">
+      <UniqueIdentifier>{38efe330-bcd8-48e9-86ad-baae4a61c47d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -90,6 +93,15 @@
     <ClInclude Include="tileMap.h">
       <Filter>playGround\mapTool</Filter>
     </ClInclude>
+    <ClInclude Include="tile.h">
+      <Filter>playGround\Astar</Filter>
+    </ClInclude>
+    <ClInclude Include="sceneManager.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="aStarTest.h">
+      <Filter>playGround\Astar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -130,6 +142,15 @@
     </ClCompile>
     <ClCompile Include="tileMap.cpp">
       <Filter>playGround\mapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="tile.cpp">
+      <Filter>playGround\Astar</Filter>
+    </ClCompile>
+    <ClCompile Include="sceneManager.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="aStarTest.cpp">
+      <Filter>playGround\Astar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

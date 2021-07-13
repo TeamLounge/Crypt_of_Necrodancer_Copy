@@ -4,8 +4,8 @@
 #include <vector>
 #include <string>
 
-#define TILENUMX  (WINSIZEX/TILEWIDTH)
-#define TILENUMY  (WINSIZEY/TILEHEIGHT)
+#define TILENUMX  (800/TILEWIDTH)
+#define TILENUMY  (800/TILEHEIGHT)
 
 class aStarTest : public gameNode
 {
@@ -26,7 +26,6 @@ private:
 
 	int _count;// 그냥렌더용
 	bool _start; // 그냥 시작용
-
 
 public:
 	aStarTest();

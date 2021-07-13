@@ -31,7 +31,7 @@ private:
 	HPEN	 _pen;
 	
 	string _attribute;
-
+	int _parentNodenumber;
 
 public:
 	tile();
@@ -52,6 +52,7 @@ public:
 	string getAttribute() { return _attribute; }
 	tile* getParentNode() { return _parentNode; }
 	bool getIsOpen() { return _isOpen; }
+	int getparentNumber() { return _parentNodenumber; }
 
 	void setIdX(int idx) { _idX = idx; }
 	void setIdY(int idy) { _idY = idy; }
@@ -63,6 +64,7 @@ public:
 	void setParentNode(tile* t) { _parentNode = t; }
 	void setIsOpen(bool isOpen) { _isOpen = isOpen; }
 	void setAttribute(string attribute) { _attribute = attribute; }
+	void setparentNumber(int number) { _parentNodenumber = number; }
 
 	void setColor(COLORREF color)
 	{
