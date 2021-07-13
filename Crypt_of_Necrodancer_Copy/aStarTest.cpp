@@ -33,7 +33,7 @@ void aStarTest::update()
 	if (_start)
 	{
 		_count++;
-		if (_count % 30 == 0)
+		if (_count % 10 == 0)
 		{
 			pathFinder(_currentTile);
 		
