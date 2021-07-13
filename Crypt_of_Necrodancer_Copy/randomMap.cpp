@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "randomMap.h"
+#include <list>
 #include <random>
 HRESULT randomMap::init(int tileX , int tileY)
 {
@@ -25,7 +26,7 @@ HRESULT randomMap::init(int tileX , int tileY)
 
 void randomMap::update()
 {
-
+	generate();
 }
 
 void randomMap::release()
@@ -35,6 +36,119 @@ void randomMap::release()
 
 void randomMap::render()
 {
+	for (int i = 0; i < TILEY; ++i)
+	{
+		for (int j = 0; j < TILEX; ++j)
+		{
+			Rectangle(getMemDC(), _tiles[j][i].rc);
+			switch (_tiles[i][j].terrain)
+			{
+			case DIRT1:
+				IMAGEMANAGER->frameRender("dirt1_tile", _tileBuffer->getMemDC(),
+					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, 0);
+				break;
+			case DIRT2:
+				IMAGEMANAGER->frameRender("dirt2_tile", _tileBuffer->getMemDC(),
+					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, 0);
+				break;
+			case BOSS:
+				IMAGEMANAGER->frameRender("boss_tile", _tileBuffer->getMemDC(),
+					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, 0);
+				break;
+			case WATER:
+				IMAGEMANAGER->frameRender("water_tile", _tileBuffer->getMemDC(),
+					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, 0);
+				break;
+			case SHOP:
+				IMAGEMANAGER->frameRender("shop_tile", _tileBuffer->getMemDC(),
+					_tiles[i][j].rc.left, _tiles[i][j].rc.top, 0, 0);
+				break;
+			}
+
+			switch (_tiles[i][j].obj)
+			{
+			case OBJ_NONE:
+				break;
+			case WALL_BASIC:
+				IMAGEMANAGER->frameRender("walls1", _tileBuffer->getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case WALL_GOLD:
+			case WALL_STONE:
+			case WALL_CRACK:
+			case WALL_DOOR:
+			case WALL_END:
+				IMAGEMANAGER->frameRender("walls2", _tileBuffer->getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_BOMB:
+				IMAGEMANAGER->frameRender("bomb_trap", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("bomb_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("bomb_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_UP:
+				IMAGEMANAGER->frameRender("up_trap", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_DOWN:
+				IMAGEMANAGER->frameRender("down_trap", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("down_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("down_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_LEFT:
+				IMAGEMANAGER->frameRender("left_trap", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("left_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("left_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_RIGHT:
+				IMAGEMANAGER->frameRender("right_trap", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("right_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("right_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_FAST:
+				IMAGEMANAGER->frameRender("fast_trap", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("fast_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("fast_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_SLOW:
+				IMAGEMANAGER->frameRender("slow_trap", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("slow_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("slow_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_DOOR:
+				IMAGEMANAGER->frameRender("door_trap", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("door_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("door_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_SPIKE:
+				IMAGEMANAGER->frameRender("spike_trap", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case RED_ITEM_BOX:
+				IMAGEMANAGER->frameRender("red_item_box", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("red_item_box")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("red_item_box")->getFrameHeight() / 2, 0, 0);
+				break;
+			case BLACK_ITEM_BOX:
+				IMAGEMANAGER->frameRender("black_item_box", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameHeight() / 2, 0, 0);
+				break;
+			case BOX:
+				IMAGEMANAGER->frameRender("box", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("box")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("box")->getFrameHeight() / 2, 0, 0);
+				break;
+			case BARREL:
+				IMAGEMANAGER->frameRender("barrel", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("barrel")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("barrel")->getFrameHeight() / 2, 0, 0);
+				break;
+			}
+
+
+		}
+	}
 
 }
 
@@ -93,13 +207,55 @@ void randomMap::makePassage()
 	for (size_t i = 0; i < m_room.size(); ++i) 
 		unconnected.emplace_back(i);
 	//¼ÅÇÃºÎÅÍ
-
+	shuffle(unconnected, unconnected.size());
 	connected.emplace_back(unconnected.back());
+	unconnected.pop_back();
+	while (!unconnected.empty())
+	{
+		size_t i = connected[RND->getInt(connected.size())];
+		if (m_room[i].neighbors.empty())
+		{
+			connected.erase(remove(connected.begin(), connected.end(), i), connected.end());
+			continue;
+		}
+		size_t j= m_room[i].neighbors[RND->getInt(m_room[i].neighbors.size())];
+
+		connectRooms(i, j);
+
+
+	}
 
 }
 
 void randomMap::removeUnusedWalls()
 {
+	for (int y = 0; y < TILEY; ++y)
+	{
+		for (int x = 0; x < TILEX; ++x)
+		{
+			int numWalls = 0;
+
+			for (int dy = -1; dy <= 1; ++dy)
+			{
+				for (int dx = -1; dx <= 1; ++dx)
+				{
+					if (x + dx < 0 || y + dy < 0 || x + dx >= TILEX || y + dy >= TILEY)
+						++numWalls;
+					else
+					{
+						const int tileNumber = _tiles[y + dy][x + dx].obj;
+						if (tileNumber == WALL_BASIC)
+							++numWalls;
+					}
+				}
+			}
+			if (numWalls == 9)
+			{
+				_tiles[y][x].obj = OBJ_NONE;
+				_tiles[y][x].terrain = EMPTY;
+			}
+		}
+	}
 }
 
 void randomMap::placeRoom(const ROOM & room)
@@ -115,6 +271,70 @@ void randomMap::placeRoom(const ROOM & room)
 
 void randomMap::connectRooms(size_t i, size_t j)
 {
+	if (j < i)
+		swap(i, j);
+
+	ROOM& from = m_room[i];
+	ROOM& to = m_room[j];
+
+	if (j - i == 1) //Horizontal passage
+	{
+		const int fromX = from.right - 1;
+		const int fromY = RND->getFromIntTo(from.top + 1, from.bottom - 2);
+
+		const int toX = to.left;
+		const int toY = RND->getFromIntTo(to.top + 1, to.bottom - 2);
+
+		const int centerX = RND->getFromIntTo(fromX + 1, toX - 1);
+		const int dy = toY > fromY ? 1 : -1;
+
+		for (int x = fromX; x < centerX; ++x)
+		{
+			_tiles[fromY][x].obj = OBJ_NONE;
+			_tiles[fromY][x].terrain = DIRT1;
+		}
+		for (int y = fromY; y != toY; y += dy)
+		{
+			_tiles[centerX][y].obj = OBJ_NONE;
+			_tiles[centerX][y].terrain = DIRT1;
+		}
+		for (int x = centerX; x <= toX; ++x)
+		{	
+			_tiles[x][toY].obj = OBJ_NONE;
+			_tiles[x][toY].terrain = DIRT1;
+		}
+
+	}
+	else // Vertical passage
+	{
+		const int fromX = RND->getFromIntTo(from.left + 1, from.right - 2);
+		const int fromY = from.bottom - 1;
+
+		const int toX = RND->getFromIntTo(to.left + 1, to.right - 2);
+		const int toY = to.top;
+
+		const int centerY = RND->getFromIntTo(fromY + 1, toY - 1);
+		const int dx = toX > fromX ? 1 : -1;
+		for (int y = fromY; y < centerY; ++y)
+		{
+			_tiles[fromX][y].obj = OBJ_NONE;
+			_tiles[fromX][y].terrain = DIRT1;
+		}
+		for (int x = fromX; x != toX; x += dx)
+		{
+			_tiles[x][centerY].obj = OBJ_NONE;
+			_tiles[x][centerY].terrain = DIRT1;
+		}
+		for (int y = centerY; y < toY; ++y)
+		{
+			_tiles[toX][y].obj = OBJ_NONE;
+			_tiles[toX][y].terrain = DIRT1;
+		}
+	}
+
+	from.neighbors.erase(remove(from.neighbors.begin(), from.neighbors.end(), j), from.neighbors.end());
+	to.neighbors.erase(remove(to.neighbors.begin(), to.neighbors.end(), i), to.neighbors.end());
+
 }
 
 void randomMap::shuffle(vector<size_t>& unconnected, size_t size)
@@ -126,8 +346,8 @@ void randomMap::shuffle(vector<size_t>& unconnected, size_t size)
 		size_t temp = unconnected[dest];
 		unconnected[dest] = unconnected[sour];
 		unconnected[sour] = temp;
-
 	}
+
 }
 
 TERRAIN randomMap::getTile(int x, int y)
@@ -145,6 +365,5 @@ void randomMap::setTile()
 			_tiles[y][x].obj = WALL_BASIC;
 		}
 	}
-
 }
 
