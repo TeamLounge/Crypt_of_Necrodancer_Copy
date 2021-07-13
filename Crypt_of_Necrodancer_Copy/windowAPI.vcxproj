@@ -157,6 +157,7 @@
     <ClInclude Include="mapTool.h" />
     <ClInclude Include="playGround.h" />
     <ClInclude Include="randomFunction.h" />
+    <ClInclude Include="randomMap.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="singletonBase.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="mapTool.cpp" />
     <ClCompile Include="playGround.cpp" />
+    <ClCompile Include="randomMap.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

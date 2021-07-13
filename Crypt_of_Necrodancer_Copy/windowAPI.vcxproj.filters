@@ -102,6 +102,9 @@
     <ClInclude Include="aStarTest.h">
       <Filter>playGround\Astar</Filter>
     </ClInclude>
+    <ClInclude Include="randomMap.h">
+      <Filter>playGround\mapTool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -151,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="aStarTest.cpp">
       <Filter>playGround\Astar</Filter>
+    </ClCompile>
+    <ClCompile Include="randomMap.cpp">
+      <Filter>playGround\mapTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
