@@ -23,7 +23,7 @@ HRESULT playGround::init()
 	_randomMap = new randomMap;
 	_randomMap->init();
 
-	CAMERAMANAGER->setCamera(0,0);
+	//CAMERAMANAGER->setCamera(0,0);
 
 	return S_OK;
 }
@@ -45,23 +45,23 @@ void playGround::update()
 	//_mapTool->update();
 	_randomMap->update();
 
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-	{
-		CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() - 5);
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-	{
-		CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() + 5);
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_UP))
-	{
-		CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() - 5);
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-	{
-		CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() + 5);
-	}
-
+	//if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+	//{
+	//	CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() - 5);
+	//}
+	//if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+	//{
+	//	CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() + 5);
+	//}
+	//if (KEYMANAGER->isStayKeyDown(VK_UP))
+	//{
+	//	CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() - 5);
+	//}
+	//if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+	//{
+	//	CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() + 5);
+	//}
+	//
 }
 
 
@@ -78,6 +78,6 @@ void playGround::render()
 	//SCENEMANAGER->render();
 	//TIMEMANAGER->render(getMemDC());
 	//==================================================
-	//this->getBackBuffer()->render(getHDC(), 0, 0);
-	CAMERAMANAGER->render(this->getBackBuffer(),getHDC());
+	this->getBackBuffer()->render(getHDC(), 0, 0);
+	//CAMERAMANAGER->render(this->getBackBuffer(),getHDC());
 }

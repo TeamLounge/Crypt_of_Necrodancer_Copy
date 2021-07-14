@@ -159,7 +159,7 @@ void randomMap::generate()
 	setTile();
 	makeRooms();
 	makePassage();
-	//removeUnusedWalls();
+	removeUnusedWalls();
 }
 
 void randomMap::makeRooms()
@@ -178,7 +178,7 @@ void randomMap::makeRooms()
 
 			if (RND->getInt(gridX*gridY) == 0)
 			{
-				width = height = 3;
+				width = height = 4;
 			}
 
 			int left = x * (gridwidth + 1) + RND->getInt(gridwidth - width);
@@ -255,7 +255,8 @@ void randomMap::removeUnusedWalls()
 					else
 					{
 						const int tileNumber = _tiles[y + dy][x + dx].obj;
-						if (tileNumber == WALL_BASIC)
+						const int tileshit = _tiles[y + dy][x + dx].terrain;
+						if (tileNumber == WALL_BASIC || tileshit == EMPTY)
 							++numWalls;
 					}
 				}
@@ -291,12 +292,15 @@ void randomMap::connectRooms(size_t i, size_t j)
 	if (j - i == 1) //Horizontal passage
 	{
 		const int fromX = from.right - 1;
-		const int fromY = ((from.top+1) -(from.bottom-2)==0) ? from.top+1 : RND->getFromIntTo(from.top +1, from.bottom -2);
+		//((from.top+1) -(from.bottom-2)==0) ? from.top+1 :(from.top +1, from.bottom -2)
+		const int fromY =  RND->getFromIntTo(from.top+1 , from.bottom -2);
 
-		const int toX = to.left;
-		const int toY = ((to.top + 1) - (to.bottom - 2)==0) ? to.top +1 : RND->getFromIntTo(to.top+1 , to.bottom-2);
+		const int toX = to.left+1;
+		//((to.top + 1) - (to.bottom - 2)==0) ? to.top +1 : (to.top+1 , to.bottom-2)
+		const int toY = RND->getFromIntTo(to.top+1 , to.bottom-2);
 
-		const int centerX = ((fromX+1)-(toX-1)==0)? fromX+1 : RND->getFromIntTo(fromX +1, toX -1);
+		//((fromX+1)-(toX-1)==0)? fromX+1 : (fromX +1, toX -1)
+		const int centerX = RND->getFromIntTo(fromX +1, toX -1);
 		const int dy = toY > fromY ? 1 : -1;
 
 		for (int x = fromX; x < centerX; ++x)
@@ -305,35 +309,38 @@ void randomMap::connectRooms(size_t i, size_t j)
 		}
 		for (int y = fromY; y != toY; y += dy)
 		{
-			_tiles[centerX][y].obj = OBJ_NONE;
+			_tiles[y][centerX].obj = OBJ_NONE;
 		}
 		for (int x = centerX; x <= toX; ++x)
 		{	
-			_tiles[x][toY].obj = OBJ_NONE;
+			_tiles[toY][x].obj = OBJ_NONE;
 		}
 
 	}
 	else // Vertical passage
 	{
-		const int fromX = ((from.left +1)-(from.right-2)==0)? from.left+1: RND->getFromIntTo(from.left +1 , from.right-2 );
+		//((from.left +1)-(from.right-2)==0)? from.left+1: 
+		const int fromX = RND->getFromIntTo(from.left +1 , from.right-2 );
 		const int fromY = from.bottom - 1;
 
-		const int toX = ((to.left+1) - (to.right-2)==0)? to.left+1: RND->getFromIntTo(to.left +1, to.right -2);
-		const int toY = to.top;
+		//((to.left+1) - (to.right-2)==0)? to.left+1: 
+		const int toX = RND->getFromIntTo(to.left +1, to.right -2);
+		const int toY = to.top+1;
 
-		const int centerY = ((fromY +1) - (toY-1)==0)? fromY+1:RND->getFromIntTo(fromY+1, toY -1);
+		// ((fromY +1) - (toY-1)==0)? fromY+1:
+		const int centerY = RND->getFromIntTo(fromY+1, toY -1);
 		const int dx = toX > fromX ? 1 : -1;
 		for (int y = fromY; y < centerY; ++y)
 		{
-			_tiles[fromX][y].obj = OBJ_NONE;
+			_tiles[y][fromX].obj = OBJ_NONE;
 		}
 		for (int x = fromX; x != toX; x += dx)
 		{
-			_tiles[x][centerY].obj = OBJ_NONE;
+			_tiles[centerY][x].obj = OBJ_NONE;
 		}
-		for (int y = centerY; y < toY; ++y)
+		for (int y = centerY; y <= toY; ++y)
 		{
-			_tiles[toX][y].obj = OBJ_NONE;
+			_tiles[y][toX].obj = OBJ_NONE;
 		}
 	}
 

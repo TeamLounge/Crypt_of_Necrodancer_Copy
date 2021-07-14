@@ -37,12 +37,12 @@ private:
 	vector<vector<tagTile>> _tiles;
 	vector<ROOM> m_room;
 
-	int gridX = 4;
+	int gridX = 3;
 	int gridY = 3;
 
 
-	int roomWidthMin = 7;
-	int roomHeightMin = 7;
+	int roomWidthMin = 5;
+	int roomHeightMin = 5;
 
 public:
 	randomMap(){}
