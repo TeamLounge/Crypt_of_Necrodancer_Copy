@@ -1,12 +1,12 @@
 #pragma once
 #include "gameNode.h"
 #include "mapTool.h"
-
+#include "randomMap.h"
 class playGround : public gameNode
 {
 private:
 	mapTool* _mapTool;
-	
+	randomMap* _randomMap;
 
 public:
 	playGround();

@@ -16,10 +16,14 @@ HRESULT playGround::init()
 {
 	gameNode::init(true);
 	
-	_mapTool = new mapTool;
-	_mapTool->init();
+	//_mapTool = new mapTool;
+	//_mapTool->init();
 	//SCENEMANAGER->addScene("에이스타",new aStarTest);
 	//SCENEMANAGER->changeScene("에이스타");
+	_randomMap = new randomMap;
+	_randomMap->init();
+
+	CAMERAMANAGER->setCamera(0,0);
 
 	return S_OK;
 }
@@ -38,7 +42,26 @@ void playGround::update()
 	gameNode::update();
 
 	//SCENEMANAGER->update();
-	_mapTool->update();
+	//_mapTool->update();
+	_randomMap->update();
+
+	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+	{
+		CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() - 5);
+	}
+	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+	{
+		CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() + 5);
+	}
+	if (KEYMANAGER->isStayKeyDown(VK_UP))
+	{
+		CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() - 5);
+	}
+	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+	{
+		CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() + 5);
+	}
+
 }
 
 
@@ -49,11 +72,12 @@ void playGround::render()
 
 	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
 	SelectObject(getMemDC(), myPen);
-	_mapTool->render();
+	//_mapTool->render();
 	DeleteObject(myPen);
-
+	_randomMap->render();
 	//SCENEMANAGER->render();
 	//TIMEMANAGER->render(getMemDC());
 	//==================================================
-	this->getBackBuffer()->render(getHDC(), 0, 0);
+	//this->getBackBuffer()->render(getHDC(), 0, 0);
+	CAMERAMANAGER->render(this->getBackBuffer(),getHDC());
 }
