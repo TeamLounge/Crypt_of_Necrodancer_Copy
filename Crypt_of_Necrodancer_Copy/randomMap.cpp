@@ -150,9 +150,7 @@ void randomMap::render()
 					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("barrel")->getFrameHeight() / 2, 0, 0);
 				break;
 			}
-			char str[128];
-			sprintf_s(str,"%d",_tiles[i][j].obj);
-			TextOut(getMemDC(), (_tiles[i][j].rc.right + _tiles[i][j].rc.left) / 2, (_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2,str,strlen(str));
+		
 		}
 	}
 	
@@ -169,6 +167,21 @@ void randomMap::render()
 	//	sprintf_s(str, "present : %d", _makeTile[i].present);
 	//	TextOut(getMemDC(), ((_makeTile[i].right + _makeTile[i].left) / 2)*TILESIZE , ((_makeTile[i].bottom + _makeTile[i].top) / 2 * TILESIZE), str,strlen(str));
 	//}
+
+	for (int i = 0; i < m_room.size(); i++)
+	{
+		char str[128];
+		if (m_room[i].boos)
+		{
+			sprintf_s(str, "boos");
+			TextOut(getMemDC(), ((m_room[i].left + m_room[i].right) / 2)*TILESIZE, ((m_room[i].top + m_room[i].bottom) / 2)*TILESIZE, str, strlen(str));
+		}
+		if (m_room[i].player)
+		{
+			sprintf_s(str, "player");
+			TextOut(getMemDC(), ((m_room[i].left + m_room[i].right) / 2)*TILESIZE, ((m_room[i].top + m_room[i].bottom) / 2)*TILESIZE, str, strlen(str));
+		}
+	}
 }
 
 
@@ -186,7 +199,7 @@ void randomMap::generate()
 void randomMap::makeRooms()
 {
 	m_room.clear(); //방정보를 담을 백터 클리어
-	
+
 	int gridwidth = TILEX / gridX; // 전체 타일을  총 몇구역으로 나눌껀지
 	int gridHeight = TILEY / gridY; // 전체 타일을 총 몇구역으로 나눌껀지
 
@@ -198,7 +211,7 @@ void randomMap::makeRooms()
 			int width = RND->getFromIntTo(roomWidthMin, gridwidth); // 최소 방크기에서 총제한구역으로 랜덤값생성
 			int height = RND->getFromIntTo(roomHeightMin, gridHeight);
 
-			if (!isshop && RND->getInt(gridX*gridY) == 0||(!isshop&&y==gridY-1&&x==gridX-1))//다생성하면 재미없으니까 조그만한 방도 만들어놓는다
+			if (!isshop && RND->getInt(gridX*gridY) == 0 || (!isshop&&y == gridY - 1 && x == gridX - 1))//다생성하면 재미없으니까 조그만한 방도 만들어놓는다
 			{
 				width = 7;
 				height = 9;
@@ -207,19 +220,19 @@ void randomMap::makeRooms()
 			}
 
 			int left = x * (gridwidth + 1) + RND->getInt(gridwidth - width); // 각방들의 첫x좌표 
-			if (left == 0)left  += 1;
+			if (left == 0)left += 1;
 			int top = y * (gridHeight + 1) + RND->getInt(gridHeight - height);//각방들의 첫y좌표
 			if (top == 0) top += 1;
 			room.left = left; //값
 			room.top = top; //다
-			room.right = (left + width >=TILEX)? (TILEX) : left + width;//넣
+			room.right = (left + width >= TILEX) ? (TILEX) : left + width;//넣
 			room.bottom = (top + height >= TILEY) ? (TILEY) : top + height;//어
 			room.width = width;//이건 사실 없어도됌;;
 			room.height = height; // 없어도됌;;
 
 			if (x > 0)
 				room.neighbors.emplace_back((x - 1) + y * gridX); // 근처에 방이 몇개있는지 체크하는 알고리즘
-			if (x < gridX - 1)   
+			if (x < gridX - 1)
 				room.neighbors.emplace_back((x + 1) + y * gridX); //구석이면1~2개 구석이아닐경우 2~3개
 			if (y > 0)
 				room.neighbors.emplace_back(x + (y - 1)*gridX);
@@ -227,9 +240,28 @@ void randomMap::makeRooms()
 				room.neighbors.emplace_back(x + (y + 1)*gridX);
 			placeRoom(room); // 실제로 방만들어주는 구간
 			m_room.emplace_back(room); //방을 만들었으면 방정보담은 백터에 새롭게 추가해줍니다
-	
+
 		}
 	}
+
+	//보스,플레이어방 선정
+	vector<int> select = { 0,2,3,5 };
+	
+	for (int i = 0; i < m_room.size(); i++)
+	{
+		if (m_room[i].shop)
+		{
+			if (i == 0 || i == 2 || i == 3 || i == 5) //여기방중에 샵이있다면???
+			{
+				select.erase(remove(select.begin(), select.end(), i), select.end());//지워줘잉
+			}
+		}
+	}
+	int i = RND->getInt(select.size());// 랜덤으로 하나뽑자
+	m_room[select[i]].player = true; // 거기에 넣어서 player플래그하나세워
+	select.erase(remove(select.begin(), select.end(), select[i]), select.end()); //그리고 그거 지워줘
+	i = RND->getInt(select.size()); // 다시 랜덤으로 하나뽑자
+	m_room[select[i]].boos = true; // 거기에 넣어서 boos플래그 하나세워
 
 }
 
@@ -301,8 +333,6 @@ void randomMap::makeTile()
 	int fromY;
 	int toX;
 	int toY;
-	int centerX;
-	int centery;
 	int lefttop;
 	int righttop;
 	int leftbottom;
@@ -314,7 +344,6 @@ void randomMap::makeTile()
 		int count;
 		if (i < 3) count = 1;
 		if (i >= 3 && i<6) count =2;
-
 		if (m_room[i].rightRoom && m_room[i].bottomRoom)
 		{
 			lefttop = i;
@@ -352,9 +381,9 @@ void randomMap::makeTile()
 					_tiles[y][x].terrain = DIRT1;
 				}
 			}
-
 			targetX = false;
 			targetY = false;
+
 			floor _floor;
 			_floor.top = fromY;
 			_floor.bottom = toY;
@@ -371,12 +400,11 @@ void randomMap::makeTile()
 		}
 	}
 
-
-
 }
 
 void randomMap::makewalls()
 {
+	//외벽만들꺼야
 	for (int y = 0; y < TILEY; ++y)
 	{
 		for (int x = 0; x < TILEX; ++x)
@@ -407,40 +435,167 @@ void randomMap::makewalls()
 		}
 	}
 
-	int fromX;
-	int fromY;
+	int fromX, fromY; //이게 기준점
+	//이제 문짝달아줄꺼야
 	for (int i = 0; i < m_room.size(); ++i)
 	{
-		if (m_room[i].shop)
+		if (m_room[i].shop) //상점에는 다막고 하나만 열꺼라서 기준점잡아옴
 		{
 			if (m_room[i].bottomRoom)
 			{
 				fromX = m_room[i].bottomX;
-				fromY = m_room[i].bottomY + 1;
+				fromY = m_room[i].bottomY;
 			}
-			else if (!m_room[i].bottomRoom && m_room[i].rightRoom)
+			if (!m_room[i].bottomRoom && m_room[i].rightRoom)
 			{
-				fromX = m_room[i].rightX + 1;
+				fromX = m_room[i].rightX;
 				fromY = m_room[i].rightY;
 			}
 			else if (!m_room[i].bottomRoom && !m_room[i].rightRoom && m_room[i].leftRoom)
 			{
-				fromX = m_room[i].leftX - 1;
+				fromX = m_room[i].leftX;
 				fromY = m_room[i].leftY;
+			}
+			else if (!m_room[i].bottomRoom && !m_room[i].rightRoom && !m_room[i].leftRoom && m_room[i].topRoom)
+			{
+				fromX = m_room[i].topX;
+				fromY = m_room[i].topY;
 			}
 
 			for (int x = m_room[i].left; x < m_room[i].right; ++x)
 			{
 				if (_tiles[m_room[i].top][x].obj == OBJ_NONE)
 				{
-					_tiles[m_room[i].top][x].obj = WALL_GOLD;
+					if (x == fromX)
+					{
+						_tiles[m_room[i].top][x].obj = WALL_DOOR;
+						_tiles[m_room[i].top][x].objectFrameX = 4;
+						_tiles[m_room[i].top][x].objectFrameY = 7;
+					}
+					else {
+						_tiles[m_room[i].top][x].obj = WALL_GOLD;
+						_tiles[m_room[i].top][x].objectFrameY = 5;
+						_tiles[m_room[i].top][x].objectFrameX = 0;
+					}
+				}
+				if (_tiles[m_room[i].bottom][x].obj == OBJ_NONE)
+				{
+					if (x == fromX)
+					{
+						_tiles[m_room[i].bottom-1][x].obj = WALL_DOOR;
+						_tiles[m_room[i].bottom-1][x].objectFrameX = 4;
+						_tiles[m_room[i].bottom-1][x].objectFrameY = 7;
+					}
+					else {
+						_tiles[m_room[i].bottom-1][x].obj = WALL_GOLD;
+						_tiles[m_room[i].bottom-1][x].objectFrameY = 5;
+						_tiles[m_room[i].bottom-1][x].objectFrameX = 0;
+					}
 				}
 			}
 			for (int y = m_room[i].top; y < m_room[i].bottom; ++y)
 			{
-				if (_tiles[y][y].obj == OBJ_NONE)
+				if (_tiles[y][m_room[i].left].obj == OBJ_NONE)
 				{
-					_tiles[y][y].obj = WALL_GOLD;
+
+					if (y == fromY)
+					{
+						_tiles[y][m_room[i].left].obj = WALL_DOOR;
+						_tiles[y][m_room[i].left].objectFrameX = 5;
+						_tiles[y][m_room[i].left].objectFrameY = 7;
+					}
+					else {
+						_tiles[y][m_room[i].left].obj = WALL_GOLD;
+						_tiles[y][m_room[i].left].objectFrameY = 5;
+						_tiles[y][m_room[i].left].objectFrameX = 0;
+					}
+				}
+				if (_tiles[y][m_room[i].right-1].obj == OBJ_NONE)
+				{
+					if (y == fromY)
+					{
+						_tiles[y][m_room[i].right - 1].obj = WALL_DOOR;
+						_tiles[y][m_room[i].right - 1].objectFrameX = 5;
+						_tiles[y][m_room[i].right - 1].objectFrameY = 7;
+					}
+					else {
+						_tiles[y][m_room[i].right - 1].obj = WALL_GOLD;
+						_tiles[y][m_room[i].right - 1].objectFrameY = 5;
+						_tiles[y][m_room[i].right - 1].objectFrameX = 0;
+					}
+				}
+			}
+		}
+		if (m_room[i].player)// 플레이어방 문짝달자
+		{
+			for (int x = m_room[i].left; x < m_room[i].right; ++x)
+			{
+				if (_tiles[m_room[i].top][x].obj == OBJ_NONE)
+				{
+					_tiles[m_room[i].top][x].obj = WALL_DOOR;
+					_tiles[m_room[i].top][x].objectFrameX = 4;
+					_tiles[m_room[i].top][x].objectFrameY = 7;
+				}
+				if (_tiles[m_room[i].bottom][x].obj == OBJ_NONE)
+				{
+					_tiles[m_room[i].bottom - 1][x].obj = WALL_DOOR;
+					_tiles[m_room[i].bottom - 1][x].objectFrameX = 4;
+					_tiles[m_room[i].bottom - 1][x].objectFrameY = 7;
+				}
+			}
+			for (int y = m_room[i].top; y < m_room[i].bottom; ++y)
+			{
+				if (_tiles[y][m_room[i].left].obj == OBJ_NONE)
+				{
+					_tiles[y][m_room[i].left].obj = WALL_DOOR;
+					_tiles[y][m_room[i].left].objectFrameX = 5;
+					_tiles[y][m_room[i].left].objectFrameY = 7;
+				}
+				if (_tiles[y][m_room[i].right - 1].obj == OBJ_NONE)
+				{
+					_tiles[y][m_room[i].right - 1].obj = WALL_DOOR;
+					_tiles[y][m_room[i].right - 1].objectFrameX = 5;
+					_tiles[y][m_room[i].right - 1].objectFrameY = 7;
+				}
+			}
+		}
+		if (m_room[i].boos)// 보스방 문짝달자
+		{
+			for (int x = m_room[i].left; x < m_room[i].right; ++x)
+			{
+				if (_tiles[m_room[i].top][x].obj == OBJ_NONE)
+				{
+
+					_tiles[m_room[i].top][x].obj = WALL_DOOR;
+					_tiles[m_room[i].top][x].objectFrameX = 4;
+					_tiles[m_room[i].top][x].objectFrameY = 7;
+				
+				}
+				if (_tiles[m_room[i].bottom][x].obj == OBJ_NONE)
+				{
+
+					_tiles[m_room[i].bottom - 1][x].obj = WALL_DOOR;
+					_tiles[m_room[i].bottom - 1][x].objectFrameX = 4;
+					_tiles[m_room[i].bottom - 1][x].objectFrameY = 7;
+				}
+			}
+			for (int y = m_room[i].top; y < m_room[i].bottom; ++y)
+			{
+				if (_tiles[y][m_room[i].left].obj == OBJ_NONE)
+				{
+			
+					_tiles[y][m_room[i].left].obj = WALL_DOOR;
+					_tiles[y][m_room[i].left].objectFrameX = 5;
+					_tiles[y][m_room[i].left].objectFrameY = 7;
+				
+				}
+				if (_tiles[y][m_room[i].right - 1].obj == OBJ_NONE)
+				{
+				
+					_tiles[y][m_room[i].right - 1].obj = WALL_DOOR;
+					_tiles[y][m_room[i].right - 1].objectFrameX = 5;
+					_tiles[y][m_room[i].right - 1].objectFrameY = 7;
+				
 				}
 			}
 		}
@@ -457,7 +612,7 @@ void randomMap::placeRoom(const ROOM & room)
 			_tiles[y][x].obj = OBJ_NONE; // 벽삭제하고 방만들어줌
 		}
 	}
-	if (room.shop)
+	if (room.shop) //상점방만들어줌
 	{
 		for (int y = room.top; y < room.bottom; ++y)
 		{

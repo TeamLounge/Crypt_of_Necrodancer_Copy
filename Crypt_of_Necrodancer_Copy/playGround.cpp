@@ -79,5 +79,5 @@ void playGround::render()
 	//TIMEMANAGER->render(getMemDC());
 	//==================================================
 	//this->getBackBuffer()->render(getHDC(), 0, 0);
-	CAMERAMANAGER->render(this->getBackBuffer(),getHDC());
+	CAMERAMANAGER->render(this->getBackBuffer(), getHDC());
 }

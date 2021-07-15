@@ -10,28 +10,17 @@
 #define TILEX 31
 #define TILEY 31
 
-
-enum Direction
-{
-	LEFT,
-	RIGHT,
-	UP,
-	DOWN
-};
-
 class randomMap : public gameNode
 {
 private:
 	struct ROOM
 	{
-
 		int left = 0;
 		int top = 0;
 		int right = 0;
 		int bottom = 0;
 		int width =0;
 		int height = 0;
-
 
 		bool leftRoom =false;
 		bool rightRoom = false;
@@ -47,6 +36,8 @@ private:
 		int bottomY = 0;
 
 		bool shop = false;
+		bool player = false;
+		bool boos = false;
 		vector<size_t> neighbors;
 	};
 	struct floor
