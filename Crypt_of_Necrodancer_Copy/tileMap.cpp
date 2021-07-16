@@ -69,9 +69,9 @@ void tileMap::update()
 		{
 			CAMERAMANAGER->setCameraCenterY(CAMERAMANAGER->getCameraCenterY() + 5);
 		}
-		if (CAMERAMANAGER->getCameraBOTTOM() >= _tileY * TILESIZE + 35 && _tileY * TILESIZE + 35 >= CAMERAY)
+		if (CAMERAMANAGER->getCameraBOTTOM() >= _tileY * TILESIZE + 60 && _tileY * TILESIZE + 60 >= CAMERAY)
 		{
-			CAMERAMANAGER->setCameraY(_tileY * TILESIZE + 35 - CAMERAY);
+			CAMERAMANAGER->setCameraY(_tileY * TILESIZE + 60 - CAMERAY);
 		}
 	}
 
@@ -260,7 +260,10 @@ void tileMap::render()
 					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("barrel")->getFrameHeight() / 2, 0, 0);
 				break;
 			}
-
+			if (KEYMANAGER->isToggleKey(VK_TAB))
+			{
+				Rectangle(_tileBuffer->getMemDC(), _tiles[i][j].rc);
+			}
 		}
 	}
 
@@ -276,7 +279,7 @@ void tileMap::setup()
 		for (int j = 0; j < _tileX; ++j)
 		{
 			tagTile tile;
-			tile.rc = RectMake(j * TILESIZE, i * TILESIZE + 30, TILESIZE, TILESIZE);
+			tile.rc = RectMake(j * TILESIZE, i * TILESIZE + 60, TILESIZE, TILESIZE);
 			tile.terrain = DIRT1;
 			tile.obj = OBJ_NONE;
 			tile.terrainFrameX = 0;
@@ -305,12 +308,6 @@ void tileMap::resizeTile(int tileX, int tileY)
 			}
 		}
 		_tileX = tileX;
-		for (int i = 0; i < _tileY; i++)
-		{
-			_tiles[i][_tileX - 1].obj = WALL_END;
-			_tiles[i][_tileX - 1].objectFrameX = 0;
-			_tiles[i][_tileX - 1].objectFrameY = 3;
-		}
 	}
 	else
 	{
@@ -346,18 +343,6 @@ void tileMap::resizeTile(int tileX, int tileY)
 			}
 		}
 		_tileX = tileX;
-		for (int i = 0; i < _tileX; i++)
-		{
-			_tiles[_tileY - 1][i].obj = WALL_END;
-			_tiles[_tileY - 1][i].objectFrameX = 0;
-			_tiles[_tileY - 1][i].objectFrameY = 3;
-			if (_tiles[0][i].obj != WALL_END)
-			{
-				_tiles[0][i].obj = WALL_END;
-				_tiles[0][i].objectFrameX = 0;
-				_tiles[0][i].objectFrameY = 3;
-			}
-		}
 	}
 
 	
@@ -413,6 +398,20 @@ void tileMap::resizeTile(int tileX, int tileY)
 		}
 		_tileY = tileY;
 	}
+
+	for (int i = 0; i < _tileX; i++)
+	{
+		_tiles[_tileY - 1][i].obj = WALL_END;
+		_tiles[_tileY - 1][i].objectFrameX = 0;
+		_tiles[_tileY - 1][i].objectFrameY = 3;
+		if (_tiles[0][i].obj != WALL_END)
+		{
+			_tiles[0][i].obj = WALL_END;
+			_tiles[0][i].objectFrameX = 0;
+			_tiles[0][i].objectFrameY = 3;
+		}
+	}
+
 	for (int i = 0; i < _tileY; i++)
 	{
 		_tiles[i][_tileX - 1].obj = WALL_END;
@@ -457,7 +456,7 @@ void tileMap::loadTile()
 	HANDLE file;
 	DWORD read;
 	tagTile *tile = new tagTile[_savedX * _savedY];
-    file = CreateFile("tileSave.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    file = CreateFile("bossMap.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	ReadFile(file, tile, sizeof(tagTile) * _savedX * _savedY, &read, NULL);
 
 	_tiles.clear();
@@ -551,7 +550,7 @@ void tileMap::drawObject(OBJECT obj)
 
 void tileMap::deleteObject()
 {
-	if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
+	if (KEYMANAGER->isStayKeyDown('R') && KEYMANAGER->isStayKeyDown(VK_RBUTTON))
 	{
 		for (int i = 0; i < _tileY; i++)
 		{
@@ -560,7 +559,28 @@ void tileMap::deleteObject()
 				POINT mouse;
 				mouse.x = _ptMouse.x + CAMERAMANAGER->getCameraLEFT();
 				mouse.y = _ptMouse.y + CAMERAMANAGER->getCameraTOP();
-				if (PtInRect(&_tiles[i][j].rc, _ptMouse))
+				if (PtInRect(&_tiles[i][j].rc, mouse))
+				{
+					if (_tiles[i][j].terrain != EMPTY)
+					{
+						_tiles[i][j].terrain = EMPTY;
+						_tiles[i][j].terrainFrameX = 0;
+						_tiles[i][j].terrainFrameY = 0;
+					}
+				}
+			}
+		}
+	}
+	else if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
+	{
+		for (int i = 0; i < _tileY; i++)
+		{
+			for (int j = 0; j < _tileX; j++)
+			{
+				POINT mouse;
+				mouse.x = _ptMouse.x + CAMERAMANAGER->getCameraLEFT();
+				mouse.y = _ptMouse.y + CAMERAMANAGER->getCameraTOP();
+				if (PtInRect(&_tiles[i][j].rc, mouse))
 				{
 					if (_tiles[i][j].obj != OBJ_NONE)
 					{
@@ -572,6 +592,7 @@ void tileMap::deleteObject()
 			}
 		}
 	}
+	
 	
 }
 
