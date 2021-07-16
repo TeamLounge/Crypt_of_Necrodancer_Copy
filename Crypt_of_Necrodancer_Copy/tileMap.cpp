@@ -83,15 +83,9 @@ void tileMap::update()
 		{
 			for (int j = 0; j < _tileX; j++)
 			{
-				if (_tiles[i][j].terrain == STAIR_BOSS)
+				if (_tiles[i][j].terrain == STAIR)
 				{
 					_tiles[i][j].terrainFrameX = 0;
-					_tiles[i][j].terrainFrameY = 0;
-					continue;
-				}
-				if (_tiles[i][j].terrain == STAIR_NONE)
-				{
-					_tiles[i][j].terrainFrameX = 1;
 					_tiles[i][j].terrainFrameY = 0;
 					continue;
 				}
@@ -203,16 +197,12 @@ void tileMap::render()
 				IMAGEMANAGER->frameRender("shop_tile", _tileBuffer->getMemDC(),
 					_tiles[i][j].rc.left, _tiles[i][j].rc.top, 0, 0);
 				break;
-			case STAIR_BOSS:
+			case STAIR:
 				IMAGEMANAGER->frameRender("stair_miniboss_tile", _tileBuffer->getMemDC(),
 					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, 0);
 				break;
-			
-			case STAIR_NONE:
-				IMAGEMANAGER->frameRender("stair_locked_tile", _tileBuffer->getMemDC(),
-					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, 0);
-				break;
 			}
+
 			switch (_tiles[i][j].obj)
 			{
 			case OBJ_NONE :

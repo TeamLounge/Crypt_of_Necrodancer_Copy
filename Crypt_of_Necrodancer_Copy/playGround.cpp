@@ -18,13 +18,13 @@ HRESULT playGround::init()
 	
 	setImage();
 
-	//_mapTool = new mapTool;
-	//_mapTool->init();
+	_mapTool = new mapTool;
+	_mapTool->init();
 
 	//SCENEMANAGER->addScene("에이스타",new aStarTest);
 	//SCENEMANAGER->changeScene("에이스타");
-	_randomMap = new randomMap;
-	_randomMap->init();
+	//_randomMap = new randomMap;
+	//_randomMap->init();
 
 	CAMERAMANAGER->setCamera(0,0);
 
@@ -45,10 +45,10 @@ void playGround::update()
 	gameNode::update();
 
 	//SCENEMANAGER->update();
-	//_mapTool->update();
-	_randomMap->update();
+	_mapTool->update();
+	//_randomMap->update();
 
-	
+	/*
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 	{
 		CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() - TILESIZE);
@@ -65,25 +65,25 @@ void playGround::update()
 	{
 		CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() + TILESIZE);
 	}
-	
+	*/
 }
 
 
 void playGround::render()
 {
-	PatBlt(getMemDC(), 0, 0, BACKGROUNDX, BACKGROUNDY, WHITENESS);
+	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//================제발 이 사이에 좀 그립시다==========================
 
 	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
 	SelectObject(getMemDC(), myPen);
-	//_mapTool->render();
-	_randomMap->render();
+	_mapTool->render();
+	//_randomMap->render();
 	//SCENEMANAGER->render();
 	//TIMEMANAGER->render(getMemDC());
 	DeleteObject(myPen);
 	//==================================================
-	//this->getBackBuffer()->render(getHDC(), 0, 0);
-	CAMERAMANAGER->render(this->getBackBuffer(), getHDC());
+	this->getBackBuffer()->render(getHDC(), 0, 0);
+	//CAMERAMANAGER->render(this->getBackBuffer(), getHDC());
 }
 
 
@@ -96,8 +96,7 @@ void playGround::setImage()
 	IMAGEMANAGER->addFrameImage("shop_tile", "image/object/tile/shop.bmp", 72, 72, 1, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("water_tile", "image/object/tile/water.bmp", 216, 72, 3, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("stair_miniboss_tile", "image/object/tile/stair_miniboss.bmp", 144, 72, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("stair_locked_tile", "image/object/tile/stair_locked.bmp", 144, 72, 2, 1 ,true, RGB(255, 0, 255));
-	
+
 	//벽 이미지 샘플
 	IMAGEMANAGER->addFrameImage("sample_walls1", "image/object/walls/sampleWalls1.bmp", 384, 480, 8, 5, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("sample_walls2", "image/object/walls/sampleWalls2.bmp", 384, 384, 8, 4, true, RGB(255, 0, 255));

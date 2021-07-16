@@ -48,13 +48,9 @@ void mapGenerator::render()
 				IMAGEMANAGER->frameRender("shop_tile", getMemDC(),
 					_tiles[i][j].rc.left, _tiles[i][j].rc.top, 0, 0);
 				break;
-			case STAIR_BOSS:
+			case STAIR:
 				IMAGEMANAGER->frameRender("stair_miniboss_tile", getMemDC(),
 					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY);
-				break;
-			case STAIR_NONE:
-				IMAGEMANAGER->frameRender("stair_locked_tile", getMemDC(),
-					_tiles[i][j].rc.left, _tiles[i][j].rc.top, 1, 0);
 				break;
 			case EMPTY:
 				break;
@@ -1388,7 +1384,7 @@ void mapGenerator::setBossRoom()
 
 	int x = RND->getFromIntTo(_rooms[bossRoom].x, _rooms[bossRoom].x + _rooms[bossRoom].width - 1);
 	int y = RND->getFromIntTo(_rooms[bossRoom].y, _rooms[bossRoom].y + _rooms[bossRoom].height - 1);
-	_tiles[y][x].terrain = STAIR_BOSS;
+	_tiles[y][x].terrain = STAIR;
 	_tiles[y][x].terrainFrameX = 0;
 	_tiles[y][x].terrainFrameY = 0;
 	_tiles[y][x].obj = OBJ_NONE;

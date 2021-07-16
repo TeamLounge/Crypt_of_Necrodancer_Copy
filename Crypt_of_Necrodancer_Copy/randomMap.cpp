@@ -71,14 +71,14 @@ void randomMap::render()
 			case OBJ_NONE:
 				break;
 			case WALL_BASIC:
-				IMAGEMANAGER->frameRender("walls1", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
-				break;
+				//IMAGEMANAGER->frameRender("walls1", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				//break;
 			case WALL_GOLD:
 			case WALL_STONE:
 			case WALL_CRACK:
 			case WALL_DOOR:
 			case WALL_END:
-				IMAGEMANAGER->frameRender("walls2", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				IMAGEMANAGER->frameRender("walls1", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
 				break;
 			case TR_BOMB:
 				IMAGEMANAGER->frameRender("bomb_trap", getMemDC(),
@@ -439,7 +439,7 @@ void randomMap::makewalls()
 			if (numWalls == true &&_tiles[y][x].terrain ==EMPTY)//주변이 벽이거나 텅빈바닥이있는 쓸모없는타일이야! 하면 그곳을 텅 비워줍니다.
 			{
 				_tiles[y][x].obj = WALL_END;
-				_tiles[y][x].objectFrameY = 3;
+				_tiles[y][x].objectFrameY = 8;
 				_tiles[y][x].terrain = EMPTY;
 			}
 		}
@@ -480,11 +480,11 @@ void randomMap::makewalls()
 					{
 						_tiles[m_room[i].top][x].obj = WALL_DOOR;
 						_tiles[m_room[i].top][x].objectFrameX = 4;
-						_tiles[m_room[i].top][x].objectFrameY = 2;
+						_tiles[m_room[i].top][x].objectFrameY = 7;
 					}
 					else {
 						_tiles[m_room[i].top][x].obj = WALL_GOLD;
-						_tiles[m_room[i].top][x].objectFrameY = 0;
+						_tiles[m_room[i].top][x].objectFrameY = 5;
 						_tiles[m_room[i].top][x].objectFrameX = 0;
 					}
 				}
@@ -494,11 +494,11 @@ void randomMap::makewalls()
 					{
 						_tiles[m_room[i].bottom-1][x].obj = WALL_DOOR;
 						_tiles[m_room[i].bottom-1][x].objectFrameX = 4;
-						_tiles[m_room[i].bottom-1][x].objectFrameY = 2;
+						_tiles[m_room[i].bottom-1][x].objectFrameY = 7;
 					}
 					else {
 						_tiles[m_room[i].bottom-1][x].obj = WALL_GOLD;
-						_tiles[m_room[i].bottom-1][x].objectFrameY = 0;
+						_tiles[m_room[i].bottom-1][x].objectFrameY = 5;
 						_tiles[m_room[i].bottom-1][x].objectFrameX = 0;
 					}
 				}
@@ -512,11 +512,11 @@ void randomMap::makewalls()
 					{
 						_tiles[y][m_room[i].left].obj = WALL_DOOR;
 						_tiles[y][m_room[i].left].objectFrameX = 5;
-						_tiles[y][m_room[i].left].objectFrameY = 2;
+						_tiles[y][m_room[i].left].objectFrameY = 7;
 					}
 					else {
 						_tiles[y][m_room[i].left].obj = WALL_GOLD;
-						_tiles[y][m_room[i].left].objectFrameY = 0;
+						_tiles[y][m_room[i].left].objectFrameY = 5;
 						_tiles[y][m_room[i].left].objectFrameX = 0;
 					}
 				}
@@ -526,11 +526,11 @@ void randomMap::makewalls()
 					{
 						_tiles[y][m_room[i].right - 1].obj = WALL_DOOR;
 						_tiles[y][m_room[i].right - 1].objectFrameX = 5;
-						_tiles[y][m_room[i].right - 1].objectFrameY = 2;
+						_tiles[y][m_room[i].right - 1].objectFrameY = 7;
 					}
 					else {
 						_tiles[y][m_room[i].right - 1].obj = WALL_GOLD;
-						_tiles[y][m_room[i].right - 1].objectFrameY = 0;
+						_tiles[y][m_room[i].right - 1].objectFrameY = 5;
 						_tiles[y][m_room[i].right - 1].objectFrameX = 0;
 					}
 				}
@@ -553,13 +553,13 @@ void randomMap::makewalls()
 				{
 					_tiles[m_room[i].top][x].obj = WALL_DOOR;
 					_tiles[m_room[i].top][x].objectFrameX = 4;
-					_tiles[m_room[i].top][x].objectFrameY = 2;
+					_tiles[m_room[i].top][x].objectFrameY = 7;
 				}
 				if (_tiles[m_room[i].bottom][x].obj == OBJ_NONE)
 				{
 					_tiles[m_room[i].bottom - 1][x].obj = WALL_DOOR;
 					_tiles[m_room[i].bottom - 1][x].objectFrameX = 4;
-					_tiles[m_room[i].bottom - 1][x].objectFrameY = 2;
+					_tiles[m_room[i].bottom - 1][x].objectFrameY = 7;
 				}
 			}
 			for (int y = m_room[i].top; y < m_room[i].bottom; ++y)
@@ -568,13 +568,13 @@ void randomMap::makewalls()
 				{
 					_tiles[y][m_room[i].left].obj = WALL_DOOR;
 					_tiles[y][m_room[i].left].objectFrameX = 5;
-					_tiles[y][m_room[i].left].objectFrameY = 2;
+					_tiles[y][m_room[i].left].objectFrameY = 7;
 				}
 				if (_tiles[y][m_room[i].right - 1].obj == OBJ_NONE)
 				{
 					_tiles[y][m_room[i].right - 1].obj = WALL_DOOR;
 					_tiles[y][m_room[i].right - 1].objectFrameX = 5;
-					_tiles[y][m_room[i].right - 1].objectFrameY = 2;
+					_tiles[y][m_room[i].right - 1].objectFrameY = 7;
 				}
 			}
 		}
@@ -587,15 +587,15 @@ void randomMap::makewalls()
 
 					_tiles[m_room[i].top][x].obj = WALL_DOOR;
 					_tiles[m_room[i].top][x].objectFrameX = 4;
-					_tiles[m_room[i].top][x].objectFrameY = 2;
+					_tiles[m_room[i].top][x].objectFrameY = 7;
 				
 				}
-				if (_tiles[m_room[i].bottom-1][x].obj == OBJ_NONE)
+				if (_tiles[m_room[i].bottom][x].obj == OBJ_NONE)
 				{
 
 					_tiles[m_room[i].bottom - 1][x].obj = WALL_DOOR;
 					_tiles[m_room[i].bottom - 1][x].objectFrameX = 4;
-					_tiles[m_room[i].bottom - 1][x].objectFrameY = 2;
+					_tiles[m_room[i].bottom - 1][x].objectFrameY = 7;
 				}
 			}
 			for (int y = m_room[i].top; y < m_room[i].bottom; ++y)
@@ -605,7 +605,7 @@ void randomMap::makewalls()
 			
 					_tiles[y][m_room[i].left].obj = WALL_DOOR;
 					_tiles[y][m_room[i].left].objectFrameX = 5;
-					_tiles[y][m_room[i].left].objectFrameY = 2;
+					_tiles[y][m_room[i].left].objectFrameY = 7;
 				
 				}
 				if (_tiles[y][m_room[i].right - 1].obj == OBJ_NONE)
@@ -613,12 +613,18 @@ void randomMap::makewalls()
 				
 					_tiles[y][m_room[i].right - 1].obj = WALL_DOOR;
 					_tiles[y][m_room[i].right - 1].objectFrameX = 5;
-					_tiles[y][m_room[i].right - 1].objectFrameY = 2;
+					_tiles[y][m_room[i].right - 1].objectFrameY = 7;
 				
 				}
 			}
 		}
 	}
+
+	//for(int )
+	//Y =0 ,X = 2
+
+
+
 
 }
 
@@ -640,8 +646,7 @@ void randomMap::placeRoom(const ROOM & room)
 				if (_tiles[y][x].obj == WALL_BASIC)
 				{
 					_tiles[y][x].obj = WALL_GOLD;
-					_tiles[y][x].objectFrameX = 0;
-					_tiles[y][x].objectFrameY = 0;
+					_tiles[y][x].objectFrameY = 5;
 				}
 				if (y == room.top + 2 && (x == room.left + 2 || x == room.left + 4))
 				{
