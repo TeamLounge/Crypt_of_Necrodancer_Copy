@@ -49,7 +49,7 @@ void mapGenerator::render()
 					_tiles[i][j].rc.left, _tiles[i][j].rc.top, 0, 0);
 				break;
 			case STAIR:
-				IMAGEMANAGER->frameRender("stair_tile", getMemDC(),
+				IMAGEMANAGER->frameRender("stair_miniboss_tile", getMemDC(),
 					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY);
 				break;
 			case EMPTY:

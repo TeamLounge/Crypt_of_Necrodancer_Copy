@@ -3,7 +3,7 @@
 #include "tileMap.h"
 
 
-#define SAMPLETILEMAX 5
+#define SAMPLETILEMAX 6
 
 #define WALLWIDTH 48
 #define WALLHEIGHT 96

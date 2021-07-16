@@ -348,6 +348,11 @@ void mapTool::drawSample()
 					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - TILESIZE / 2,
 					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - TILESIZE / 2, 0, 0);
 				break;
+			case STAIR:
+				IMAGEMANAGER->frameRender("stair_miniboss_tile", getMemDC(),
+					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - TILESIZE / 2,
+					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - TILESIZE / 2, 0, 0);
+				break;
 			}
 		}
 		break;

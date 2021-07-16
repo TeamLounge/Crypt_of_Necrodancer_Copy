@@ -83,6 +83,12 @@ void tileMap::update()
 		{
 			for (int j = 0; j < _tileX; j++)
 			{
+				if (_tiles[i][j].terrain == STAIR)
+				{
+					_tiles[i][j].terrainFrameX = 0;
+					_tiles[i][j].terrainFrameY = 0;
+					continue;
+				}
 				if (i % 2 == 0)
 				{
 					if (_isEvenLight)
@@ -190,6 +196,10 @@ void tileMap::render()
 			case SHOP:
 				IMAGEMANAGER->frameRender("shop_tile", _tileBuffer->getMemDC(),
 					_tiles[i][j].rc.left, _tiles[i][j].rc.top, 0, 0);
+				break;
+			case STAIR:
+				IMAGEMANAGER->frameRender("stair_miniboss_tile", _tileBuffer->getMemDC(),
+					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, 0);
 				break;
 			}
 
@@ -467,7 +477,7 @@ void tileMap::saveTile()
 		}
 	}
 
-	file = CreateFile("bossMap.map", GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile("tile_save.map", GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	WriteFile(file, tile, sizeof(tagTile) * _savedX * _savedY, &write, NULL);
 
@@ -481,7 +491,7 @@ void tileMap::loadTile()
 	HANDLE file;
 	DWORD read;
 	tagTile *tile = new tagTile[_savedX * _savedY];
-    file = CreateFile("bossMap.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    file = CreateFile("tile_save.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	ReadFile(file, tile, sizeof(tagTile) * _savedX * _savedY, &read, NULL);
 
 	_tiles.clear();
@@ -594,7 +604,7 @@ void tileMap::drawTorch()
 				mouse.y = _ptMouse.y + CAMERAMANAGER->getCameraTOP();
 				if (PtInRect(&_tiles[i][j].rc, mouse))
 				{
-					if (_tiles[i][j].obj == WALL_BASIC || _tiles[i][j].obj == WALL_CRACK || _tiles[i][j].obj == WALL_GOLD || _tiles[i][j].obj == WALL_STONE)
+					if (_tiles[i][j].obj == WALL_BASIC || _tiles[i][j].obj == WALL_CRACK || _tiles[i][j].obj == WALL_GOLD || _tiles[i][j].obj == WALL_STONE || _tiles[i][j].obj == WALL_END)
 					{
 						_tiles[i][j].isHaveTorch = true;
 						break;
