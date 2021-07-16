@@ -368,6 +368,7 @@ void tileMap::resizeTile(int tileX, int tileY)
 					tile.objectFrameX = NULL;
 					tile.objectFrameY = NULL;
 				}
+				tile.isHaveTorch = false;
 				_tiles[i].push_back(tile);
 			}
 		}
@@ -415,6 +416,7 @@ void tileMap::resizeTile(int tileX, int tileY)
 					tile.objectFrameX = NULL;
 					tile.objectFrameY = NULL;
 				}
+				tile.isHaveTorch = false;
 				vTile.push_back(tile);
 			}
 			_tiles.push_back(vTile);
