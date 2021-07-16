@@ -507,10 +507,14 @@ void tileMap::drawWall(int frameX, int frameY, CATEGORY category)
 				
 				if (PtInRect(&_tiles[i][j].rc, mouse))
 				{
-					_tiles[i][j].objectFrameX = frameX;
-					_tiles[i][j].objectFrameY = frameY;
+					if (_tiles[i][j].terrain != EMPTY)
+					{
+						_tiles[i][j].objectFrameX = frameX;
+						_tiles[i][j].objectFrameY = frameY;
 
-					_tiles[i][j].obj = wallSelect(frameX, frameY, category);
+						_tiles[i][j].obj = wallSelect(frameX, frameY, category);
+						break;
+					}
 					break;
 				}
 			}
@@ -532,9 +536,13 @@ void tileMap::drawObject(OBJECT obj)
 				mouse.y = _ptMouse.y + CAMERAMANAGER->getCameraTOP();
 				if (PtInRect(&_tiles[i][j].rc, mouse))
 				{
-					_tiles[i][j].obj = obj;
-					_tiles[i][j].objectFrameX = 0;
-					_tiles[i][j].objectFrameY = 0;
+					if (_tiles[i][j].terrain != EMPTY)
+					{
+						_tiles[i][j].obj = obj;
+						_tiles[i][j].objectFrameX = 0;
+						_tiles[i][j].objectFrameY = 0;
+						break;
+					}
 					break;
 				}
 			}
@@ -555,9 +563,14 @@ void tileMap::deleteObject()
 				mouse.y = _ptMouse.y + CAMERAMANAGER->getCameraTOP();
 				if (PtInRect(&_tiles[i][j].rc, mouse))
 				{
-					_tiles[i][j].terrain = EMPTY;
-					_tiles[i][j].terrainFrameX = 0;
-					_tiles[i][j].terrainFrameY = 0;
+					if (_tiles[i][j].terrain != EMPTY)
+					{
+						_tiles[i][j].terrain = EMPTY;
+						_tiles[i][j].terrainFrameX = 0;
+						_tiles[i][j].terrainFrameY = 0;
+						break;
+					}
+					break;
 				}
 			}
 		}
@@ -578,7 +591,9 @@ void tileMap::deleteObject()
 						_tiles[i][j].objectFrameX = NULL;
 						_tiles[i][j].objectFrameY = NULL;
 						_tiles[i][j].obj = OBJ_NONE;
+						break;
 					}
+					break;
 				}
 			}
 		}
