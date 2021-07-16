@@ -1,7 +1,7 @@
 #pragma once
 #include "image.h"
 
-static image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", WINSIZEX, WINSIZEY);
+static image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", BACKGROUNDX, BACKGROUNDX);
 
 enum CTRL
 {
@@ -17,7 +17,7 @@ enum CTRL
 
 enum TERRAIN
 {
-	DIRT1, DIRT2, BOSS, WATER, SHOP, STAIR, EMPTY
+	DIRT1, DIRT2, BOSS, WATER, SHOP, STAIR_BOSS, STAIR_NONE, EMPTY
 };
 
 enum OBJECT

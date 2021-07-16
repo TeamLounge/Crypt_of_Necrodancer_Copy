@@ -4,8 +4,8 @@
 #include <set>
 #include <vector>
 
-#define TILESIZEX 48
-#define TILESIZEY 48
+#define TILESIZEX 72
+#define TILESIZEY 72
 
 #define TILEX 31
 #define TILEY 31
