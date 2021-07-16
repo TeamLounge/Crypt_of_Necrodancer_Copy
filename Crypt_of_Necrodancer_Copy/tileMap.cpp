@@ -346,6 +346,18 @@ void tileMap::resizeTile(int tileX, int tileY)
 			}
 		}
 		_tileX = tileX;
+		for (int i = 0; i < _tileX; i++)
+		{
+			_tiles[_tileY - 1][i].obj = WALL_END;
+			_tiles[_tileY - 1][i].objectFrameX = 0;
+			_tiles[_tileY - 1][i].objectFrameY = 3;
+			if (_tiles[0][i].obj != WALL_END)
+			{
+				_tiles[0][i].obj = WALL_END;
+				_tiles[0][i].objectFrameX = 0;
+				_tiles[0][i].objectFrameY = 3;
+			}
+		}
 	}
 
 	
@@ -401,18 +413,69 @@ void tileMap::resizeTile(int tileX, int tileY)
 		}
 		_tileY = tileY;
 	}
-
-
+	for (int i = 0; i < _tileY; i++)
+	{
+		_tiles[i][_tileX - 1].obj = WALL_END;
+		_tiles[i][_tileX - 1].objectFrameX = 0;
+		_tiles[i][_tileX - 1].objectFrameY = 3;
+		if (_tiles[i][0].obj != WALL_END)
+		{
+			_tiles[i][0].obj = WALL_END;
+			_tiles[i][0].objectFrameX = 0;
+			_tiles[i][0].objectFrameY = 3;
+		}
+	}
 }
 
 void tileMap::saveTile()
 {
+	//저장이요
+	HANDLE file;
+	DWORD write;
+	_savedX = _tileX;
+	_savedY = _tileY;
+	tagTile *tile = new tagTile[_savedX * _savedY];
+	for (int i = 0; i < _tiles.size(); i++)
+	{
+		for (int j = 0; j < _tiles[i].size(); j++)
+		{
+			tile[i * _savedX + j] = _tiles[i][j];
+		}
+	}
 
+	file = CreateFile("bossMap.map", GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	WriteFile(file, tile, sizeof(tagTile) * _savedX * _savedY, &write, NULL);
+
+	CloseHandle(file);
+	delete[] tile;
 }
 
 void tileMap::loadTile()
 {
+	//로드요
+	HANDLE file;
+	DWORD read;
+	tagTile *tile = new tagTile[_savedX * _savedY];
+    file = CreateFile("tileSave.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	ReadFile(file, tile, sizeof(tagTile) * _savedX * _savedY, &read, NULL);
 
+	_tiles.clear();
+	for (int i = 0; i < _savedY; i++)
+	{
+		vector<tagTile> vTile;
+		for (int j = 0; j < _savedX; j++)
+		{
+			vTile.push_back(tile[i * _savedX + j]);
+		}
+		_tiles.push_back(vTile);
+	}
+
+	_tileX = _savedX;
+	_tileY = _savedY;
+
+	CloseHandle(file);
+	delete[] tile;
 }
 
 void tileMap::drawTerrain(TERRAIN terrain)
@@ -448,6 +511,7 @@ void tileMap::drawWall(int frameX, int frameY, CATEGORY category)
 				POINT mouse;
 				mouse.x = _ptMouse.x + CAMERAMANAGER->getCameraLEFT();
 				mouse.y = _ptMouse.y + CAMERAMANAGER->getCameraTOP();
+				
 				if (PtInRect(&_tiles[i][j].rc, mouse))
 				{
 					_tiles[i][j].objectFrameX = frameX;
@@ -496,7 +560,7 @@ void tileMap::deleteObject()
 				POINT mouse;
 				mouse.x = _ptMouse.x + CAMERAMANAGER->getCameraLEFT();
 				mouse.y = _ptMouse.y + CAMERAMANAGER->getCameraTOP();
-				if (PtInRect(&_tiles[i][j].rc, mouse))
+				if (PtInRect(&_tiles[i][j].rc, _ptMouse))
 				{
 					if (_tiles[i][j].obj != OBJ_NONE)
 					{

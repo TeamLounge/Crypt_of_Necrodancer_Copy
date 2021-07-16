@@ -18,6 +18,8 @@ class tileMap : public gameNode
 	image* _tileBuffer;
 	int _tileX, _tileY;
 
+	int _savedX, _savedY;
+
 	vector<vector<tagTile>> _tiles;
 
 	bool _isEvenLight;

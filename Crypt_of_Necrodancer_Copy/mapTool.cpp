@@ -3,38 +3,13 @@
 
 HRESULT mapTool::init()
 {
-	//타일맵 이미지
-	IMAGEMANAGER->addFrameImage("boss_tile", "image/object/tile/boss.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("dirt1_tile", "image/object/tile/dirt1.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("dirt2_tile", "image/object/tile/dirt2.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("shop_tile", "image/object/tile/shop.bmp", 48, 48, 1, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("water_tile", "image/object/tile/water.bmp", 144, 48, 3, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("stair_miniboss_tile", "image/object/tile/stair_miniboss.bmp", 96, 48, 2, 1, true, RGB(255, 0, 255));
-
-	//벽 이미지
-	IMAGEMANAGER->addFrameImage("walls", "image/object/walls/walls.bmp", 384, 864, 8, 9, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("walls1", "image/object/walls/walls1.bmp", 384, 480, 8, 5, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("walls2", "image/object/walls/walls2.bmp", 384, 384, 8, 4, true, RGB(255, 0, 255));
-	
-	//함정 이미지
-	IMAGEMANAGER->addFrameImage("bomb_trap", "image/object/trapBomb.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("up_trap", "image/object/trapBounceUp.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("down_trap", "image/object/trapBounceDown.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("left_trap", "image/object/trapBounceLeft.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("right_trap", "image/object/trapBounceRight.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("fast_trap", "image/object/trapSpeedUp.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("slow_trap", "image/object/trapSpeedDown.bmp", 48, 56, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("door_trap", "image/object/trapDoor.bmp", 92, 72, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("spike_trap", "image/object/trapSpike.bmp", 126, 68, 3, 2, true, RGB(255, 0, 255));
-
-	//그 외 오브젝트
-	IMAGEMANAGER->addFrameImage("red_item_box", "image/object/boxRed.bmp", 96, 40, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("black_item_box", "image/object/boxBlack.bmp", 96, 40, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("box", "image/object/box.bmp", 68, 48, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("barrel", "image/object/barrel.bmp", 80, 48, 2, 1, true, RGB(255, 0, 255));
-
+	IMAGEMANAGER->addImage("save", "image/save.bmp", 72, 27, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("load", "image/load.bmp", 72, 27, true, RGB(255, 0, 255));
 	_tileMap = new tileMap;
 	_tileMap->init();
+
+	_saveButton = RectMakeCenter(1200, 700, 72, 27);	//save
+	_loadButton = RectMakeCenter(1300, 700, 72, 27);	//load
 
 	setup();
 
@@ -160,6 +135,16 @@ void mapTool::update()
 				_tileMap->resizeTile(stoi(_tileSizeInput[0].str), stoi(_tileSizeInput[1].str));
 			}
 		}
+
+		if (PtInRect(&_saveButton, _ptMouse))
+		{
+			_tileMap->saveTile();
+		}
+
+		if (PtInRect(&_loadButton, _ptMouse))
+		{
+			_tileMap->loadTile();
+		}
 	}
 
 	switch (_ctrSelect)
@@ -173,18 +158,6 @@ void mapTool::update()
 	case CTRL_OBJECTDRAW:
 		_tileMap->drawObject(_currentTrap);
 		break;
-	}
-
-	if (KEYMANAGER->isOnceKeyDown(VK_OEM_PLUS))
-	{
-		_tileMap->resizeTile(_tileMap->getTileX() + 1, _tileMap->getTileY() + 1);
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_OEM_MINUS))
-	{
-		if (_tileMap->getTileX() > 1 && _tileMap->getTileY() > 1)
-		{
-			_tileMap->resizeTile(_tileMap->getTileX() - 1, _tileMap->getTileY() - 1);
-		}
 	}
 
 	_tileMap->update();
@@ -211,6 +184,7 @@ void mapTool::update()
 		}
 	}
 
+	
 }
 
 void mapTool::render()
@@ -252,6 +226,9 @@ void mapTool::render()
 	DeleteObject(myPen);
 	sprintf_s(str, "RESIZE");
 	DrawText(getMemDC(), str, strlen(str), &_resizeButton, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+
+	IMAGEMANAGER->render("save", getMemDC(), _saveButton.left, _saveButton.top);
+	IMAGEMANAGER->render("load", getMemDC(), _loadButton.left, _loadButton.top);
 }
 
 void mapTool::setup()
