@@ -325,7 +325,7 @@ void mapTool::drawSample()
 			{
 			case DIRT1:
 				IMAGEMANAGER->frameRender("dirt1_tile", getMemDC(),
-					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - TILESIZE/2,
+					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - TILESIZE / 2,
 					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - TILESIZE / 2, 0, 0);
 				break;
 			case DIRT2:
@@ -348,10 +348,15 @@ void mapTool::drawSample()
 					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - TILESIZE / 2,
 					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - TILESIZE / 2, 0, 0);
 				break;
-			case STAIR:
+			case STAIR_BOSS:
 				IMAGEMANAGER->frameRender("stair_miniboss_tile", getMemDC(),
 					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - TILESIZE / 2,
 					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - TILESIZE / 2, 0, 0);
+				break;
+			case STAIR_NONE:
+				IMAGEMANAGER->frameRender("stair_locked_tile", getMemDC(),
+					(_vSampleTile[i].rc.left + _vSampleTile[i].rc.right) / 2 - TILESIZE / 2,
+					(_vSampleTile[i].rc.bottom + _vSampleTile[i].rc.top) / 2 - TILESIZE / 2, 1, 0);
 				break;
 			}
 		}
@@ -462,7 +467,6 @@ void mapTool::drawSample()
 			(_torch.left + _torch.right) / 2 - IMAGEMANAGER->findImage("wall_torch")->getFrameWidth() / 2,
 			(_torch.bottom + _torch.top) / 2 - IMAGEMANAGER->findImage("wall_torch")->getFrameHeight() / 2);
 		break;
-		
 	}
 }
 
