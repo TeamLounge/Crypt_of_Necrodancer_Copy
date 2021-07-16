@@ -74,7 +74,7 @@ void tileMap::update()
 			CAMERAMANAGER->setCameraY(_tileY * TILESIZE + 60 - CAMERAY);
 		}
 	}
-
+	/*
 	if (TIMEMANAGER->getWorldTime() - _worldTime >= 0.5f)
 	{
 		_worldTime = TIMEMANAGER->getWorldTime();
@@ -145,12 +145,12 @@ void tileMap::update()
 			_isEvenLight = true;
 		}
 	}
-
+	*/
 }
 
 void tileMap::render()
 {
-	PatBlt(_tileBuffer->getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
+	PatBlt(_tileBuffer->getMemDC(), 0, 0, BACKGROUNDX, BACKGROUNDY, WHITENESS);
 
 	for (int i = 0; i <_tileY; ++i)
 	{
@@ -354,12 +354,6 @@ void tileMap::resizeTile(int tileX, int tileY)
 			_tiles.erase(_tiles.begin() + i);
 		}
 		_tileY = tileY;
-		for (int j = 0; j < _tileX; j++)
-		{
-			_tiles[_tileY - 1][j].obj = WALL_END;
-			_tiles[_tileY - 1][j].objectFrameX = 0;
-			_tiles[_tileY - 1][j].objectFrameY = 3;
-		}
 	}
 	else
 	{
@@ -561,17 +555,14 @@ void tileMap::deleteObject()
 				mouse.y = _ptMouse.y + CAMERAMANAGER->getCameraTOP();
 				if (PtInRect(&_tiles[i][j].rc, mouse))
 				{
-					if (_tiles[i][j].terrain != EMPTY)
-					{
-						_tiles[i][j].terrain = EMPTY;
-						_tiles[i][j].terrainFrameX = 0;
-						_tiles[i][j].terrainFrameY = 0;
-					}
+					_tiles[i][j].terrain = EMPTY;
+					_tiles[i][j].terrainFrameX = 0;
+					_tiles[i][j].terrainFrameY = 0;
 				}
 			}
 		}
 	}
-	else if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
+	if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
 	{
 		for (int i = 0; i < _tileY; i++)
 		{

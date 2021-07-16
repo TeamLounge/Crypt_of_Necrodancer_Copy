@@ -33,8 +33,8 @@ using namespace SUNFL_UTIL;
 #define WINSTARTY 50	//윈도우 창 시작좌표 (top)
 #define WINSIZEX 1440	//윈도우 가로크기
 #define WINSIZEY 810	//윈도우 세로크기
-#define BACKGROUNDX 2048
-#define BACKGROUNDY 2048
+#define BACKGROUNDX 4096
+#define BACKGROUNDY 4096
 #define CAMERAX 800
 #define CAMERAY	700
 #define WINSTYLE WS_CAPTION | WS_SYSMENU
