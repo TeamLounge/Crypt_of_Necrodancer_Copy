@@ -112,6 +112,7 @@ void mapGenerator::generate(int maxFeatures)
 			tile.terrainFrameY = NULL;
 			tile.objectFrameX = NULL;
 			tile.objectFrameY = NULL;
+			tile.isHaveTorch = false;
 			vTile.push_back(tile);
 		}
 		_tiles.push_back(vTile);
