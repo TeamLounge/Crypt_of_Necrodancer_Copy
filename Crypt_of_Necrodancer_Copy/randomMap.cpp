@@ -171,12 +171,12 @@ void randomMap::render()
 	for (int i = 0; i < m_room.size(); i++)
 	{
 		char str[128];
-		if (m_room[i].boos)
+		if (m_room[i]._state == ROOM_BOSS)
 		{
 			sprintf_s(str, "boos");
 			TextOut(getMemDC(), ((m_room[i].left + m_room[i].right) / 2)*TILESIZE, ((m_room[i].top + m_room[i].bottom) / 2)*TILESIZE, str, strlen(str));
 		}
-		if (m_room[i].player)
+		if (m_room[i]._state == ROOM_PLAYER)
 		{
 			sprintf_s(str, "player");
 			TextOut(getMemDC(), ((m_room[i].left + m_room[i].right) / 2)*TILESIZE, ((m_room[i].top + m_room[i].bottom) / 2)*TILESIZE, str, strlen(str));
@@ -216,17 +216,17 @@ void randomMap::makeRooms()
 				width = 7;
 				height = 9;
 				isshop = true;
-				room.shop = isshop;
+				room._state = ROOM_SHOP;
 			}
 
 			int left = x * (gridwidth + 1) + RND->getInt(gridwidth - width); // 각방들의 첫x좌표 
 			if (left == 0)left += 1;
 			int top = y * (gridHeight + 1) + RND->getInt(gridHeight - height);//각방들의 첫y좌표
 			if (top == 0) top += 1;
-			room.left = left; //값
-			room.top = top; //다
-			room.right = (left + width >= TILEX) ? (TILEX) : left + width;//넣
-			room.bottom = (top + height >= TILEY) ? (TILEY) : top + height;//어
+			room.right = (left + width >= TILEX) ? (TILEX-1) : left + width;//넣
+			room.bottom = (top + height >= TILEY) ? (TILEY-1) : top + height;//어
+			room.left = (room.right == TILEX-1)? (TILEX-1)-width : left ; //값
+			room.top = (room.bottom == TILEY - 1) ? (TILEY - 1) -height : top; //다
 			room.width = width;//이건 사실 없어도됌;;
 			room.height = height; // 없어도됌;;
 
@@ -249,7 +249,7 @@ void randomMap::makeRooms()
 	
 	for (int i = 0; i < m_room.size(); i++)
 	{
-		if (m_room[i].shop)
+		if (m_room[i]._state==ROOM_SHOP)
 		{
 			if (i == 0 || i == 2 || i == 3 || i == 5) //여기방중에 샵이있다면???
 			{
@@ -258,10 +258,10 @@ void randomMap::makeRooms()
 		}
 	}
 	int i = RND->getInt(select.size());// 랜덤으로 하나뽑자
-	m_room[select[i]].player = true; // 거기에 넣어서 player플래그하나세워
+	m_room[select[i]]._state = ROOM_PLAYER; // 거기에 넣어서 player플래그하나세워
 	select.erase(remove(select.begin(), select.end(), select[i]), select.end()); //그리고 그거 지워줘
 	i = RND->getInt(select.size()); // 다시 랜덤으로 하나뽑자
-	m_room[select[i]].boos = true; // 거기에 넣어서 boos플래그 하나세워
+	m_room[select[i]]._state = ROOM_BOSS; // 거기에 넣어서 boos플래그 하나세워
 
 }
 
@@ -283,13 +283,14 @@ void randomMap::makePassage()
 		size_t i = connected[RND->getInt(connected.size())]; // 랜덤으로 연결된방하나 인덱스를 뽑고
 		if (m_room[i].neighbors.empty())//예외처리를 해줍니다 인접한방이 없을 수 도있음
 		{
-			connected.erase(remove(connected.begin(), connected.end(), i), connected.end());
+			//connected.erase(remove(connected.begin(), connected.end(), i), connected.end());
+			unconnected.erase(remove(unconnected.begin(), unconnected.end(), i), unconnected.end());//연결이 끝나면 그 연결안된방을 안연결된백터에 지워주고
 			continue;
 		}
 		size_t j= m_room[i].neighbors[RND->getInt(m_room[i].neighbors.size())];//그 연결하려는방 하나중 인접한거 하나를뽑아요
 
 		connectRooms(i, j); // 그다음 연결해줍니다.
-		unconnected.erase(remove(unconnected.begin(), unconnected.end(), j), unconnected.end());//연결이 끝나면 그 연결안된방을 안연결된백터에 지워주고
+		//unconnected.erase(remove(unconnected.begin(), unconnected.end(), j), unconnected.end());//연결이 끝나면 그 연결안된방을 안연결된백터에 지워주고
 		connected.emplace_back(j);//그 방을 연결되었다고 표시해줍니다.
 	}
 
@@ -370,10 +371,23 @@ void randomMap::makeTile()
 		}
 		if (targetX && targetY)
 		{
-			fromY = (m_room[lefttop].rightY >= m_room[righttop].leftY) ? m_room[lefttop].rightY : m_room[righttop].leftY;
-			fromX = (m_room[lefttop].bottomX >= m_room[leftbottom].topX) ? m_room[lefttop].bottomX : m_room[leftbottom].topX;
-			toY = (m_room[leftbottom].rightY >= m_room[rightbottom].leftY) ? m_room[leftbottom].rightY : m_room[rightbottom].leftY;
-			toX = (m_room[righttop].bottomX >= m_room[rightbottom].topX) ? m_room[rightbottom].topX : m_room[righttop].bottomX;
+			
+			if(abs(m_room[lefttop].rightY - m_room[righttop].leftY) >1)
+				fromY = (m_room[lefttop].rightY >= m_room[righttop].leftY) ? m_room[lefttop].rightY-1 : m_room[righttop].leftY-1;
+			else
+				fromY = (m_room[lefttop].rightY >= m_room[righttop].leftY) ? m_room[lefttop].rightY : m_room[righttop].leftY;
+			if (abs(m_room[lefttop].bottomX - m_room[leftbottom].topX) > 1)
+				fromX = (m_room[lefttop].bottomX >= m_room[leftbottom].topX) ? m_room[lefttop].bottomX-1 : m_room[leftbottom].topX-1;
+			else
+				fromX = (m_room[lefttop].bottomX >= m_room[leftbottom].topX) ? m_room[lefttop].bottomX : m_room[leftbottom].topX;
+			if(abs(m_room[leftbottom].rightY - m_room[rightbottom].leftY) > 1)
+				toY = (m_room[leftbottom].rightY >= m_room[rightbottom].leftY) ? m_room[rightbottom].leftY + 1 : m_room[leftbottom].rightY+1;
+			else
+				toY = (m_room[leftbottom].rightY >= m_room[rightbottom].leftY) ? m_room[leftbottom].rightY : m_room[rightbottom].leftY;
+			if(abs(m_room[righttop].bottomX - m_room[rightbottom].topX) > 1)
+				toX = (m_room[righttop].bottomX >= m_room[rightbottom].topX) ? m_room[rightbottom].topX+1: m_room[righttop].bottomX+1;
+			else
+				toX = (m_room[righttop].bottomX >= m_room[rightbottom].topX) ? m_room[rightbottom].topX : m_room[righttop].bottomX;
 			for (int y = fromY; y <= toY; ++y)
 			{
 				for (int x = fromX; x <= toX; ++x)
@@ -439,7 +453,7 @@ void randomMap::makewalls()
 	//이제 문짝달아줄꺼야
 	for (int i = 0; i < m_room.size(); ++i)
 	{
-		if (m_room[i].shop) //상점에는 다막고 하나만 열꺼라서 기준점잡아옴
+		if (m_room[i]._state == ROOM_SHOP) //상점에는 다막고 하나만 열꺼라서 기준점잡아옴
 		{
 			if (m_room[i].bottomRoom)
 			{
@@ -525,8 +539,17 @@ void randomMap::makewalls()
 					}
 				}
 			}
+
+			//샵바닥타일 사라졌으면 설치해주자
+			if (_tiles[m_room[i].top + 2][m_room[i].left + 2].terrain != SHOP ||
+				_tiles[m_room[i].top + 2][m_room[i].left + 4].terrain != SHOP)
+			{
+				_tiles[m_room[i].top + 2][m_room[i].left + 2].terrain = SHOP;
+				_tiles[m_room[i].top + 2][m_room[i].left + 4].terrain = SHOP;
+			}
+
 		}
-		if (m_room[i].player)// 플레이어방 문짝달자
+		if (m_room[i]._state== ROOM_PLAYER)// 플레이어방 문짝달자
 		{
 			for (int x = m_room[i].left; x < m_room[i].right; ++x)
 			{
@@ -559,7 +582,7 @@ void randomMap::makewalls()
 				}
 			}
 		}
-		if (m_room[i].boos)// 보스방 문짝달자
+		if (m_room[i]._state == ROOM_BOSS)// 보스방 문짝달자
 		{
 			for (int x = m_room[i].left; x < m_room[i].right; ++x)
 			{
@@ -601,6 +624,12 @@ void randomMap::makewalls()
 		}
 	}
 
+	//for(int )
+	//Y =0 ,X = 2
+
+
+
+
 }
 
 void randomMap::placeRoom(const ROOM & room)
@@ -612,7 +641,7 @@ void randomMap::placeRoom(const ROOM & room)
 			_tiles[y][x].obj = OBJ_NONE; // 벽삭제하고 방만들어줌
 		}
 	}
-	if (room.shop) //상점방만들어줌
+	if (room._state == ROOM_SHOP) //상점방만들어줌
 	{
 		for (int y = room.top; y < room.bottom; ++y)
 		{
@@ -659,21 +688,21 @@ void randomMap::connectRooms(size_t i, size_t j)
 
 		for (int x = fromX; x < centerX; ++x) //출발점에서 y좌표를 바꿔야할 중점X좌표까지 오른쪽으로 이동 
 		{
-			for(int y = fromY; y <=fromY+1; ++y)
-				//_tiles[fromY][x].obj = OBJ_NONE;
-				_tiles[y][x].obj = OBJ_NONE;
+			//for(int y = fromY; y <=fromY+1; ++y)
+				_tiles[fromY][x].obj = OBJ_NONE;
+				//_tiles[y][x].obj = OBJ_NONE;
 		}
 		for (int y = fromY; y != toY; y += dy) // 만약에 출발점과 도착점의 Y좌표가 같다면 무시 
 		{										//아니라면 도착점에 맞춰 +1,-1씩해서 길을 만든다
-			for(int x = centerX; x<=centerX+1; ++x)
-				//_tiles[y][centerX].obj = OBJ_NONE; 
-				_tiles[y][x].obj = OBJ_NONE; 
+			//for(int x = centerX; x<=centerX+1; ++x)
+				_tiles[y][centerX].obj = OBJ_NONE; 
+				//_tiles[y][x].obj = OBJ_NONE; 
 		}
 		for (int x = centerX; x <= toX; ++x) // 중점X좌표를 경유했다면 이제 도착점까지 오른쪽으로이동
 		{	
-			for(int y = toY; y<=toY+1 ; ++y)
-				//_tiles[toY][x].obj = OBJ_NONE;
-				_tiles[y][x].obj = OBJ_NONE;
+			//for(int y = toY; y<=toY+1 ; ++y)
+				_tiles[toY][x].obj = OBJ_NONE;
+				//_tiles[y][x].obj = OBJ_NONE;
 		}
 		from.rightRoom = true;
 		to.leftRoom = true;
@@ -696,21 +725,21 @@ void randomMap::connectRooms(size_t i, size_t j)
 		const int dx = toX > fromX ? 1 : -1; // 도착점 X좌표가 출발점 X좌표보다 크다면 +1, 아니면 -1이다.
 		for (int y = fromY; y < centerY; ++y) //출발점에서 X좌표를 바꿔야할 중점Y좌표까지 아래로 이동 
 		{
-			for(int x= fromX; x<=fromX+1; ++x)
-				//_tiles[y][fromX].obj = OBJ_NONE;
-				_tiles[y][x].obj = OBJ_NONE;
+			//for(int x= fromX; x<=fromX+1; ++x)
+				_tiles[y][fromX].obj = OBJ_NONE;
+				//_tiles[y][x].obj = OBJ_NONE;
 		}
 		for (int x = fromX; x != toX; x += dx)// 만약에 출발점과 도착점의 X좌표가 같다면 무시
 		{									  //아니라면 도착점에 맞춰 +1,-1씩해서 길을 만든다
-			for (int y = centerY; y <= centerY+1 ; ++y)
-				//_tiles[centerY][x].obj = OBJ_NONE;
-				_tiles[y][x].obj = OBJ_NONE;
+			//for (int y = centerY; y <= centerY+1 ; ++y)
+				_tiles[centerY][x].obj = OBJ_NONE;
+				//_tiles[y][x].obj = OBJ_NONE;
 		}
 		for (int y = centerY; y <= toY; ++y)// 중점Y좌표를 경유했다면 이제 도착점까지 아래로이동
 		{
-			for(int x = toX; x<=toX+1; ++x)
-			//_tiles[y][toX].obj = OBJ_NONE;
-				_tiles[y][x].obj = OBJ_NONE;
+			//for(int x = toX; x<=toX+1; ++x)
+			_tiles[y][toX].obj = OBJ_NONE;
+				//_tiles[y][x].obj = OBJ_NONE;
 		}
 		from.bottomRoom = true;
 		to.topRoom = true;
