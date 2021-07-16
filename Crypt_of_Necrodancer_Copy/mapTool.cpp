@@ -75,6 +75,11 @@ void mapTool::update()
 					break;
 				}
 			}
+			if (PtInRect(&_torch, _ptMouse))
+			{
+				_ctrSelect = CTRL_TORCHDRAW;
+				_currentCategory = CATEGORY_OBJECT;
+			}
 			break;
 		}
 		
@@ -157,6 +162,9 @@ void mapTool::update()
 		break;
 	case CTRL_OBJECTDRAW:
 		_tileMap->drawObject(_currentTrap);
+		break;
+	case CTRL_TORCHDRAW:
+		_tileMap->drawTorch();
 		break;
 	}
 
@@ -283,6 +291,9 @@ void mapTool::setup()
 		sample.objectFrameY = 0;
 		_vSampleTrap.push_back(sample);
 	}
+
+	//횃불 샘플 설정
+	_torch = RectMake(WINSIZEX - 600 + 100 * (SAMPLETRAPMAX % 5), 100 + (SAMPLETRAPMAX / 5) * 100, 100, 100);
 
 	//카테고리 렉트 설정
 	_categoryRect[0] = RectMakeCenter(WINSIZEX - 500, 50, 20, 20);
@@ -441,6 +452,12 @@ void mapTool::drawSample()
 				break;
 			}
 		}
+		Rectangle(getMemDC(), _torch);
+		IMAGEMANAGER->frameRender("wall_torch", getMemDC(),
+			(_torch.left + _torch.right) / 2 - IMAGEMANAGER->findImage("wall_torch")->getFrameWidth() / 2,
+			(_torch.bottom + _torch.top) / 2 - IMAGEMANAGER->findImage("wall_torch")->getFrameHeight() / 2);
+		break;
+		
 	}
 }
 

@@ -47,11 +47,13 @@ struct tagTileSizeInput
 class mapTool : public gameNode
 {
 private:
-	vector<tagSampleTile> _vSampleTile;
-	vector<tagSampleObject> _vSampleTrap;
+	vector<tagSampleTile> _vSampleTile; //샘플 타일
+	vector<tagSampleObject> _vSampleTrap; //샘플 함정
 
-	tagSampleObject _sampleWall1[SAMPLEWALLX * SAMPLEWALLY1];
-	tagSampleObject _sampleWall2[SAMPLEWALLX * SAMPLEWALLY2];
+	RECT _torch;
+
+	tagSampleObject _sampleWall1[SAMPLEWALLX * SAMPLEWALLY1]; //샘플 벽 1
+	tagSampleObject _sampleWall2[SAMPLEWALLX * SAMPLEWALLY2]; //샘플 벽 2
 
 	CATEGORY _category; //보여주는 카테고리
 	CATEGORY _currentCategory; //선택된 카테고리

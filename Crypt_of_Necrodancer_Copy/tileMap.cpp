@@ -7,6 +7,7 @@ HRESULT tileMap::init()
 	_tileY = 20;
 	_isEvenLight = false;
 	_worldTime = TIMEMANAGER->getWorldTime();
+	_elapsedSec = 0;
 	_tileBuffer = new image;
 	_tileBuffer->init(BACKGROUNDX, BACKGROUNDY);
 	setup();
@@ -145,7 +146,19 @@ void tileMap::update()
 			_isEvenLight = true;
 		}
 	}
-	
+	_elapsedSec += TIMEMANAGER->getElapsedTime();
+	if (_elapsedSec >= 0.1f)
+	{
+		_elapsedSec -= 0.1f;
+		if (IMAGEMANAGER->findImage("wall_torch")->getFrameX() >= IMAGEMANAGER->findImage("wall_torch")->getMaxFrameX())
+		{
+			IMAGEMANAGER->findImage("wall_torch")->setFrameX(0);
+		}
+		else
+		{
+			IMAGEMANAGER->findImage("wall_torch")->setFrameX(IMAGEMANAGER->findImage("wall_torch")->getFrameX() + 1);
+		}
+	}
 }
 
 void tileMap::render()
@@ -192,7 +205,8 @@ void tileMap::render()
 			case WALL_CRACK:
 			case WALL_DOOR:
 			case WALL_END:
-				IMAGEMANAGER->frameRender("walls2", _tileBuffer->getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				IMAGEMANAGER->frameRender("walls2", _tileBuffer->getMemDC(), _tiles[i][j].rc.left, 
+					_tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
 				break;
 			case TR_BOMB:
 				IMAGEMANAGER->frameRender("bomb_trap", _tileBuffer->getMemDC(),
@@ -269,7 +283,16 @@ void tileMap::render()
 			{
 				Rectangle(_tileBuffer->getMemDC(), _tiles[i][j].rc);
 			}
+
+			if (_tiles[i][j].isHaveTorch)
+			{
+				IMAGEMANAGER->frameRender("wall_torch", _tileBuffer->getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("wall_torch")->getFrameWidth() / 2 - 5,
+					_tiles[i][j].rc.top - (TILESIZE * 5) / 8 - TILESIZE/3);
+			}
 		}
+
+		
 	}
 
 	CAMERAMANAGER->render(_tileBuffer, getMemDC());
@@ -295,6 +318,7 @@ void tileMap::setup()
 				tile.objectFrameX = 0;
 				tile.objectFrameY = 3;
 			}
+			tile.isHaveTorch = false;
 			vTile.push_back(tile);
 		}
 		_tiles.push_back(vTile);
@@ -555,6 +579,31 @@ void tileMap::drawObject(OBJECT obj)
 	}
 }
 
+void tileMap::drawTorch()
+{
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
+	{
+		for (int i = 0; i < _tileY; i++)
+		{
+			for (int j = 0; j < _tileX; j++)
+			{
+				POINT mouse;
+				mouse.x = _ptMouse.x + CAMERAMANAGER->getCameraLEFT();
+				mouse.y = _ptMouse.y + CAMERAMANAGER->getCameraTOP();
+				if (PtInRect(&_tiles[i][j].rc, mouse))
+				{
+					if (_tiles[i][j].obj == WALL_BASIC || _tiles[i][j].obj == WALL_CRACK || _tiles[i][j].obj == WALL_GOLD || _tiles[i][j].obj == WALL_STONE)
+					{
+						_tiles[i][j].isHaveTorch = true;
+						break;
+					}
+					break;
+				}
+			}
+		}
+	}
+}
+
 void tileMap::deleteObject()
 {
 	if (KEYMANAGER->isStayKeyDown('R') && KEYMANAGER->isStayKeyDown(VK_RBUTTON))
@@ -571,8 +620,12 @@ void tileMap::deleteObject()
 					if (_tiles[i][j].terrain != EMPTY)
 					{
 						_tiles[i][j].terrain = EMPTY;
-						_tiles[i][j].terrainFrameX = 0;
-						_tiles[i][j].terrainFrameY = 0;
+						_tiles[i][j].terrainFrameX = NULL;
+						_tiles[i][j].terrainFrameY = NULL;
+						_tiles[i][j].obj = OBJ_NONE;
+						_tiles[i][j].objectFrameX = NULL;
+						_tiles[i][j].objectFrameY = NULL;
+						_tiles[i][j].isHaveTorch = false;
 						break;
 					}
 					break;
@@ -596,6 +649,7 @@ void tileMap::deleteObject()
 						_tiles[i][j].objectFrameX = NULL;
 						_tiles[i][j].objectFrameY = NULL;
 						_tiles[i][j].obj = OBJ_NONE;
+						_tiles[i][j].isHaveTorch = false;
 						break;
 					}
 					break;

@@ -9,7 +9,8 @@ enum CTRL
 	CTRL_LOAD,			//로드		버튼
 	CTRL_TERRAINDRAW,	//지형		그리기
 	CTRL_WALLDRAW,		//벽 		그리기		
-	CTRL_OBJECTDRAW,		//함정		그리기
+	CTRL_OBJECTDRAW,	//함정		그리기
+	CTRL_TORCHDRAW,     //횃불		그리기
 	CTRL_ERASER,		//지우개		버튼
 	CTRL_END
 };

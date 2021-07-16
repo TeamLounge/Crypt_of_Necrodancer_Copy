@@ -13,6 +13,7 @@ struct tagTile
 	int terrainFrameY;
 	int objectFrameX;
 	int objectFrameY;
+	bool isHaveTorch;
 };
 
 class tileMap : public gameNode
@@ -27,6 +28,8 @@ class tileMap : public gameNode
 	bool _isEvenLight;
 
 	float _worldTime;
+
+	float _elapsedSec;
 
 public:
 	virtual HRESULT init();
@@ -44,6 +47,7 @@ public:
 	void drawTerrain(TERRAIN terrain); //타일 그리기
 	void drawWall(int frameX, int frameY, CATEGORY category); //벽 그리기
 	void drawObject(OBJECT obj); //함정 그리기
+	void drawTorch(); //벽 위에 횃불 그리기
 	void deleteObject();
 
 	OBJECT wallSelect(int frameX, int frameY, CATEGORY category); //선택한 벽에 따른 OBJECT 구분
