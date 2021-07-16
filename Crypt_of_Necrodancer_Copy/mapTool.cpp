@@ -404,6 +404,11 @@ void mapTool::drawSample()
 					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("slow_trap")->getFrameWidth() / 2,
 					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("slow_trap")->getFrameHeight() / 2, 0, 0);
 				break;
+			case TR_JUMP:
+				IMAGEMANAGER->frameRender("jump_trap", getMemDC(),
+					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("jump_trap")->getFrameWidth() / 2,
+					(_vSampleTrap[i].rc.bottom + _vSampleTrap[i].rc.top) / 2 - IMAGEMANAGER->findImage("jump_trap")->getFrameHeight() / 2, 0, 0);
+				break;
 			case TR_DOOR:
 				IMAGEMANAGER->frameRender("door_trap", getMemDC(),
 					(_vSampleTrap[i].rc.left + _vSampleTrap[i].rc.right) / 2 - IMAGEMANAGER->findImage("door_trap")->getFrameWidth() / 2,

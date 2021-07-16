@@ -12,7 +12,7 @@
 #define SAMPLEWALLY1 5
 #define SAMPLEWALLY2 4
 
-#define SAMPLETRAPMAX 13
+#define SAMPLETRAPMAX 14
 /*======================  필     독   !  ==========================
 TERRAIN, OBJECT, CTRL, CATEGORY enum은 gameNode.h에 있습니다.
 ==================================================================*/
