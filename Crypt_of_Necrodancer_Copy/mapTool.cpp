@@ -192,8 +192,6 @@ void mapTool::render()
 
 	drawSample();
 	drawCategory();
-	_tileMap->render();
-	
 	char str[128];
 	sprintf_s(str, "x :");
 	TextOut(getMemDC(), _tileSizeInput[0].rc.left - 25, _tileSizeInput[0].rc.top + 5, str, strlen(str));
@@ -229,6 +227,8 @@ void mapTool::render()
 
 	IMAGEMANAGER->render("save", getMemDC(), _saveButton.left, _saveButton.top);
 	IMAGEMANAGER->render("load", getMemDC(), _loadButton.left, _loadButton.top);
+
+	_tileMap->render();
 }
 
 void mapTool::setup()
