@@ -2,6 +2,8 @@
 #include "gameNode.h"
 #include <vector>
 
+#define MARGIN 60
+
 struct tagTile
 {
 	TERRAIN terrain;

@@ -69,12 +69,12 @@ void tileMap::update()
 		{
 			CAMERAMANAGER->setCameraCenterY(CAMERAMANAGER->getCameraCenterY() + 5);
 		}
-		if (CAMERAMANAGER->getCameraBOTTOM() >= _tileY * TILESIZE + 60 && _tileY * TILESIZE + 60 >= CAMERAY)
+		if (CAMERAMANAGER->getCameraBOTTOM() >= _tileY * TILESIZE + MARGIN && _tileY * TILESIZE + MARGIN >= CAMERAY)
 		{
-			CAMERAMANAGER->setCameraY(_tileY * TILESIZE + 60 - CAMERAY);
+			CAMERAMANAGER->setCameraY(_tileY * TILESIZE + MARGIN - CAMERAY);
 		}
 	}
-	/*
+	
 	if (TIMEMANAGER->getWorldTime() - _worldTime >= 0.5f)
 	{
 		_worldTime = TIMEMANAGER->getWorldTime();
@@ -145,7 +145,7 @@ void tileMap::update()
 			_isEvenLight = true;
 		}
 	}
-	*/
+	
 }
 
 void tileMap::render()
@@ -284,7 +284,7 @@ void tileMap::setup()
 		for (int j = 0; j < _tileX; ++j)
 		{
 			tagTile tile;
-			tile.rc = RectMake(j * TILESIZE, i * TILESIZE + 60, TILESIZE, TILESIZE);
+			tile.rc = RectMake(j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
 			tile.terrain = DIRT1;
 			tile.obj = OBJ_NONE;
 			tile.terrainFrameX = 0;
@@ -328,7 +328,7 @@ void tileMap::resizeTile(int tileX, int tileY)
 			for (int j = _tileX; j < tileX; j++)
 			{
 				tagTile tile;
-				tile.rc = RectMake(j * TILESIZE, i * TILESIZE + 30, TILESIZE, TILESIZE);
+				tile.rc = RectMake(j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
 				tile.terrain = DIRT1;
 				tile.terrainFrameX = 0;
 				tile.terrainFrameY = 0;
@@ -375,7 +375,7 @@ void tileMap::resizeTile(int tileX, int tileY)
 			for(int j = 0; j < _tileX; j++)
 			{
 				tagTile tile;
-				tile.rc = RectMake(j * TILESIZE, i * TILESIZE + 30, TILESIZE, TILESIZE);
+				tile.rc = RectMake(j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
 				tile.terrain = DIRT1;
 				tile.terrainFrameX = 0;
 				tile.terrainFrameY = 0;
