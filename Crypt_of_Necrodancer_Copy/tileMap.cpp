@@ -560,7 +560,7 @@ void tileMap::deleteObject()
 				POINT mouse;
 				mouse.x = _ptMouse.x + CAMERAMANAGER->getCameraLEFT();
 				mouse.y = _ptMouse.y + CAMERAMANAGER->getCameraTOP();
-				if (PtInRect(&_tiles[i][j].rc, _ptMouse))
+				if (PtInRect(&_tiles[i][j].rc, mouse))
 				{
 					if (_tiles[i][j].obj != OBJ_NONE)
 					{
