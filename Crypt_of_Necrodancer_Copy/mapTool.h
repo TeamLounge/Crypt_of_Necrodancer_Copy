@@ -70,6 +70,9 @@ private:
 
 	RECT _resizeButton;
 
+	RECT _saveButton;
+	RECT _loadButton;
+
 public:
 	virtual HRESULT init();
 	virtual void release();
