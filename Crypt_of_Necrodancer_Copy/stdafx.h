@@ -31,15 +31,15 @@ using namespace SUNFL_UTIL;
 #define WINNAME (LPTSTR)(TEXT("28기 API"))
 #define WINSTARTX 50	//윈도우 창 시작좌표 (left)
 #define WINSTARTY 50	//윈도우 창 시작좌표 (top)
-#define WINSIZEX 1500	//윈도우 가로크기
-#define WINSIZEY 1500	//윈도우 세로크기
+#define WINSIZEX 1440	//윈도우 가로크기
+#define WINSIZEY 810	//윈도우 세로크기
 #define BACKGROUNDX 2048
 #define BACKGROUNDY 2048
-#define CAMERAX 1500
-#define CAMERAY	1500
+#define CAMERAX 800
+#define CAMERAY	700
 #define WINSTYLE WS_CAPTION | WS_SYSMENU
 
-#define TILESIZE 48
+#define TILESIZE 72
 
 #define RND				randomFunction::getSingleton()
 #define KEYMANAGER		keyManager::getSingleton()

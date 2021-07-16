@@ -3,13 +3,13 @@
 
 HRESULT mapTool::init()
 {
-	IMAGEMANAGER->addImage("save", "image/save.bmp", 72, 27, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("load", "image/load.bmp", 72, 27, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("save", "image/save.bmp", 80, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("load", "image/load.bmp", 80, 30, true, RGB(255, 0, 255));
 	_tileMap = new tileMap;
 	_tileMap->init();
 
-	_saveButton = RectMakeCenter(1200, 700, 72, 27);	//save
-	_loadButton = RectMakeCenter(1300, 700, 72, 27);	//load
+	_saveButton = RectMakeCenter(WINSIZEX - 500, WINSIZEY - 150, 80, 30);	//save
+	_loadButton = RectMakeCenter(WINSIZEX - 350, WINSIZEY - 150, 80, 30);	//load
 
 	setup();
 
@@ -255,7 +255,7 @@ void mapTool::setup()
 			_sampleWall1[i*SAMPLEWALLX + j].objectFrameX = j;
 			_sampleWall1[i*SAMPLEWALLX + j].objectFrameY = i;
 
-			_sampleWall1[i*SAMPLEWALLX + j].rc = RectMake(WINSIZEX - IMAGEMANAGER->findImage("walls1")->getWidth() - 150 + j * WALLWIDTH,
+			_sampleWall1[i*SAMPLEWALLX + j].rc = RectMake(WINSIZEX - IMAGEMANAGER->findImage("sample_walls1")->getWidth() - 150 + j * WALLWIDTH,
 				100 + i * WALLHEIGHT, WALLWIDTH, WALLHEIGHT);
 		}
 	}
@@ -268,7 +268,7 @@ void mapTool::setup()
 			_sampleWall2[i*SAMPLEWALLX + j].objectFrameX = j;
 			_sampleWall2[i*SAMPLEWALLX + j].objectFrameY = i;
 
-			_sampleWall2[i*SAMPLEWALLX + j].rc = RectMake(WINSIZEX - IMAGEMANAGER->findImage("walls2")->getWidth() - 150 + j * WALLWIDTH,
+			_sampleWall2[i*SAMPLEWALLX + j].rc = RectMake(WINSIZEX - IMAGEMANAGER->findImage("sample_walls2")->getWidth() - 150 + j * WALLWIDTH,
 				100 + i * WALLHEIGHT, WALLWIDTH, WALLHEIGHT);
 		}
 	}
@@ -342,7 +342,7 @@ void mapTool::drawSample()
 		break;
 	case CATEGORY_WALL1:
 		//샘플 벽1 그리기
-		IMAGEMANAGER->render("walls1", getMemDC(), WINSIZEX - IMAGEMANAGER->findImage("walls1")->getWidth() - 150, 100);
+		IMAGEMANAGER->render("sample_walls1", getMemDC(), WINSIZEX - IMAGEMANAGER->findImage("sample_walls1")->getWidth() - 150, 100);
 		if (KEYMANAGER->isToggleKey(VK_TAB))
 		{
 			for (int i = 0; i < SAMPLEWALLX * SAMPLEWALLY1; i++)
@@ -353,7 +353,7 @@ void mapTool::drawSample()
 		break;
 	case CATEGORY_WALL2:
 		//샘플 벽2 그리기
-		IMAGEMANAGER->render("walls2", getMemDC(), WINSIZEX - IMAGEMANAGER->findImage("walls2")->getWidth() - 150, 100);
+		IMAGEMANAGER->render("sample_walls2", getMemDC(), WINSIZEX - IMAGEMANAGER->findImage("sample_walls2")->getWidth() - 150, 100);
 		if (KEYMANAGER->isToggleKey(VK_TAB))
 		{
 			for (int i = 0; i < SAMPLEWALLX * SAMPLEWALLY2; i++)

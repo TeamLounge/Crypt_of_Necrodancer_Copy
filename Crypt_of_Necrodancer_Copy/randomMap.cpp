@@ -4,10 +4,6 @@
 #include <random>
 HRESULT randomMap::init()
 {
-	IMAGEMANAGER->addFrameImage("dirt1_tile", "image/object/tile/dirt1.bmp", 144, 96, 3, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("shop_tile", "image/object/tile/shop.bmp", 48, 48, 1, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("walls1", "image/object/walls/walls.bmp", 384, 864, 8, 9, true, RGB(255, 0, 255));
-
 	for (int i = 0; i < TILEY; ++i)
 	{
 		vector<tagTile> vTile;
