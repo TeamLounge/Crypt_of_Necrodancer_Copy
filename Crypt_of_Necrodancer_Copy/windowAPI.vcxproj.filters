@@ -105,6 +105,9 @@
     <ClInclude Include="randomMap.h">
       <Filter>playGround\mapTool</Filter>
     </ClInclude>
+    <ClInclude Include="mapGenerator.h">
+      <Filter>playGround\mapTool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -156,6 +159,9 @@
       <Filter>playGround\Astar</Filter>
     </ClCompile>
     <ClCompile Include="randomMap.cpp">
+      <Filter>playGround\mapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="mapGenerator.cpp">
       <Filter>playGround\mapTool</Filter>
     </ClCompile>
   </ItemGroup>
