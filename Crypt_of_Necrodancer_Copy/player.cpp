@@ -7,6 +7,7 @@ HRESULT player::init(int tileX, int tileY)
 	IMAGEMANAGER->addFrameImage("player_body_basic", "image/player/playerArmor_basic.bmp", 204, 90, 4, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("player_body_leather", "image/player/playerArmor_leather.bmp", 204, 90, 4, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("player_body_chain", "image/player/playerArmor_chain.bmp", 204, 90, 4, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("player_shadow", "image/player/shadow_standard.bmp", 72, 81, true, RGB(255, 0, 255));
 	
 	CAMERAMANAGER->setCamera(0, 0);
 
@@ -42,8 +43,8 @@ void player::update()
 
 	_tileRect = _map->getTiles()[_tileY][_tileX].rc;
 
-	_body = RectMakeCenter((_tileRect.left + _tileRect.right) / 2,
-		(_tileRect.top + _tileRect.bottom) / 2 - (IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight() - TILESIZE / 2),
+	_body = RectMake((_tileRect.left + _tileRect.right) / 2 - IMAGEMANAGER->findImage(_bodyImageName)->getFrameWidth() / 2,
+		_tileRect.top - (IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight() - TILESIZE / 2),
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameWidth(),
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight());
 	_head = RectMake(_body.left,
@@ -56,7 +57,8 @@ void player::update()
 
 void player::render()
 {
-	//Rectangle(getMemDC(), _body);
+	//Rectangle(getMemDC(), _shadow);
+	IMAGEMANAGER->render("player_shadow", getMemDC(), _shadow.left, _shadow.top);
 	IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
 	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
 }
@@ -64,9 +66,13 @@ void player::render()
 void player::setupPlayerRect()
 {
 	_tileRect = _map->getTiles()[_tileY][_tileX].rc;
+	//그림자 초기화
+	_shadow = RectMake(_tileRect.left, _tileRect.top - 39, 
+		IMAGEMANAGER->findImage("player_shadow")->getWidth(), 
+		IMAGEMANAGER->findImage("player_shadow")->getHeight());
 	//몸통 초기화
-	_body = RectMakeCenter((_tileRect.left + _tileRect.right) / 2,
-		(_tileRect.top + _tileRect.bottom) / 2 - (IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight() - TILESIZE/2),
+	_body = RectMake((_tileRect.left + _tileRect.right) / 2 - IMAGEMANAGER->findImage(_bodyImageName)->getFrameWidth() /2,
+		_tileRect.top - (IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight() - TILESIZE/2),
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameWidth(),
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight());
 	//머리 초기화
