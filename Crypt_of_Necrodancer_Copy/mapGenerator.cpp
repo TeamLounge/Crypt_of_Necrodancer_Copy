@@ -94,385 +94,390 @@ void mapGenerator::render()
 
 void mapGenerator::generate(int maxFeatures)
 {
-	//여기가 생성
-	_tiles.clear();
-	_rooms.clear();
-	_corridors.clear();
-	_exits.clear();
-	for (int i = 0; i < _height; ++i)
-	{
-		vector<tagTile> vTile;
-		for (int j = 0; j < _width; ++j)
-		{
-			tagTile tile;
-			tile.rc = RectMake(j * TILESIZE, i * TILESIZE + 30, TILESIZE, TILESIZE);
-			tile.terrain = EMPTY;
-			tile.obj = OBJ_NONE;
-			tile.terrainFrameX = NULL;
-			tile.terrainFrameY = NULL;
-			tile.objectFrameX = NULL;
-			tile.objectFrameY = NULL;
-			tile.isHaveTorch = false;
-			vTile.push_back(tile);
-		}
-		_tiles.push_back(vTile);
-	}
-
-	if (!makeRoom(_width / 2, _height / 2, static_cast<Direction>(RND->getInt(4), true)))
-	{
-		return;
-	}
-	//스타트 지점 랜덤 지정
 	while (1)
 	{
-		_start = RND->getFromIntTo(1, (maxFeatures - 2) * 2);
-		if (_start % 2 == 0)
-		{
-			break;
-		}
-	}
-	//방들을 만들고
-	for (int i = 1; i < (maxFeatures - 1) * 2 - 1; ++i)
-	{
-		if (i % 2 != 0)
-		{
-			_isMakeRoom = false;
-		}
-		else
-		{
-			_isMakeRoom = true;
-		}
-		if (!createFeature(i))
-		{
-			break;
-		}
-	}
-	//마지막에 상점을 만든다
-	makeShop();
+		if (_rooms.size() == maxFeatures) break;
 
-	//방들 사이 빈 공간에 타일 채우기
+		//여기가 생성
+		_tiles.clear();
+		_rooms.clear();
+		_corridors.clear();
+		_exits.clear();
+		for (int i = 0; i < _height; ++i)
+		{
+			vector<tagTile> vTile;
+			for (int j = 0; j < _width; ++j)
+			{
+				tagTile tile;
+				tile.rc = RectMake(j * TILESIZE, i * TILESIZE + 30, TILESIZE, TILESIZE);
+				tile.terrain = EMPTY;
+				tile.obj = OBJ_NONE;
+				tile.terrainFrameX = NULL;
+				tile.terrainFrameY = NULL;
+				tile.objectFrameX = NULL;
+				tile.objectFrameY = NULL;
+				tile.isHaveTorch = false;
+				vTile.push_back(tile);
+			}
+			_tiles.push_back(vTile);
+		}
 
-	//y축으로 조사
-	for (int j = 0; j < _tiles[0].size(); j++)
-	{
-		bool _isEmptyRoom = false;;
-		for (int i = 0; i < _tiles.size() - 1; i++)
+		if (!makeRoom(_width / 2, _height / 2, static_cast<DIRECTION>(RND->getInt(4), true)))
 		{
-			if (_tiles[i][j].terrain == DIRT1)
-			{
-				if (_tiles[i + 1][j].terrain == EMPTY)
-				{
-					POINT p;
-					p.x = j;
-					p.y = i + 1;
-					_newRoomYIndex.push_back(p);
-					_isEmptyRoom = true;
-				}
-			}
-			else if (_isEmptyRoom)
-			{
-				if (_tiles[i + 1][j].terrain == DIRT1)
-				{
-					POINT p;
-					p.x = j;
-					p.y = i + 1;
-					_newRoomYIndex.push_back(p);
-					_isEmptyRoom = false;
-				}
-			}
+			return;
 		}
-		if (_isEmptyRoom)
+		//스타트 지점 랜덤 지정
+		while (1)
 		{
-			_newRoomYIndex.pop_back();
-		}
-	}
-
-	//타일 놓기
-	for (int i = 0; i < _newRoomYIndex.size(); i++)
-	{
-		if (i % 2 == 0)
-		{
-			if (_newRoomYIndex[i + 1].y - _newRoomYIndex[i].y >= 5) continue;
-			for (int j = _newRoomYIndex[i].y; j < _newRoomYIndex[i + 1].y; j++)
-			{
-				_tiles[j][_newRoomYIndex[i].x].terrain = DIRT1;
-				_tiles[j][_newRoomYIndex[i].x].terrainFrameX = 0;
-				_tiles[j][_newRoomYIndex[i].x].terrainFrameY = 0;
-				_tiles[j][_newRoomYIndex[i].x].obj = OBJ_NONE;
-				_tiles[j][_newRoomYIndex[i].x].objectFrameX = NULL;
-				_tiles[j][_newRoomYIndex[i].x].objectFrameY = NULL;
-			}
-		}
-	}
-	vector<POINT>::iterator iter;
-	for (iter = _newRoomYIndex.begin(); iter != _newRoomYIndex.end();)
-	{
-		if ((iter + 1)->y - iter->y >= 5)
-		{
-			iter = _newRoomYIndex.erase(iter);
-			iter = _newRoomYIndex.erase(iter);
-		}
-		else
-		{
-			iter += 2;
-		}
-	}
-
-	//미니룸에 추가
-	for (int i = 0; i < _newRoomYIndex.size();)
-	{
-		tagRoom room;
-		room.x = _newRoomYIndex[i].x;
-		room.y = _newRoomYIndex[i].y;
-		room.width = 1;
-		room.height = _newRoomYIndex[i + 1].y - _newRoomYIndex[i].y;
-		int j = i + 2;
-		for (; j < _newRoomYIndex.size();)
-		{
-			if (_newRoomYIndex[i].y == _newRoomYIndex[j].y && _newRoomYIndex[i].x + (j - i) / 2 == _newRoomYIndex[j].x)
-			{
-				room.width++;
-				j += 2;
-			}
-			else
+			_start = RND->getFromIntTo(1, (maxFeatures - 2) * 2);
+			if (_start % 2 == 0)
 			{
 				break;
 			}
 		}
-		i = j;
-		_miniRooms.push_back(room);
-	}
-
-	//x축으로 조사
-	for (int i = 0; i < _tiles.size(); i++)
-	{
-		bool _isEmptyRoom = false;;
-		for (int j = 0; j < _tiles[i].size() - 1; j++)
+		//방들을 만들고
+		for (int i = 1; i < (maxFeatures - 1) * 2 - 1; ++i)
 		{
-			if (_tiles[i][j].terrain == DIRT1)
+			if (i % 2 != 0)
 			{
-				if (_tiles[i][j + 1].terrain == EMPTY)
-				{
-					POINT p;
-					p.x = j + 1;
-					p.y = i;
-					_newRoomXIndex.push_back(p);
-					_isEmptyRoom = true;
-				}
-			}
-			else if (_isEmptyRoom)
-			{
-				if (_tiles[i][j + 1].terrain == DIRT1)
-				{
-					POINT p;
-					p.x = j + 1;
-					p.y = i;
-					_newRoomXIndex.push_back(p);
-					_isEmptyRoom = false;
-				}
-			}
-		}
-		if (_isEmptyRoom)
-		{
-			_newRoomXIndex.pop_back();
-		}
-	}
-	//타일 놓기
-	for (int i = 0; i < _newRoomXIndex.size(); i++)
-	{
-		if (i % 2 == 0)
-		{
-			if (_newRoomXIndex[i + 1].x - _newRoomXIndex[i].x >= 5) continue;
-			for (int j = _newRoomXIndex[i].x; j < _newRoomXIndex[i + 1].x; j++)
-			{
-				_tiles[_newRoomXIndex[i].y][j].terrain = DIRT1;
-				_tiles[_newRoomXIndex[i].y][j].terrainFrameX = 0;
-				_tiles[_newRoomXIndex[i].y][j].terrainFrameY = 0;
-				_tiles[_newRoomXIndex[i].y][j].obj = OBJ_NONE;
-				_tiles[_newRoomXIndex[i].y][j].objectFrameX = NULL;
-				_tiles[_newRoomXIndex[i].y][j].objectFrameY = NULL;
-			}
-		}
-	}
-
-
-	for (iter = _newRoomXIndex.begin(); iter != _newRoomXIndex.end();)
-	{
-		if ((iter + 1)->x - iter->x >= 5)
-		{
-			iter = _newRoomXIndex.erase(iter);
-			iter = _newRoomXIndex.erase(iter);
-		}
-		else
-		{
-			iter += 2;
-		}
-	}
-
-
-
-	//미니룸으로 추가
-	for (int i = 0; i < _newRoomXIndex.size();)
-	{
-		tagRoom room;
-		room.x = _newRoomXIndex[i].x;
-		room.y = _newRoomXIndex[i].y;
-		room.width = _newRoomXIndex[i + 1].x - _newRoomXIndex[i].x;
-		room.height = 1;
-		int j = i + 2;
-		for (; j < _newRoomXIndex.size();)
-		{
-			if (_newRoomXIndex[i].x == _newRoomXIndex[j].x && _newRoomXIndex[i].y + (j - i) / 2 == _newRoomXIndex[j].y)
-			{
-				room.height++;
-				j += 2;
+				_isMakeRoom = false;
 			}
 			else
+			{
+				_isMakeRoom = true;
+			}
+			if (!createFeature(i))
 			{
 				break;
 			}
 		}
-		i = j;
-		_miniRooms.push_back(room);
-		_miniRooms[0].x;
-	}
+		//마지막에 상점을 만든다
+		makeShop();
 
-	//채운 빈공간 주위 벽 쌓기(y축조사)
-	for (int i = 1; i < _tiles.size() - 1; i++)
-	{
-		for (int j = 0; j < _tiles[i].size(); j++)
-		{
-			if (_tiles[i][j].terrain == EMPTY)
-			{
-				if (_tiles[i - 1][j].terrain == DIRT1 && _tiles[i - 1][j].obj == OBJ_NONE)
-				{
-					_tiles[i][j].terrain = DIRT1;
-					_tiles[i][j].terrainFrameX = 0;
-					_tiles[i][j].terrainFrameY = 0;
-					_tiles[i][j].obj = WALL_BASIC;
-					_tiles[i][j].objectFrameX = 0;
-					_tiles[i][j].objectFrameY = 0;
-				}
-				if (_tiles[i + 1][j].terrain == DIRT1 && _tiles[i + 1][j].obj == OBJ_NONE)
-				{
-					_tiles[i][j].terrain = DIRT1;
-					_tiles[i][j].terrainFrameX = 0;
-					_tiles[i][j].terrainFrameY = 0;
-					_tiles[i][j].obj = WALL_BASIC;
-					_tiles[i][j].objectFrameX = 0;
-					_tiles[i][j].objectFrameY = 0;
-				}
-			}
-		}
-	}
-	//x축조사
-	for (int i = 0; i < _tiles.size(); i++)
-	{
-		for (int j = 1; j < _tiles[i].size() - 1; j++)
-		{
-			if (_tiles[i][j].terrain == EMPTY)
-			{
-				if (_tiles[i][j - 1].terrain == DIRT1 && _tiles[i][j - 1].obj == OBJ_NONE)
-				{
-					_tiles[i][j].terrain = DIRT1;
-					_tiles[i][j].terrainFrameX = 0;
-					_tiles[i][j].terrainFrameY = 0;
-					_tiles[i][j].obj = WALL_BASIC;
-					_tiles[i][j].objectFrameX = 0;
-					_tiles[i][j].objectFrameY = 0;
-				}
-				if (_tiles[i][j + 1].terrain == DIRT1 && _tiles[i][j + 1].obj == OBJ_NONE)
-				{
-					_tiles[i][j].terrain = DIRT1;
-					_tiles[i][j].terrainFrameX = 0;
-					_tiles[i][j].terrainFrameY = 0;
-					_tiles[i][j].obj = WALL_BASIC;
-					_tiles[i][j].objectFrameX = 0;
-					_tiles[i][j].objectFrameY = 0;
-				}
-			}
-		}
-	}
+		//방들 사이 빈 공간에 타일 채우기
 
-	vector<tagRoom>::iterator roomIter;
-	for (roomIter = _miniRooms.begin(); roomIter != _miniRooms.end();)
-	{
-		if (roomIter->height <= 1 || roomIter->width <= 1)
+		//y축으로 조사
+		for (int j = 0; j < _tiles[0].size(); j++)
 		{
-			for (int j = roomIter->y; j < roomIter->y + roomIter->height; j++)
+			bool _isEmptyRoom = false;;
+			for (int i = 0; i < _tiles.size() - 1; i++)
 			{
-				for (int k = roomIter->x; k < roomIter->x + roomIter->width; k++)
+				if (_tiles[i][j].terrain == DIRT1)
 				{
-					_tiles[j][k].obj = WALL_BASIC;
-					_tiles[j][k].objectFrameY = 0;
-					_tiles[j][k].objectFrameX = 0;
-				}
-			}
-			roomIter = _miniRooms.erase(roomIter);
-		}
-		else
-		{
-			roomIter++;
-		}
-	}
-
-	while (1)
-	{
-		if (_miniRooms.size() <= 3) break;
-		else
-		{
-			int num = RND->getInt(_miniRooms.size());
-			for (int i = _miniRooms[num].y; i < _miniRooms[num].y + _miniRooms[num].height; i++)
-			{
-				for (int j = _miniRooms[num].x; i < _miniRooms[num].x + _miniRooms[num].width; j++)
-				{
-					if (_tiles[i][j].obj == OBJ_NONE)
+					if (_tiles[i + 1][j].terrain == EMPTY)
 					{
-						_tiles[i][j].obj = WALL_BASIC;
-						_tiles[i][j].objectFrameY = 0;
-						_tiles[i][j].objectFrameX = 0;
+						POINT p;
+						p.x = j;
+						p.y = i + 1;
+						_newRoomYIndex.push_back(p);
+						_isEmptyRoom = true;
+					}
+				}
+				else if (_isEmptyRoom)
+				{
+					if (_tiles[i + 1][j].terrain == DIRT1)
+					{
+						POINT p;
+						p.x = j;
+						p.y = i + 1;
+						_newRoomYIndex.push_back(p);
+						_isEmptyRoom = false;
 					}
 				}
 			}
-			_miniRooms.erase(_miniRooms.begin() + num);
-		}
-	}
-
-	//벽쌓기
-	for (int i = 1; i < _tiles.size() - 1; i++)
-	{
-		for (int j = 0; j < _tiles[i].size(); j++)
-		{
-			if (_tiles[i][j].terrain == EMPTY)
+			if (_isEmptyRoom)
 			{
-				if (_tiles[i - 1][j].terrain == DIRT1 || _tiles[i + 1][j].terrain == DIRT1)
+				_newRoomYIndex.pop_back();
+			}
+		}
+
+		//타일 놓기
+		for (int i = 0; i < _newRoomYIndex.size(); i++)
+		{
+			if (i % 2 == 0)
+			{
+				if (_newRoomYIndex[i + 1].y - _newRoomYIndex[i].y >= 5) continue;
+				for (int j = _newRoomYIndex[i].y; j < _newRoomYIndex[i + 1].y; j++)
 				{
-					_newWallIndex.emplace_back(POINT{ j, i });
+					_tiles[j][_newRoomYIndex[i].x].terrain = DIRT1;
+					_tiles[j][_newRoomYIndex[i].x].terrainFrameX = 0;
+					_tiles[j][_newRoomYIndex[i].x].terrainFrameY = 0;
+					_tiles[j][_newRoomYIndex[i].x].obj = OBJ_NONE;
+					_tiles[j][_newRoomYIndex[i].x].objectFrameX = NULL;
+					_tiles[j][_newRoomYIndex[i].x].objectFrameY = NULL;
 				}
 			}
 		}
-	}
-	for (int i = 0; i < _newWallIndex.size(); i++)
-	{
-		_tiles[_newWallIndex[i].y][_newWallIndex[i].x].terrain = DIRT1;
-		_tiles[_newWallIndex[i].y][_newWallIndex[i].x].terrainFrameX = 0;
-		_tiles[_newWallIndex[i].y][_newWallIndex[i].x].terrainFrameY = 0;
-		_tiles[_newWallIndex[i].y][_newWallIndex[i].x].obj = WALL_BASIC;
-		_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameX = 0;
-		_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameY = 0;
-	}
+		vector<POINT>::iterator iter;
+		for (iter = _newRoomYIndex.begin(); iter != _newRoomYIndex.end();)
+		{
+			if ((iter + 1)->y - iter->y >= 5)
+			{
+				iter = _newRoomYIndex.erase(iter);
+				iter = _newRoomYIndex.erase(iter);
+			}
+			else
+			{
+				iter += 2;
+			}
+		}
+
+		//미니룸에 추가
+		for (int i = 0; i < _newRoomYIndex.size();)
+		{
+			tagRoom room;
+			room.x = _newRoomYIndex[i].x;
+			room.y = _newRoomYIndex[i].y;
+			room.width = 1;
+			room.height = _newRoomYIndex[i + 1].y - _newRoomYIndex[i].y;
+			int j = i + 2;
+			for (; j < _newRoomYIndex.size();)
+			{
+				if (_newRoomYIndex[i].y == _newRoomYIndex[j].y && _newRoomYIndex[i].x + (j - i) / 2 == _newRoomYIndex[j].x)
+				{
+					room.width++;
+					j += 2;
+				}
+				else
+				{
+					break;
+				}
+			}
+			i = j;
+			_miniRooms.push_back(room);
+		}
+
+		//x축으로 조사
+		for (int i = 0; i < _tiles.size(); i++)
+		{
+			bool _isEmptyRoom = false;;
+			for (int j = 0; j < _tiles[i].size() - 1; j++)
+			{
+				if (_tiles[i][j].terrain == DIRT1)
+				{
+					if (_tiles[i][j + 1].terrain == EMPTY)
+					{
+						POINT p;
+						p.x = j + 1;
+						p.y = i;
+						_newRoomXIndex.push_back(p);
+						_isEmptyRoom = true;
+					}
+				}
+				else if (_isEmptyRoom)
+				{
+					if (_tiles[i][j + 1].terrain == DIRT1)
+					{
+						POINT p;
+						p.x = j + 1;
+						p.y = i;
+						_newRoomXIndex.push_back(p);
+						_isEmptyRoom = false;
+					}
+				}
+			}
+			if (_isEmptyRoom)
+			{
+				_newRoomXIndex.pop_back();
+			}
+		}
+		//타일 놓기
+		for (int i = 0; i < _newRoomXIndex.size(); i++)
+		{
+			if (i % 2 == 0)
+			{
+				if (_newRoomXIndex[i + 1].x - _newRoomXIndex[i].x >= 5) continue;
+				for (int j = _newRoomXIndex[i].x; j < _newRoomXIndex[i + 1].x; j++)
+				{
+					_tiles[_newRoomXIndex[i].y][j].terrain = DIRT1;
+					_tiles[_newRoomXIndex[i].y][j].terrainFrameX = 0;
+					_tiles[_newRoomXIndex[i].y][j].terrainFrameY = 0;
+					_tiles[_newRoomXIndex[i].y][j].obj = OBJ_NONE;
+					_tiles[_newRoomXIndex[i].y][j].objectFrameX = NULL;
+					_tiles[_newRoomXIndex[i].y][j].objectFrameY = NULL;
+				}
+			}
+		}
 
 
-	setEndBlock();
-	setEndEdge();
-	moveMap();
-	setEndBlock();
-	deleteEmptyTiles();
-	setStone();
-	setBossRoom();
+		for (iter = _newRoomXIndex.begin(); iter != _newRoomXIndex.end();)
+		{
+			if ((iter + 1)->x - iter->x >= 5)
+			{
+				iter = _newRoomXIndex.erase(iter);
+				iter = _newRoomXIndex.erase(iter);
+			}
+			else
+			{
+				iter += 2;
+			}
+		}
+
+
+
+		//미니룸으로 추가
+		for (int i = 0; i < _newRoomXIndex.size();)
+		{
+			tagRoom room;
+			room.x = _newRoomXIndex[i].x;
+			room.y = _newRoomXIndex[i].y;
+			room.width = _newRoomXIndex[i + 1].x - _newRoomXIndex[i].x;
+			room.height = 1;
+			int j = i + 2;
+			for (; j < _newRoomXIndex.size();)
+			{
+				if (_newRoomXIndex[i].x == _newRoomXIndex[j].x && _newRoomXIndex[i].y + (j - i) / 2 == _newRoomXIndex[j].y)
+				{
+					room.height++;
+					j += 2;
+				}
+				else
+				{
+					break;
+				}
+			}
+			i = j;
+			_miniRooms.push_back(room);
+			_miniRooms[0].x;
+		}
+
+		//채운 빈공간 주위 벽 쌓기(y축조사)
+		for (int i = 1; i < _tiles.size() - 1; i++)
+		{
+			for (int j = 0; j < _tiles[i].size(); j++)
+			{
+				if (_tiles[i][j].terrain == EMPTY)
+				{
+					if (_tiles[i - 1][j].terrain == DIRT1 && _tiles[i - 1][j].obj == OBJ_NONE)
+					{
+						_tiles[i][j].terrain = DIRT1;
+						_tiles[i][j].terrainFrameX = 0;
+						_tiles[i][j].terrainFrameY = 0;
+						_tiles[i][j].obj = WALL_BASIC;
+						_tiles[i][j].objectFrameX = 0;
+						_tiles[i][j].objectFrameY = 0;
+					}
+					if (_tiles[i + 1][j].terrain == DIRT1 && _tiles[i + 1][j].obj == OBJ_NONE)
+					{
+						_tiles[i][j].terrain = DIRT1;
+						_tiles[i][j].terrainFrameX = 0;
+						_tiles[i][j].terrainFrameY = 0;
+						_tiles[i][j].obj = WALL_BASIC;
+						_tiles[i][j].objectFrameX = 0;
+						_tiles[i][j].objectFrameY = 0;
+					}
+				}
+			}
+		}
+		//x축조사
+		for (int i = 0; i < _tiles.size(); i++)
+		{
+			for (int j = 1; j < _tiles[i].size() - 1; j++)
+			{
+				if (_tiles[i][j].terrain == EMPTY)
+				{
+					if (_tiles[i][j - 1].terrain == DIRT1 && _tiles[i][j - 1].obj == OBJ_NONE)
+					{
+						_tiles[i][j].terrain = DIRT1;
+						_tiles[i][j].terrainFrameX = 0;
+						_tiles[i][j].terrainFrameY = 0;
+						_tiles[i][j].obj = WALL_BASIC;
+						_tiles[i][j].objectFrameX = 0;
+						_tiles[i][j].objectFrameY = 0;
+					}
+					if (_tiles[i][j + 1].terrain == DIRT1 && _tiles[i][j + 1].obj == OBJ_NONE)
+					{
+						_tiles[i][j].terrain = DIRT1;
+						_tiles[i][j].terrainFrameX = 0;
+						_tiles[i][j].terrainFrameY = 0;
+						_tiles[i][j].obj = WALL_BASIC;
+						_tiles[i][j].objectFrameX = 0;
+						_tiles[i][j].objectFrameY = 0;
+					}
+				}
+			}
+		}
+
+		vector<tagRoom>::iterator roomIter;
+		for (roomIter = _miniRooms.begin(); roomIter != _miniRooms.end();)
+		{
+			if (roomIter->height <= 1 || roomIter->width <= 1)
+			{
+				for (int j = roomIter->y; j < roomIter->y + roomIter->height; j++)
+				{
+					for (int k = roomIter->x; k < roomIter->x + roomIter->width; k++)
+					{
+						_tiles[j][k].obj = WALL_BASIC;
+						_tiles[j][k].objectFrameY = 0;
+						_tiles[j][k].objectFrameX = 0;
+					}
+				}
+				roomIter = _miniRooms.erase(roomIter);
+			}
+			else
+			{
+				roomIter++;
+			}
+		}
+
+		while (1)
+		{
+			if (_miniRooms.size() <= 3) break;
+			else
+			{
+				int num = RND->getInt(_miniRooms.size());
+				for (int i = _miniRooms[num].y; i < _miniRooms[num].y + _miniRooms[num].height; i++)
+				{
+					for (int j = _miniRooms[num].x; i < _miniRooms[num].x + _miniRooms[num].width; j++)
+					{
+						if (_tiles[i][j].obj == OBJ_NONE)
+						{
+							_tiles[i][j].obj = WALL_BASIC;
+							_tiles[i][j].objectFrameY = 0;
+							_tiles[i][j].objectFrameX = 0;
+						}
+					}
+				}
+				_miniRooms.erase(_miniRooms.begin() + num);
+			}
+		}
+
+		//벽쌓기
+		for (int i = 1; i < _tiles.size() - 1; i++)
+		{
+			for (int j = 0; j < _tiles[i].size(); j++)
+			{
+				if (_tiles[i][j].terrain == EMPTY)
+				{
+					if (_tiles[i - 1][j].terrain == DIRT1 || _tiles[i + 1][j].terrain == DIRT1)
+					{
+						_newWallIndex.emplace_back(POINT{ j, i });
+					}
+				}
+			}
+		}
+		for (int i = 0; i < _newWallIndex.size(); i++)
+		{
+			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].terrain = DIRT1;
+			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].terrainFrameX = 0;
+			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].terrainFrameY = 0;
+			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].obj = WALL_BASIC;
+			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameX = 0;
+			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameY = 0;
+		}
+
+
+		setEndBlock();
+		setEndEdge();
+		moveMap();
+		setEndBlock();
+		deleteEmptyTiles();
+		setStone();
+		setBossRoom();
+	}
 }
 
-bool mapGenerator::makeRoom(int x, int y, Direction dir, bool firstRoom, int index)
+bool mapGenerator::makeRoom(int x, int y, DIRECTION dir, bool firstRoom, int index)
 {
 	int minRoomSize = 5;
 	int maxRoomSize = 8;
@@ -539,7 +544,7 @@ bool mapGenerator::makeRoom(int x, int y, Direction dir, bool firstRoom, int ind
 	return false;
 }
 
-bool mapGenerator::makeCorridor(int x, int y, Direction dir)
+bool mapGenerator::makeCorridor(int x, int y, DIRECTION dir)
 {
 	int minCorridorLength = 0;
 	int maxCorridorLength = 2;
@@ -655,7 +660,7 @@ bool mapGenerator::makeShop()
 		}
 		for (int j = 0; j < DIRECTIONCOUNT; ++j)
 		{
-			if (makeShop(x, y, static_cast<Direction>(j)))
+			if (makeShop(x, y, static_cast<DIRECTION>(j)))
 			{
 				_exits.erase(_exits.begin() + r);
 				return true;
@@ -665,7 +670,7 @@ bool mapGenerator::makeShop()
 	return false;
 }
 
-bool mapGenerator::makeShop(int x, int y, Direction dir)
+bool mapGenerator::makeShop(int x, int y, DIRECTION dir)
 {
 	tagRoom room;
 	room.roomState = ROOM_SHOP;
@@ -732,7 +737,7 @@ bool mapGenerator::makeShop(int x, int y, Direction dir)
 	return false;
 }
 
-bool mapGenerator::placeTile(const tagRoom & room, OBJECT obj, int objectFrameX, int objectFrameY, bool _isShop, Direction dir)
+bool mapGenerator::placeTile(const tagRoom & room, OBJECT obj, int objectFrameX, int objectFrameY, bool _isShop, DIRECTION dir)
 {
 	if (room.x < 1 || room.y < 1 || room.x + room.width > _width - 1 || room.y + room.height > _height - 1)
 		return false;
@@ -1042,7 +1047,7 @@ bool mapGenerator::createFeature(int index)
 		{
 			for (int j = 0; j < DIRECTIONCOUNT; ++j)
 			{
-				if (createFeature(x, y, static_cast<Direction>(j)))
+				if (createFeature(x, y, static_cast<DIRECTION>(j)))
 				{
 					_exits.erase(_exits.begin() + r);
 					return true;
@@ -1054,7 +1059,7 @@ bool mapGenerator::createFeature(int index)
 	return false;
 }
 
-bool mapGenerator::createFeature(int x, int y, Direction dir, int index)
+bool mapGenerator::createFeature(int x, int y, DIRECTION dir, int index)
 {
 	int dx = 0;
 	int dy = 0;
@@ -1079,7 +1084,7 @@ bool mapGenerator::createFeature(int x, int y, Direction dir, int index)
 		break;
 	}
 
-	if (getTile(x + dx, y + dy) != DIRT1)
+	if (getTileTerrain(x + dx, y + dy) != DIRT1)
 		return false;
 
 	if (_isMakeRoom)
@@ -1106,7 +1111,7 @@ bool mapGenerator::createFeature(int x, int y, Direction dir, int index)
 		{
 			if (_isHaveCorridor)
 			{
-				if (getTile(x + dx, y + dy) == DIRT1)
+				if (getTileTerrain(x + dx, y + dy) == DIRT1)
 				{
 					_tiles[y][x].obj = OBJ_NONE;
 					_tiles[y][x].objectFrameX = NULL;
@@ -1131,7 +1136,7 @@ bool mapGenerator::createFeature(int x, int y, Direction dir, int index)
 	return false;
 }
 
-TERRAIN mapGenerator::getTile(int x, int y)
+TERRAIN mapGenerator::getTileTerrain(int x, int y)
 {
 	if (x < 0 || y < 0 || x >= _width || y >= _height)
 		return EMPTY;

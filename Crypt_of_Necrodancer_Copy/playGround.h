@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "mapTool.h"
 #include "randomMap.h"
+#include "playerTestScene.h"
 class playGround : public gameNode
 {
 private:

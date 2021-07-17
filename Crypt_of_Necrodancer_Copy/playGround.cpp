@@ -18,15 +18,16 @@ HRESULT playGround::init()
 	
 	setImage();
 
-	_mapTool = new mapTool;
-	_mapTool->init();
+	//_mapTool = new mapTool;
+	//_mapTool->init();
 
 	//SCENEMANAGER->addScene("에이스타",new aStarTest);
 	//SCENEMANAGER->changeScene("에이스타");
 	//_randomMap = new randomMap;
 	//_randomMap->init();
 
-	CAMERAMANAGER->setCamera(0,0);
+	SCENEMANAGER->addScene("player_test", new playerTestScene);
+	SCENEMANAGER->changeScene("player_test");
 
 	return S_OK;
 }
@@ -44,8 +45,8 @@ void playGround::update()
 {
 	gameNode::update();
 
-	//SCENEMANAGER->update();
-	_mapTool->update();
+	SCENEMANAGER->update();
+	//_mapTool->update();
 	//_randomMap->update();
 
 	/*
@@ -71,19 +72,20 @@ void playGround::update()
 
 void playGround::render()
 {
-	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
+	PatBlt(getMemDC(), 0, 0, BACKGROUNDX, BACKGROUNDY, BLACKNESS);
 	//================제발 이 사이에 좀 그립시다==========================
 
 	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
 	SelectObject(getMemDC(), myPen);
-	_mapTool->render();
+	//_mapTool->render();
 	//_randomMap->render();
 	//SCENEMANAGER->render();
 	//TIMEMANAGER->render(getMemDC());
+	SCENEMANAGER->render();
 	DeleteObject(myPen);
 	//==================================================
-	this->getBackBuffer()->render(getHDC(), 0, 0);
-	//CAMERAMANAGER->render(this->getBackBuffer(), getHDC());
+	//this->getBackBuffer()->render(getHDC(), 0, 0);
+	CAMERAMANAGER->render(this->getBackBuffer(), getHDC());
 }
 
 

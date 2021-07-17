@@ -9,13 +9,7 @@
 
 #define TILEX 31
 #define TILEY 31
-enum roomState
-{
-	ROOM_BASIC,
-	ROOM_PLAYER,
-	ROOM_BOSS,
-	ROOM_SHOP,
-};
+
 class randomMap : public gameNode
 {
 private:
@@ -41,7 +35,7 @@ private:
 		int bottomX = 0;
 		int bottomY = 0;
 
-		roomState _state=ROOM_BASIC;
+		ROOMSTATE _state=ROOM_BASIC;
 		vector<size_t> neighbors;
 	};
 	struct floor

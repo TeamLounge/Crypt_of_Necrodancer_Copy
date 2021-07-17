@@ -35,8 +35,8 @@ using namespace SUNFL_UTIL;
 #define WINSIZEY 810	//윈도우 세로크기
 #define BACKGROUNDX 4096
 #define BACKGROUNDY 4096
-#define CAMERAX 800
-#define CAMERAY	700
+#define CAMERAX WINSIZEX
+#define CAMERAY	WINSIZEY
 #define WINSTYLE WS_CAPTION | WS_SYSMENU
 
 #define TILESIZE 72

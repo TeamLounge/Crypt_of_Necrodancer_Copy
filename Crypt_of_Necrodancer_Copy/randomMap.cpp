@@ -172,7 +172,7 @@ void randomMap::render()
 			sprintf_s(str, "boos");
 			TextOut(getMemDC(), ((m_room[i].left + m_room[i].right) / 2)*TILESIZE, ((m_room[i].top + m_room[i].bottom) / 2)*TILESIZE, str, strlen(str));
 		}
-		if (m_room[i]._state == ROOM_PLAYER)
+		if (m_room[i]._state == ROOM_START)
 		{
 			sprintf_s(str, "player");
 			TextOut(getMemDC(), ((m_room[i].left + m_room[i].right) / 2)*TILESIZE, ((m_room[i].top + m_room[i].bottom) / 2)*TILESIZE, str, strlen(str));
@@ -254,7 +254,7 @@ void randomMap::makeRooms()
 		}
 	}
 	int i = RND->getInt(select.size());// 랜덤으로 하나뽑자
-	m_room[select[i]]._state = ROOM_PLAYER; // 거기에 넣어서 player플래그하나세워
+	m_room[select[i]]._state = ROOM_START; // 거기에 넣어서 player플래그하나세워
 	select.erase(remove(select.begin(), select.end(), select[i]), select.end()); //그리고 그거 지워줘
 	i = RND->getInt(select.size()); // 다시 랜덤으로 하나뽑자
 	m_room[select[i]]._state = ROOM_BOSS; // 거기에 넣어서 boos플래그 하나세워
@@ -545,7 +545,7 @@ void randomMap::makewalls()
 			}
 
 		}
-		if (m_room[i]._state== ROOM_PLAYER)// 플레이어방 문짝달자
+		if (m_room[i]._state== ROOM_START)// 플레이어방 문짝달자
 		{
 			for (int x = m_room[i].left; x < m_room[i].right; ++x)
 			{

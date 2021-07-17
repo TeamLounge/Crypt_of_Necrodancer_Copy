@@ -2,7 +2,7 @@
 #include "gameNode.h"
 #include "tileMap.h"
 
-enum Direction
+enum DIRECTION
 {
 	NORTH,
 	SOUTH,
@@ -11,19 +11,11 @@ enum Direction
 	DIRECTIONCOUNT
 };
 
-enum ROOM
-{
-	ROOM_BASIC,
-	ROOM_SHOP,
-	ROOM_BOSS,
-	ROOM_START
-};
-
 struct tagRoom
 {
 	int x, y;
 	int width, height;
-	ROOM roomState;
+	ROOMSTATE roomState;
 };
 
 class mapGenerator : public gameNode
@@ -42,7 +34,7 @@ private:
 
 	int _start;
 
-	Direction _corridorDirection;
+	DIRECTION _corridorDirection;
 
 	vector<POINT> _newRoomXIndex;
 	vector<POINT> _newRoomYIndex;
@@ -59,19 +51,19 @@ public:
 
 	void generate(int maxFeatures);
 	//방 만들기
-	bool makeRoom(int x, int y, Direction dir, bool firstRoom = false, int index = NULL);
+	bool makeRoom(int x, int y, DIRECTION dir, bool firstRoom = false, int index = NULL);
 	//통로 만들기
-	bool makeCorridor(int x, int y, Direction dir);
+	bool makeCorridor(int x, int y, DIRECTION dir);
 
 	//상점 만들기
 	bool makeShop();
-	bool makeShop(int x, int y, Direction dir);
+	bool makeShop(int x, int y, DIRECTION dir);
 
-	bool placeTile(const tagRoom& room, OBJECT obj, int objectFrameX, int objectFrameY, bool _isShop = false, Direction dir = DIRECTIONCOUNT);
+	bool placeTile(const tagRoom& room, OBJECT obj, int objectFrameX, int objectFrameY, bool _isShop = false, DIRECTION dir = DIRECTIONCOUNT);
 	bool createFeature(int index);
-	bool createFeature(int x, int y, Direction dir, int index = NULL);
+	bool createFeature(int x, int y, DIRECTION dir, int index = NULL);
 
-	TERRAIN getTile(int x, int y);
+	TERRAIN getTileTerrain(int x, int y);
 
 	OBJECT getObject(int x, int y);
 
@@ -89,5 +81,7 @@ public:
 	void setBossRoom(); //보스룸 정하기
 
 	tagRoom getStartRoom();
+
+	vector<vector<tagTile>> getTiles() { return _tiles; }
 };
 
