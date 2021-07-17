@@ -1391,3 +1391,15 @@ void mapGenerator::setBossRoom()
 	_tiles[y][x].objectFrameX = 0;
 	_tiles[y][x].objectFrameY = 0;
 }
+
+tagRoom mapGenerator::getStartRoom()
+{
+	for (int i = 0; i < _rooms.size(); i++)
+	{
+		if (_rooms[i].roomState == ROOM_START)
+		{
+			return _rooms[i];
+			break;
+		}
+	}
+}

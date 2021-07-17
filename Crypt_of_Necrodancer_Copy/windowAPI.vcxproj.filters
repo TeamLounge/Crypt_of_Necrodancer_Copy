@@ -40,6 +40,9 @@
     <Filter Include="playGround\Astar">
       <UniqueIdentifier>{38efe330-bcd8-48e9-86ad-baae4a61c47d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\player">
+      <UniqueIdentifier>{947fdcf5-1bcf-4888-aa9d-297db5b63fa7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -108,6 +111,12 @@
     <ClInclude Include="mapGenerator.h">
       <Filter>playGround\mapTool</Filter>
     </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="playerTestScene.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -163,6 +172,12 @@
     </ClCompile>
     <ClCompile Include="mapGenerator.cpp">
       <Filter>playGround\mapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="playerTestScene.cpp">
+      <Filter>playGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

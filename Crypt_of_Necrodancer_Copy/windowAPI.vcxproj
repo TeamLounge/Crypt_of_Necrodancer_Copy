@@ -156,6 +156,8 @@
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="mapGenerator.h" />
     <ClInclude Include="mapTool.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="playerTestScene.h" />
     <ClInclude Include="playGround.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="randomMap.h" />
@@ -179,6 +181,8 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="mapGenerator.cpp" />
     <ClCompile Include="mapTool.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="playerTestScene.cpp" />
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="randomMap.cpp" />
     <ClCompile Include="sceneManager.cpp" />

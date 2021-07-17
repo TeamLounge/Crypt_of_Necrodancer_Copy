@@ -87,5 +87,7 @@ public:
 	void setStone(); //stone 블록 랜덤 생성
 
 	void setBossRoom(); //보스룸 정하기
+
+	tagRoom getStartRoom();
 };
 
