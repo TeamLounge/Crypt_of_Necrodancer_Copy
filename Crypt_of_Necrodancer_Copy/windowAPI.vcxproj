@@ -148,10 +148,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="aStarTest.h" />
+    <ClInclude Include="blackSkeleton.h" />
     <ClInclude Include="cameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
-    <ClInclude Include="enemy.h" />
     <ClInclude Include="gameNode.h" />
+    <ClInclude Include="greenSkeleton.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="keyManager.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="singletonBase.h" />
+    <ClInclude Include="skeleton.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tile.h" />
@@ -170,12 +172,14 @@
     <ClInclude Include="timeManager.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="whiteSkeleton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="aStarTest.cpp" />
+    <ClCompile Include="blackSkeleton.cpp" />
     <ClCompile Include="cameraManager.cpp" />
-    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="gameNode.cpp" />
+    <ClCompile Include="greenSkeleton.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
@@ -184,6 +188,7 @@
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="randomMap.cpp" />
     <ClCompile Include="sceneManager.cpp" />
+    <ClCompile Include="skeleton.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -195,6 +200,7 @@
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="whiteSkeleton.cpp" />
     <ClCompile Include="winMain.cpp" />
   </ItemGroup>
   <ItemGroup>

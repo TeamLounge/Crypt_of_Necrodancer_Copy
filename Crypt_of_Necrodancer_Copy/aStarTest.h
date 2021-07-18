@@ -4,8 +4,8 @@
 #include <vector>
 #include <string>
 
-#define TILENUMX  (800/TILEWIDTH)
-#define TILENUMY  (800/TILEHEIGHT)
+#define TILENUMX  31
+#define TILENUMY  31
 
 class aStarTest : public gameNode
 {

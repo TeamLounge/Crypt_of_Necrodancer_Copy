@@ -1,8 +1,8 @@
 #pragma once
 #include "gameNode.h"
 
-#define TILEWIDTH 32
-#define TILEHEIGHT 32
+#define TILEWIDTH 72
+#define TILEHEIGHT 72
 
 
 class tile : public gameNode

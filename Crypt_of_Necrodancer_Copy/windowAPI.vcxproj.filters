@@ -111,8 +111,17 @@
     <ClInclude Include="mapGenerator.h">
       <Filter>playGround\mapTool</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="greenSkeleton.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="skeleton.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="whiteSkeleton.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="blackSkeleton.h">
+      <Filter>playGround\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,8 +179,17 @@
     <ClCompile Include="mapGenerator.cpp">
       <Filter>playGround\mapTool</Filter>
     </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="greenSkeleton.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="skeleton.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="whiteSkeleton.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="blackSkeleton.cpp">
+      <Filter>playGround\enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
