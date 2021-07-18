@@ -83,5 +83,18 @@ public:
 	tagRoom getStartRoom();
 
 	vector<vector<tagTile>> getTiles() { return _tiles; }
+
+	void setTileObject(int x, int y, OBJECT obj, int objectFrameX = 0, int objectFrameY = 0)
+	{
+		_tiles[y][x].obj = obj;
+		_tiles[y][x].objectFrameX = objectFrameX;
+		_tiles[y][x].objectFrameY = objectFrameY;
+	};
+	void setTileTerrain(int x, int y, TERRAIN terrain, int terrainFrameX = 0, int terrainFrameY = 0)
+	{
+		_tiles[y][x].terrain = terrain;
+		_tiles[y][x].terrainFrameX = terrainFrameX;
+		_tiles[y][x].terrainFrameY = terrainFrameY;
+	};
 };
 

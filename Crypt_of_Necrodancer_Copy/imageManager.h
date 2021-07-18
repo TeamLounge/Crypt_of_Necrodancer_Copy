@@ -21,7 +21,7 @@ public:
 	HRESULT init();
 	void release();
 
-	image* addImage(string strKey, int width, int height, bool isBlend);
+	image* addImage(string strKey, int width, int height, bool isBlend = false);
 	image* addImage(string strKey, const char* fileName, int width, int height, bool trans, COLORREF transColor, bool isBlend = false);
 
 	image* addFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, bool isBlend = false);

@@ -3,21 +3,24 @@
 
 HRESULT player::init(int tileX, int tileY)
 {
-	IMAGEMANAGER->addFrameImage("player_head", "image/player/playerHead.bmp", 204, 72, 4, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("player_body_basic", "image/player/playerArmor_basic.bmp", 204, 90, 4, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("player_body_leather", "image/player/playerArmor_leather.bmp", 204, 90, 4, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("player_body_chain", "image/player/playerArmor_chain.bmp", 204, 90, 4, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("player_shadow", "image/player/shadow_standard.bmp", 72, 81, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("player_head", "image/player/playerHead.bmp", 216, 72, 4, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("player_body_basic", "image/player/playerArmor_basic.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("player_body_leather", "image/player/playerArmor_leather.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("player_body_chain", "image/player/playerArmor_chain.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("player_shadow", "image/player/shadow_standard1.bmp", 72, 81, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("player_shadow2", "image/player/shadow_standard2.bmp", 72, 81, true, RGB(255, 0, 255), true);
 	
 	CAMERAMANAGER->setCamera(0, 0);
 
 	_headImageName = "player_head";
-	_bodyImageName = "player_body_leather";
+	_bodyImageName = "player_body_basic";
 	_tileX = tileX;
 	_tileY = tileY;
 	_elapsedSec = 0;
 	_currentFrameX = 0;
 	_currentFrameY = 0;
+
+	_playerDirection = PLAYER_DIRECTION_RIGHT;
 	return S_OK;
 }
 
@@ -39,12 +42,174 @@ void player::update()
 		{
 			_currentFrameX++;
 		}
+		if (_playerDirection == PLAYER_DIRECTION_LEFT)
+		{
+			_currentFrameY = 1;
+		}
+		else if (_playerDirection == PLAYER_DIRECTION_RIGHT)
+		{
+			_currentFrameY = 0;
+		}
 	}
 
-	_tileRect = _map->getTiles()[_tileY][_tileX].rc;
+	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+	{
+		_playerDirection = PLAYER_DIRECTION_LEFT;
+		if (_map->getTiles()[_tileY][_tileX - 1].obj == WALL_BASIC || _map->getTiles()[_tileY][_tileX - 1].obj == WALL_CRACK
+			|| _map->getTiles()[_tileY][_tileX - 1].obj == WALL_GOLD || _map->getTiles()[_tileY][_tileX - 1].obj == WALL_END)
+		{
 
-	_body = RectMake((_tileRect.left + _tileRect.right) / 2 - IMAGEMANAGER->findImage(_bodyImageName)->getFrameWidth() / 2,
-		_tileRect.top - (IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight() - TILESIZE / 2),
+		}
+		else if (_map->getTiles()[_tileY][_tileX - 1].obj == WALL_DOOR)
+		{
+			_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, NULL, NULL);
+			_tileX -= 1;
+			_isPlayerMove = true;
+		}
+		else
+		{
+			_tileX -= 1;
+			_isPlayerMove = true;
+		}
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+	{
+		_playerDirection = PLAYER_DIRECTION_RIGHT;
+		if (_map->getTiles()[_tileY][_tileX + 1].obj == WALL_BASIC || _map->getTiles()[_tileY][_tileX + 1].obj == WALL_CRACK
+			|| _map->getTiles()[_tileY][_tileX + 1].obj == WALL_GOLD || _map->getTiles()[_tileY][_tileX + 1].obj == WALL_END)
+		{
+
+		}
+		else if (_map->getTiles()[_tileY][_tileX + 1].obj == WALL_DOOR)
+		{
+			_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, NULL, NULL);
+			_tileX += 1;
+			_isPlayerMove = true;
+		}
+		else
+		{
+			_tileX += 1;
+			_isPlayerMove = true;
+		}
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+		_playerDirection = PLAYER_DIRECTION_UP;
+		if (_map->getTiles()[_tileY - 1][_tileX].obj == WALL_BASIC || _map->getTiles()[_tileY - 1][_tileX].obj == WALL_CRACK
+			|| _map->getTiles()[_tileY - 1][_tileX].obj == WALL_GOLD || _map->getTiles()[_tileY - 1][_tileX].obj == WALL_END)
+		{
+
+		}
+		else if (_map->getTiles()[_tileY - 1][_tileX].obj == WALL_DOOR)
+		{
+			_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, NULL, NULL);
+			_tileY -= 1;
+			_isPlayerMove = true;
+		}
+		else
+		{
+			_tileY -= 1;
+			_isPlayerMove = true;
+		}
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	{
+		_playerDirection = PLAYER_DIRECTION_DOWN;
+		if (_map->getTiles()[_tileY + 1][_tileX].obj == WALL_BASIC || _map->getTiles()[_tileY + 1][_tileX].obj == WALL_CRACK
+			|| _map->getTiles()[_tileY + 1][_tileX].obj == WALL_GOLD || _map->getTiles()[_tileY + 1][_tileX].obj == WALL_END)
+		{
+
+		}
+		else if (_map->getTiles()[_tileY + 1][_tileX].obj == WALL_DOOR)
+		{
+			_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, NULL, NULL);
+			_tileY += 1;
+			_isPlayerMove = true;
+		}
+		else
+		{
+			_tileY += 1;
+			_isPlayerMove = true;
+		}
+	}
+	_tileRect = _map->getTiles()[_tileY][_tileX].rc;
+	if (_isPlayerMove)
+	{
+		switch (_playerDirection)
+		{
+		case PLAYER_DIRECTION_LEFT:
+			_x -= 9;
+			_shadow.left -= 9;
+			_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+			if (_x <= (_tileRect.left + _tileRect.right) / 2)
+			{
+				_x = (_tileRect.left + _tileRect.right) / 2;
+				_isPlayerMove = false;
+			}
+			if (_shadow.left <= _tileRect.left)
+			{
+				_shadow.left = _tileRect.left;
+				_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+			}
+			break;
+		case PLAYER_DIRECTION_RIGHT:
+			_x += 9;
+			_shadow.left += 9;
+			_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+			if (_x >= (_tileRect.left + _tileRect.right) / 2)
+			{
+				_x = (_tileRect.left + _tileRect.right) / 2;
+				_isPlayerMove = false;
+			}
+			if (_shadow.left >= _tileRect.left)
+			{
+				_shadow.left = _tileRect.left;
+				_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+			}
+			break;
+		case PLAYER_DIRECTION_UP:
+			_y -= 9;
+			_shadow.top -= 9;
+			_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+			if (_y <= (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3)
+			{
+				_y = (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3;
+				_isPlayerMove = false;
+			}
+			if (_shadow.top <= _tileRect.top - 37)
+			{
+				_shadow.top = _tileRect.top - 37;
+				_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+			}
+			break;
+		case PLAYER_DIRECTION_DOWN:
+			_y += 9;
+			_shadow.top += 9;
+			_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+			if (_y >= (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3)
+			{
+				_y = (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3;
+				_isPlayerMove = false;
+			}
+			if (_shadow.top >= _tileRect.top - 37)
+			{
+				_shadow.top = _tileRect.top - 37;
+				_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	//_tileRect = _map->getTiles()[_tileY][_tileX].rc;
+		
+	/*
+	_shadow = RectMakeCenter((_tileRect.left + _tileRect.right) / 2, 
+		(_tileRect.top + _tileRect.bottom) / 2 - 32,
+		IMAGEMANAGER->findImage("player_shadow")->getWidth(),
+		IMAGEMANAGER->findImage("player_shadow")->getHeight());
+		*/
+	_body = RectMakeCenter(_x, _y,
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameWidth(),
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight());
 	_head = RectMake(_body.left,
@@ -58,7 +223,8 @@ void player::update()
 void player::render()
 {
 	//Rectangle(getMemDC(), _shadow);
-	IMAGEMANAGER->render("player_shadow", getMemDC(), _shadow.left, _shadow.top);
+	IMAGEMANAGER->alphaRender("player_shadow", getMemDC(), _shadow.left, _shadow.top, 125);
+	IMAGEMANAGER->alphaRender("player_shadow2", getMemDC(), _shadow.left, _shadow.top, 125);
 	IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
 	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
 }
@@ -67,12 +233,13 @@ void player::setupPlayerRect()
 {
 	_tileRect = _map->getTiles()[_tileY][_tileX].rc;
 	//그림자 초기화
-	_shadow = RectMake(_tileRect.left, _tileRect.top - 39, 
+	_shadow = RectMake(_tileRect.left,
+		_tileRect.top - 37,
 		IMAGEMANAGER->findImage("player_shadow")->getWidth(), 
 		IMAGEMANAGER->findImage("player_shadow")->getHeight());
 	//몸통 초기화
-	_body = RectMake((_tileRect.left + _tileRect.right) / 2 - IMAGEMANAGER->findImage(_bodyImageName)->getFrameWidth() /2,
-		_tileRect.top - (IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight() - TILESIZE/2),
+	_body = RectMakeCenter((_tileRect.left + _tileRect.right) / 2,
+		(_tileRect.top + _tileRect.bottom) / 2 - TILESIZE/3,
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameWidth(),
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight());
 	//머리 초기화
@@ -81,6 +248,9 @@ void player::setupPlayerRect()
 		IMAGEMANAGER->findImage(_headImageName)->getFrameWidth(), 
 		IMAGEMANAGER->findImage(_headImageName)->getFrameHeight());
 	
+	_x = (_body.left + _body.right) / 2;
+	_y = (_body.top + _body.bottom) / 2;
+
 	//카메라 설정
 	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 }

@@ -2,12 +2,21 @@
 #include "gameNode.h"
 #include "mapGenerator.h"
 
+enum PLAYER_DIRECTION
+{
+	PLAYER_DIRECTION_LEFT,
+	PLAYER_DIRECTION_RIGHT,
+	PLAYER_DIRECTION_UP,
+	PLAYER_DIRECTION_DOWN
+};
+
 class player : public gameNode
 {
 private:
 	RECT _head; //얼굴
 	RECT _body; //몸통
 	RECT _shadow; //그림자
+	float _x, _y; //플레이어 몸통 중심 좌표
 	int _tileX; //플레이어가 현재 있는 타일 x인덱스
 	int _tileY; //플레이어가 현재 있는 타일 y인덱스
 	RECT _tileRect; //현재 있는 타일 렉트
@@ -19,6 +28,9 @@ private:
 	mapGenerator* _map;
 
 	float _elapsedSec; //프레임 움직임 위해서
+	bool _isPlayerMove;
+
+	PLAYER_DIRECTION _playerDirection;
 
 public:
 	virtual HRESULT init(int tileX, int tileY);
