@@ -52,7 +52,7 @@ void player::update()
 		IMAGEMANAGER->findImage(_headImageName)->getFrameWidth(),
 		IMAGEMANAGER->findImage(_headImageName)->getFrameHeight());
 
-	CAMERAMANAGER->setCameraCenter((_tileRect.left + _tileRect.right) / 2, (_tileRect.top + _tileRect.bottom) / 2);
+	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 }
 
 void player::render()
@@ -82,5 +82,5 @@ void player::setupPlayerRect()
 		IMAGEMANAGER->findImage(_headImageName)->getFrameHeight());
 	
 	//카메라 설정
-	CAMERAMANAGER->setCameraCenter((_tileRect.left + _tileRect.right) / 2, (_tileRect.top + _tileRect.bottom) / 2);
+	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 }

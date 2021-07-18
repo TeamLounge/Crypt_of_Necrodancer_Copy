@@ -20,6 +20,7 @@ void playerTestScene::release()
 void playerTestScene::update()
 {
 	_player->update();
+	/*
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 	{
 		CAMERAMANAGER->setCameraCenterX(CAMERAMANAGER->getCameraCenterX() - 5);
@@ -46,6 +47,7 @@ void playerTestScene::update()
 	{
 		CAMERAMANAGER->setCameraCenterY(CAMERAMANAGER->getCameraCenterY() + 5);
 	}
+	*/
 }
 
 void playerTestScene::render()

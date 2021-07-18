@@ -21,7 +21,7 @@ void imageManager::release()
 	deleteAll();
 }
 
-image* imageManager::addImage(string strKey, int width, int height)
+image* imageManager::addImage(string strKey, int width, int height, bool isBlend)
 {
 	image* img = findImage(strKey);
 
@@ -30,7 +30,7 @@ image* imageManager::addImage(string strKey, int width, int height)
 
 	img = new image;
 
-	if (FAILED(img->init(width, height)))
+	if (FAILED(img->init(width, height, isBlend)))
 	{
 		SAFE_DELETE(img);
 
@@ -42,7 +42,7 @@ image* imageManager::addImage(string strKey, int width, int height)
 	return img;
 }
 
-image * imageManager::addImage(string strKey, const char * fileName, int width, int height, bool trans, COLORREF transColor)
+image * imageManager::addImage(string strKey, const char * fileName, int width, int height, bool trans, COLORREF transColor, bool isBlend)
 {
 	image* img = findImage(strKey);
 
@@ -50,7 +50,7 @@ image * imageManager::addImage(string strKey, const char * fileName, int width, 
 
 	img = new image;
 
-	if (FAILED(img->init(fileName, width, height, trans, transColor)))
+	if (FAILED(img->init(fileName, width, height, trans, transColor, isBlend)))
 	{
 		SAFE_DELETE(img);
 
@@ -62,7 +62,7 @@ image * imageManager::addImage(string strKey, const char * fileName, int width, 
 	return img;
 }
 
-image * imageManager::addFrameImage(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor)
+image * imageManager::addFrameImage(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, bool isBlend)
 {
 	image* img = findImage(strKey);
 
@@ -70,7 +70,7 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, float 
 
 	img = new image;
 
-	if (FAILED(img->init(fileName, x, y, width, height, frameX, frameY, trans, transColor)))
+	if (FAILED(img->init(fileName, x, y, width, height, frameX, frameY, trans, transColor, isBlend)))
 	{
 		SAFE_DELETE(img);
 
@@ -82,7 +82,7 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, float 
 	return img;
 }
 
-image * imageManager::addFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor)
+image * imageManager::addFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, bool isBlend)
 {
 	image* img = findImage(strKey);
 
@@ -90,7 +90,7 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, int wi
 
 	img = new image;
 
-	if (FAILED(img->init(fileName, width, height, frameX, frameY, trans, transColor)))
+	if (FAILED(img->init(fileName, width, height, frameX, frameY, trans, transColor, isBlend)))
 	{
 		SAFE_DELETE(img);
 
@@ -134,7 +134,7 @@ BOOL imageManager::deleteImage(string strKey)
 BOOL imageManager::deleteAll()
 {
 	mapImageIter iter = _mImageList.begin();
-	
+
 	for (; iter != _mImageList.end();)
 	{
 		//맵컨테이너안에 이미지가 있다면
@@ -186,4 +186,32 @@ void imageManager::frameRender(string strKey, HDC hdc, int destX, int destY, int
 	image* img = findImage(strKey);
 
 	if (img) img->frameRender(hdc, destX, destY, currentFrameX, currentFrameY);
+}
+
+void imageManager::alphaRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha)
+{
+	image* img = findImage(strKey);
+
+	if (img) img->alphaRender(hdc, destX, destY, alpha);
+}
+
+void imageManager::alphaRender(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha)
+{
+	image* img = findImage(strKey);
+
+	if (img) img->alphaRender(hdc, destX, destY, sourX, sourY, sourWidth, sourHeight, alpha);
+}
+
+void imageManager::alphaFrameRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha)
+{
+	image* img = findImage(strKey);
+
+	if (img) img->alphaFrameRender(hdc, destX, destY, alpha);
+}
+
+void imageManager::alphaFrameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha)
+{
+	image* img = findImage(strKey);
+
+	if (img) img->alphaFrameRender(hdc, destX, destY, currentFrameX, currentFrameY, alpha);
 }

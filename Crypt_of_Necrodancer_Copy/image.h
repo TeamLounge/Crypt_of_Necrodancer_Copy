@@ -1,4 +1,5 @@
 #pragma once
+#include "animation.h"
 
 class image
 {
@@ -32,14 +33,14 @@ public:
 
 		tagImageInfo()
 		{
-			resID		= 0;
-			hMemDC		= NULL;
-			hBit		= NULL;
-			hOBit		= NULL;
-			x			= 0;
-			y			= 0;
-			width		= 0;
-			height		= 0;
+			resID = 0;
+			hMemDC = NULL;
+			hBit = NULL;
+			hOBit = NULL;
+			x = 0;
+			y = 0;
+			width = 0;
+			height = 0;
 			currentFrameX = 0;
 			currentFrameY = 0;
 			maxFrameX = 0;
@@ -58,18 +59,24 @@ private:
 	BLENDFUNCTION	_blendFunc;		//알파블렌드 함수
 	LPIMAGE_INFO	_blendImage;	//알파블렌드 먹일 이미지
 
+	bool _isBlend;
+
 public:
 	image();
 	~image();
 
-	HRESULT init(int width, int height);
+	HRESULT init(int width, int height, bool isBlend = FALSE);
 	HRESULT init(const char* fileName, int width, int height,
-		BOOL trans = FALSE, COLORREF transColor = FALSE);
+		BOOL trans = FALSE, COLORREF transColor = FALSE, bool isBlend = FALSE);
 	HRESULT init(const char* fileName, float x, float y,
 		int width, int height, int frameX, int frameY,
-		BOOL trans = FALSE, COLORREF transColor = FALSE);
+		BOOL trans = FALSE, COLORREF transColor = FALSE, bool isBlend = FALSE);
 	HRESULT init(const char* fileName, int width, int height,
-		int frameX, int frameY, BOOL trans = FALSE, COLORREF transColor = FALSE);
+		int frameX, int frameY, BOOL trans = FALSE, COLORREF transColor = FALSE, bool isBlend = FALSE);
+
+	//블렌드 관련 내용 따로 빼는 용(init 안에 공통된 내용을 복사해서 쓰는걸 방지)
+	void alphaBlendFunction(HDC hdc, int width, int height);
+
 	void release();
 
 	void render(HDC hdc);
@@ -82,12 +89,18 @@ public:
 
 	void loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 
+
 	void alphaRender(HDC hdc, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY,
 		int sourWidth, int sourHeight, BYTE alpha);
 
-	
+	void alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha);
+	void alphaFrameRender(HDC hdc, int destX, int destY,
+		int currentFrameX, int currentFrameY, BYTE alpha);
+
+	//void aniRender(HDC hdc, int destX, int destY, animation* ani);
+
 	//혹시나 런타임 도중에 제거할 픽셀값을 바꿔야한다면
 	void setTransColor(BOOL trans, COLORREF transColor);
 
@@ -126,9 +139,6 @@ public:
 
 	inline int getWidth() { return _imageInfo->width; }
 	inline int getHeight() { return _imageInfo->height; }
-	inline void setWidth(int width) { _imageInfo->width = width; }
-	inline void setHeight(int height) { _imageInfo->height = height; }
-
 
 	inline void setFrameX(int frameX)
 	{
