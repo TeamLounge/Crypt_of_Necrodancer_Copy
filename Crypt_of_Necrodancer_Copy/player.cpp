@@ -19,7 +19,7 @@ HRESULT player::init(int tileX, int tileY)
 	_elapsedSec = 0;
 	_currentFrameX = 0;
 	_currentFrameY = 0;
-
+	_gravity = 0;
 	_playerDirection = PLAYER_DIRECTION_RIGHT;
 	return S_OK;
 }
@@ -133,18 +133,26 @@ void player::update()
 		}
 	}
 	_tileRect = _map->getTiles()[_tileY][_tileX].rc;
+
 	if (_isPlayerMove)
 	{
 		switch (_playerDirection)
 		{
 		case PLAYER_DIRECTION_LEFT:
-			_x -= 9;
-			_shadow.left -= 9;
+			_gravity += 0.965f;
+			_x += cosf(7 * PI / 9) * 9;
+			_y += -sinf(7 * PI / 9) * 9 + _gravity;
+			_shadow.left += cosf(7 * PI / 9) * 9;
 			_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
 			if (_x <= (_tileRect.left + _tileRect.right) / 2)
 			{
 				_x = (_tileRect.left + _tileRect.right) / 2;
 				_isPlayerMove = false;
+				_gravity = 0;
+				if (_y >= ((_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3))
+				{
+					_y = (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3;
+				}
 			}
 			if (_shadow.left <= _tileRect.left)
 			{
@@ -153,13 +161,20 @@ void player::update()
 			}
 			break;
 		case PLAYER_DIRECTION_RIGHT:
-			_x += 9;
-			_shadow.left += 9;
+			_gravity += 0.965f;
+			_x -= cosf(7 * PI / 9) * 9;
+			_y += -sinf(7 * PI / 9) * 9 + _gravity;
+			_shadow.left -= cosf(7 * PI / 9) * 10;
 			_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
 			if (_x >= (_tileRect.left + _tileRect.right) / 2)
 			{
 				_x = (_tileRect.left + _tileRect.right) / 2;
 				_isPlayerMove = false;
+				_gravity = 0;
+				if (_y >= ((_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3))
+				{
+					_y = (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3;
+				}
 			}
 			if (_shadow.left >= _tileRect.left)
 			{
@@ -168,33 +183,43 @@ void player::update()
 			}
 			break;
 		case PLAYER_DIRECTION_UP:
-			_y -= 9;
-			_shadow.top -= 9;
+			_gravity += 0.47f;
+			_y += -sinf(1 * PI / 2) * 9 + _gravity;
+			//_y -= 9;
+			_shadow.top += -sinf(1 * PI / 2) * 6;
 			_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-			if (_y <= (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3)
-			{
-				_y = (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3;
-				_isPlayerMove = false;
-			}
 			if (_shadow.top <= _tileRect.top - 37)
 			{
 				_shadow.top = _tileRect.top - 37;
 				_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+				if (_y >= (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3)
+				{
+					_y = (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3;
+					_isPlayerMove = false;
+					_gravity = 0;
+				}
 			}
 			break;
 		case PLAYER_DIRECTION_DOWN:
+			/*
 			_y += 9;
 			_shadow.top += 9;
+			*/
+			_gravity += 1.2f;
+			_y += -sinf(1 * PI / 2) + _gravity;
+			//_y -= 9;
+			_shadow.top -= -sinf(1 * PI / 2) * 6;
 			_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-			if (_y >= (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3)
-			{
-				_y = (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3;
-				_isPlayerMove = false;
-			}
 			if (_shadow.top >= _tileRect.top - 37)
 			{
 				_shadow.top = _tileRect.top - 37;
 				_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+				if (_y >= (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3)
+				{
+					_y = (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3;
+					_isPlayerMove = false;
+					_gravity = 0;
+				}
 			}
 			break;
 		default:

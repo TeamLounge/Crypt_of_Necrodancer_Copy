@@ -24,6 +24,7 @@ private:
 	string _bodyImageName; //몸통 이미지 이름
 	int _currentFrameX; //현재 프레임x
 	int _currentFrameY; //현재 프레임y
+	float _gravity;
 
 	mapGenerator* _map;
 
