@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "whiteSkeleton.h"
 
-HRESULT whiteSkeleton::init()
+HRESULT whiteSkeleton::init(int playerIndexX, int playerIndexY)
 {
 	IMAGEMANAGER->addFrameImage("whiteSkeleton", "image/enemy/skeletonBasic.bmp", 576, 177, 8, 2, true, RGB(255, 0, 255));
 	skeleton::init();
@@ -47,34 +47,14 @@ HRESULT whiteSkeleton::init()
 		break;//빠져나왓다면 여기도 무한루프 빠져나오고 좌표가 올바르게 생성되었습니다.
 	}
 	_rc = _map->getTiles()[_y][_x].rc;
-
+	_astar->setLinkrandomMap(_map);
+	_astar->setTile(_x,_y,playerIndexX,playerIndexY);
 	return S_OK;
 }
 
-void whiteSkeleton::update()
+void whiteSkeleton::update(int playerIndexX, int playerIndexY)
 {
-	skeleton::update();
-	//if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
-	//{
-	//	_direction = RIGHT;
-	//	skeletonMove();
-	//}
-	//if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
-	//{
-	//	_direction = LEFT;
-	//	skeletonMove();
-	//}
-	//if (KEYMANAGER->isOnceKeyDown(VK_UP))
-	//{
-	//	_direction = UP;
-	//	skeletonMove();
-	//}
-	//if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-	//{
-	//	_direction = DOWN;
-	//	skeletonMove();
-	//}
-	//
+	skeleton::update(playerIndexX, playerIndexY);
 }
 
 void whiteSkeleton::release()
@@ -87,5 +67,8 @@ void whiteSkeleton::render()
 {
 	Rectangle(getMemDC(), _rc);
 	_img->frameRender(getMemDC(), _rc.left, _rc.top - (_rc.bottom-_rc.top)/2, 0, 0);
-
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		skeleton::render();
+	}
 }

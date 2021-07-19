@@ -7,18 +7,10 @@
 class skeleton : public gameNode
 {
 protected:
-	enum DIRECTRION
-	{
-		NONE,
-		RIGHT,
-		LEFT,
-		UP,
-		DOWN
-	};
 
 	randomMap* _map;
 	aStarTest* _astar;
-	DIRECTRION _direction;
+	PLAYER_ENEMY_DIRECTION _direction;
 
 	image* _img;
 	RECT _rc;
@@ -32,7 +24,7 @@ protected:
 
 public:
 	virtual HRESULT init();
-	virtual void update();
+	virtual void update(int playerIndexX, int playerIndexY);
 	virtual void release();
 	virtual void render();
 

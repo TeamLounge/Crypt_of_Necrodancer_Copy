@@ -132,14 +132,14 @@ void mapGenerator::generate(int maxFeatures)
 				tile.objectFrameX = NULL;
 				tile.objectFrameY = NULL;
 				tile.isHaveTorch = false;
-				tile.alpha = 0;
+				tile.alpha = 255;
 				tile.isSeen = false;
 				vTile.push_back(tile);
 			}
 			_tiles.push_back(vTile);
 		}
 
-		if (!makeRoom(_width / 2, _height / 2, static_cast<DIRECTION>(RND->getInt(4), true)))
+		if (!makeRoom(_width / 2, _height / 2, static_cast<ROOM_DIRECTION>(RND->getInt(4), true)))
 		{
 			return;
 		}
@@ -494,7 +494,7 @@ void mapGenerator::generate(int maxFeatures)
 	}
 }
 
-bool mapGenerator::makeRoom(int x, int y, DIRECTION dir, bool firstRoom, int index)
+bool mapGenerator::makeRoom(int x, int y, ROOM_DIRECTION dir, bool firstRoom, int index)
 {
 	int minRoomSize = 5;
 	int maxRoomSize = 8;
@@ -561,7 +561,7 @@ bool mapGenerator::makeRoom(int x, int y, DIRECTION dir, bool firstRoom, int ind
 	return false;
 }
 
-bool mapGenerator::makeCorridor(int x, int y, DIRECTION dir)
+bool mapGenerator::makeCorridor(int x, int y, ROOM_DIRECTION dir)
 {
 	int minCorridorLength = 0;
 	int maxCorridorLength = 2;
@@ -677,7 +677,7 @@ bool mapGenerator::makeShop()
 		}
 		for (int j = 0; j < DIRECTIONCOUNT; ++j)
 		{
-			if (makeShop(x, y, static_cast<DIRECTION>(j)))
+			if (makeShop(x, y, static_cast<ROOM_DIRECTION>(j)))
 			{
 				_exits.erase(_exits.begin() + r);
 				return true;
@@ -687,7 +687,7 @@ bool mapGenerator::makeShop()
 	return false;
 }
 
-bool mapGenerator::makeShop(int x, int y, DIRECTION dir)
+bool mapGenerator::makeShop(int x, int y, ROOM_DIRECTION dir)
 {
 	tagRoom room;
 	room.roomState = ROOM_SHOP;
@@ -754,7 +754,7 @@ bool mapGenerator::makeShop(int x, int y, DIRECTION dir)
 	return false;
 }
 
-bool mapGenerator::placeTile(const tagRoom & room, OBJECT obj, int objectFrameX, int objectFrameY, bool _isShop, DIRECTION dir)
+bool mapGenerator::placeTile(const tagRoom & room, OBJECT obj, int objectFrameX, int objectFrameY, bool _isShop, ROOM_DIRECTION dir)
 {
 	if (room.x < 1 || room.y < 1 || room.x + room.width > _width - 1 || room.y + room.height > _height - 1)
 		return false;
@@ -1064,7 +1064,7 @@ bool mapGenerator::createFeature(int index)
 		{
 			for (int j = 0; j < DIRECTIONCOUNT; ++j)
 			{
-				if (createFeature(x, y, static_cast<DIRECTION>(j)))
+				if (createFeature(x, y, static_cast<ROOM_DIRECTION>(j)))
 				{
 					_exits.erase(_exits.begin() + r);
 					return true;
@@ -1076,7 +1076,7 @@ bool mapGenerator::createFeature(int index)
 	return false;
 }
 
-bool mapGenerator::createFeature(int x, int y, DIRECTION dir, int index)
+bool mapGenerator::createFeature(int x, int y, ROOM_DIRECTION dir, int index)
 {
 	int dx = 0;
 	int dy = 0;

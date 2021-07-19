@@ -10,7 +10,7 @@ class tile : public gameNode
 private:
 	int _idX;
 	int _idY;
-
+	
 	POINT _center;
 	RECT _rc;
 	//F = G + H 

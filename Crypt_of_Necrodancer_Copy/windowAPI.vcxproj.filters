@@ -43,6 +43,9 @@
     <Filter Include="playGround\enemy">
       <UniqueIdentifier>{1a971438-191b-4999-97cb-20fc884e9b52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\player">
+      <UniqueIdentifier>{ebce0838-ee26-490e-b46e-cdd4cada4fd0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -123,6 +126,15 @@
     <ClInclude Include="blackSkeleton.h">
       <Filter>playGround\enemy</Filter>
     </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="playerTestScene.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="vision.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -190,6 +202,15 @@
     </ClCompile>
     <ClCompile Include="blackSkeleton.cpp">
       <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="playerTestScene.cpp">
+      <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="vision.cpp">
+      <Filter>playGround\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

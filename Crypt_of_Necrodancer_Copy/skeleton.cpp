@@ -10,29 +10,11 @@ HRESULT skeleton::init()
 	return S_OK;
 }
 
-void skeleton::update()
+void skeleton::update(int playerIndexX , int playerIndexY)
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
-	{
-		_direction = RIGHT;
-		skeletonMove();
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
-	{
-		_direction = LEFT;
-		skeletonMove();
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_UP))
-	{
-		_direction = UP;
-		skeletonMove();
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-	{
-		_direction = DOWN;
-		skeletonMove();
-	}
-	
+	//skeletonMove(playerIndexX, playerIndexY);
+	_astar->endmove(playerIndexX , playerIndexY);
+	skeletonMove();
 }
 
 void skeleton::release()
@@ -42,46 +24,44 @@ void skeleton::release()
 
 void skeleton::render()
 {
-
+	_astar->render();
 }
 
 void skeleton::aStar()
 {
-	
+
 }
 
 void skeleton::skeletonMove()
 {
-
-	switch (_direction)
-	{
-	case NONE:
-		break;
-
-	case RIGHT:
-		if(_map->getTiles()[_y][_x + 1].obj == OBJ_NONE)
-			_x += 1;
-		_rc = _map->getTiles()[_y][_x].rc;
-		break;
-	case LEFT:
-		if (_map->getTiles()[_y][_x - 1].obj == OBJ_NONE)
-			_x -= 1;
-		_rc = _map->getTiles()[_y][_x].rc;
-		break;
-	case UP:
-		if (_map->getTiles()[_y-1][_x].obj == OBJ_NONE )
-			_y -= 1;
-		_rc = _map->getTiles()[_y][_x].rc;
-		break;
-	case DOWN:
-		if (_map->getTiles()[_y + 1][_x].obj == OBJ_NONE)
-			_y += 1;
-		_rc = _map->getTiles()[_y][_x].rc;
-		break;
-	}
-
-
-
-
-
+	_x = _astar->getenemyTileX();
+	_y = _astar->getenemyTileY();
+	_rc = _map->getRect(_x, _y);
+	//switch (direction)
+	//{
+	//case NONE:
+	//	break;
+	//
+	//case RIGHT:
+	//	if(_map->getTiles()[_y][_x + 1].obj == OBJ_NONE)
+	//		_x += 1;
+	//	_rc = _map->getTiles()[_y][_x].rc;
+	//	break;
+	//case LEFT:
+	//	if (_map->getTiles()[_y][_x - 1].obj == OBJ_NONE)
+	//		_x -= 1;
+	//	_rc = _map->getTiles()[_y][_x].rc;
+	//	break;
+	//case UP:
+	//	if (_map->getTiles()[_y-1][_x].obj == OBJ_NONE )
+	//		_y -= 1;
+	//	_rc = _map->getTiles()[_y][_x].rc;
+	//	break;
+	//case DOWN:
+	//	if (_map->getTiles()[_y + 1][_x].obj == OBJ_NONE)
+	//		_y += 1;
+	//	_rc = _map->getTiles()[_y][_x].rc;
+	//	break;
+	//}
+	//
 }

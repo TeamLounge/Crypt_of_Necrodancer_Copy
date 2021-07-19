@@ -7,6 +7,8 @@
 #define TILENUMX  31
 #define TILENUMY  31
 
+class randomMap;
+
 class aStarTest : public gameNode
 {
 private:
@@ -24,9 +26,11 @@ private:
 	tile* _endTile; //끝타일
 	tile* _currentTile; //현재 타일
 
+	randomMap* _map;
+	
 	int _count;// 그냥렌더용
 	bool _start; // 그냥 시작용
-
+	
 public:
 	aStarTest();
 	~aStarTest();
@@ -41,6 +45,10 @@ public:
 	vector<tile*> addOpenList(tile* currentTile);
 	//길 찾는 함수
 	void pathFinder(tile* currentTile);
-	void endmove();
+	void endmove(int playerIndexX, int playerIndexY);
+	void setLinkrandomMap(randomMap* map) { _map = map; }
+
+	int getenemyTileX() { return _startTile->getIdX(); }
+	int getenemyTileY() { return _startTile->getIdY(); }
 };
 

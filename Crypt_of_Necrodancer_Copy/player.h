@@ -2,14 +2,9 @@
 #include "gameNode.h"
 #include "mapGenerator.h"
 #include "vision.h"
+#include "randomMap.h"
 
-enum PLAYER_DIRECTION
-{
-	PLAYER_DIRECTION_LEFT,
-	PLAYER_DIRECTION_RIGHT,
-	PLAYER_DIRECTION_UP,
-	PLAYER_DIRECTION_DOWN
-};
+
 
 class player : public gameNode
 {
@@ -28,12 +23,13 @@ private:
 	float _gravity;
 
 	mapGenerator* _map;
+	randomMap* _map1;
 	vision* _vision;
 
 	float _elapsedSec; //프레임 움직임 위해서
 	bool _isPlayerMove;
 
-	PLAYER_DIRECTION _playerDirection;
+	PLAYER_ENEMY_DIRECTION _playerDirection;
 
 public:
 	virtual HRESULT init(int tileX, int tileY);
@@ -41,7 +37,13 @@ public:
 	virtual void update();
 	virtual void render();
 	
+	int getTileX() { return _tileX; }
+	int getTileY() { return _tileY; }
+
+	PLAYER_ENEMY_DIRECTION getDirection() { return _playerDirection; }
+
 	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
+	void setLinkMap(randomMap* map) { _map1 = map; }
 	void setupPlayerRect();
 };
 

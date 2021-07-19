@@ -19,36 +19,9 @@ void playerTestScene::release()
 
 void playerTestScene::update()
 {
-	_map->update();
+	//_map->update();
 	_player->update();
-	/*
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-	{
-		CAMERAMANAGER->setCameraCenterX(CAMERAMANAGER->getCameraCenterX() - 5);
-		if (CAMERAMANAGER->getCameraLEFT() <= 0)
-		{
-			CAMERAMANAGER->setCameraX(0);
-		}
-	}
-
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-	{
-		CAMERAMANAGER->setCameraCenterX(CAMERAMANAGER->getCameraCenterX() + 5);
-
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_UP))
-	{
-		CAMERAMANAGER->setCameraCenterY(CAMERAMANAGER->getCameraCenterY() - 5);
-		if (CAMERAMANAGER->getCameraTOP() <= 0)
-		{
-			CAMERAMANAGER->setCameraY(0);
-		}
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-	{
-		CAMERAMANAGER->setCameraCenterY(CAMERAMANAGER->getCameraCenterY() + 5);
-	}
-	*/
+	
 }
 
 void playerTestScene::render()

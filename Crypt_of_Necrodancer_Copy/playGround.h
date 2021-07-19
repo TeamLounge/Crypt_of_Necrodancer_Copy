@@ -4,12 +4,14 @@
 #include "randomMap.h"
 #include "whiteSkeleton.h"
 #include "playerTestScene.h"
+#include "player.h"
 class playGround : public gameNode
 {
 private:
 	mapTool* _mapTool;
-	randomMap* _randomMap;
+	randomMap* _map;
 	whiteSkeleton* _skeleton;
+	player* _player;
 public:
 	playGround();
 	~playGround();

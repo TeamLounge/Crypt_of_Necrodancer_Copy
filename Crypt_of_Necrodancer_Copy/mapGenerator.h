@@ -2,7 +2,7 @@
 #include "gameNode.h"
 #include "tileMap.h"
 
-enum DIRECTION
+enum ROOM_DIRECTION
 {
 	NORTH,
 	SOUTH,
@@ -34,7 +34,7 @@ private:
 
 	int _start;
 
-	DIRECTION _corridorDirection;
+	ROOM_DIRECTION _corridorDirection;
 
 	vector<POINT> _newRoomXIndex;
 	vector<POINT> _newRoomYIndex;
@@ -51,17 +51,17 @@ public:
 
 	void generate(int maxFeatures);
 	//방 만들기
-	bool makeRoom(int x, int y, DIRECTION dir, bool firstRoom = false, int index = NULL);
+	bool makeRoom(int x, int y, ROOM_DIRECTION dir, bool firstRoom = false, int index = NULL);
 	//통로 만들기
-	bool makeCorridor(int x, int y, DIRECTION dir);
+	bool makeCorridor(int x, int y, ROOM_DIRECTION dir);
 
 	//상점 만들기
 	bool makeShop();
-	bool makeShop(int x, int y, DIRECTION dir);
+	bool makeShop(int x, int y, ROOM_DIRECTION dir);
 
-	bool placeTile(const tagRoom& room, OBJECT obj, int objectFrameX, int objectFrameY, bool _isShop = false, DIRECTION dir = DIRECTIONCOUNT);
+	bool placeTile(const tagRoom& room, OBJECT obj, int objectFrameX, int objectFrameY, bool _isShop = false, ROOM_DIRECTION dir = DIRECTIONCOUNT);
 	bool createFeature(int index);
-	bool createFeature(int x, int y, DIRECTION dir, int index = NULL);
+	bool createFeature(int x, int y, ROOM_DIRECTION dir, int index = NULL);
 
 	TERRAIN getTileTerrain(int x, int y);
 
