@@ -22,14 +22,10 @@ HRESULT tile::init(int idX, int idY)
 	_brush = CreateSolidBrush(_color);
 	_pen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
 
-	_center = PointMake(idX* TILEWIDTH + (TILEWIDTH / 2),
-		idY*TILEHEIGHT + (TILEHEIGHT / 2));
-
 	_idX = idX;
 	_idY = idY;
-
-	_rc = RectMakeCenter(_center.x, _center.y, TILEWIDTH, TILEHEIGHT);
-
+	_rc = _map->getRect(_idX, _idY);
+	_center = PointMake((_rc.right+_rc.left)/2,(_rc.bottom+_rc.top)/2);
 	return S_OK;
 }
 

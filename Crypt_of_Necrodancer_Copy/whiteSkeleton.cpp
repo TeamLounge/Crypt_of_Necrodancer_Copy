@@ -5,6 +5,7 @@ HRESULT whiteSkeleton::init(int playerIndexX, int playerIndexY)
 {
 	IMAGEMANAGER->addFrameImage("whiteSkeleton", "image/enemy/skeletonBasic.bmp", 576, 177, 8, 2, true, RGB(255, 0, 255));
 	skeleton::init();
+	_astar = new aStarTest;
 	_img = IMAGEMANAGER->findImage("whiteSkeleton");
 
 	while (true) //·£´ý¹èÄ¡
@@ -54,7 +55,10 @@ HRESULT whiteSkeleton::init(int playerIndexX, int playerIndexY)
 
 void whiteSkeleton::update(int playerIndexX, int playerIndexY)
 {
-	skeleton::update(playerIndexX, playerIndexY);
+	//skeleton::update(playerIndexX, playerIndexY);
+	_astar->endmove(playerIndexX, playerIndexY);
+	_astar->update();
+	skeletonMove();
 }
 
 void whiteSkeleton::release()

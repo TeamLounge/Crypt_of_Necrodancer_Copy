@@ -3,7 +3,6 @@
 
 HRESULT skeleton::init()
 {
-	_astar = new aStarTest;
 	_direction = NONE;
 	isRight = true;
 
@@ -12,9 +11,7 @@ HRESULT skeleton::init()
 
 void skeleton::update(int playerIndexX , int playerIndexY)
 {
-	//skeletonMove(playerIndexX, playerIndexY);
-	_astar->endmove(playerIndexX , playerIndexY);
-	skeletonMove();
+	
 }
 
 void skeleton::release()

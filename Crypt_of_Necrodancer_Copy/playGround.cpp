@@ -76,7 +76,7 @@ void playGround::render()
 	SelectObject(getMemDC(), myPen);
 	_map->render();
 	_player->render();
-	//_skeleton->render();
+	_skeleton->render();
 	//SCENEMANAGER->render();
 	//TIMEMANAGER->render(getMemDC());
 	//SCENEMANAGER->render();

@@ -14,7 +14,7 @@ aStarTest::~aStarTest()
 
 HRESULT aStarTest::init(int enemyX, int enemyY, int playerX, int playerY)
 {
-
+	_count = 0;
 	setTile(enemyX, enemyY,  playerX, playerY);
 
 
@@ -28,35 +28,31 @@ void aStarTest::release()
 
 void aStarTest::update()
 {
-
-	if (KEYMANAGER->isOnceKeyDown('S')) _start = true;
-	if (_start)
+	_count++;
+	if (_count % 5 == 0)
 	{
-		_count++;
-		if (_count % 10 == 0)
-		{
-			pathFinder(_currentTile);
-		
-			_count = 0;
-		}
+		pathFinder(_currentTile);
+		_count = 0;
 	}
-
-	
 }
 
 void aStarTest::render()
 {
 	for (int i = 0; i < _vOpenList.size(); ++i)
-		Rectangle(getMemDC() , _map->getTiles()[_vOpenList[i]->getIdX()][_vOpenList[i]->getIdY()].rc);
+	{
+		Rectangle(getMemDC(), _map->getTiles()[_vOpenList[i]->getIdX()][_vOpenList[i]->getIdY()].rc);
+	}
 }
 //타일 셋팅 함수
 void aStarTest::setTile(int enemyX, int enemyY, int playerX, int playerY)
 {
 	_startTile = new tile;
+	_startTile->setLinkRandomMap(_map);
 	_startTile->init(enemyX, enemyY);
-	_startTile->setAttribute("me");
+	_startTile->setAttribute("enemy");
 
 	_endTile = new tile;
+	_endTile->setLinkRandomMap(_map);
 	_endTile->init(playerX, playerY);
 	_endTile->setAttribute("player");
 
@@ -80,6 +76,7 @@ void aStarTest::setTile(int enemyX, int enemyY, int playerX, int playerY)
 				continue;
 			}
 			tile* node = new tile;
+			node->setLinkRandomMap(_map);
 			node->init(j, i);
 			if (_map->getTileObject(j,i) != OBJ_NONE)
 			{
@@ -110,11 +107,11 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				tile* node = _vTotalList[(startY*TILENUMX) + startX + (i*TILENUMX)];
 				//예외처리
 				if (!node->getIsOpen()) continue;
-				if (node->getAttribute() == "me") continue;
+				if (node->getAttribute() == "enemy") continue;
 				if (node->getAttribute() == "wall") continue;
 				//현재 타일 계속 갱신해준다.
 				node->setParentNode(_currentTile);
-				node->setparentNumber(_currentTile->getparentNumber() + 1);
+				//node->setparentNumber(_currentTile->getparentNumber() + 1);
 				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
 				bool addObj = true;
 
@@ -129,7 +126,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 
 
 				//현재 노드가 끝노드가아니면 색칠해준다
-				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+				if (node->getAttribute() != "player") node->setColor(RGB(128, 64, 28));
 
 				//이미 체크된애는 건너뛴다
 				if (!addObj) continue;
@@ -143,11 +140,11 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				tile* node = _vTotalList[(startY*TILENUMX) + startX + i + (i*TILENUMX)];
 				//예외처리
 				if (!node->getIsOpen()) continue;
-				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "enemy") continue;
 				if (node->getAttribute() == "wall") continue;
 				//현재 타일 계속 갱신해준다.
 				node->setParentNode(_currentTile);
-				node->setparentNumber(_currentTile->getparentNumber() + 1);
+				//node->setparentNumber(_currentTile->getparentNumber() + 1);
 
 				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
 				bool addObj = true;
@@ -163,7 +160,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 
 
 				//현재 노드가 끝노드가아니면 색칠해준다
-				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+				//if (node->getAttribute() != "player") node->setColor(RGB(128, 64, 28));
 
 				//이미 체크된애는 건너뛴다
 				if (!addObj) continue;
@@ -176,11 +173,11 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				tile* node = _vTotalList[(startY*TILENUMX) + startX - 1 + ((i - 2)*TILENUMX)];
 				//예외처리
 				if (!node->getIsOpen()) continue;
-				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "enemy") continue;
 				if (node->getAttribute() == "wall") continue;
 				//현재 타일 계속 갱신해준다.
 				node->setParentNode(_currentTile);
-				node->setparentNumber(_currentTile->getparentNumber() + 1);
+				//node->setparentNumber(_currentTile->getparentNumber() + 1);
 
 				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
 				bool addObj = true;
@@ -195,7 +192,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				}
 
 				//현재 노드가 끝노드가아니면 색칠해준다
-				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+				if (node->getAttribute() != "player") node->setColor(RGB(128, 64, 28));
 
 				//이미 체크된애는 건너뛴다
 				if (!addObj) continue;
@@ -214,11 +211,11 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				tile* node = _vTotalList[(startY*TILENUMX) + startX + (i*TILENUMX)];
 				//예외처리
 				if (!node->getIsOpen()) continue;
-				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "enemy") continue;
 				if (node->getAttribute() == "wall") continue;
 				//현재 타일 계속 갱신해준다.
 				node->setParentNode(_currentTile);
-				node->setparentNumber(_currentTile->getparentNumber() + 1);
+				//node->setparentNumber(_currentTile->getparentNumber() + 1);
 				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
 				bool addObj = true;
 		
@@ -233,7 +230,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 		
 		
 				//현재 노드가 끝노드가아니면 색칠해준다
-				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+				//if (node->getAttribute() != "player") node->setColor(RGB(128, 64, 28));
 		
 				//이미 체크된애는 건너뛴다
 				if (!addObj) continue;
@@ -247,7 +244,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				tile* node = _vTotalList[(startY*TILENUMX) + startX + i + (i*TILENUMX)];
 				//예외처리
 				if (!node->getIsOpen()) continue;
-				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "enemy") continue;
 				if (node->getAttribute() == "wall") continue;
 				//현재 타일 계속 갱신해준다.
 				node->setParentNode(_currentTile);
@@ -267,7 +264,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 		
 		
 				//현재 노드가 끝노드가아니면 색칠해준다
-				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+				//if (node->getAttribute() != "player") node->setColor(RGB(128, 64, 28));
 		
 				//이미 체크된애는 건너뛴다
 				if (!addObj) continue;
@@ -280,7 +277,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				tile* node = _vTotalList[(startY*TILENUMX) + startX-1 + ((i-2)*TILENUMX)];
 				//예외처리
 				if (!node->getIsOpen()) continue;
-				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "enemy") continue;
 				if (node->getAttribute() == "wall") continue;
 				//현재 타일 계속 갱신해준다.
 				node->setParentNode(_currentTile);
@@ -299,7 +296,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				}
 		
 				//현재 노드가 끝노드가아니면 색칠해준다
-				if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+				if (node->getAttribute() != "player") node->setColor(RGB(128, 64, 28));
 		
 				//이미 체크된애는 건너뛴다
 				if (!addObj) continue;
@@ -368,7 +365,7 @@ void aStarTest::pathFinder(tile * currentTile)
 	{ 
 		return;
 	}
-	else if (tempTile->getAttribute() == "end")
+	else if (tempTile->getAttribute() == "enemy")
 	{
 		//최단경로를 색칠해줘라
 		while (_currentTile->getParentNode() != NULL)
@@ -400,19 +397,18 @@ void aStarTest::pathFinder(tile * currentTile)
 	//pathFinder(_currentTile);
 	for (int i = 0; i < _vTotalList.size(); ++i)
 	{
-		if (_vTotalList[i]->getAttribute() == "start")
+		if (_vTotalList[i]->getAttribute() == "enemy")
 		{
-			
 			_vOpenList.clear();
 			RECT rc;
 			tile* node = new tile;
+			node->setLinkRandomMap(_map);
 			node->init(_startTile->getIdX(), _startTile->getIdY());
 			//node->setIsOpen(false);
 			_startTile->setIdX(_currentTile->getIdX());
 			_startTile->setIdY(_currentTile->getIdY());
-			_startTile->setCetner(PointMake(_currentTile->getIdX()* TILEWIDTH + (TILEWIDTH / 2),
-				_currentTile->getIdY()*TILEHEIGHT + (TILEHEIGHT / 2)));
-			rc = RectMakeCenter(_startTile->getCenter().x, _startTile->getCenter().y, TILEWIDTH, TILEHEIGHT);
+			rc = _map->getRect(_startTile->getIdX(),_startTile->getIdY());
+			_startTile->setCetner(PointMake((rc.left + rc.right) / 2, (rc.bottom + rc.top) / 2));
 			_startTile->setRect(rc);
 			//swap(_startTile, _vTotalList[_currentTile->getIdY()*TILEWIDTH + _currentTile->getIdX()]);
 			_vTotalList.erase(_vTotalList.begin() + i);
@@ -430,7 +426,9 @@ void aStarTest::endmove(int playerIndexX, int playerIndexY)
 	tile* node;
 	bool ismove = false;
 	if (_endTile->getIdX() != playerIndexX || _endTile->getIdY() != playerIndexY)
+	{
 		ismove = true;
+	}
 	//if (direction == RIGHT)
 	//{
 	//	nextIdx = _endTile->getIdX() + 1;
@@ -458,18 +456,19 @@ void aStarTest::endmove(int playerIndexX, int playerIndexY)
 	if (ismove) {
 		for (int i = 0; i < _vTotalList.size(); ++i)
 		{
-			if (_vTotalList[i]->getAttribute() == "end")
+			if (_vTotalList[i]->getAttribute() == "player")
 			{
-				//if (_vTotalList[(nextIdy*TILENUMX + nextIdx)]->getAttribute() == "start") break;
-				//if (_vTotalList[(nextIdy*TILENUMX + nextIdx)]->getAttribute() == "wall")break;
+				if (_vTotalList[(playerIndexY*TILENUMX + playerIndexX)]->getAttribute() == "enemy") break;
+				if (_vTotalList[(playerIndexY*TILENUMX + playerIndexX)]->getAttribute() == "wall")break;
 				node = new tile;
+				node->setLinkRandomMap(_map);
 				node->init(_endTile->getIdX(), _endTile->getIdY());
 				_endTile->setIdX(playerIndexX);
 				_endTile->setIdY(playerIndexY);
-				_endTile->setCetner(PointMake(playerIndexX* TILEWIDTH + (TILEWIDTH / 2),
-					playerIndexY*TILEHEIGHT + (TILEHEIGHT / 2)));
-				rc = RectMakeCenter(_endTile->getCenter().x, _endTile->getCenter().y, TILEWIDTH, TILEHEIGHT);
+
+				rc = _map->getRect(_endTile->getIdX(), _endTile->getIdY());
 				_endTile->setRect(rc);
+				_endTile->setCetner(PointMake((rc.left + rc.right) / 2, (rc.bottom + rc.top) / 2));
 				_vTotalList.erase(_vTotalList.begin() + i);
 				_vTotalList.insert(_vTotalList.begin() + i, node);
 				_vTotalList.erase(_vTotalList.begin() + (playerIndexY*TILENUMX + playerIndexX));
