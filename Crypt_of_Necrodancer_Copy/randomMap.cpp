@@ -205,7 +205,7 @@ void randomMap::makeRooms()
 		{
 			ROOM room; //방정보 구조체
 			int width = RND->getFromIntTo(roomWidthMin, gridwidth); // 최소 방크기에서 총제한구역으로 랜덤값생성
-			int height = RND->getFromIntTo(roomHeightMin, gridHeight);
+			int height = RND->getFromIntTo(roomHeightMin, 9);
 
 			if (!isshop && RND->getInt(gridX*gridY) == 0 || (!isshop&&y == gridY - 1 && x == gridX - 1))//다생성하면 재미없으니까 조그만한 방도 만들어놓는다
 			{
@@ -217,7 +217,7 @@ void randomMap::makeRooms()
 
 			int left = x * (gridwidth + 1) + RND->getInt(gridwidth - width); // 각방들의 첫x좌표 
 			if (left == 0)left += 1;
-			int top = y * (gridHeight + 1) + RND->getInt(gridHeight - height);//각방들의 첫y좌표
+			int top = y * (9 + 1) + RND->getInt(4);//각방들의 첫y좌표
 			if (top == 0) top += 1;
 			room.right = (left + width >= TILEX) ? (TILEX-1) : left + width;//넣
 			room.bottom = (top + height >= TILEY) ? (TILEY-1) : top + height;//어
@@ -712,7 +712,7 @@ void randomMap::connectRooms(size_t i, size_t j)
 		const int toY = to.top+1; //위쪽으로 출발점이 오기때문에 도착방 윗벽의 한칸 밑이 도착 Y좌표 
 
 
-		const int centerY = RND->getFromIntTo(fromY+1, toY -1); // 마찬가지로 X좌표를 바꿔야할 경유Y좌표를 구한다.
+		const int centerY = RND->getFromIntTo(3,5); // 마찬가지로 X좌표를 바꿔야할 경유Y좌표를 구한다.
 		const int dx = toX > fromX ? 1 : -1; // 도착점 X좌표가 출발점 X좌표보다 크다면 +1, 아니면 -1이다.
 		for (int y = fromY; y < centerY; ++y) //출발점에서 X좌표를 바꿔야할 중점Y좌표까지 아래로 이동 
 		{
@@ -758,10 +758,6 @@ void randomMap::shuffle(vector<size_t>& unconnected, size_t size)
 
 }
 
-TERRAIN randomMap::getTile(int x, int y)
-{
-	return TERRAIN();
-}
 
 void randomMap::setTile()
 {

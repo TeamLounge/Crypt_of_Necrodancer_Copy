@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "playGround.h"
 #include "aStarTest.h"
-
+#include "whiteSkeleton.h"
 playGround::playGround()
 {
 }
@@ -25,6 +25,11 @@ HRESULT playGround::init()
 	//SCENEMANAGER->changeScene("에이스타");
 	_randomMap = new randomMap;
 	_randomMap->init();
+	_skeleton = new whiteSkeleton;
+	_skeleton->setTileMapLinK(_randomMap);
+
+	_skeleton->init();
+
 
 	CAMERAMANAGER->setCamera(0,0);
 
@@ -46,25 +51,31 @@ void playGround::update()
 
 	//SCENEMANAGER->update();
 	//_mapTool->update();
-	_randomMap->update();
-
 	
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-	{
-		CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() - TILESIZE);
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-	{
-		CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() + TILESIZE);
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_UP))
-	{
-		CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() - TILESIZE);
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-	{
-		CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() + TILESIZE);
-	}
+
+
+	_randomMap->update();
+	_skeleton->update();
+	CAMERAMANAGER->setCameraCenterX((_skeleton->getRect().right+ _skeleton->getRect().left)/2);
+	CAMERAMANAGER->setCameraCenterY((_skeleton->getRect().bottom + _skeleton->getRect().top) / 2);
+
+	//CAMERAMANAGER->updateCamera(_skeleton->getX(), _skeleton->getY());
+	//if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+	//{
+	//	CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() - TILESIZE);
+	//}
+	//if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+	//{
+	//	CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() + TILESIZE);
+	//}
+	//if (KEYMANAGER->isStayKeyDown(VK_UP))
+	//{
+	//	CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() - TILESIZE);
+	//}
+	//if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+	//{
+	//	CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() + TILESIZE);
+	//}
 	
 }
 
@@ -78,6 +89,7 @@ void playGround::render()
 	SelectObject(getMemDC(), myPen);
 	//_mapTool->render();
 	_randomMap->render();
+	_skeleton->render();
 	//SCENEMANAGER->render();
 	//TIMEMANAGER->render(getMemDC());
 	DeleteObject(myPen);

@@ -12,10 +12,10 @@ aStarTest::~aStarTest()
 
 }
 
-HRESULT aStarTest::init()
+HRESULT aStarTest::init(int enemyX, int enemyY, int playerX, int playerY)
 {
 
-	setTile();
+	setTile(enemyX, enemyY,  playerX, playerY);
 
 
 	return S_OK;
@@ -28,7 +28,7 @@ void aStarTest::release()
 
 void aStarTest::update()
 {
-	endmove();
+	//endmove();
 	if (KEYMANAGER->isOnceKeyDown('S')) _start = true;
 	if (_start)
 	{
@@ -40,45 +40,16 @@ void aStarTest::update()
 			_count = 0;
 		}
 	}
-	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
-	{
-		for (int i = 0; i < _vTotalList.size(); ++i)
-		{
-			if(PtInRect(&_vTotalList[i]->getRect(), _ptMouse))
-			{
-				_vTotalList[i]->setIsOpen(false);
-				_vTotalList[i]->setAttribute("wall");
-				_vTotalList[i]->setColor(RGB(0, 0, 0));
-			}
-		}
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
-	{
-		for (int i = 0; i < _vTotalList.size(); ++i)
-		{
-			if (PtInRect(&_vTotalList[i]->getRect(), _ptMouse))
-			{
-				_vTotalList[i]->setIsOpen(true);
-				_vTotalList[i]->setAttribute("none");
-				_vTotalList[i]->setColor(RGB(255, 255, 255));
-			}
-		}
-	}
+
 	
 }
 
 void aStarTest::render()
 {
-	for (int i = 0; i < _vTotalList.size(); ++i)
-	{
-		_vTotalList[i]->render();
-		char str[12];
-		sprintf_s(str," %d",_vTotalList[i]->getparentNumber());
-		TextOut(getMemDC(), _vTotalList[i]->getCenter().x - 10, _vTotalList[i]->getCenter().y - 10,str,strlen(str));
-	}
+
 }
 //타일 셋팅 함수
-void aStarTest::setTile()
+void aStarTest::setTile(int enemyX, int enemyY, int playerX, int playerY)
 {
 	_startTile = new tile;
 	_startTile->init(4, 12);
@@ -401,7 +372,7 @@ void aStarTest::pathFinder(tile * currentTile)
 
 
 	//최단경로
-	//_vCloseList.push_back(tempTile);
+	_vCloseList.push_back(tempTile);
 	
 	//최단경로를 넣어놧으면
 	for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
@@ -417,30 +388,30 @@ void aStarTest::pathFinder(tile * currentTile)
 	_currentTile = tempTile;
 	_currentTile->setColor(RGB(255, 0, 0));
 	//pathFinder(_currentTile);
-	for (int i = 0; i < _vTotalList.size(); ++i)
-	{
-		if (_vTotalList[i]->getAttribute() == "start")
-		{
-			
-			_vOpenList.clear();
-			RECT rc;
-			tile* node = new tile;
-			node->init(_startTile->getIdX(), _startTile->getIdY());
-			//node->setIsOpen(false);
-			_startTile->setIdX(_currentTile->getIdX());
-			_startTile->setIdY(_currentTile->getIdY());
-			_startTile->setCetner(PointMake(_currentTile->getIdX()* TILEWIDTH + (TILEWIDTH / 2),
-				_currentTile->getIdY()*TILEHEIGHT + (TILEHEIGHT / 2)));
-			rc = RectMakeCenter(_startTile->getCenter().x, _startTile->getCenter().y, TILEWIDTH, TILEHEIGHT);
-			_startTile->setRect(rc);
-			//swap(_startTile, _vTotalList[_currentTile->getIdY()*TILEWIDTH + _currentTile->getIdX()]);
-			_vTotalList.erase(_vTotalList.begin() + i);
-			_vTotalList.insert(_vTotalList.begin() + i, node);
-			_vTotalList.erase(_vTotalList.begin() + (_currentTile->getIdY()*TILENUMX + _currentTile->getIdX()));
-			_vTotalList.insert(_vTotalList.begin() + (_currentTile->getIdY()*TILENUMX + _currentTile->getIdX()), _startTile);
-			break;
-		}
-	}
+	//for (int i = 0; i < _vTotalList.size(); ++i)
+	//{
+	//	if (_vTotalList[i]->getAttribute() == "start")
+	//	{
+	//		
+	//		_vOpenList.clear();
+	//		RECT rc;
+	//		tile* node = new tile;
+	//		node->init(_startTile->getIdX(), _startTile->getIdY());
+	//		//node->setIsOpen(false);
+	//		_startTile->setIdX(_currentTile->getIdX());
+	//		_startTile->setIdY(_currentTile->getIdY());
+	//		_startTile->setCetner(PointMake(_currentTile->getIdX()* TILEWIDTH + (TILEWIDTH / 2),
+	//			_currentTile->getIdY()*TILEHEIGHT + (TILEHEIGHT / 2)));
+	//		rc = RectMakeCenter(_startTile->getCenter().x, _startTile->getCenter().y, TILEWIDTH, TILEHEIGHT);
+	//		_startTile->setRect(rc);
+	//		//swap(_startTile, _vTotalList[_currentTile->getIdY()*TILEWIDTH + _currentTile->getIdX()]);
+	//		_vTotalList.erase(_vTotalList.begin() + i);
+	//		_vTotalList.insert(_vTotalList.begin() + i, node);
+	//		_vTotalList.erase(_vTotalList.begin() + (_currentTile->getIdY()*TILENUMX + _currentTile->getIdX()));
+	//		_vTotalList.insert(_vTotalList.begin() + (_currentTile->getIdY()*TILENUMX + _currentTile->getIdX()), _startTile);
+	//		break;
+	//	}
+	//}
 }	
 
 void aStarTest::endmove()

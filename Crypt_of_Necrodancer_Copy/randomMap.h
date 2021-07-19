@@ -75,6 +75,7 @@ public:
 
 
 	void generate();
+	void setTile();
 	void makeRooms();
 	void makePassage();
 	void removeUnusedWalls();
@@ -86,8 +87,9 @@ public:
 
 	void shuffle(vector<size_t>& unconnected, size_t size);
 	
+	vector<vector<tagTile>> getTiles() { return _tiles; }
+	vector<ROOM> getRoom() { return m_room; }
+	vector<floor> getFloor() { return _makeTile; }
 
-	TERRAIN getTile(int x, int y);
-	void setTile();
 };
 

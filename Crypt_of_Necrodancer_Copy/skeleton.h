@@ -1,21 +1,22 @@
 #pragma once
 #include "gameNode.h"
 #include "aStarTest.h"
-#include "tileMap.h"
+#include "randomMap.h"
 
-enum DIRECTRION
-{
-	RIGHT,
-	LEFT,
-	UP,
-	DOWN
-};
 
 class skeleton : public gameNode
 {
 protected:
+	enum DIRECTRION
+	{
+		NONE,
+		RIGHT,
+		LEFT,
+		UP,
+		DOWN
+	};
 
-	tileMap* _tilemap;
+	randomMap* _map;
 	aStarTest* _astar;
 	DIRECTRION _direction;
 
@@ -42,6 +43,7 @@ public:
 	virtual image* getImage() { return _img; }
 	virtual int getX() { return _x; }
 	virtual int getY() { return _y; }
+	virtual RECT getRect() { return _rc; }
 	virtual int getShadowX() { return _shadowX; }
 	virtual int getShadowY() { return _shadowY; }
 	
@@ -50,5 +52,5 @@ public:
 	virtual void setY(int y) { _y = y; }
 	virtual void setShadowX(int x) { _shadowX = x; }
 	virtual void setShadowY(int y) { _shadowY = y; }
-	virtual void setTileMapLinK(tileMap* tileMap) { _tilemap = tileMap; }
+	virtual void setTileMapLinK(randomMap* tileMap) { _map = tileMap; }
 };

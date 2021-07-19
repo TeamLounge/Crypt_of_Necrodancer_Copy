@@ -31,12 +31,12 @@ public:
 	aStarTest();
 	~aStarTest();
 
-	HRESULT init();
+	HRESULT init(int enemyX, int enemyY, int playerX, int playerY);
 	void release();
 	void update();
 	void render();
 	//타일 셋팅 함수
-	void setTile();
+	void setTile(int enemyX, int enemyY, int playerX, int playerY);
 	//갈 수 있는 길을 찾아 담아줄 함수
 	vector<tile*> addOpenList(tile* currentTile);
 	//길 찾는 함수
