@@ -58,12 +58,13 @@ void player::update()
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
 		_playerDirection = PLAYER_DIRECTION_LEFT;
-		if (_map->getTiles()[_tileY][_tileX - 1].obj == WALL_BASIC || _map->getTiles()[_tileY][_tileX - 1].obj == WALL_CRACK
-			|| _map->getTiles()[_tileY][_tileX - 1].obj == WALL_GOLD || _map->getTiles()[_tileY][_tileX - 1].obj == WALL_END)
+		OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
+		if (obj == WALL_BASIC || obj == WALL_CRACK
+			|| obj == WALL_GOLD || obj == WALL_END)
 		{
 
 		}
-		else if (_map->getTiles()[_tileY][_tileX - 1].obj == WALL_DOOR)
+		else if (obj == WALL_DOOR)
 		{
 			_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, NULL, NULL);
 			_tileX -= 1;
@@ -78,13 +79,14 @@ void player::update()
 	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
 		_playerDirection = PLAYER_DIRECTION_RIGHT;
-		if (_map->getTiles()[_tileY][_tileX + 1].obj == WALL_BASIC || _map->getTiles()[_tileY][_tileX + 1].obj == WALL_CRACK
-			|| _map->getTiles()[_tileY][_tileX + 1].obj == WALL_GOLD || _map->getTiles()[_tileY][_tileX + 1].obj == WALL_END 
-			|| _map->getTiles()[_tileY][_tileX + 1].obj == WALL_STONE)
+		OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
+		if (obj == WALL_BASIC || obj == WALL_CRACK
+			|| obj == WALL_GOLD || obj == WALL_END
+			|| obj == WALL_STONE)
 		{
 
 		}
-		else if (_map->getTiles()[_tileY][_tileX + 1].obj == WALL_DOOR)
+		else if (obj == WALL_DOOR)
 		{
 			_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, NULL, NULL);
 			_tileX += 1;
@@ -99,13 +101,14 @@ void player::update()
 	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
 		_playerDirection = PLAYER_DIRECTION_UP;
-		if (_map->getTiles()[_tileY - 1][_tileX].obj == WALL_BASIC || _map->getTiles()[_tileY - 1][_tileX].obj == WALL_CRACK
-			|| _map->getTiles()[_tileY - 1][_tileX].obj == WALL_GOLD || _map->getTiles()[_tileY - 1][_tileX].obj == WALL_END
-			|| _map->getTiles()[_tileY][_tileX + 1].obj == WALL_STONE)
+		OBJECT obj = _map->getTileObject(_tileX , _tileY - 1);
+		if (obj == WALL_BASIC || obj == WALL_CRACK
+			|| obj == WALL_GOLD || obj == WALL_END
+			|| obj == WALL_STONE)
 		{
 
 		}
-		else if (_map->getTiles()[_tileY - 1][_tileX].obj == WALL_DOOR)
+		else if (obj == WALL_DOOR)
 		{
 			_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, NULL, NULL);
 			_tileY -= 1;
@@ -120,13 +123,14 @@ void player::update()
 	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
 		_playerDirection = PLAYER_DIRECTION_DOWN;
-		if (_map->getTiles()[_tileY + 1][_tileX].obj == WALL_BASIC || _map->getTiles()[_tileY + 1][_tileX].obj == WALL_CRACK
-			|| _map->getTiles()[_tileY + 1][_tileX].obj == WALL_GOLD || _map->getTiles()[_tileY + 1][_tileX].obj == WALL_END
-			|| _map->getTiles()[_tileY][_tileX + 1].obj == WALL_STONE)
+		OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
+		if (obj == WALL_BASIC || obj == WALL_CRACK
+			|| obj == WALL_GOLD || obj == WALL_END
+			|| obj == WALL_STONE)
 		{
 
 		}
-		else if (_map->getTiles()[_tileY + 1][_tileX].obj == WALL_DOOR)
+		else if (obj == WALL_DOOR)
 		{
 			_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, NULL, NULL);
 			_tileY += 1;
@@ -138,7 +142,7 @@ void player::update()
 			_isPlayerMove = true;
 		}
 	}
-	_tileRect = _map->getTiles()[_tileY][_tileX].rc;
+	_tileRect = _map->getRect(_tileX, _tileY);
 
 	if (_isPlayerMove)
 	{
@@ -260,12 +264,12 @@ void player::render()
 	IMAGEMANAGER->alphaRender("player_shadow2", getMemDC(), _shadow.left, _shadow.top, 125);
 	IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
 	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
-	_vision->render();
+	//_vision->render();
 }
 
 void player::setupPlayerRect()
 {
-	_tileRect = _map->getTiles()[_tileY][_tileX].rc;
+	_tileRect = _map->getRect(_tileX, _tileY);
 	//그림자 초기화
 	_shadow = RectMake(_tileRect.left,
 		_tileRect.top - 37,

@@ -48,7 +48,7 @@ void vision::render()
 			if (_visionSearch[i][j].tileX == NULL || _visionSearch[i][j].tileY == NULL) continue;
 			//if (_visionSearch[i][j].lightNum == 0) continue;
 			sprintf_s(str, "%d", _visionSearch[i][j].lightNum);
-			DrawText(getMemDC(), str, strlen(str), &_map->getTiles()[_visionSearch[i][j].tileY][_visionSearch[i][j].tileX].rc, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+			DrawText(getMemDC(), str, strlen(str), &_map->getRect(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY), DT_CENTER | DT_SINGLELINE | DT_VCENTER);
 		}
 	}
 }
@@ -66,7 +66,7 @@ void vision::searchSurround()
 		
 		//벽이면 탐사 중지
 		
-		OBJECT obj = _map->getTiles()[_visionSearch[10][i - (_tileX - 10)].tileY][_visionSearch[10][i - (_tileX - 10)].tileX].obj;
+		OBJECT obj = _map->getTileObject(_visionSearch[10][i - (_tileX - 10)].tileX, _visionSearch[10][i - (_tileX - 10)].tileY);
 		if (obj == WALL_BASIC
 			|| obj == WALL_CRACK
 			|| obj == WALL_DOOR
@@ -82,7 +82,7 @@ void vision::searchSurround()
 	//우 탐색
 	for (int i = _tileX + 1; i <= _tileX + 10; i++)
 	{
-		if (i >= _map->getTiles()[0].size()) break;
+		if (i >= _map->getYSize()) break;
 		if (_visionSearch[10][i - (_tileX - 10)].tileX == NULL) continue;
 		if (_startLightNum - (i - _tileX) < 0) break;
 
@@ -90,7 +90,7 @@ void vision::searchSurround()
 		
 		//벽이면 탐사 중지
 		
-		OBJECT obj = _map->getTiles()[_visionSearch[10][i - (_tileX - 10)].tileY][_visionSearch[10][i - (_tileX - 10)].tileX].obj;
+		OBJECT obj = _map->getTileObject(_visionSearch[10][i - (_tileX - 10)].tileX, _visionSearch[10][i - (_tileX - 10)].tileY);
 		if (obj == WALL_BASIC
 			|| obj == WALL_CRACK
 			|| obj == WALL_DOOR
@@ -113,8 +113,7 @@ void vision::searchSurround()
 		_visionSearch[i - (_tileY - 10)][10].lightNum = _startLightNum - (_tileY - i);
 		
 		//벽이면 탐사 중지
-		
-		OBJECT obj = _map->getTiles()[_visionSearch[i - (_tileY - 10)][10].tileY][_visionSearch[i - (_tileY - 10)][10].tileX].obj;
+		OBJECT obj = _map->getTileObject(_visionSearch[i - (_tileY - 10)][10].tileX, _visionSearch[i - (_tileY - 10)][10].tileY);
 		if (obj == WALL_BASIC
 			|| obj == WALL_CRACK
 			|| obj == WALL_DOOR
@@ -131,7 +130,7 @@ void vision::searchSurround()
 	//하 탐색
 	for (int i = _tileY + 1; i <= _tileY + 10; i++)
 	{
-		if (i >= _map->getTiles()[0].size()) break;
+		if (i >= _map->getYSize()) break;
 		if (_visionSearch[i - (_tileY - 10)][10].tileY == NULL) continue;
 		if (_startLightNum - (i - _tileY) < 0) break;
 
@@ -140,7 +139,7 @@ void vision::searchSurround()
 		
 		
 		//벽이면 탐사 중지
-		OBJECT obj = _map->getTiles()[_visionSearch[i - (_tileY - 10)][10].tileY][_visionSearch[i - (_tileY - 10)][10].tileX].obj;
+		OBJECT obj = _map->getTileObject(_visionSearch[i - (_tileY - 10)][10].tileX, _visionSearch[i - (_tileY - 10)][10].tileY);
 		if (obj == WALL_BASIC
 			|| obj == WALL_CRACK
 			|| obj == WALL_DOOR
@@ -173,7 +172,7 @@ void vision::searchSurround()
 		if (i < 0) break;
 		for (int j = _tileX + 1; j <= _tileX + 10; j++)
 		{
-			if (j >= _map->getTiles()[0].size()) break;
+			if (j >= _map->getXSize()) break;
 			if (_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileX == NULL) continue;
 			if ((_visionSearch[i - (_tileY - 10) + 1][j - (_tileX - 10)].lightNum + _visionSearch[i - (_tileY - 10)][j - (_tileX - 10) + 1].lightNum) / 2 - 1 < 0) continue;
 			_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].lightNum = (_visionSearch[i - (_tileY - 10) + 1][j - (_tileX - 10)].lightNum + _visionSearch[i - (_tileY - 10)][j - (_tileX - 10) - 1].lightNum) / 2 - 1;
@@ -183,7 +182,7 @@ void vision::searchSurround()
 	//플레이어보다 x는 작고 y는 큰 곳
 	for (int i = _tileY + 1; i <= _tileY + 10; i++)
 	{
-		if (i >= _map->getTiles().size()) break;
+		if (i >= _map->getYSize()) break;
 		for (int j = _tileX - 1; j >= _tileX - 10; j--)
 		{
 			if (j < 0) break;
@@ -196,13 +195,22 @@ void vision::searchSurround()
 	//플레이어보다 x, y 모두 큰 곳
 	for (int i = _tileY + 1; i <= _tileY + 10; i++)
 	{
-		if (i >= _map->getTiles().size()) break;
+		if (i >= _map->getYSize()) break;
 		for (int j = _tileX + 1; j <= _tileX + 10; j++)
 		{
-			if (j >= _map->getTiles()[0].size()) break;
+			if (j >= _map->getXSize()) break;
 			if (_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileX == NULL) continue;
 			if ((_visionSearch[i - (_tileY - 10) - 1][j - (_tileX - 10)].lightNum + _visionSearch[i - (_tileY - 10)][j - (_tileX - 10) - 1].lightNum) / 2 - 1 < 0) continue;
 			_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].lightNum = (_visionSearch[i - (_tileY - 10) - 1][j - (_tileX - 10)].lightNum + _visionSearch[i - (_tileY - 10)][j - (_tileX - 10) - 1].lightNum) / 2 - 1;
+		}
+	}
+
+	//이미 지나왔던 곳인지 확인
+	for (int i = 0; i < 21; i++)
+	{
+		for (int j = 0; j < 21; j++)
+		{
+
 		}
 	}
 }
@@ -213,8 +221,18 @@ void vision::setTileAlpha()
 	{
 		for (int j = 0; j < 21; j++)
 		{
+			if (_map->getIsSeen(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY))
+			{
+				_map->setAlpha(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY, 20);
+			}
+		}
+	}
+	for (int i = 0; i < 21; i++)
+	{
+		for (int j = 0; j < 21; j++)
+		{
 			if (_visionSearch[i][j].tileY == NULL || _visionSearch[i][j].tileX == NULL) continue;
-			if (_visionSearch[i][j].lightNum <= 0)
+			if (_visionSearch[i][j].lightNum <= 0 && !_map->getIsSeen(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY))
 			{
 				_map->setAlpha(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY, 0);
 				continue;
@@ -222,6 +240,7 @@ void vision::setTileAlpha()
 			
 			if (_visionSearch[i][j].lightNum > 5) _visionSearch[i][j].lightNum = 5;
 			_map->setAlpha(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY, 130 + (_visionSearch[i][j].lightNum * 25));
+			_map->setIsSeen(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY, true);
 		}
 	}
 }
@@ -231,12 +250,12 @@ void vision::setSearchBoundary()
 	for (int i = _tileY - 10; i <= _tileY + 10; i++)
 	{
 		if (i < 0) continue;
-		if (i >= _map->getTiles().size()) break;
+		if (i >= _map->getYSize()) break;
 
 		for (int j = _tileX - 10; j <= _tileX + 10; j++)
 		{
 			if (j < 0) continue;
-			if (j >= _map->getTiles()[0].size()) break;
+			if (j >= _map->getXSize()) break;
 			if (j == _tileX && i == _tileY) continue;
 
 			_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileX = j;

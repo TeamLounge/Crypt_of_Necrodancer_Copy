@@ -18,6 +18,13 @@ void mapGenerator::release()
 
 void mapGenerator::update()
 {
+	for (int i = 0; i < _tiles.size(); ++i)
+	{
+		for (int j = 0; j < _tiles[i].size(); ++j)
+		{
+			_tiles[i][j].alpha = 0;
+		}
+	}
 }
 
 void mapGenerator::render()
@@ -1150,7 +1157,7 @@ TERRAIN mapGenerator::getTileTerrain(int x, int y)
 	return _tiles[y][x].terrain;
 }
 
-OBJECT mapGenerator::getObject(int x, int y)
+OBJECT mapGenerator::getTileObject(int x, int y)
 {
 	if (x < 0 || y < 0 || x >= _width || y >= _height)
 		return OBJ_NONE;
@@ -1187,6 +1194,9 @@ void mapGenerator::deleteEmptyTiles()
 	{
 		_tiles.erase(_tiles.begin() + i);
 	}
+
+	_width = _tiles[0].size();
+	_height = _tiles.size();
 }
 
 void mapGenerator::moveMap()

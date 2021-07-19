@@ -65,7 +65,7 @@ public:
 
 	TERRAIN getTileTerrain(int x, int y);
 
-	OBJECT getObject(int x, int y);
+	OBJECT getTileObject(int x, int y);
 
 	vector<tagRoom> getRoom() { return _rooms; }
 
@@ -82,8 +82,10 @@ public:
 
 	tagRoom getStartRoom();
 
-	vector<vector<tagTile>> getTiles() { return _tiles; }
+	//vector<vector<tagTile>> getTiles() { return _tiles; }
 
+
+	//설정자
 	void setTileObject(int tileX, int tileY, OBJECT obj, int objectFrameX = 0, int objectFrameY = 0)
 	{
 		_tiles[tileY][tileX].obj = obj;
@@ -96,10 +98,17 @@ public:
 		_tiles[tileY][tileX].terrainFrameX = terrainFrameX;
 		_tiles[tileY][tileX].terrainFrameY = terrainFrameY;
 	};
-
 	void setAlpha(int tileX, int tileY, int alpha)
 	{
 		_tiles[tileY][tileX].alpha = alpha;
 	}
+	void setIsSeen(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isSeen = b; }
+
+	//접근자
+	bool getIsSeen(int tileX, int tileY) { return _tiles[tileY][tileX].isSeen; }
+	RECT getRect(int tileX, int tileY) { return _tiles[tileY][tileX].rc; }
+
+	int getXSize() { return _width; }
+	int getYSize() { return _height; }
 };
 
