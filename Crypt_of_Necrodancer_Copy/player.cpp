@@ -21,6 +21,9 @@ HRESULT player::init(int tileX, int tileY)
 	_currentFrameY = 0;
 	_gravity = 0;
 	_playerDirection = PLAYER_DIRECTION_RIGHT;
+
+	_vision = new vision;
+	_vision->init(_tileX, _tileY, 5);
 	return S_OK;
 }
 
@@ -51,7 +54,7 @@ void player::update()
 			_currentFrameY = 0;
 		}
 	}
-
+	
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
 		_playerDirection = PLAYER_DIRECTION_LEFT;
@@ -72,11 +75,12 @@ void player::update()
 			_isPlayerMove = true;
 		}
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
 		_playerDirection = PLAYER_DIRECTION_RIGHT;
 		if (_map->getTiles()[_tileY][_tileX + 1].obj == WALL_BASIC || _map->getTiles()[_tileY][_tileX + 1].obj == WALL_CRACK
-			|| _map->getTiles()[_tileY][_tileX + 1].obj == WALL_GOLD || _map->getTiles()[_tileY][_tileX + 1].obj == WALL_END)
+			|| _map->getTiles()[_tileY][_tileX + 1].obj == WALL_GOLD || _map->getTiles()[_tileY][_tileX + 1].obj == WALL_END 
+			|| _map->getTiles()[_tileY][_tileX + 1].obj == WALL_STONE)
 		{
 
 		}
@@ -92,11 +96,12 @@ void player::update()
 			_isPlayerMove = true;
 		}
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
 		_playerDirection = PLAYER_DIRECTION_UP;
 		if (_map->getTiles()[_tileY - 1][_tileX].obj == WALL_BASIC || _map->getTiles()[_tileY - 1][_tileX].obj == WALL_CRACK
-			|| _map->getTiles()[_tileY - 1][_tileX].obj == WALL_GOLD || _map->getTiles()[_tileY - 1][_tileX].obj == WALL_END)
+			|| _map->getTiles()[_tileY - 1][_tileX].obj == WALL_GOLD || _map->getTiles()[_tileY - 1][_tileX].obj == WALL_END
+			|| _map->getTiles()[_tileY][_tileX + 1].obj == WALL_STONE)
 		{
 
 		}
@@ -112,11 +117,12 @@ void player::update()
 			_isPlayerMove = true;
 		}
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
 		_playerDirection = PLAYER_DIRECTION_DOWN;
 		if (_map->getTiles()[_tileY + 1][_tileX].obj == WALL_BASIC || _map->getTiles()[_tileY + 1][_tileX].obj == WALL_CRACK
-			|| _map->getTiles()[_tileY + 1][_tileX].obj == WALL_GOLD || _map->getTiles()[_tileY + 1][_tileX].obj == WALL_END)
+			|| _map->getTiles()[_tileY + 1][_tileX].obj == WALL_GOLD || _map->getTiles()[_tileY + 1][_tileX].obj == WALL_END
+			|| _map->getTiles()[_tileY][_tileX + 1].obj == WALL_STONE)
 		{
 
 		}
@@ -243,6 +249,8 @@ void player::update()
 		IMAGEMANAGER->findImage(_headImageName)->getFrameHeight());
 
 	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
+
+	_vision->update(_tileX, _tileY);
 }
 
 void player::render()
@@ -252,6 +260,7 @@ void player::render()
 	IMAGEMANAGER->alphaRender("player_shadow2", getMemDC(), _shadow.left, _shadow.top, 125);
 	IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
 	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
+	_vision->render();
 }
 
 void player::setupPlayerRect()
@@ -275,6 +284,9 @@ void player::setupPlayerRect()
 	
 	_x = (_body.left + _body.right) / 2;
 	_y = (_body.top + _body.bottom) / 2;
+
+	_vision->setVisionMapMemoryAddressLink(_map);
+	_vision->setSearchBoundary();
 
 	//카메라 설정
 	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);

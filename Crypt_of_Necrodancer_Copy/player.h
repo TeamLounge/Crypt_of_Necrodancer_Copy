@@ -1,6 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "mapGenerator.h"
+#include "vision.h"
 
 enum PLAYER_DIRECTION
 {
@@ -27,6 +28,7 @@ private:
 	float _gravity;
 
 	mapGenerator* _map;
+	vision* _vision;
 
 	float _elapsedSec; //프레임 움직임 위해서
 	bool _isPlayerMove;

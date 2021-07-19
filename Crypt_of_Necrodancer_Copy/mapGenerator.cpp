@@ -26,31 +26,32 @@ void mapGenerator::render()
 	{
 		for (int j = 0; j < _tiles[i].size(); ++j)
 		{
+			if (_tiles[i][j].alpha <= 0) continue;
 			switch (_tiles[i][j].terrain)
 			{
 			case DIRT1:
-				IMAGEMANAGER->frameRender("dirt1_tile", getMemDC(),
-					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY);
+				IMAGEMANAGER->alphaFrameRender("dirt1_tile", getMemDC(),
+					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY, _tiles[i][j].alpha);
 				break;
 			case DIRT2:
-				IMAGEMANAGER->frameRender("dirt2_tile", getMemDC(),
-					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY);
+				IMAGEMANAGER->alphaFrameRender("dirt2_tile", getMemDC(),
+					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY, _tiles[i][j].alpha);
 				break;
 			case BOSS:
-				IMAGEMANAGER->frameRender("boss_tile", getMemDC(),
-					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY);
+				IMAGEMANAGER->alphaFrameRender("boss_tile", getMemDC(),
+					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY, _tiles[i][j].alpha);
 				break;
 			case WATER:
-				IMAGEMANAGER->frameRender("water_tile", getMemDC(),
-					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY);
+				IMAGEMANAGER->alphaFrameRender("water_tile", getMemDC(),
+					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY, _tiles[i][j].alpha);
 				break;
 			case SHOP:
-				IMAGEMANAGER->frameRender("shop_tile", getMemDC(),
-					_tiles[i][j].rc.left, _tiles[i][j].rc.top, 0, 0);
+				IMAGEMANAGER->alphaFrameRender("shop_tile", getMemDC(),
+					_tiles[i][j].rc.left, _tiles[i][j].rc.top, 0, 0, _tiles[i][j].alpha);
 				break;
 			case STAIR:
-				IMAGEMANAGER->frameRender("stair_miniboss_tile", getMemDC(),
-					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY);
+				IMAGEMANAGER->alphaFrameRender("stair_miniboss_tile", getMemDC(),
+					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY, _tiles[i][j].alpha);
 				break;
 			case EMPTY:
 				break;
@@ -65,12 +66,12 @@ void mapGenerator::render()
 			if (_tiles[i][j].obj == OBJ_NONE) continue;
 			if (_tiles[i][j].obj == WALL_BASIC)
 			{
-				IMAGEMANAGER->frameRender("walls1", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				IMAGEMANAGER->alphaFrameRender("walls1", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY, _tiles[i][j].alpha);
 			}
 			else if (_tiles[i][j].obj == WALL_GOLD || _tiles[i][j].obj == WALL_STONE || _tiles[i][j].obj == WALL_CRACK
 				|| _tiles[i][j].obj == WALL_DOOR || _tiles[i][j].obj == WALL_END)
 			{
-				IMAGEMANAGER->frameRender("walls2", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				IMAGEMANAGER->alphaFrameRender("walls2", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY, _tiles[i][j].alpha);
 			}
 
 		}
@@ -100,9 +101,13 @@ void mapGenerator::generate(int maxFeatures)
 
 		//여기가 생성
 		_tiles.clear();
+		vector<vector<tagTile>>().swap(_tiles);
 		_rooms.clear();
+		vector<tagRoom>().swap(_rooms);
 		_corridors.clear();
+		vector<tagRoom>().swap(_corridors);
 		_exits.clear();
+		vector<tagRoom>().swap(_exits);
 		for (int i = 0; i < _height; ++i)
 		{
 			vector<tagTile> vTile;
@@ -117,6 +122,8 @@ void mapGenerator::generate(int maxFeatures)
 				tile.objectFrameX = NULL;
 				tile.objectFrameY = NULL;
 				tile.isHaveTorch = false;
+				tile.alpha = 0;
+				tile.isSeen = false;
 				vTile.push_back(tile);
 			}
 			_tiles.push_back(vTile);

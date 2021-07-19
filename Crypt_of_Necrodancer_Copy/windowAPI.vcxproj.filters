@@ -117,6 +117,9 @@
     <ClInclude Include="playerTestScene.h">
       <Filter>playGround</Filter>
     </ClInclude>
+    <ClInclude Include="vision.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -178,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="playerTestScene.cpp">
       <Filter>playGround</Filter>
+    </ClCompile>
+    <ClCompile Include="vision.cpp">
+      <Filter>playGround\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

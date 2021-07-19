@@ -19,6 +19,7 @@ void playerTestScene::release()
 
 void playerTestScene::update()
 {
+	_map->update();
 	_player->update();
 	/*
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))

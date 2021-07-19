@@ -84,17 +84,22 @@ public:
 
 	vector<vector<tagTile>> getTiles() { return _tiles; }
 
-	void setTileObject(int x, int y, OBJECT obj, int objectFrameX = 0, int objectFrameY = 0)
+	void setTileObject(int tileX, int tileY, OBJECT obj, int objectFrameX = 0, int objectFrameY = 0)
 	{
-		_tiles[y][x].obj = obj;
-		_tiles[y][x].objectFrameX = objectFrameX;
-		_tiles[y][x].objectFrameY = objectFrameY;
+		_tiles[tileY][tileX].obj = obj;
+		_tiles[tileY][tileX].objectFrameX = objectFrameX;
+		_tiles[tileY][tileX].objectFrameY = objectFrameY;
 	};
-	void setTileTerrain(int x, int y, TERRAIN terrain, int terrainFrameX = 0, int terrainFrameY = 0)
+	void setTileTerrain(int tileX, int tileY, TERRAIN terrain, int terrainFrameX = 0, int terrainFrameY = 0)
 	{
-		_tiles[y][x].terrain = terrain;
-		_tiles[y][x].terrainFrameX = terrainFrameX;
-		_tiles[y][x].terrainFrameY = terrainFrameY;
+		_tiles[tileY][tileX].terrain = terrain;
+		_tiles[tileY][tileX].terrainFrameX = terrainFrameX;
+		_tiles[tileY][tileX].terrainFrameY = terrainFrameY;
 	};
+
+	void setAlpha(int tileX, int tileY, int alpha)
+	{
+		_tiles[tileY][tileX].alpha = alpha;
+	}
 };
 

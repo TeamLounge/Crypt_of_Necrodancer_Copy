@@ -14,6 +14,8 @@ struct tagTile
 	int objectFrameX;
 	int objectFrameY;
 	bool isHaveTorch;
+	int alpha;
+	bool isSeen;
 };
 
 class tileMap : public gameNode
