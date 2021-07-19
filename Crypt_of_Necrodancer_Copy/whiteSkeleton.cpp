@@ -14,7 +14,7 @@ HRESULT whiteSkeleton::init()
 		{
 		case 0:
 			random = RND->getInt(_map->getRoom().size());//랜덤방에 배치
-			if(_map->getRoom()[random]._state == ROOM_PLAYER ||
+			if(_map->getRoom()[random]._state == ROOM_START ||
 				_map->getRoom()[random]._state == ROOM_SHOP)
 				continue;// 그 방이 플레이어방이거나 상점이면 컨티뉴  
 			_x = RND->getFromIntTo(_map->getRoom()[random].left, _map->getRoom()[random].right);
@@ -32,7 +32,7 @@ HRESULT whiteSkeleton::init()
 			bool pass = true; //여기는 플레이어방,상점방 겹치는지 체크하기위해서
 			for (int i = 0; i< _map->getRoom().size(); ++i)
 			{
-				if (_map->getRoom()[i]._state == ROOM_PLAYER ||
+				if (_map->getRoom()[i]._state == ROOM_START ||
 					_map->getRoom()[i]._state == ROOM_SHOP)
 				{
 					if ((_map->getRoom()[i].left+3 <= _x && _map->getRoom()[i].right-3 >= _x) ||

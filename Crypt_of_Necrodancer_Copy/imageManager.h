@@ -21,11 +21,11 @@ public:
 	HRESULT init();
 	void release();
 
-	image* addImage(string strKey, int width, int height);
-	image* addImage(string strKey, const char* fileName, int width, int height, bool trans, COLORREF transColor);
+	image* addImage(string strKey, int width, int height, bool isBlend = false);
+	image* addImage(string strKey, const char* fileName, int width, int height, bool trans, COLORREF transColor, bool isBlend = false);
 
-	image* addFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor);
-	image* addFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor);
+	image* addFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, bool isBlend = false);
+	image* addFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool trans, COLORREF transColor, bool isBlend = false);
 
 	image* findImage(string strKey);
 
@@ -40,5 +40,10 @@ public:
 	void frameRender(string strKey, HDC hdc, int destX, int destY);
 	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
+	void alphaRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha);
+	void alphaRender(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
+
+	void alphaFrameRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha);
+	void alphaFrameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "image.h"
 
-static image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", BACKGROUNDX, BACKGROUNDX);
+static image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", BACKGROUNDX, BACKGROUNDY);
 
 enum CTRL
 {
@@ -33,6 +33,14 @@ enum CATEGORY
 	CATEGORY_WALL1,
 	CATEGORY_WALL2,
 	CATEGORY_OBJECT
+};
+
+enum ROOMSTATE
+{
+	ROOM_BASIC,
+	ROOM_SHOP,
+	ROOM_BOSS,
+	ROOM_START
 };
 
 class gameNode

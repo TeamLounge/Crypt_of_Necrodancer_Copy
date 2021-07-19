@@ -3,6 +3,7 @@
 #include "mapTool.h"
 #include "randomMap.h"
 #include "whiteSkeleton.h"
+#include "playerTestScene.h"
 class playGround : public gameNode
 {
 private:

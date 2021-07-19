@@ -31,7 +31,8 @@ HRESULT playGround::init()
 	_skeleton->init();
 
 
-	CAMERAMANAGER->setCamera(0,0);
+	SCENEMANAGER->addScene("player_test", new playerTestScene);
+	SCENEMANAGER->changeScene("player_test");
 
 	return S_OK;
 }
@@ -54,10 +55,10 @@ void playGround::update()
 	
 
 
-	_randomMap->update();
-	_skeleton->update();
-	CAMERAMANAGER->setCameraCenterX((_skeleton->getRect().right+ _skeleton->getRect().left)/2);
-	CAMERAMANAGER->setCameraCenterY((_skeleton->getRect().bottom + _skeleton->getRect().top) / 2);
+	//_randomMap->update();
+	//_skeleton->update();
+	//CAMERAMANAGER->setCameraCenterX((_skeleton->getRect().right+ _skeleton->getRect().left)/2);
+	//CAMERAMANAGER->setCameraCenterY((_skeleton->getRect().bottom + _skeleton->getRect().top) / 2);
 
 	//CAMERAMANAGER->updateCamera(_skeleton->getX(), _skeleton->getY());
 	//if (KEYMANAGER->isStayKeyDown(VK_LEFT))
@@ -77,21 +78,45 @@ void playGround::update()
 	//	CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() + TILESIZE);
 	//}
 	
+	SCENEMANAGER->update();
+	//_mapTool->update();
+	//_randomMap->update();
+
+	/*
+	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+	{
+		CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() - TILESIZE);
+	}
+	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+	{
+		CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() + TILESIZE);
+	}
+	if (KEYMANAGER->isStayKeyDown(VK_UP))
+	{
+		CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() - TILESIZE);
+	}
+	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+	{
+		CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() + TILESIZE);
+	}
+	*/
 }
 
 
 void playGround::render()
 {
-	PatBlt(getMemDC(), 0, 0, BACKGROUNDX, BACKGROUNDY, WHITENESS);
+	PatBlt(getMemDC(), 0, 0, BACKGROUNDX, BACKGROUNDY, BLACKNESS);
 	//================제발 이 사이에 좀 그립시다==========================
 
 	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
 	SelectObject(getMemDC(), myPen);
 	//_mapTool->render();
-	_randomMap->render();
-	_skeleton->render();
-	//SCENEMANAGER->render();
+	//_randomMap->render();
+	//_skeleton->render();
+	//_randomMap->render();
+	SCENEMANAGER->render();
 	//TIMEMANAGER->render(getMemDC());
+	//SCENEMANAGER->render();
 	DeleteObject(myPen);
 	//==================================================
 	//this->getBackBuffer()->render(getHDC(), 0, 0);
@@ -102,21 +127,21 @@ void playGround::render()
 void playGround::setImage()
 {
 	//타일맵 이미지
-	IMAGEMANAGER->addFrameImage("boss_tile", "image/object/tile/boss.bmp", 216, 144, 3, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("dirt1_tile", "image/object/tile/dirt1.bmp", 216, 144, 3, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("dirt2_tile", "image/object/tile/dirt2.bmp", 216, 144, 3, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("shop_tile", "image/object/tile/shop.bmp", 72, 72, 1, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("water_tile", "image/object/tile/water.bmp", 216, 72, 3, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("stair_miniboss_tile", "image/object/tile/stair_miniboss.bmp", 144, 72, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("stair_locked_tile", "image/object/tile/stair_locked.bmp", 144, 72, 2, 1 ,true, RGB(255, 0, 255));
-	
+	IMAGEMANAGER->addFrameImage("boss_tile", "image/object/tile/boss.bmp", 216, 144, 3, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("dirt1_tile", "image/object/tile/dirt1.bmp", 216, 144, 3, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("dirt2_tile", "image/object/tile/dirt2.bmp", 216, 144, 3, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("shop_tile", "image/object/tile/shop.bmp", 72, 72, 1, 1, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("water_tile", "image/object/tile/water.bmp", 216, 72, 3, 1, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("stair_miniboss_tile", "image/object/tile/stair_miniboss.bmp", 144, 72, 2, 1, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("stair_locked_tile", "image/object/tile/stair_locked.bmp", 144, 72, 2, 1 ,true, RGB(255, 0, 255), true);
+
 	//벽 이미지 샘플
 	IMAGEMANAGER->addFrameImage("sample_walls1", "image/object/walls/sampleWalls1.bmp", 384, 480, 8, 5, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("sample_walls2", "image/object/walls/sampleWalls2.bmp", 384, 384, 8, 4, true, RGB(255, 0, 255));
 
 	//벽 이미지
-	IMAGEMANAGER->addFrameImage("walls1", "image/object/walls/walls1.bmp", 576, 720, 8, 5, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("walls2", "image/object/walls/walls2.bmp", 576, 576, 8, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("walls1", "image/object/walls/walls1.bmp", 576, 720, 8, 5, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("walls2", "image/object/walls/walls2.bmp", 576, 576, 8, 4, true, RGB(255, 0, 255), true);
 
 	//함정 이미지
 	IMAGEMANAGER->addFrameImage("bomb_trap", "image/object/trapBomb.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255));
@@ -138,5 +163,4 @@ void playGround::setImage()
 	IMAGEMANAGER->addFrameImage("wall_torch", "image/object/walls/wall_torch.bmp", 144, 78, 4, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->findImage("wall_torch")->setFrameX(0);
 	IMAGEMANAGER->findImage("wall_torch")->setFrameY(0);
-
 }
