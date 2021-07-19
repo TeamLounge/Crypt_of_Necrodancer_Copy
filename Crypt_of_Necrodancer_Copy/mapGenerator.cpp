@@ -59,6 +59,7 @@ void mapGenerator::render()
 			case STAIR_BOSS:
 				IMAGEMANAGER->alphaFrameRender("stair_miniboss_tile", getMemDC(),
 					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY, _tiles[i][j].alpha);
+				break;
 			case STAIR_NONE:
 				IMAGEMANAGER->alphaFrameRender("stair_locked_tile", getMemDC(),
 					_tiles[i][j].rc.left, _tiles[i][j].rc.top, 1, 0, _tiles[i][j].alpha);
@@ -72,7 +73,6 @@ void mapGenerator::render()
 				Rectangle(getMemDC(), _tiles[i][j].rc);
 			}
 
-
 			if (_tiles[i][j].obj == OBJ_NONE) continue;
 			if (_tiles[i][j].obj == WALL_BASIC)
 			{
@@ -84,6 +84,12 @@ void mapGenerator::render()
 				IMAGEMANAGER->alphaFrameRender("walls2", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY, _tiles[i][j].alpha);
 			}
 
+			if (_tiles[i][j].isHaveTorch)
+			{
+				IMAGEMANAGER->frameRender("wall_torch", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("wall_torch")->getFrameWidth() / 2 - 5,
+					_tiles[i][j].rc.top - (TILESIZE * 5) / 8 - TILESIZE / 3);
+			}
 		}
 	}
 
@@ -101,6 +107,7 @@ void mapGenerator::render()
 			TextOut(getMemDC(), _tiles[_rooms[i].y][_rooms[i].x].rc.left, _tiles[_rooms[i].y][_rooms[i].x].rc.top, str, strlen(str));
 		}
 	}
+
 }
 
 void mapGenerator::generate(int maxFeatures)
@@ -146,8 +153,8 @@ void mapGenerator::generate(int maxFeatures)
 		//스타트 지점 랜덤 지정
 		while (1)
 		{
-			_start = RND->getFromIntTo(1, (maxFeatures - 2) * 2);
-			if (_start % 2 == 0)
+			_startRoomIndex = RND->getFromIntTo(1, (maxFeatures - 2) * 2);
+			if (_startRoomIndex % 2 == 0)
 			{
 				break;
 			}
@@ -179,7 +186,7 @@ void mapGenerator::generate(int maxFeatures)
 			bool _isEmptyRoom = false;;
 			for (int i = 0; i < _tiles.size() - 1; i++)
 			{
-				if (_tiles[i][j].terrain == DIRT1)
+				if (_tiles[i][j].terrain == DIRT1 && !_isEmptyRoom)
 				{
 					if (_tiles[i + 1][j].terrain == EMPTY)
 					{
@@ -202,7 +209,7 @@ void mapGenerator::generate(int maxFeatures)
 					}
 				}
 			}
-			if (_isEmptyRoom)
+			if (_isEmptyRoom && !_newRoomYIndex.empty())
 			{
 				_newRoomYIndex.pop_back();
 			}
@@ -270,7 +277,7 @@ void mapGenerator::generate(int maxFeatures)
 			bool _isEmptyRoom = false;;
 			for (int j = 0; j < _tiles[i].size() - 1; j++)
 			{
-				if (_tiles[i][j].terrain == DIRT1)
+				if (_tiles[i][j].terrain == DIRT1 && !_isEmptyRoom)
 				{
 					if (_tiles[i][j + 1].terrain == EMPTY)
 					{
@@ -491,7 +498,11 @@ void mapGenerator::generate(int maxFeatures)
 		deleteEmptyTiles();
 		setStone();
 		setBossRoom();
+		setTorch();
 	}
+
+	_width = _tiles[0].size();
+	_height = _tiles.size();
 }
 
 bool mapGenerator::makeRoom(int x, int y, DIRECTION dir, bool firstRoom, int index)
@@ -499,7 +510,7 @@ bool mapGenerator::makeRoom(int x, int y, DIRECTION dir, bool firstRoom, int ind
 	int minRoomSize = 5;
 	int maxRoomSize = 8;
 	tagRoom room;
-	if (index == _start)
+	if (index == _startRoomIndex)
 	{
 		room.roomState = ROOM_START;
 		room.width = 5;
@@ -1197,9 +1208,6 @@ void mapGenerator::deleteEmptyTiles()
 	{
 		_tiles.erase(_tiles.begin() + i);
 	}
-
-	_width = _tiles[0].size();
-	_height = _tiles.size();
 }
 
 void mapGenerator::moveMap()
@@ -1382,33 +1390,31 @@ void mapGenerator::setStone()
 
 void mapGenerator::setBossRoom()
 {
-	int start = 0;
-	int bossRoom = 0;
 	int max = 0;
 	for (int i = 0; i < _rooms.size(); i++)
 	{
 		if (_rooms[i].roomState == ROOM_START)
 		{
-			start = i;
+			_startRoomIndex = i;
 		}
 	}
 	for (int i = 0; i < _rooms.size(); i++)
 	{
-		if (i == start) continue;
+		if (i == _startRoomIndex) continue;
 		if (_rooms[i].roomState != ROOM_SHOP)
 		{
-			float distance = getDistance(_tiles[_rooms[i].y][_rooms[i].x].rc.left, _tiles[_rooms[i].y][_rooms[i].x].rc.top, _tiles[_rooms[start].y][_rooms[start].x].rc.left, _tiles[_rooms[start].y][_rooms[start].x].rc.top);
+			float distance = getDistance(_tiles[_rooms[i].y][_rooms[i].x].rc.left, _tiles[_rooms[i].y][_rooms[i].x].rc.top, _tiles[_rooms[_startRoomIndex].y][_rooms[_startRoomIndex].x].rc.left, _tiles[_rooms[_startRoomIndex].y][_rooms[_startRoomIndex].x].rc.top);
 			if (distance > max)
 			{
 				max = distance;
-				bossRoom = i;
+				_bossRoomIndex = i;
 			}
 		}
 	}
-	_rooms[bossRoom].roomState = ROOM_BOSS;
+	_rooms[_bossRoomIndex].roomState = ROOM_BOSS;
 
-	int x = RND->getFromIntTo(_rooms[bossRoom].x, _rooms[bossRoom].x + _rooms[bossRoom].width - 1);
-	int y = RND->getFromIntTo(_rooms[bossRoom].y, _rooms[bossRoom].y + _rooms[bossRoom].height - 1);
+	int x = RND->getFromIntTo(_rooms[_bossRoomIndex].x, _rooms[_bossRoomIndex].x + _rooms[_bossRoomIndex].width - 1);
+	int y = RND->getFromIntTo(_rooms[_bossRoomIndex].y, _rooms[_bossRoomIndex].y + _rooms[_bossRoomIndex].height - 1);
 	_tiles[y][x].terrain = STAIR_BOSS;
 	_tiles[y][x].terrainFrameX = 0;
 	_tiles[y][x].terrainFrameY = 0;
@@ -1417,14 +1423,52 @@ void mapGenerator::setBossRoom()
 	_tiles[y][x].objectFrameY = 0;
 }
 
-tagRoom mapGenerator::getStartRoom()
+void mapGenerator::setTorch()
 {
 	for (int i = 0; i < _rooms.size(); i++)
 	{
-		if (_rooms[i].roomState == ROOM_START)
+		if (_rooms[i].roomState == ROOM_SHOP)
 		{
-			return _rooms[i];
-			break;
+			int torchNum = RND->getFromIntTo(7, 10);
+			int count = 0;
+			while (1)
+			{
+				if (count == torchNum) break;
+				int x = RND->getFromIntTo(_rooms[i].x - 1, _rooms[i].x + _rooms[i].width + 1);
+				int y = RND->getFromIntTo(_rooms[i].y - 1, _rooms[i].y + _rooms[i].height + 1);
+				if (_tiles[y][x].obj == WALL_GOLD && !_tiles[y][x].isHaveTorch)
+				{
+					if (!_tiles[y][x - 1].isHaveTorch && !_tiles[y][x + 1].isHaveTorch && !_tiles[y - 1][x].isHaveTorch && !_tiles[y + 1][x].isHaveTorch)
+					{
+						_tiles[y][x].isHaveTorch = true;
+						count++;
+					}
+				}
+			}
+		}
+		else
+		{
+			int torchNum = RND->getFromIntTo(2, 5);
+			int count = 0;
+			while (1)
+			{
+				if (count == torchNum) break;
+				int x = RND->getFromIntTo(_rooms[i].x - 1, _rooms[i].x + _rooms[i].width + 1);
+				int y = RND->getFromIntTo(_rooms[i].y - 1, _rooms[i].y + _rooms[i].height + 1);
+				if (!_tiles[y][x].isHaveTorch)
+				{
+					if (_tiles[y][x].obj == WALL_BASIC || _tiles[y][x].obj == WALL_CRACK || _tiles[y][x].obj == WALL_GOLD || _tiles[y][x].obj == WALL_STONE)
+					{
+						if (!_tiles[y][x - 1].isHaveTorch && !_tiles[y][x + 1].isHaveTorch && !_tiles[y - 1][x].isHaveTorch && !_tiles[y + 1][x].isHaveTorch)
+						{
+							_tiles[y][x].isHaveTorch = true;
+							count++;
+						}
+					}
+				}
+			}
 		}
 	}
+	
+	
 }

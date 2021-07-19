@@ -54,92 +54,94 @@ void player::update()
 			_currentFrameY = 0;
 		}
 	}
-	
-	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+	if (!_isPlayerMove)
 	{
-		_playerDirection = PLAYER_DIRECTION_LEFT;
-		OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
-		if (obj == WALL_BASIC || obj == WALL_CRACK
-			|| obj == WALL_GOLD || obj == WALL_END)
+		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 		{
+			_playerDirection = PLAYER_DIRECTION_LEFT;
+			OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
+			if (obj == WALL_CRACK
+				|| obj == WALL_GOLD || obj == WALL_END)
+			{
 
+			}
+			else if (obj == WALL_DOOR || obj == WALL_BASIC)
+			{
+				_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, NULL, NULL);
+				_tileX -= 1;
+				_isPlayerMove = true;
+			}
+			else
+			{
+				_tileX -= 1;
+				_isPlayerMove = true;
+			}
 		}
-		else if (obj == WALL_DOOR)
+		else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 		{
-			_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, NULL, NULL);
-			_tileX -= 1;
-			_isPlayerMove = true;
-		}
-		else
-		{
-			_tileX -= 1;
-			_isPlayerMove = true;
-		}
-	}
-	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
-	{
-		_playerDirection = PLAYER_DIRECTION_RIGHT;
-		OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
-		if (obj == WALL_BASIC || obj == WALL_CRACK
-			|| obj == WALL_GOLD || obj == WALL_END
-			|| obj == WALL_STONE)
-		{
+			_playerDirection = PLAYER_DIRECTION_RIGHT;
+			OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
+			if (obj == WALL_CRACK
+				|| obj == WALL_GOLD || obj == WALL_END
+				|| obj == WALL_STONE)
+			{
 
+			}
+			else if (obj == WALL_DOOR || obj == WALL_BASIC)
+			{
+				_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, NULL, NULL);
+				_tileX += 1;
+				_isPlayerMove = true;
+			}
+			else
+			{
+				_tileX += 1;
+				_isPlayerMove = true;
+			}
 		}
-		else if (obj == WALL_DOOR)
+		else if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, NULL, NULL);
-			_tileX += 1;
-			_isPlayerMove = true;
-		}
-		else
-		{
-			_tileX += 1;
-			_isPlayerMove = true;
-		}
-	}
-	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
-	{
-		_playerDirection = PLAYER_DIRECTION_UP;
-		OBJECT obj = _map->getTileObject(_tileX , _tileY - 1);
-		if (obj == WALL_BASIC || obj == WALL_CRACK
-			|| obj == WALL_GOLD || obj == WALL_END
-			|| obj == WALL_STONE)
-		{
+			_playerDirection = PLAYER_DIRECTION_UP;
+			OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
+			if (obj == WALL_CRACK
+				|| obj == WALL_GOLD || obj == WALL_END
+				|| obj == WALL_STONE)
+			{
 
+			}
+			else if (obj == WALL_DOOR || obj == WALL_BASIC)
+			{
+				_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, NULL, NULL);
+				_tileY -= 1;
+				_isPlayerMove = true;
+			}
+			else
+			{
+				_tileY -= 1;
+				_isPlayerMove = true;
+			}
 		}
-		else if (obj == WALL_DOOR)
+		else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-			_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, NULL, NULL);
-			_tileY -= 1;
-			_isPlayerMove = true;
-		}
-		else
-		{
-			_tileY -= 1;
-			_isPlayerMove = true;
-		}
-	}
-	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-	{
-		_playerDirection = PLAYER_DIRECTION_DOWN;
-		OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
-		if (obj == WALL_BASIC || obj == WALL_CRACK
-			|| obj == WALL_GOLD || obj == WALL_END
-			|| obj == WALL_STONE)
-		{
+			_playerDirection = PLAYER_DIRECTION_DOWN;
+			OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
+			if (obj == WALL_CRACK
+				|| obj == WALL_GOLD || obj == WALL_END
+				|| obj == WALL_STONE)
+			{
 
-		}
-		else if (obj == WALL_DOOR)
-		{
-			_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, NULL, NULL);
-			_tileY += 1;
-			_isPlayerMove = true;
-		}
-		else
-		{
-			_tileY += 1;
-			_isPlayerMove = true;
+			}
+			else if (obj == WALL_DOOR || obj == WALL_BASIC)
+			{
+				_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, NULL, NULL);
+				_tileY += 1;
+				_isPlayerMove = true;
+			}
+			else
+			{
+				_tileY += 1;
+				_isPlayerMove = true;
+			}
 		}
 	}
 	_tileRect = _map->getRect(_tileX, _tileY);

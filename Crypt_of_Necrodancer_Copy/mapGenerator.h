@@ -32,7 +32,8 @@ private:
 	bool _isMakeRoom;
 	bool _isHaveCorridor;
 
-	int _start;
+	int _startRoomIndex;
+	int _bossRoomIndex;
 
 	DIRECTION _corridorDirection;
 
@@ -80,8 +81,9 @@ public:
 
 	void setBossRoom(); //보스룸 정하기
 
-	tagRoom getStartRoom();
+	void setTorch();
 
+	//이거 쓰면 벡터가 큰데 그게 복사되서 프레임 떨어짐
 	//vector<vector<tagTile>> getTiles() { return _tiles; }
 
 
@@ -110,5 +112,13 @@ public:
 
 	int getXSize() { return _width; }
 	int getYSize() { return _height; }
+
+	int getStartRoomX() { return _rooms[_startRoomIndex].x; };
+	int getStartRoomY() { return _rooms[_startRoomIndex].y; };
+
+	int getBossRoomX() { return _rooms[_bossRoomIndex].x; }
+	int getBossRoomY() { return _rooms[_bossRoomIndex].y; }
+
+	bool getIsHaveTorch(int tileX, int tileY) { return _tiles[tileY][tileX].isHaveTorch; }
 };
 

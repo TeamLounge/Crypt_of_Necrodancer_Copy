@@ -27,12 +27,14 @@ public :
 
 	void setTileAlpha();
 
-	void setVisionMapMemoryAddressLink(mapGenerator* map) { _map = map; };
+	void setVisionMapMemoryAddressLink(mapGenerator* map) { _map = map; }
 
 	void setStartLightNum(int num) { _startLightNum = num; }
 
 	void setSearchBoundary();
 
-	
+	void findTorch();
+
+	void addTorchLight(int x, int y);
 };
 
