@@ -60,8 +60,9 @@ void player::update()
 		{
 			_playerDirection = PLAYER_DIRECTION_LEFT;
 			OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
-			if (obj == WALL_CRACK
-				|| obj == WALL_GOLD || obj == WALL_END)
+			if (obj == WALL_CRACK || obj == WALL_END
+				|| obj == WALL_STONE
+				|| obj == WALL_GOLD)
 			{
 
 			}
@@ -81,8 +82,8 @@ void player::update()
 		{
 			_playerDirection = PLAYER_DIRECTION_RIGHT;
 			OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
-			if (obj == WALL_CRACK
-				|| obj == WALL_GOLD || obj == WALL_END
+			if (obj == WALL_CRACK || obj == WALL_END
+				|| obj == WALL_GOLD
 				|| obj == WALL_STONE)
 			{
 
@@ -103,8 +104,8 @@ void player::update()
 		{
 			_playerDirection = PLAYER_DIRECTION_UP;
 			OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
-			if (obj == WALL_CRACK
-				|| obj == WALL_GOLD || obj == WALL_END
+			if (obj == WALL_CRACK || obj == WALL_END
+				|| obj == WALL_GOLD 
 				|| obj == WALL_STONE)
 			{
 
@@ -125,8 +126,8 @@ void player::update()
 		{
 			_playerDirection = PLAYER_DIRECTION_DOWN;
 			OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
-			if (obj == WALL_CRACK
-				|| obj == WALL_GOLD || obj == WALL_END
+			if (obj == WALL_CRACK || obj == WALL_END
+				|| obj == WALL_GOLD
 				|| obj == WALL_STONE)
 			{
 
@@ -254,7 +255,7 @@ void player::update()
 		IMAGEMANAGER->findImage(_headImageName)->getFrameWidth(),
 		IMAGEMANAGER->findImage(_headImageName)->getFrameHeight());
 
-	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
+	CAMERAMANAGER->updateCamera((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 
 	_vision->update(_tileX, _tileY);
 }
@@ -265,8 +266,11 @@ void player::render()
 	IMAGEMANAGER->alphaRender("player_shadow", getMemDC(), _shadow.left, _shadow.top, 125);
 	IMAGEMANAGER->alphaRender("player_shadow2", getMemDC(), _shadow.left, _shadow.top, 125);
 	IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
-	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
-	//_vision->render();
+	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);\
+	char str[128];
+	sprintf_s(str, "x: %d, y: %d", _tileX, _tileY);
+	DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+	_vision->render();
 }
 
 void player::setupPlayerRect()

@@ -11,8 +11,8 @@ HRESULT vision::init(int tileX, int tileY, int lightNum)
 		for (int j = 0; j < 21; j++)
 		{
 			_visionSearch[i][j].lightNum = 0;
-			_visionSearch[i][j].tileX = NULL;
-			_visionSearch[i][j].tileY = NULL;
+			_visionSearch[i][j].tileX = -1;
+			_visionSearch[i][j].tileY = -1;
 		}
 	}
 	_visionSearch[10][10].tileX = _tileX;
@@ -30,26 +30,26 @@ void vision::update(int tileX, int tileY)
 {
 	_tileX = tileX;
 	_tileY = tileY;
-	_visionSearch[10][10].tileX = _tileX;
-	_visionSearch[10][10].tileY = _tileY;
-	_visionSearch[10][10].lightNum = _startLightNum;
 	setSearchBoundary();
 	searchSurround();
-	findTorch();
+	//findTorch();
 	setTileAlpha();
 }
 
 void vision::render()
 {
 	char str[128];
-	for (int i = 0; i < 21; i++)
+	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
-		for (int j = 0; j < 21; j++)
+		for (int i = 0; i < 21; i++)
 		{
-			if (_visionSearch[i][j].tileX == NULL || _visionSearch[i][j].tileY == NULL) continue;
-			//if (_visionSearch[i][j].lightNum == 0) continue;
-			sprintf_s(str, "%d", _visionSearch[i][j].lightNum);
-			DrawText(getMemDC(), str, strlen(str), &_map->getRect(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY), DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+			for (int j = 0; j < 21; j++)
+			{
+				if (_visionSearch[i][j].tileX == - 1 || _visionSearch[i][j].tileY == - 1) continue;
+				//if (_visionSearch[i][j].lightNum == 0) continue;
+				sprintf_s(str, "%d", _visionSearch[i][j].lightNum);
+				DrawText(getMemDC(), str, strlen(str), &_map->getRect(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY), DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+			}
 		}
 	}
 }
@@ -60,8 +60,8 @@ void vision::searchSurround()
 	for (int i = _tileX - 1; i >= _tileX - 10; i--)
 	{
 		if (i < 0) break;
-		if (_visionSearch[10][i - (_tileX - 10)].tileX == NULL) continue;
-		if (_startLightNum -(_tileX - i) < 0) break;
+		if (_visionSearch[10][i - (_tileX - 10)].tileX == - 1) continue;
+		if (_startLightNum -(_tileX - i) <= 0) continue;
 
 		_visionSearch[10][i - (_tileX - 10)].lightNum = _startLightNum - (_tileX - i);
 		
@@ -83,9 +83,9 @@ void vision::searchSurround()
 	//우 탐색
 	for (int i = _tileX + 1; i <= _tileX + 10; i++)
 	{
-		if (i >= _map->getXSize()) break;
-		if (_visionSearch[10][i - (_tileX - 10)].tileX == NULL) continue;
-		if (_startLightNum - (i - _tileX) < 0) break;
+		if (i >= _map->getXSize()) continue;
+		if (_visionSearch[10][i - (_tileX - 10)].tileX == - 1) continue;
+		if (_startLightNum - (i - _tileX) < 0) continue;
 
 		_visionSearch[10][i - (_tileX - 10)].lightNum = _startLightNum - (i - _tileX);
 		
@@ -107,9 +107,9 @@ void vision::searchSurround()
 	//상 탐색
 	for (int i = _tileY - 1; i >= _tileY - 10; i--)
 	{
-		if (i < 0) break;
-		if (_visionSearch[i - (_tileY - 10)][10].tileY == NULL) continue;
-		if (_startLightNum - (_tileY - i) < 0) break;
+		if (i < 0) continue;
+		if (_visionSearch[i - (_tileY - 10)][10].tileY == - 1) continue;
+		if (_startLightNum - (_tileY - i) < 0) continue;
 	
 		_visionSearch[i - (_tileY - 10)][10].lightNum = _startLightNum - (_tileY - i);
 		
@@ -131,9 +131,9 @@ void vision::searchSurround()
 	//하 탐색
 	for (int i = _tileY + 1; i <= _tileY + 10; i++)
 	{
-		if (i >= _map->getYSize()) break;
-		if (_visionSearch[i - (_tileY - 10)][10].tileY == NULL) continue;
-		if (_startLightNum - (i - _tileY) < 0) break;
+		if (i >= _map->getYSize()) continue;
+		if (_visionSearch[i - (_tileY - 10)][10].tileY == - 1) continue;
+		if (_startLightNum - (i - _tileY) < 0) continue;
 
 		_visionSearch[i - (_tileY - 10)][10].lightNum = _startLightNum - (i - _tileY);
 		
@@ -159,8 +159,8 @@ void vision::searchSurround()
 		if (i < 0) break;
 		for (int j = _tileX - 1; j >= _tileX - 10; j--)
 		{
-			if (j < 0) break;
-			if (_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileX == NULL) continue;
+			if (j < 0) continue;
+			if (_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileX == - 1) continue;
 			if ((_visionSearch[i - (_tileY - 10) + 1][j - (_tileX - 10)].lightNum + _visionSearch[i - (_tileY - 10)][j - (_tileX - 10) + 1].lightNum) / 2 - 1 < 0) continue;
 			_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].lightNum = (_visionSearch[i - (_tileY - 10) + 1][j - (_tileX - 10)].lightNum + _visionSearch[i - (_tileY - 10)][j - (_tileX - 10) + 1].lightNum) / 2 - 1;
 		}
@@ -171,8 +171,8 @@ void vision::searchSurround()
 		if (i < 0) break;
 		for (int j = _tileX + 1; j <= _tileX + 10; j++)
 		{
-			if (j >= _map->getXSize()) break;
-			if (_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileX == NULL) continue;
+			if (j >= _map->getXSize()) continue;
+			if (_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileX == - 1) continue;
 			if ((_visionSearch[i - (_tileY - 10) + 1][j - (_tileX - 10)].lightNum + _visionSearch[i - (_tileY - 10)][j - (_tileX - 10) + 1].lightNum) / 2 - 1 < 0) continue;
 			_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].lightNum = (_visionSearch[i - (_tileY - 10) + 1][j - (_tileX - 10)].lightNum + _visionSearch[i - (_tileY - 10)][j - (_tileX - 10) - 1].lightNum) / 2 - 1;
 		}
@@ -181,11 +181,11 @@ void vision::searchSurround()
 	//플레이어보다 x는 작고 y는 큰 곳
 	for (int i = _tileY + 1; i <= _tileY + 10; i++)
 	{
-		if (i >= _map->getYSize()) break;
+		if (i >= _map->getYSize()) continue;
 		for (int j = _tileX - 1; j >= _tileX - 10; j--)
 		{
 			if (j < 0) break;
-			if (_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileX == NULL) continue;
+			if (_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileX == -1) continue;
 			if ((_visionSearch[i - (_tileY - 10) - 1][j - (_tileX - 10)].lightNum + _visionSearch[i - (_tileY - 10)][j - (_tileX - 10) + 1].lightNum) / 2 - 1 < 0) continue;
 			_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].lightNum = (_visionSearch[i - (_tileY - 10) - 1][j - (_tileX - 10)].lightNum + _visionSearch[i - (_tileY - 10)][j - (_tileX - 10) + 1].lightNum) / 2 - 1;
 		}
@@ -194,22 +194,13 @@ void vision::searchSurround()
 	//플레이어보다 x, y 모두 큰 곳
 	for (int i = _tileY + 1; i <= _tileY + 10; i++)
 	{
-		if (i >= _map->getYSize()) break;
+		if (i >= _map->getYSize()) continue;
 		for (int j = _tileX + 1; j <= _tileX + 10; j++)
 		{
-			if (j >= _map->getXSize()) break;
-			if (_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileX == NULL) continue;
+			if (j >= _map->getXSize()) continue;
+			if (_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileX == -1) continue;
 			if ((_visionSearch[i - (_tileY - 10) - 1][j - (_tileX - 10)].lightNum + _visionSearch[i - (_tileY - 10)][j - (_tileX - 10) - 1].lightNum) / 2 - 1 < 0) continue;
 			_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].lightNum = (_visionSearch[i - (_tileY - 10) - 1][j - (_tileX - 10)].lightNum + _visionSearch[i - (_tileY - 10)][j - (_tileX - 10) - 1].lightNum) / 2 - 1;
-		}
-	}
-
-	//이미 지나왔던 곳인지 확인
-	for (int i = 0; i < 21; i++)
-	{
-		for (int j = 0; j < 21; j++)
-		{
-
 		}
 	}
 }
@@ -220,6 +211,7 @@ void vision::setTileAlpha()
 	{
 		for (int j = 0; j < 21; j++)
 		{
+			if (_visionSearch[i][j].tileY == -1 || _visionSearch[i][j].tileX == -1) continue;
 			if (_map->getIsSeen(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY))
 			{
 				_map->setAlpha(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY, 100);
@@ -230,7 +222,7 @@ void vision::setTileAlpha()
 	{
 		for (int j = 0; j < 21; j++)
 		{
-			if (_visionSearch[i][j].tileY == NULL || _visionSearch[i][j].tileX == NULL) continue;
+			if (_visionSearch[i][j].tileY == -1 || _visionSearch[i][j].tileX == -1) continue;
 			
 			if (_visionSearch[i][j].lightNum <= 0)
 			{
@@ -246,6 +238,27 @@ void vision::setTileAlpha()
 
 void vision::setSearchBoundary()
 {
+	for (int i = 0; i < 21; i++)
+	{
+		for (int j = 0; j < 21; j++)
+		{
+			_visionSearch[i][j].lightNum = 0;
+			_visionSearch[i][j].tileX = - 1;
+			_visionSearch[i][j].tileY = - 1;
+		}
+	}
+
+	for (int i = 0; i < 21; i++)
+	{
+		for (int j = 0; j < 21; j++)
+		{
+			if (_tileX - (10 - j) < 0 || _tileX - (10 - j) >= _map->getXSize()) continue;
+			if (_tileY - (10 - i) < 0 || _tileY - (10 - i) >= _map->getYSize()) continue;
+			_visionSearch[i][j].tileX = _tileX - (10 - j);
+			_visionSearch[i][j].tileY = _tileY - (10 - i);
+		}
+	}
+	/*
 	for (int i = _tileY - 10; i <= _tileY + 10; i++)
 	{
 		if (i < 0) continue;
@@ -255,13 +268,17 @@ void vision::setSearchBoundary()
 		{
 			if (j < 0) continue;
 			if (j >= _map->getXSize()) break;
-			if (j == _tileX && i == _tileY) continue;
+			//if (j == _tileX && i == _tileY) continue;
 
 			_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileX = j;
 			_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].tileY = i;
 			_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].lightNum = 0;
 		}
 	}
+	*/
+	_visionSearch[10][10].tileX = _tileX;
+	_visionSearch[10][10].tileY = _tileY;
+	_visionSearch[10][10].lightNum = _startLightNum;
 }
 
 void vision::findTorch()
@@ -287,7 +304,7 @@ void vision::addTorchLight(int x, int y)
 	for (int i = x - 1; i >= x - 3; i--)
 	{
 		if (i < 0) break;
-		if (_visionSearch[y][i].tileX == NULL) continue;
+		if (_visionSearch[y][i].tileX == - 1) continue;
 		if (lightNum - (x - i) < 0) break;
 
 		_visionSearch[y][i].lightNum += lightNum - (x - i);
@@ -310,7 +327,7 @@ void vision::addTorchLight(int x, int y)
 	for (int i = x + 1; i <= x + 3; i++)
 	{
 		if (i >= _map->getXSize()) break;
-		if (_visionSearch[y][i].tileX == NULL) continue;
+		if (_visionSearch[y][i].tileX == - 1) continue;
 		if (lightNum - (i - x) < 0) break;
 
 		_visionSearch[y][i].lightNum += lightNum - (i - x);
@@ -332,7 +349,7 @@ void vision::addTorchLight(int x, int y)
 	for (int i = y - 1; i >= y - 3; i--)
 	{
 		if (i < 0) break;
-		if (_visionSearch[i][x].tileY == NULL) continue;
+		if (_visionSearch[i][x].tileY == - 1) continue;
 		if (lightNum - (y - i) < 0) break;
 
 		_visionSearch[i][x].lightNum += lightNum - (y - i);
@@ -355,7 +372,7 @@ void vision::addTorchLight(int x, int y)
 	for (int i = y + 1; i <= y + 3; i++)
 	{
 		if (i >= _map->getYSize()) break;
-		if (_visionSearch[i][x].tileY == NULL) continue;
+		if (_visionSearch[i][x].tileY == - 1) continue;
 		if (lightNum - (i - y) < 0) break;
 
 		_visionSearch[i][x].lightNum += lightNum - (i - y);
@@ -381,7 +398,7 @@ void vision::addTorchLight(int x, int y)
 		for (int j = x - 1; j >= x - 3; j--)
 		{
 			if (j < 0) break;
-			if (_visionSearch[i][j].tileY == NULL) continue;
+			if (_visionSearch[i][j].tileY == - 1 ) continue;
 			if ((_visionSearch[i + 1][j].lightNum + _visionSearch[i][j + 1].lightNum) / 2 - 1 < 0) continue;
 			_visionSearch[i][j].lightNum += (_visionSearch[i + 1][j].lightNum + _visionSearch[i][j + 1].lightNum) / 2 - 1;
 		}
@@ -389,7 +406,7 @@ void vision::addTorchLight(int x, int y)
 		for (int j = x + 1; j <= x + 3; j++)
 		{
 			if (j < 0) break;
-			if (_visionSearch[i][j].tileY == NULL) continue;
+			if (_visionSearch[i][j].tileY == - 1) continue;
 			if ((_visionSearch[i + 1][j].lightNum + _visionSearch[i][j - 1].lightNum) / 2 - 1 < 0) continue;
 			_visionSearch[i][j].lightNum += (_visionSearch[i + 1][j].lightNum + _visionSearch[i][j - 1].lightNum) / 2 - 1;
 		}
@@ -401,7 +418,7 @@ void vision::addTorchLight(int x, int y)
 		for (int j = x - 1; j >= x - 3; j--)
 		{
 			if (j < 0) break;
-			if (_visionSearch[i][j].tileY == NULL) continue;
+			if (_visionSearch[i][j].tileY == - 1) continue;
 			if ((_visionSearch[i - 1][j].lightNum + _visionSearch[i][j + 1].lightNum) / 2 - 1 < 0) continue;
 			_visionSearch[i][j].lightNum += (_visionSearch[i - 1][j].lightNum + _visionSearch[i][j + 1].lightNum) / 2 - 1;
 		}
@@ -409,7 +426,7 @@ void vision::addTorchLight(int x, int y)
 		for (int j = x + 1; j <= x + 3; j++)
 		{
 			if (j < 0) break;
-			if (_visionSearch[i][j].tileY == NULL) continue;
+			if (_visionSearch[i][j].tileY == - 1) continue;
 			if ((_visionSearch[i - 1][j].lightNum + _visionSearch[i][j - 1].lightNum) / 2 - 1 < 0) continue;
 			_visionSearch[i][j].lightNum += (_visionSearch[i - 1][j].lightNum + _visionSearch[i][j - 1].lightNum) / 2 - 1;
 		}

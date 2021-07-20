@@ -68,11 +68,6 @@ void mapGenerator::render()
 				break;
 			}
 
-			if (KEYMANAGER->isToggleKey(VK_TAB))
-			{
-				Rectangle(getMemDC(), _tiles[i][j].rc);
-			}
-
 			if (_tiles[i][j].obj == OBJ_NONE) continue;
 			if (_tiles[i][j].obj == WALL_BASIC)
 			{
@@ -91,6 +86,21 @@ void mapGenerator::render()
 					_tiles[i][j].rc.top - (TILESIZE * 5) / 8 - TILESIZE / 3);
 			}
 		}
+
+		/*
+		for (int i = 0; i < _tiles.size(); ++i)
+		{
+			for (int j = 0; j < _tiles[i].size(); ++j)
+			{
+				char str[128];
+				sprintf_s(str, "(%d, %d)", j, i);
+				if (KEYMANAGER->isToggleKey(VK_TAB))
+				{
+					DrawText(getMemDC(), str, strlen(str), &_tiles[i][j].rc, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+				}
+			}
+		}
+		*/
 	}
 
 	for (int i = 0; i < _rooms.size(); i++)
@@ -131,7 +141,7 @@ void mapGenerator::generate(int maxFeatures)
 			for (int j = 0; j < _width; ++j)
 			{
 				tagTile tile;
-				tile.rc = RectMake(j * TILESIZE, i * TILESIZE + 30, TILESIZE, TILESIZE);
+				tile.rc = RectMake(j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
 				tile.terrain = EMPTY;
 				tile.obj = OBJ_NONE;
 				tile.terrainFrameX = NULL;
@@ -186,7 +196,7 @@ void mapGenerator::generate(int maxFeatures)
 			bool _isEmptyRoom = false;;
 			for (int i = 0; i < _tiles.size() - 1; i++)
 			{
-				if (_tiles[i][j].terrain == DIRT1 && !_isEmptyRoom)
+				if (_tiles[i][j].terrain == DIRT1)
 				{
 					if (_tiles[i + 1][j].terrain == EMPTY)
 					{
@@ -277,7 +287,7 @@ void mapGenerator::generate(int maxFeatures)
 			bool _isEmptyRoom = false;;
 			for (int j = 0; j < _tiles[i].size() - 1; j++)
 			{
-				if (_tiles[i][j].terrain == DIRT1 && !_isEmptyRoom)
+				if (_tiles[i][j].terrain == DIRT1)
 				{
 					if (_tiles[i][j + 1].terrain == EMPTY)
 					{
@@ -495,10 +505,10 @@ void mapGenerator::generate(int maxFeatures)
 		setEndEdge();
 		moveMap();
 		setEndBlock();
-		deleteEmptyTiles();
 		setStone();
 		setBossRoom();
 		setTorch();
+		deleteEmptyTiles();
 	}
 
 	_width = _tiles[0].size();
@@ -1429,7 +1439,7 @@ void mapGenerator::setTorch()
 	{
 		if (_rooms[i].roomState == ROOM_SHOP)
 		{
-			int torchNum = RND->getFromIntTo(7, 10);
+			int torchNum = RND->getFromIntTo(7, 9);
 			int count = 0;
 			while (1)
 			{
@@ -1448,7 +1458,7 @@ void mapGenerator::setTorch()
 		}
 		else
 		{
-			int torchNum = RND->getFromIntTo(2, 5);
+			int torchNum = RND->getFromIntTo(2, 4);
 			int count = 0;
 			while (1)
 			{
