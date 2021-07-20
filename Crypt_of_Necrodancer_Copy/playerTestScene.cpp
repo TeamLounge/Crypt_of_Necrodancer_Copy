@@ -141,7 +141,7 @@ void playerTestScene::render()
 			case TR_JUMP:
 				IMAGEMANAGER->frameRender("jump_trap", getMemDC(),
 					(tile.rc.left + tile.rc.right) / 2 - IMAGEMANAGER->findImage("jump_trap")->getFrameWidth() / 2,
-					(tile.rc.bottom + tile.rc.top) / 2 - IMAGEMANAGER->findImage("jump_trap")->getFrameHeight() / 2, 0, 0);
+					(tile.rc.bottom + tile.rc.top) / 2 - IMAGEMANAGER->findImage("jump_trap")->getFrameHeight() / 2, tile.objectFrameX, tile.objectFrameY);
 				break;
 			case TR_DOOR:
 				IMAGEMANAGER->frameRender("door_trap", getMemDC(),
@@ -156,22 +156,22 @@ void playerTestScene::render()
 			case RED_ITEM_BOX:
 				IMAGEMANAGER->frameRender("red_item_box", getMemDC(),
 					(tile.rc.left + tile.rc.right) / 2 - IMAGEMANAGER->findImage("red_item_box")->getFrameWidth() / 2,
-					(tile.rc.bottom + tile.rc.top) / 2 - IMAGEMANAGER->findImage("red_item_box")->getFrameHeight() / 2, 0, 0);
+					(tile.rc.bottom + tile.rc.top) / 2 - IMAGEMANAGER->findImage("red_item_box")->getFrameHeight() / 2, tile.objectFrameX, tile.objectFrameY);
 				break;
 			case BLACK_ITEM_BOX:
 				IMAGEMANAGER->frameRender("black_item_box", getMemDC(),
 					(tile.rc.left + tile.rc.right) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameWidth() / 2,
-					(tile.rc.bottom + tile.rc.top) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameHeight() / 2, 0, 0);
+					(tile.rc.bottom + tile.rc.top) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameHeight() / 2, tile.objectFrameX, tile.objectFrameY);
 				break;
 			case BOX:
 				IMAGEMANAGER->frameRender("box", getMemDC(),
 					(tile.rc.left + tile.rc.right) / 2 - IMAGEMANAGER->findImage("box")->getFrameWidth() / 2,
-					(tile.rc.bottom + tile.rc.top) / 2 - IMAGEMANAGER->findImage("box")->getFrameHeight() / 2, 0, 0);
+					(tile.rc.bottom + tile.rc.top) / 2 - IMAGEMANAGER->findImage("box")->getFrameHeight() / 2, tile.objectFrameX, tile.objectFrameY);
 				break;
 			case BARREL:
 				IMAGEMANAGER->frameRender("barrel", getMemDC(),
 					(tile.rc.left + tile.rc.right) / 2 - IMAGEMANAGER->findImage("barrel")->getFrameWidth() / 2,
-					(tile.rc.bottom + tile.rc.top) / 2 - IMAGEMANAGER->findImage("barrel")->getFrameHeight() / 2, 0, 0);
+					(tile.rc.bottom + tile.rc.top) / 2 - IMAGEMANAGER->findImage("barrel")->getFrameHeight() / 2, tile.objectFrameX, tile.objectFrameY);
 				break;
 			}
 
