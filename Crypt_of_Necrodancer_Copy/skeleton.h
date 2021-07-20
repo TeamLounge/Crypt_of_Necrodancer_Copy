@@ -1,14 +1,14 @@
 #pragma once
 #include "gameNode.h"
 #include "aStarTest.h"
-#include "randomMap.h"
+#include "mapGenerator.h"
 
 
 class skeleton : public gameNode
 {
 protected:
 
-	randomMap* _map;
+	mapGenerator* _map;
 	aStarTest* _astar;
 	PLAYER_ENEMY_DIRECTION _direction;
 
@@ -44,5 +44,5 @@ public:
 	virtual void setY(int y) { _y = y; }
 	virtual void setShadowX(int x) { _shadowX = x; }
 	virtual void setShadowY(int y) { _shadowY = y; }
-	virtual void setTileMapLinK(randomMap* tileMap) { _map = tileMap; }
+	virtual void setTileMapLinK(mapGenerator* tileMap) { _map = tileMap; }
 };

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "aStarTest.h"
-#include "randomMap.h"
+#include "mapGenerator.h"
 
 aStarTest::aStarTest()
 {
@@ -16,7 +16,8 @@ HRESULT aStarTest::init(int enemyX, int enemyY, int playerX, int playerY)
 {
 	_count = 0;
 	_start = false;
-
+	_TotaltileX = _map->getXSize();
+	_TotaltileY = _map->getYSize();
 	setTile(enemyX, enemyY,  playerX, playerY);
 
 
@@ -68,9 +69,9 @@ void aStarTest::setTile(int enemyX, int enemyY, int playerX, int playerY)
 
 	_currentTile = _startTile;
 
-	for (int i = 0; i <TILENUMY; ++i)
+	for (int i = 0; i < _TotaltileY; ++i)
 	{
-		for (int j = 0; j<TILENUMX; ++j)
+		for (int j = 0; j< _TotaltileX; ++j)
 		{
 	
 			if (j == _startTile->getIdX() && i == _startTile->getIdY())
@@ -114,7 +115,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 		{
 			if (i == 0 || i == 2)
 			{
-				tile* node = _vTotalList[(startY*TILENUMX) + startX + (i*TILENUMX)];
+				tile* node = _vTotalList[(startY*_TotaltileX) + startX + (i*_TotaltileX)];
 				//抗寇贸府
 				if (!node->getIsOpen()) continue;
 				if (node->getAttribute() == "enemy") continue;
@@ -147,7 +148,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 			if (i == 1)
 			{
 
-				tile* node = _vTotalList[(startY*TILENUMX) + startX + i + (i*TILENUMX)];
+				tile* node = _vTotalList[(startY*_TotaltileX) + startX + i + (i*_TotaltileX)];
 				//抗寇贸府
 				if (!node->getIsOpen()) continue;
 				if (node->getAttribute() == "enemy") continue;
@@ -180,7 +181,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 			}
 			if (i == 3)
 			{
-				tile* node = _vTotalList[(startY*TILENUMX) + startX - 1 + ((i - 2)*TILENUMX)];
+				tile* node = _vTotalList[(startY*_TotaltileX) + startX - 1 + ((i - 2)*_TotaltileX)];
 				//抗寇贸府
 				if (!node->getIsOpen()) continue;
 				if (node->getAttribute() == "enemy") continue;
@@ -218,7 +219,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 		{
 			if (i == 0 || i == 2)
 			{
-				tile* node = _vTotalList[(startY*TILENUMX) + startX + (i*TILENUMX)];
+				tile* node = _vTotalList[(startY*_TotaltileX) + startX + (i*_TotaltileX)];
 				//抗寇贸府
 				if (!node->getIsOpen()) continue;
 				if (node->getAttribute() == "enemy") continue;
@@ -251,7 +252,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 			if (i == 1)
 			{
 			
-				tile* node = _vTotalList[(startY*TILENUMX) + startX + i + (i*TILENUMX)];
+				tile* node = _vTotalList[(startY*_TotaltileX) + startX + i + (i*_TotaltileX)];
 				//抗寇贸府
 				if (!node->getIsOpen()) continue;
 				if (node->getAttribute() == "enemy") continue;
@@ -284,7 +285,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 			}
 			if (i == 3)
 			{
-				tile* node = _vTotalList[(startY*TILENUMX) + startX-1 + ((i-2)*TILENUMX)];
+				tile* node = _vTotalList[(startY*_TotaltileX) + startX-1 + ((i-2)*_TotaltileX)];
 				//抗寇贸府
 				if (!node->getIsOpen()) continue;
 				if (node->getAttribute() == "enemy") continue;
@@ -448,7 +449,7 @@ void aStarTest::endmove(int playerIndexX, int playerIndexY)
 		{
 			if (_vTotalList[i]->getAttribute() == "player")
 			{
-				if (_vTotalList[(playerIndexY*TILENUMX + playerIndexX)]->getAttribute() == "enemy") break;
+				if (_vTotalList[(playerIndexY*_TotaltileX + playerIndexX)]->getAttribute() == "enemy") break;
 				node = new tile;
 				node->setLinkRandomMap(_map);
 				node->init(_endTile->getIdX(), _endTile->getIdY());
@@ -460,8 +461,8 @@ void aStarTest::endmove(int playerIndexX, int playerIndexY)
 				_endTile->setCetner(PointMake((rc.left + rc.right) / 2, (rc.bottom + rc.top) / 2));
 				_vTotalList.erase(_vTotalList.begin() + i);
 				_vTotalList.insert(_vTotalList.begin() + i, node);
-				_vTotalList.erase(_vTotalList.begin() + (playerIndexY*TILENUMX + playerIndexX));
-				_vTotalList.insert(_vTotalList.begin() + (playerIndexY*TILENUMX + playerIndexX), _endTile);
+				_vTotalList.erase(_vTotalList.begin() + (playerIndexY*_TotaltileX + playerIndexX));
+				_vTotalList.insert(_vTotalList.begin() + (playerIndexY*_TotaltileX + playerIndexX), _endTile);
 				break;
 			}
 		}
@@ -499,10 +500,10 @@ void aStarTest::startmove()
 		_startTile->setCetner(PointMake((rc.left + rc.right) / 2, (rc.bottom + rc.top) / 2));
 		_startTile->setRect(rc);
 		//swap(_startTile, _vTotalList[_currentTile->getIdY()*TILEWIDTH + _currentTile->getIdX()]);
-		_vTotalList.erase(_vTotalList.begin() + (node->getIdY()*TILENUMX + node->getIdX()));
-		_vTotalList.insert(_vTotalList.begin() + (node->getIdY()*TILENUMX + node->getIdX()), node);
-		_vTotalList.erase(_vTotalList.begin() + (_vCloseList.back()->getIdY()*TILENUMX + _vCloseList.back()->getIdX()));
-		_vTotalList.insert(_vTotalList.begin() + (_vCloseList.back()->getIdY()*TILENUMX + _vCloseList.back()->getIdX()), _startTile);
+		_vTotalList.erase(_vTotalList.begin() + (node->getIdY()*_TotaltileX + node->getIdX()));
+		_vTotalList.insert(_vTotalList.begin() + (node->getIdY()*_TotaltileX + node->getIdX()), node);
+		_vTotalList.erase(_vTotalList.begin() + (_vCloseList.back()->getIdY()*_TotaltileX + _vCloseList.back()->getIdX()));
+		_vTotalList.insert(_vTotalList.begin() + (_vCloseList.back()->getIdY()*_TotaltileX + _vCloseList.back()->getIdX()), _startTile);
 		if (_vCloseList.size() != 1)
 		{
 			//_start = false;

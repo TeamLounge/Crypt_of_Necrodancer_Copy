@@ -4,10 +4,7 @@
 #include <vector>
 #include <string>
 
-#define TILENUMX  31
-#define TILENUMY  31
-
-class randomMap;
+class mapGenerator;
 
 class aStarTest : public gameNode
 {
@@ -26,13 +23,14 @@ private:
 	tile* _endTile; //끝타일
 	tile* _currentTile; //현재 타일
 
-	randomMap* _map;
+	mapGenerator* _map;
 	
 	int _count;// 그냥렌더용
 	float time;
 	bool _start; // 그냥 시작용
 	bool ismove;
-	
+	int _TotaltileX,_TotaltileY;
+
 public:
 	aStarTest();
 	~aStarTest();
@@ -49,7 +47,7 @@ public:
 	void pathFinder(tile* currentTile);
 	void endmove(int playerIndexX, int playerIndexY);
 	void startmove();
-	void setLinkrandomMap(randomMap* map) { _map = map; }
+	void setLinkrandomMap(mapGenerator* map) { _map = map; }
 
 	int getenemyTileX() { return _startTile->getIdX(); }
 	int getenemyTileY() { return _startTile->getIdY(); }

@@ -1,6 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "player.h"
+#include "enemyManager.h"
 #include "mapGenerator.h"
 #include "UIManager.h"
 
@@ -10,6 +11,8 @@ private:
 	mapGenerator* _map;
 	player* _player;
 	UIManager* _UIM;
+	enemyManager* _em;
+
 
 public:
 	virtual HRESULT init();

@@ -10,7 +10,13 @@ HRESULT playerTestScene::init()
 	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
 	_player->setPlayerMapMemoryAddressLink(_map);
 	_player->setupPlayerRect();
-
+	_em = new enemyManager;
+	_em->setMapGeneratorMemoryAddressLink(_map);
+	_em->setPlayerMemoryAddressLink(_player);
+	_em->init();
+	//_skeleton = new whiteSkeleton;
+	//_skeleton->setTileMapLinK(_map);
+	//_skeleton->init(_player->getTileX(), _player->getTileY());
 	_UIM = new UIManager;
 	_UIM->setHeartBeat(7);
 	return S_OK;
@@ -25,14 +31,16 @@ void playerTestScene::update()
 	//_map->update();
 	_player->update();
 	//RENDERMANAGER->update();
+	_em->update();
+	//_skeleton->update(_player->getTileX(),_player->getTileY());
 	_UIM->updaetHeartBeat(1.7f);
 }
 
 void playerTestScene::render()
 {
-	//_map->render();
-	//_player->render();
-
+	_map->render();
+	_player->render();
+	_em->render();
 	for (int i = 0; i < _map->getYSize(); ++i)
 	{
 		for (int j = 0; j < _map->getXSize(); ++j)
