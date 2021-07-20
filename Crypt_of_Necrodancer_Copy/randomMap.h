@@ -117,5 +117,11 @@ public:
 	{
 		_tiles[tileY][tileX].alpha = alpha;
 	}
+
+	bool getIsSeen(int tileX, int tileY) { return _tiles[tileY][tileX].isSeen; }
+	void setIsSeen(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isSeen = b; }
+
+	int getXSize() { return TILEX; }
+	int getYSize() { return TILEY; }
 };
 

@@ -9,6 +9,10 @@ HRESULT mapGenerator::init(int width, int height)
 	_isMakeRoom = false;
 	_isHaveCorridor = false;
 
+	_worldTime = TIMEMANAGER->getWorldTime();
+	_elapsedSec = 0;
+	_isEvenLight = false;
+
 	return S_OK;
 }
 
@@ -23,6 +27,104 @@ void mapGenerator::update()
 		for (int j = 0; j < _tiles[i].size(); ++j)
 		{
 			_tiles[i][j].alpha = 0;
+		}
+	}
+
+	if (TIMEMANAGER->getWorldTime() - _worldTime >= 0.5f)
+	{
+		_worldTime = TIMEMANAGER->getWorldTime();
+		for (int i = 0; i < _tiles.size(); i++)
+		{
+			for (int j = 0; j < _tiles[i].size(); j++)
+			{
+				if (_tiles[i][j].terrain == STAIR_BOSS)
+				{
+					_tiles[i][j].terrainFrameX = 0;
+					_tiles[i][j].terrainFrameY = 0;
+					continue;
+				}
+				if (_tiles[i][j].terrain == STAIR_NONE)
+				{
+					_tiles[i][j].terrainFrameX = 1;
+					_tiles[i][j].terrainFrameY = 0;
+					continue;
+				}
+				if (i % 2 == 0)
+				{
+					if (_isEvenLight)
+					{
+						if (j % 2 == 0)
+						{
+							_tiles[i][j].terrainFrameX = 1;
+						}
+						else
+						{
+							_tiles[i][j].terrainFrameX = 0;
+						}
+					}
+					else
+					{
+						if (j % 2 == 0)
+						{
+							_tiles[i][j].terrainFrameX = 0;
+						}
+						else
+						{
+							_tiles[i][j].terrainFrameX = 2;
+						}
+					}
+				}
+				else
+				{
+					if (_isEvenLight)
+					{
+						if (j % 2 == 0)
+						{
+							_tiles[i][j].terrainFrameX = 0;
+						}
+						else
+						{
+							_tiles[i][j].terrainFrameX = 2;
+						}
+					}
+					else
+					{
+						if (j % 2 == 0)
+						{
+							_tiles[i][j].terrainFrameX = 1;
+						}
+						else
+						{
+							_tiles[i][j].terrainFrameX = 0;
+						}
+					}
+				}
+			}
+
+		}
+
+		if (_isEvenLight)
+		{
+			_isEvenLight = false;
+		}
+		else
+		{
+			_isEvenLight = true;
+		}
+	}
+	_elapsedSec += TIMEMANAGER->getElapsedTime();
+	if (_elapsedSec >= 0.2f)
+	{
+		_elapsedSec -= 0.2f;
+		if (IMAGEMANAGER->findImage("wall_torch")->getFrameX() >= IMAGEMANAGER->findImage("wall_torch")->getMaxFrameX())
+		{
+			IMAGEMANAGER->findImage("wall_torch")->setFrameX(0);
+			IMAGEMANAGER->findImage("wall_torch_black")->setFrameX(0);
+		}
+		else
+		{
+			IMAGEMANAGER->findImage("wall_torch")->setFrameX(IMAGEMANAGER->findImage("wall_torch")->getFrameX() + 1);
+			IMAGEMANAGER->findImage("wall_torch_black")->setFrameX(IMAGEMANAGER->findImage("wall_torch_black")->getFrameX() + 1);
 		}
 	}
 }
@@ -59,6 +161,7 @@ void mapGenerator::render()
 			case STAIR_BOSS:
 				IMAGEMANAGER->alphaFrameRender("stair_miniboss_tile", getMemDC(),
 					_tiles[i][j].rc.left, _tiles[i][j].rc.top, _tiles[i][j].terrainFrameX, _tiles[i][j].terrainFrameY, _tiles[i][j].alpha);
+				break;
 			case STAIR_NONE:
 				IMAGEMANAGER->alphaFrameRender("stair_locked_tile", getMemDC(),
 					_tiles[i][j].rc.left, _tiles[i][j].rc.top, 1, 0, _tiles[i][j].alpha);
@@ -67,24 +170,118 @@ void mapGenerator::render()
 				break;
 			}
 
-			if (KEYMANAGER->isToggleKey(VK_TAB))
+			switch (_tiles[i][j].obj)
 			{
-				Rectangle(getMemDC(), _tiles[i][j].rc);
+			case OBJ_NONE:
+				break;
+			case WALL_BASIC:
+				IMAGEMANAGER->frameRender("walls1", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case WALL_GOLD:
+			case WALL_STONE:
+			case WALL_CRACK:
+			case WALL_DOOR:
+			case WALL_END:
+				IMAGEMANAGER->frameRender("walls2", getMemDC(), _tiles[i][j].rc.left,
+					_tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_BOMB:
+				IMAGEMANAGER->frameRender("bomb_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("bomb_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("bomb_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_UP:
+				IMAGEMANAGER->frameRender("up_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_DOWN:
+				IMAGEMANAGER->frameRender("down_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("down_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("down_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_LEFT:
+				IMAGEMANAGER->frameRender("left_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("left_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("left_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_RIGHT:
+				IMAGEMANAGER->frameRender("right_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("right_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("right_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_FAST:
+				IMAGEMANAGER->frameRender("fast_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("fast_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("fast_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_SLOW:
+				IMAGEMANAGER->frameRender("slow_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("slow_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("slow_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_JUMP:
+				IMAGEMANAGER->frameRender("jump_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("jump_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("jump_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case TR_DOOR:
+				IMAGEMANAGER->frameRender("door_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("door_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("door_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_SPIKE:
+				IMAGEMANAGER->frameRender("spike_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case RED_ITEM_BOX:
+				IMAGEMANAGER->frameRender("red_item_box", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("red_item_box")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("red_item_box")->getFrameHeight() / 2, 0, 0);
+				break;
+			case BLACK_ITEM_BOX:
+				IMAGEMANAGER->frameRender("black_item_box", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameHeight() / 2, 0, 0);
+				break;
+			case BOX:
+				IMAGEMANAGER->frameRender("box", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("box")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("box")->getFrameHeight() / 2, 0, 0);
+				break;
+			case BARREL:
+				IMAGEMANAGER->frameRender("barrel", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("barrel")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("barrel")->getFrameHeight() / 2, 0, 0);
+				break;
 			}
 
-
-			if (_tiles[i][j].obj == OBJ_NONE) continue;
-			if (_tiles[i][j].obj == WALL_BASIC)
+			if (_tiles[i][j].isHaveTorch)
 			{
-				IMAGEMANAGER->alphaFrameRender("walls1", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY, _tiles[i][j].alpha);
+				IMAGEMANAGER->frameRender("wall_torch", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("wall_torch")->getFrameWidth() / 2 - 5,
+					_tiles[i][j].rc.top - (TILESIZE * 5) / 8 - TILESIZE / 3);
+				IMAGEMANAGER->alphaFrameRender("wall_torch_black", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("wall_torch_black")->getFrameWidth() / 2 - 5,
+					_tiles[i][j].rc.top - (TILESIZE * 5) / 8 - TILESIZE / 3, 255 - _tiles[i][j].alpha);
 			}
-			else if (_tiles[i][j].obj == WALL_GOLD || _tiles[i][j].obj == WALL_STONE || _tiles[i][j].obj == WALL_CRACK
-				|| _tiles[i][j].obj == WALL_DOOR || _tiles[i][j].obj == WALL_END)
-			{
-				IMAGEMANAGER->alphaFrameRender("walls2", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY, _tiles[i][j].alpha);
-			}
-
 		}
+
+		/*
+		for (int i = 0; i < _tiles.size(); ++i)
+		{
+			for (int j = 0; j < _tiles[i].size(); ++j)
+			{
+				char str[128];
+				sprintf_s(str, "(%d, %d)", j, i);
+				if (KEYMANAGER->isToggleKey(VK_TAB))
+				{
+					DrawText(getMemDC(), str, strlen(str), &_tiles[i][j].rc, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+				}
+			}
+		}
+		*/
 	}
 
 	for (int i = 0; i < _rooms.size(); i++)
@@ -101,6 +298,7 @@ void mapGenerator::render()
 			TextOut(getMemDC(), _tiles[_rooms[i].y][_rooms[i].x].rc.left, _tiles[_rooms[i].y][_rooms[i].x].rc.top, str, strlen(str));
 		}
 	}
+
 }
 
 void mapGenerator::generate(int maxFeatures)
@@ -124,7 +322,7 @@ void mapGenerator::generate(int maxFeatures)
 			for (int j = 0; j < _width; ++j)
 			{
 				tagTile tile;
-				tile.rc = RectMake(j * TILESIZE, i * TILESIZE + 30, TILESIZE, TILESIZE);
+				tile.rc = RectMake(j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
 				tile.terrain = EMPTY;
 				tile.obj = OBJ_NONE;
 				tile.terrainFrameX = NULL;
@@ -146,8 +344,8 @@ void mapGenerator::generate(int maxFeatures)
 		//스타트 지점 랜덤 지정
 		while (1)
 		{
-			_start = RND->getFromIntTo(1, (maxFeatures - 2) * 2);
-			if (_start % 2 == 0)
+			_startRoomIndex = RND->getFromIntTo(1, (maxFeatures - 2) * 2);
+			if (_startRoomIndex % 2 == 0)
 			{
 				break;
 			}
@@ -202,7 +400,7 @@ void mapGenerator::generate(int maxFeatures)
 					}
 				}
 			}
-			if (_isEmptyRoom)
+			if (_isEmptyRoom && !_newRoomYIndex.empty())
 			{
 				_newRoomYIndex.pop_back();
 			}
@@ -488,10 +686,14 @@ void mapGenerator::generate(int maxFeatures)
 		setEndEdge();
 		moveMap();
 		setEndBlock();
-		deleteEmptyTiles();
 		setStone();
 		setBossRoom();
+		setTorch();
+		deleteEmptyTiles();
 	}
+
+	_width = _tiles[0].size();
+	_height = _tiles.size();
 }
 
 bool mapGenerator::makeRoom(int x, int y, ROOM_DIRECTION dir, bool firstRoom, int index)
@@ -499,7 +701,7 @@ bool mapGenerator::makeRoom(int x, int y, ROOM_DIRECTION dir, bool firstRoom, in
 	int minRoomSize = 5;
 	int maxRoomSize = 8;
 	tagRoom room;
-	if (index == _start)
+	if (index == _startRoomIndex)
 	{
 		room.roomState = ROOM_START;
 		room.width = 5;
@@ -1197,9 +1399,6 @@ void mapGenerator::deleteEmptyTiles()
 	{
 		_tiles.erase(_tiles.begin() + i);
 	}
-
-	_width = _tiles[0].size();
-	_height = _tiles.size();
 }
 
 void mapGenerator::moveMap()
@@ -1382,33 +1581,31 @@ void mapGenerator::setStone()
 
 void mapGenerator::setBossRoom()
 {
-	int start = 0;
-	int bossRoom = 0;
 	int max = 0;
 	for (int i = 0; i < _rooms.size(); i++)
 	{
 		if (_rooms[i].roomState == ROOM_START)
 		{
-			start = i;
+			_startRoomIndex = i;
 		}
 	}
 	for (int i = 0; i < _rooms.size(); i++)
 	{
-		if (i == start) continue;
+		if (i == _startRoomIndex) continue;
 		if (_rooms[i].roomState != ROOM_SHOP)
 		{
-			float distance = getDistance(_tiles[_rooms[i].y][_rooms[i].x].rc.left, _tiles[_rooms[i].y][_rooms[i].x].rc.top, _tiles[_rooms[start].y][_rooms[start].x].rc.left, _tiles[_rooms[start].y][_rooms[start].x].rc.top);
+			float distance = getDistance(_tiles[_rooms[i].y][_rooms[i].x].rc.left, _tiles[_rooms[i].y][_rooms[i].x].rc.top, _tiles[_rooms[_startRoomIndex].y][_rooms[_startRoomIndex].x].rc.left, _tiles[_rooms[_startRoomIndex].y][_rooms[_startRoomIndex].x].rc.top);
 			if (distance > max)
 			{
 				max = distance;
-				bossRoom = i;
+				_bossRoomIndex = i;
 			}
 		}
 	}
-	_rooms[bossRoom].roomState = ROOM_BOSS;
+	_rooms[_bossRoomIndex].roomState = ROOM_BOSS;
 
-	int x = RND->getFromIntTo(_rooms[bossRoom].x, _rooms[bossRoom].x + _rooms[bossRoom].width - 1);
-	int y = RND->getFromIntTo(_rooms[bossRoom].y, _rooms[bossRoom].y + _rooms[bossRoom].height - 1);
+	int x = RND->getFromIntTo(_rooms[_bossRoomIndex].x, _rooms[_bossRoomIndex].x + _rooms[_bossRoomIndex].width - 1);
+	int y = RND->getFromIntTo(_rooms[_bossRoomIndex].y, _rooms[_bossRoomIndex].y + _rooms[_bossRoomIndex].height - 1);
 	_tiles[y][x].terrain = STAIR_BOSS;
 	_tiles[y][x].terrainFrameX = 0;
 	_tiles[y][x].terrainFrameY = 0;
@@ -1417,14 +1614,52 @@ void mapGenerator::setBossRoom()
 	_tiles[y][x].objectFrameY = 0;
 }
 
-tagRoom mapGenerator::getStartRoom()
+void mapGenerator::setTorch()
 {
 	for (int i = 0; i < _rooms.size(); i++)
 	{
-		if (_rooms[i].roomState == ROOM_START)
+		if (_rooms[i].roomState == ROOM_SHOP)
 		{
-			return _rooms[i];
-			break;
+			int torchNum = RND->getFromIntTo(7, 9);
+			int count = 0;
+			while (1)
+			{
+				if (count == torchNum) break;
+				int x = RND->getFromIntTo(_rooms[i].x - 1, _rooms[i].x + _rooms[i].width + 1);
+				int y = RND->getFromIntTo(_rooms[i].y - 1, _rooms[i].y + _rooms[i].height + 1);
+				if (_tiles[y][x].obj == WALL_GOLD && !_tiles[y][x].isHaveTorch)
+				{
+					if (!_tiles[y][x - 1].isHaveTorch && !_tiles[y][x + 1].isHaveTorch && !_tiles[y - 1][x].isHaveTorch && !_tiles[y + 1][x].isHaveTorch)
+					{
+						_tiles[y][x].isHaveTorch = true;
+						count++;
+					}
+				}
+			}
+		}
+		else
+		{
+			int torchNum = RND->getFromIntTo(2, 4);
+			int count = 0;
+			while (1)
+			{
+				if (count == torchNum) break;
+				int x = RND->getFromIntTo(_rooms[i].x - 1, _rooms[i].x + _rooms[i].width + 1);
+				int y = RND->getFromIntTo(_rooms[i].y - 1, _rooms[i].y + _rooms[i].height + 1);
+				if (!_tiles[y][x].isHaveTorch)
+				{
+					if (_tiles[y][x].obj == WALL_BASIC || _tiles[y][x].obj == WALL_CRACK || _tiles[y][x].obj == WALL_GOLD || _tiles[y][x].obj == WALL_STONE)
+					{
+						if (!_tiles[y][x - 1].isHaveTorch && !_tiles[y][x + 1].isHaveTorch && !_tiles[y - 1][x].isHaveTorch && !_tiles[y + 1][x].isHaveTorch)
+						{
+							_tiles[y][x].isHaveTorch = true;
+							count++;
+						}
+					}
+				}
+			}
 		}
 	}
+	
+	
 }

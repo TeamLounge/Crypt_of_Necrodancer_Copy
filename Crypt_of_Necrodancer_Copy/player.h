@@ -22,8 +22,8 @@ private:
 	int _currentFrameY; //현재 프레임y
 	float _gravity;
 
-	mapGenerator* _map;
-	randomMap* _map1;
+	//mapGenerator* _map;
+	randomMap* _map;
 	vision* _vision;
 
 	float _elapsedSec; //프레임 움직임 위해서
@@ -36,14 +36,14 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render();
-	
-	int getTileX() { return _tileX; }
-	int getTileY() { return _tileY; }
 
 	PLAYER_ENEMY_DIRECTION getDirection() { return _playerDirection; }
 
-	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
-	void setLinkMap(randomMap* map) { _map1 = map; }
+	//void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
+	void setLinkMap(randomMap* map) { _map = map; }
 	void setupPlayerRect();
+
+	int getTileX() { return _tileX; }
+	int getTileY() { return _tileY; }
 };
 

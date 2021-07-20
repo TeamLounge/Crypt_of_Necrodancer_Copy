@@ -59,7 +59,7 @@ void playGround::update()
 	//CAMERAMANAGER->setCameraCenterY((_player->getRect().bottom + _skeleton->getRect().top) / 2);
 
 	
-	SCENEMANAGER->update();
+	//SCENEMANAGER->update();
 	//_mapTool->update();
 	//_randomMap->update();
 
@@ -124,6 +124,7 @@ void playGround::setImage()
 	IMAGEMANAGER->addFrameImage("box", "image/object/box.bmp", 102, 72, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("barrel", "image/object/barrel.bmp", 120, 72, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("wall_torch", "image/object/walls/wall_torch.bmp", 144, 78, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("wall_torch_black", "image/object/walls/wall_torch_black.bmp", 144, 78, 4, 1, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->findImage("wall_torch")->setFrameX(0);
 	IMAGEMANAGER->findImage("wall_torch")->setFrameY(0);
 }

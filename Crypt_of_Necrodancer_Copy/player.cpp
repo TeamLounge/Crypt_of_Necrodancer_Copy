@@ -22,8 +22,8 @@ HRESULT player::init(int tileX, int tileY)
 	_gravity = 0;
 	_playerDirection = RIGHT;
 
-	//_vision = new vision;
-	//_vision->init(_tileX, _tileY, 5);
+	_vision = new vision;
+	_vision->init(_tileX, _tileY, 5);
 	return S_OK;
 }
 
@@ -54,95 +54,94 @@ void player::update()
 			_currentFrameY = 0;
 		}
 	}
-	//_playerDirection = NONE;
-	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+	if (!_isPlayerMove)
 	{
-		_playerDirection = LEFT;
-		OBJECT obj = _map1->getTileObject(_tileX - 1, _tileY);
-		if (obj == WALL_BASIC || obj == WALL_CRACK
-			|| obj == WALL_GOLD || obj == WALL_END)
+		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 		{
+			_playerDirection = LEFT;
+			OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
+			if (obj == WALL_CRACK || obj == WALL_END
+				|| obj == WALL_STONE
+				|| obj == WALL_GOLD)
+			{
 
+			}
+			else if (obj == WALL_DOOR || obj == WALL_BASIC)
+			{
+				_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
+				//_map->setIsHaveTorch(_tileX - 1, _tileY, false);
+			}
+			else
+			{
+				_tileX -= 1;
+				_isPlayerMove = true;
+			}
 		}
-		else if (obj == WALL_DOOR)
+		else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 		{
-			_map1->setTileObject(_tileX - 1, _tileY, OBJ_NONE, NULL, NULL);
-			_tileX -= 1;
-			_isPlayerMove = true;
+			_playerDirection = RIGHT;
+			OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
+			if (obj == WALL_CRACK || obj == WALL_END
+				|| obj == WALL_GOLD
+				|| obj == WALL_STONE)
+			{
+
+			}
+			else if (obj == WALL_DOOR || obj == WALL_BASIC)
+			{
+				_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
+				//_map->setIsHaveTorch(_tileX + 1, _tileY, false);
+			}
+			else
+			{
+				_tileX += 1;
+				_isPlayerMove = true;
+			}
 		}
-		else
+		else if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			_tileX -= 1;
-			_isPlayerMove = true;
+			_playerDirection = UP;
+			OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
+			if (obj == WALL_CRACK || obj == WALL_END
+				|| obj == WALL_GOLD 
+				|| obj == WALL_STONE)
+			{
+
+			}
+			else if (obj == WALL_DOOR || obj == WALL_BASIC)
+			{
+				_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
+				//_map->setIsHaveTorch(_tileX, _tileY - 1, false);
+			}
+			else
+			{
+				_tileY -= 1;
+				_isPlayerMove = true;
+			}
+		}
+		else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+		{
+			_playerDirection = DOWN;
+			OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
+			if (obj == WALL_CRACK || obj == WALL_END
+				|| obj == WALL_GOLD
+				|| obj == WALL_STONE)
+			{
+
+			}
+			else if (obj == WALL_DOOR || obj == WALL_BASIC)
+			{
+				_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
+				//_map->setIsHaveTorch(_tileX, _tileY + 1, false);
+			}
+			else
+			{
+				_tileY += 1;
+				_isPlayerMove = true;
+			}
 		}
 	}
-	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
-	{
-		_playerDirection = RIGHT;
-		OBJECT obj = _map1->getTileObject(_tileX + 1, _tileY);
-		if (obj == WALL_BASIC || obj == WALL_CRACK
-			|| obj == WALL_GOLD || obj == WALL_END
-			|| obj == WALL_STONE)
-		{
-
-		}
-		else if (obj == WALL_DOOR)
-		{
-			_map1->setTileObject(_tileX + 1, _tileY, OBJ_NONE, NULL, NULL);
-			_tileX += 1;
-			_isPlayerMove = true;
-		}
-		else
-		{
-			_tileX += 1;
-			_isPlayerMove = true;
-		}
-	}
-	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
-	{
-		_playerDirection = UP;
-		OBJECT obj = _map1->getTileObject(_tileX , _tileY - 1);
-		if (obj == WALL_BASIC || obj == WALL_CRACK
-			|| obj == WALL_GOLD || obj == WALL_END
-			|| obj == WALL_STONE)
-		{
-
-		}
-		else if (obj == WALL_DOOR)
-		{
-			_map1->setTileObject(_tileX, _tileY - 1, OBJ_NONE, NULL, NULL);
-			_tileY -= 1;
-			_isPlayerMove = true;
-		}
-		else
-		{
-			_tileY -= 1;
-			_isPlayerMove = true;
-		}
-	}
-	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-	{
-		_playerDirection = DOWN;
-		OBJECT obj = _map1->getTileObject(_tileX, _tileY + 1);
-		if (obj == WALL_BASIC || obj == WALL_CRACK
-			|| obj == WALL_GOLD || obj == WALL_END
-			|| obj == WALL_STONE)
-		{
-
-		}
-		else if (obj == WALL_DOOR)
-		{
-			_map1->setTileObject(_tileX, _tileY + 1, OBJ_NONE, NULL, NULL);
-			_tileY += 1;
-			_isPlayerMove = true;
-		}
-		else
-		{
-			_tileY += 1;
-			_isPlayerMove = true;
-		}
-	}
-	_tileRect = _map1->getRect(_tileX, _tileY);
+	_tileRect = _map->getRect(_tileX, _tileY);
 
 	if (_isPlayerMove)
 	{
@@ -252,9 +251,9 @@ void player::update()
 		IMAGEMANAGER->findImage(_headImageName)->getFrameWidth(),
 		IMAGEMANAGER->findImage(_headImageName)->getFrameHeight());
 
-	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
+	CAMERAMANAGER->updateCamera((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 
-	//_vision->update(_tileX, _tileY);
+	_vision->update(_tileX, _tileY);
 }
 
 void player::render()
@@ -263,13 +262,16 @@ void player::render()
 	IMAGEMANAGER->alphaRender("player_shadow", getMemDC(), _shadow.left, _shadow.top, 125);
 	IMAGEMANAGER->alphaRender("player_shadow2", getMemDC(), _shadow.left, _shadow.top, 125);
 	IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
-	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
+	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);\
+	char str[128];
+	sprintf_s(str, "x: %d, y: %d", _tileX, _tileY);
+	DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
 	//_vision->render();
 }
 
 void player::setupPlayerRect()
 {
-	_tileRect = _map1->getRect(_tileX, _tileY);
+	_tileRect = _map->getRect(_tileX, _tileY);
 	//그림자 초기화
 	_shadow = RectMake(_tileRect.left,
 		_tileRect.top - 37,
@@ -289,8 +291,8 @@ void player::setupPlayerRect()
 	_x = (_body.left + _body.right) / 2;
 	_y = (_body.top + _body.bottom) / 2;
 
-	//_vision->setVisionMapMemoryAddressLink(_map);
-	//_vision->setSearchBoundary();
+	_vision->setVisionMapMemoryAddressLink(_map);
+	_vision->setSearchBoundary();
 
 	//카메라 설정
 	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
