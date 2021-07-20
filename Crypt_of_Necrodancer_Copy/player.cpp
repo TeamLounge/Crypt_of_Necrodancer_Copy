@@ -62,6 +62,7 @@ void player::release()
 
 void player::update()
 {
+	CAMERAMANAGER->updateCamera((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 	_elapsedSec += TIMEMANAGER->getElapsedTime();
 	if (_elapsedSec >= 0.2f)
 	{
@@ -98,6 +99,7 @@ void player::update()
 			else if (obj == WALL_DOOR || obj == WALL_BASIC)
 			{
 				_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
+				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 10.0f);
 				//_map->setIsHaveTorch(_tileX - 1, _tileY, false);
 			}
 			else
@@ -119,6 +121,7 @@ void player::update()
 			else if (obj == WALL_DOOR || obj == WALL_BASIC)
 			{
 				_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
+				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 10.0f);
 				//_map->setIsHaveTorch(_tileX + 1, _tileY, false);
 			}
 			else
@@ -140,6 +143,7 @@ void player::update()
 			else if (obj == WALL_DOOR || obj == WALL_BASIC)
 			{
 				_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
+				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 10.0f);
 				//_map->setIsHaveTorch(_tileX, _tileY - 1, false);
 			}
 			else
@@ -161,6 +165,7 @@ void player::update()
 			else if (obj == WALL_DOOR || obj == WALL_BASIC)
 			{
 				_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
+				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 10.0f);
 				//_map->setIsHaveTorch(_tileX, _tileY + 1, false);
 			}
 			else
@@ -187,9 +192,9 @@ void player::update()
 				_x = (_tileRect.left + _tileRect.right) / 2;
 				_isPlayerMove = false;
 				_gravity = 0;
-				if (_y >= ((_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3))
+				if (_y >= (_tileRect.top + _tileRect.bottom) / 2)
 				{
-					_y = (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3;
+					_y = (_tileRect.top + _tileRect.bottom) / 2;
 				}
 			}
 			if (_shadow.left <= _tileRect.left)
@@ -209,9 +214,9 @@ void player::update()
 				_x = (_tileRect.left + _tileRect.right) / 2;
 				_isPlayerMove = false;
 				_gravity = 0;
-				if (_y >= ((_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3))
+				if (_y >= (_tileRect.top + _tileRect.bottom) / 2)
 				{
-					_y = (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3;
+					_y = (_tileRect.top + _tileRect.bottom) / 2;
 				}
 			}
 			if (_shadow.left >= _tileRect.left)
@@ -226,13 +231,13 @@ void player::update()
 			//_y -= 9;
 			_shadow.top += -sinf(1 * PI / 2) * 6;
 			_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-			if (_shadow.top <= _tileRect.top - 37)
+			if (_shadow.top <= _tileRect.top - 13)
 			{
-				_shadow.top = _tileRect.top - 37;
+				_shadow.top = _tileRect.top - 13;
 				_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-				if (_y >= (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3)
+				if (_y >= (_tileRect.top + _tileRect.bottom) / 2)
 				{
-					_y = (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3;
+					_y = (_tileRect.top + _tileRect.bottom) / 2;
 					_isPlayerMove = false;
 					_gravity = 0;
 				}
@@ -248,13 +253,13 @@ void player::update()
 			//_y -= 9;
 			_shadow.top -= -sinf(1 * PI / 2) * 6;
 			_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-			if (_shadow.top >= _tileRect.top - 37)
+			if (_shadow.top >= _tileRect.top - 13)
 			{
-				_shadow.top = _tileRect.top - 37;
+				_shadow.top = _tileRect.top - 13;
 				_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-				if (_y >= (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3)
+				if (_y >= (_tileRect.top + _tileRect.bottom) / 2)
 				{
-					_y = (_tileRect.top + _tileRect.bottom) / 2 - TILESIZE / 3;
+					_y = (_tileRect.top + _tileRect.bottom) / 2;
 					_isPlayerMove = false;
 					_gravity = 0;
 				}
@@ -280,8 +285,6 @@ void player::update()
 		IMAGEMANAGER->findImage(_headImageName)->getFrameWidth(),
 		IMAGEMANAGER->findImage(_headImageName)->getFrameHeight());
 
-	CAMERAMANAGER->updateCamera((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
-
 	_vision->update(_tileX, _tileY);
 }
 
@@ -291,10 +294,14 @@ void player::render()
 	IMAGEMANAGER->alphaRender("player_shadow", getMemDC(), _shadow.left, _shadow.top, 125);
 	IMAGEMANAGER->alphaRender("player_shadow2", getMemDC(), _shadow.left, _shadow.top, 125);
 	IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
-	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);\
-	char str[128];
-	sprintf_s(str, "x: %d, y: %d", _tileX, _tileY);
-	DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		char str[128];
+		sprintf_s(str, "x: %d, y: %d", _tileX, _tileY);
+		DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+	}
 	//_vision->render();
 	
 }
@@ -304,12 +311,12 @@ void player::setupPlayerRect()
 	_tileRect = _map->getRect(_tileX, _tileY);
 	//그림자 초기화
 	_shadow = RectMake(_tileRect.left,
-		_tileRect.top - 37,
+		_tileRect.top - 13,
 		IMAGEMANAGER->findImage("player_shadow")->getWidth(), 
 		IMAGEMANAGER->findImage("player_shadow")->getHeight());
 	//몸통 초기화
 	_body = RectMakeCenter((_tileRect.left + _tileRect.right) / 2,
-		(_tileRect.top + _tileRect.bottom) / 2 - TILESIZE/3,
+		(_tileRect.top + _tileRect.bottom) / 2,
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameWidth(),
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight());
 	//머리 초기화

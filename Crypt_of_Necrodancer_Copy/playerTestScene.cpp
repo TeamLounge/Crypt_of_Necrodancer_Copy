@@ -22,7 +22,7 @@ void playerTestScene::release()
 
 void playerTestScene::update()
 {
-	//_map->update();
+	_map->update();
 	_player->update();
 	//RENDERMANAGER->update();
 	_UIM->updaetHeartBeat(1.7f);
@@ -32,7 +32,6 @@ void playerTestScene::render()
 {
 	//_map->render();
 	//_player->render();
-
 	for (int i = 0; i < _map->getYSize(); ++i)
 	{
 		for (int j = 0; j < _map->getXSize(); ++j)
@@ -73,10 +72,18 @@ void playerTestScene::render()
 			case EMPTY:
 				break;
 			}
+		}
+	}
 
+
+	for (int i = 0; i < _map->getYSize(); ++i)
+	{
+		for (int j = 0; j < _map->getXSize(); ++j)
+		{
 			if (_player->getTileX() == j && _player->getTileY() == i) _player->render();
-
 			//여기는 타일 오브젝트
+			if (_map->getAlpha(j, i) <= 0) continue;
+			tagTile tile = _map->getTile(j, i);
 			if (_map->getTileObject(j, i) == OBJ_NONE) continue;
 			if (tile.obj == WALL_BASIC)
 			{
