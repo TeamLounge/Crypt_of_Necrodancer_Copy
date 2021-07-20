@@ -88,7 +88,7 @@ void aStarTest::setTile(int enemyX, int enemyY, int playerX, int playerY)
 			tile* node = new tile;
 			node->setLinkRandomMap(_map);
 			node->init(j, i);
-			if (_map->getTileObject(j,i) == WALL_BASIC)
+			if (_map->getTileObject(j,i) == WALL_BASIC || _map->getTileObject(j, i) == WALL_GOLD)
 			{
 				node->setAttribute("wall");
 			}
@@ -486,24 +486,27 @@ void aStarTest::endmove(int playerIndexX, int playerIndexY)
 
 void aStarTest::startmove()
 {
-	RECT rc;
-	tile* node = new tile;
-	node->setLinkRandomMap(_map);
-	node->init(_startTile->getIdX(), _startTile->getIdY());
-	//node->setIsOpen(false);
-	_startTile->setIdX(_vCloseList.back()->getIdX());
-	_startTile->setIdY(_vCloseList.back()->getIdY());
-	rc = _map->getRect(_startTile->getIdX(),_startTile->getIdY());
-	_startTile->setCetner(PointMake((rc.left + rc.right) / 2, (rc.bottom + rc.top) / 2));
-	_startTile->setRect(rc);
-	//swap(_startTile, _vTotalList[_currentTile->getIdY()*TILEWIDTH + _currentTile->getIdX()]);
-	_vTotalList.erase(_vTotalList.begin() + (node->getIdY()*TILENUMX+ node->getIdX()));
-	_vTotalList.insert(_vTotalList.begin() + (node->getIdY()*TILENUMX + node->getIdX()), node);
-	_vTotalList.erase(_vTotalList.begin() + (_vCloseList.back()->getIdY()*TILENUMX + _vCloseList.back()->getIdX()));
-	_vTotalList.insert(_vTotalList.begin() + (_vCloseList.back()->getIdY()*TILENUMX + _vCloseList.back()->getIdX()), _startTile);
-	if (_vCloseList.size() != 1)
+	if (_map->getTileObject(_vCloseList.back()->getIdX(), _vCloseList.back()->getIdY()) == OBJ_NONE)
 	{
-		//_start = false;
-		_vCloseList.erase(_vCloseList.end()-1);
+		RECT rc;
+		tile* node = new tile;
+		node->setLinkRandomMap(_map);
+		node->init(_startTile->getIdX(), _startTile->getIdY());
+		//node->setIsOpen(false);
+		_startTile->setIdX(_vCloseList.back()->getIdX());
+		_startTile->setIdY(_vCloseList.back()->getIdY());
+		rc = _map->getRect(_startTile->getIdX(), _startTile->getIdY());
+		_startTile->setCetner(PointMake((rc.left + rc.right) / 2, (rc.bottom + rc.top) / 2));
+		_startTile->setRect(rc);
+		//swap(_startTile, _vTotalList[_currentTile->getIdY()*TILEWIDTH + _currentTile->getIdX()]);
+		_vTotalList.erase(_vTotalList.begin() + (node->getIdY()*TILENUMX + node->getIdX()));
+		_vTotalList.insert(_vTotalList.begin() + (node->getIdY()*TILENUMX + node->getIdX()), node);
+		_vTotalList.erase(_vTotalList.begin() + (_vCloseList.back()->getIdY()*TILENUMX + _vCloseList.back()->getIdX()));
+		_vTotalList.insert(_vTotalList.begin() + (_vCloseList.back()->getIdY()*TILENUMX + _vCloseList.back()->getIdX()), _startTile);
+		if (_vCloseList.size() != 1)
+		{
+			//_start = false;
+			_vCloseList.erase(_vCloseList.end() - 1);
+		}
 	}
 }
