@@ -10,6 +10,9 @@ HRESULT playerTestScene::init()
 	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
 	//_player->setPlayerMapMemoryAddressLink(_map);
 	_player->setupPlayerRect();
+
+	_UIM = new UIManager;
+	_UIM->setHeartBeat(7);
 	return S_OK;
 }
 
@@ -22,8 +25,7 @@ void playerTestScene::update()
 	//_map->update();
 	_player->update();
 	//RENDERMANAGER->update();
-	
-	
+	_UIM->updaetHeartBeat(1.7f);
 }
 
 void playerTestScene::render()
@@ -98,4 +100,5 @@ void playerTestScene::render()
 		}
 	}
 
+	_UIM->renderHeartBeat();
 }

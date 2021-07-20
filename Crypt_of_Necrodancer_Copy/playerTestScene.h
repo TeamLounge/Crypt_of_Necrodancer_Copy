@@ -2,12 +2,14 @@
 #include "gameNode.h"
 #include "player.h"
 #include "mapGenerator.h"
+#include "UIManager.h"
 
 class playerTestScene : public gameNode
 {
 private:
 	mapGenerator* _map;
 	player* _player;
+	UIManager* _UIM;
 
 public:
 	virtual HRESULT init();

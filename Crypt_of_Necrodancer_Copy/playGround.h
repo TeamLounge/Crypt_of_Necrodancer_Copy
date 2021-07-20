@@ -43,7 +43,7 @@ private:
 	//tagPlayer _player;
 	//tagPlayer _test;
 
-	player* _player;
+	//player* _player;
 public:
 	playGround();
 	~playGround();
