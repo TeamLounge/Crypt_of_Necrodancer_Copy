@@ -30,7 +30,7 @@ HRESULT playGround::init()
 	_player->setLinkMap(_map);
 	_player->setupPlayerRect();
 	_skeleton->init(_player->getTileX(), _player->getTileY());*/
-
+	 
 
 
 	SCENEMANAGER->addScene("player_test", new playerTestScene);
