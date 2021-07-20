@@ -170,15 +170,91 @@ void mapGenerator::render()
 				break;
 			}
 
-			if (_tiles[i][j].obj == OBJ_NONE) continue;
-			if (_tiles[i][j].obj == WALL_BASIC)
+			switch (_tiles[i][j].obj)
 			{
-				IMAGEMANAGER->alphaFrameRender("walls1", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY, _tiles[i][j].alpha);
-			}
-			else if (_tiles[i][j].obj == WALL_GOLD || _tiles[i][j].obj == WALL_STONE || _tiles[i][j].obj == WALL_CRACK
-				|| _tiles[i][j].obj == WALL_DOOR || _tiles[i][j].obj == WALL_END)
-			{
-				IMAGEMANAGER->alphaFrameRender("walls2", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY, _tiles[i][j].alpha);
+			case OBJ_NONE:
+				break;
+			case WALL_BASIC:
+				IMAGEMANAGER->frameRender("walls1", getMemDC(), _tiles[i][j].rc.left, _tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case WALL_GOLD:
+			case WALL_STONE:
+			case WALL_CRACK:
+			case WALL_DOOR:
+			case WALL_END:
+				IMAGEMANAGER->frameRender("walls2", getMemDC(), _tiles[i][j].rc.left,
+					_tiles[i][j].rc.top - (TILESIZE * 5) / 8, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_BOMB:
+				IMAGEMANAGER->frameRender("bomb_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("bomb_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("bomb_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_UP:
+				IMAGEMANAGER->frameRender("up_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_DOWN:
+				IMAGEMANAGER->frameRender("down_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("down_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("down_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_LEFT:
+				IMAGEMANAGER->frameRender("left_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("left_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("left_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_RIGHT:
+				IMAGEMANAGER->frameRender("right_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("right_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("right_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_FAST:
+				IMAGEMANAGER->frameRender("fast_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("fast_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("fast_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_SLOW:
+				IMAGEMANAGER->frameRender("slow_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("slow_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("slow_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_JUMP:
+				IMAGEMANAGER->frameRender("jump_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("jump_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("jump_trap")->getFrameHeight() / 2, 0, 0);
+				break;
+			case TR_DOOR:
+				IMAGEMANAGER->frameRender("door_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("door_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("door_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case TR_SPIKE:
+				IMAGEMANAGER->frameRender("spike_trap", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("spike_trap")->getFrameHeight() / 2, _tiles[i][j].objectFrameX, _tiles[i][j].objectFrameY);
+				break;
+			case RED_ITEM_BOX:
+				IMAGEMANAGER->frameRender("red_item_box", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("red_item_box")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("red_item_box")->getFrameHeight() / 2, 0, 0);
+				break;
+			case BLACK_ITEM_BOX:
+				IMAGEMANAGER->frameRender("black_item_box", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameHeight() / 2, 0, 0);
+				break;
+			case BOX:
+				IMAGEMANAGER->frameRender("box", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("box")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("box")->getFrameHeight() / 2, 0, 0);
+				break;
+			case BARREL:
+				IMAGEMANAGER->frameRender("barrel", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("barrel")->getFrameWidth() / 2,
+					(_tiles[i][j].rc.bottom + _tiles[i][j].rc.top) / 2 - IMAGEMANAGER->findImage("barrel")->getFrameHeight() / 2, 0, 0);
+				break;
 			}
 
 			if (_tiles[i][j].isHaveTorch)

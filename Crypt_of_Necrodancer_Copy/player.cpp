@@ -70,8 +70,6 @@ void player::update()
 			{
 				_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
 				_map->setIsHaveTorch(_tileX - 1, _tileY, false);
-				_tileX -= 1;
-				_isPlayerMove = true;
 			}
 			else
 			{
@@ -93,8 +91,6 @@ void player::update()
 			{
 				_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
 				_map->setIsHaveTorch(_tileX + 1, _tileY, false);
-				_tileX += 1;
-				_isPlayerMove = true;
 			}
 			else
 			{
@@ -116,8 +112,6 @@ void player::update()
 			{
 				_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
 				_map->setIsHaveTorch(_tileX, _tileY - 1, false);
-				_tileY -= 1;
-				_isPlayerMove = true;
 			}
 			else
 			{
@@ -139,8 +133,6 @@ void player::update()
 			{
 				_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
 				_map->setIsHaveTorch(_tileX, _tileY + 1, false);
-				_tileY += 1;
-				_isPlayerMove = true;
 			}
 			else
 			{
