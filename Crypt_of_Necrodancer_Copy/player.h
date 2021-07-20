@@ -26,8 +26,8 @@ private:
 	float _gravity;
 	int alpha;
 
-	//mapGenerator* _map;
-	randomMap* _map;
+	mapGenerator* _map;
+	
 	vision* _vision;
 
 	float _elapsedSec; //프레임 움직임 위해서
@@ -48,8 +48,8 @@ public:
 
 	PLAYER_ENEMY_DIRECTION getDirection() { return _playerDirection; }
 
-	//void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
-	void setLinkMap(randomMap* map) { _map = map; }
+	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
+
 	void setupPlayerRect();
 
 	int getTileX() { return _tileX; }

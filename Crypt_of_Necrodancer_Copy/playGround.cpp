@@ -20,21 +20,21 @@ HRESULT playGround::init()
 	
 	setImage();
 
-	_map = new randomMap;
+	/*_map = new randomMap;
 	_map->init();
-	
+
 	_player = new player;
 	_player->init(_map->getStartRoom().left + 2, _map->getStartRoom().top + 2);
 	_skeleton = new whiteSkeleton;
 	_skeleton->setTileMapLinK(_map);
 	_player->setLinkMap(_map);
 	_player->setupPlayerRect();
-	_skeleton->init(_player->getTileX(), _player->getTileY());
+	_skeleton->init(_player->getTileX(), _player->getTileY());*/
 
 
 
-	//SCENEMANAGER->addScene("player_test", new playerTestScene);
-	//SCENEMANAGER->changeScene("player_test");
+	SCENEMANAGER->addScene("player_test", new playerTestScene);
+	SCENEMANAGER->changeScene("player_test");
 
 
 	////카메라 테스트 ==================================================================
@@ -70,14 +70,14 @@ void playGround::update()
 
 
 
-	_map->update();
+	/*_map->update();
 	_player->update();
-	_skeleton->update(_player->getTileX(),_player->getTileY());
-	//CAMERAMANAGER->setCameraCenterX((_player->+ _skeleton->getRect().left)/2);
-	//CAMERAMANAGER->setCameraCenterY((_player->getRect().bottom + _skeleton->getRect().top) / 2);
+	_skeleton->update(_player->getTileX(),_player->getTileY());*/
+	/*CAMERAMANAGER->setCameraCenterX((_player->+ _skeleton->getRect().left)/2);
+	CAMERAMANAGER->setCameraCenterY((_player->getRect().bottom + _skeleton->getRect().top) / 2);*/
 
 	
-	//SCENEMANAGER->update();
+	SCENEMANAGER->update();
 	//_mapTool->update();
 	//_randomMap->update();
 
@@ -157,10 +157,10 @@ void playGround::render()
 
 	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
 	SelectObject(getMemDC(), myPen);
-	_map->render();
+	/*_map->render();
 	_player->render();
-	_skeleton->render();
-	//SCENEMANAGER->render();
+	_skeleton->render();*/
+	SCENEMANAGER->render();
 	//TIMEMANAGER->render(getMemDC());
 	//SCENEMANAGER->render();
 	DeleteObject(myPen);

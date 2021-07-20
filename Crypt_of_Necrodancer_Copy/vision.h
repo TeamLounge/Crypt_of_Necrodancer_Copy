@@ -18,8 +18,7 @@ private:
 	int _tileX, _tileY;
 	int _startLightNum;
 	tagVision _visionSearch[21][21];
-	//mapGenerator* _map;
-	randomMap* _map;
+	mapGenerator* _map;
 
 public :
 	virtual HRESULT init(int tileX, int tileY, int lightNum);
@@ -32,7 +31,7 @@ public :
 	void setTileAlpha();
 
 	//void setVisionMapMemoryAddressLink(mapGenerator* map) { _map = map; }
-	void setVisionMapMemoryAddressLink(randomMap* map) { _map = map; }
+	void setVisionMapMemoryAddressLink(mapGenerator* map) { _map = map; }
 
 	void setStartLightNum(int num) { _startLightNum = num; }
 

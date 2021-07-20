@@ -34,9 +34,9 @@
 class playGround : public gameNode
 {
 private:
-	mapTool* _mapTool;
+	/*mapTool* _mapTool;
 	randomMap* _map;
-	whiteSkeleton* _skeleton;
+	whiteSkeleton* _skeleton;*/
 	//slime* _slime;
 
 	////카메라테스트용

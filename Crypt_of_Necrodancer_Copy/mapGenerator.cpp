@@ -330,7 +330,7 @@ void mapGenerator::generate(int maxFeatures)
 				tile.objectFrameX = NULL;
 				tile.objectFrameY = NULL;
 				tile.isHaveTorch = false;
-				tile.alpha = 255;
+				tile.alpha = 0;
 				tile.isSeen = false;
 				vTile.push_back(tile);
 			}
