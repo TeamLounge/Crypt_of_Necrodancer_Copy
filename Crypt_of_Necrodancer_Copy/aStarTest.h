@@ -29,6 +29,7 @@ private:
 	float time;
 	bool _start; // 그냥 시작용
 	bool ismove;
+	bool hp;
 	int _TotaltileX,_TotaltileY;
 
 public:
@@ -37,7 +38,7 @@ public:
 
 	HRESULT init(int enemyX, int enemyY, int playerX, int playerY);
 	void release();
-	void update();
+	void update(float worldTime);
 	void render();
 	//타일 셋팅 함수
 	void setTile(int enemyX, int enemyY, int playerX, int playerY);

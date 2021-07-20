@@ -3,6 +3,7 @@
 
 HRESULT playerTestScene::init()
 {
+	CAMERAMANAGER->setCamera(0, 0);
 	_map = new mapGenerator;
 	_map->init(70,70);
 	_map->generate(7);
@@ -14,10 +15,8 @@ HRESULT playerTestScene::init()
 	_em->setMapGeneratorMemoryAddressLink(_map);
 	_em->setPlayerMemoryAddressLink(_player);
 	_em->init();
-	//_skeleton = new whiteSkeleton;
-	//_skeleton->setTileMapLinK(_map);
-	//_skeleton->init(_player->getTileX(), _player->getTileY());
 	_UIM = new UIManager;
+	_UIM->init();
 	_UIM->setHeartBeat(7);
 	return S_OK;
 }
@@ -32,7 +31,7 @@ void playerTestScene::update()
 	_player->update();
 	//RENDERMANAGER->update();
 	_em->update();
-	//_skeleton->update(_player->getTileX(),_player->getTileY());
+
 	_UIM->updaetHeartBeat(1.7f);
 }
 

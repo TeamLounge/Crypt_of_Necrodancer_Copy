@@ -17,18 +17,18 @@ protected:
 	
 	int _x, _y;
 	int _shadowX, _shadowY;
-	int _conut, _index;
+	int _count, _index;
 	int _hp;
 
-	bool isRight;
+	float _worldTime;
+
+	bool isFind;
 
 public:
-	virtual HRESULT init();
+	virtual HRESULT init(int playerIndexX, int playerIndexY);
 	virtual void update(int playerIndexX, int playerIndexY);
 	virtual void release();
 	virtual void render();
-
-	virtual void aStar();
 
 	virtual void skeletonMove();
 

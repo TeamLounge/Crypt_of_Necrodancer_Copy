@@ -16,10 +16,11 @@ HRESULT aStarTest::init(int enemyX, int enemyY, int playerX, int playerY)
 {
 	_count = 0;
 	_start = false;
+	hp = false;
 	_TotaltileX = _map->getXSize();
 	_TotaltileY = _map->getYSize();
 	setTile(enemyX, enemyY,  playerX, playerY);
-
+	time = TIMEMANAGER->getWorldTime();
 
 	return S_OK;
 }
@@ -29,22 +30,19 @@ void aStarTest::release()
 
 }
 
-void aStarTest::update()
+void aStarTest::update(float worldTime)
 {
-	//_count++;
-	//if (_count % 5 == 0)
-	//{
+	
 	if (ismove)
 	{
 		pathFinder(_startTile);
 	}
-	if (_start)
+	
+	if (_start&& TIMEMANAGER->getWorldTime() - time >= worldTime)
 	{
 		time = TIMEMANAGER->getWorldTime();
 		startmove();
 	}
-	//	_count = 0;
-	//}
 }
 
 void aStarTest::render()
@@ -52,6 +50,12 @@ void aStarTest::render()
 	for (int i = 0; i < _vCloseList.size(); ++i)
 	{
 		_vCloseList[i]->render();
+	}
+	if (hp)
+	{
+		char str[128];
+		sprintf_s(str, "hp깍임");
+		TextOut(getMemDC(), _map->getRect(_endTile->getIdX(), _endTile->getIdY()).left, _map->getRect(_endTile->getIdX(), _endTile->getIdY()).top, str, strlen(str));
 	}
 }
 //타일 셋팅 함수
@@ -89,7 +93,7 @@ void aStarTest::setTile(int enemyX, int enemyY, int playerX, int playerY)
 			tile* node = new tile;
 			node->setLinkRandomMap(_map);
 			node->init(j, i);
-			if (_map->getTileObject(j,i) == WALL_BASIC || _map->getTileObject(j, i) == WALL_GOLD)
+			if (_map->getTileObject(j,i) == WALL_BASIC || _map->getTileObject(j, i) == WALL_CRACK || _map->getTileObject(j, i) == WALL_STONE || _map->getTileObject(j, i) == WALL_GOLD)
 			{
 				node->setAttribute("wall");
 			}
@@ -382,18 +386,15 @@ void aStarTest::pathFinder(tile * currentTile)
 		while (_currentTile->getParentNode() != NULL)
 		{
 			_vCloseList.emplace_back(_currentTile);
+			_vOpenList.clear();
 			_currentTile->setColor(RGB(22, 14, 128));
 			_currentTile = _currentTile->getParentNode();
-		
+			
 			_start = true;
 		}
 		return;
 	}
 
-
-	//최단경로
-	//_vCloseList.push_back(tempTile);
-	
 	//최단경로를 넣어놧으면
 	for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
 	{
@@ -406,7 +407,6 @@ void aStarTest::pathFinder(tile * currentTile)
 	}
 
 	_currentTile = tempTile;
-	//_currentTile->setColor(RGB(255, 0, 0));
 	pathFinder(_currentTile);
 	
 }	
@@ -420,30 +420,6 @@ void aStarTest::endmove(int playerIndexX, int playerIndexY)
 	{
 		ismove = true;
 	}
-	//if (direction == RIGHT)
-	//{
-	//	nextIdx = _endTile->getIdX() + 1;
-	//	nextIdy = _endTile->getIdY();
-	//	ismove = true;
-	//}
-	//if (direction == UP)
-	//{
-	//	nextIdx = _endTile->getIdX();
-	//	nextIdy = _endTile->getIdY()-1;
-	//	ismove = true;
-	//}
-	//if (direction == LEFT)
-	//{
-	//	nextIdx = _endTile->getIdX()-1;
-	//	nextIdy = _endTile->getIdY();
-	//	ismove = true;
-	//}
-	//if (direction == DOWN)
-	//{
-	//	nextIdx = _endTile->getIdX();
-	//	nextIdy = _endTile->getIdY()+1;
-	//	ismove = true;
-	//}
 	if (ismove) {
 		for (int i = 0; i < _vTotalList.size(); ++i)
 		{
@@ -487,27 +463,44 @@ void aStarTest::endmove(int playerIndexX, int playerIndexY)
 
 void aStarTest::startmove()
 {
-	if (_map->getTileObject(_vCloseList.back()->getIdX(), _vCloseList.back()->getIdY()) == OBJ_NONE)
+	
+	if (_vCloseList.size() != 0 && _map->getTileObject(_vCloseList.back()->getIdX(), _vCloseList.back()->getIdY()) == OBJ_NONE)
 	{
 		RECT rc;
 		tile* node = new tile;
 		node->setLinkRandomMap(_map);
 		node->init(_startTile->getIdX(), _startTile->getIdY());
-		//node->setIsOpen(false);
 		_startTile->setIdX(_vCloseList.back()->getIdX());
 		_startTile->setIdY(_vCloseList.back()->getIdY());
 		rc = _map->getRect(_startTile->getIdX(), _startTile->getIdY());
 		_startTile->setCetner(PointMake((rc.left + rc.right) / 2, (rc.bottom + rc.top) / 2));
 		_startTile->setRect(rc);
-		//swap(_startTile, _vTotalList[_currentTile->getIdY()*TILEWIDTH + _currentTile->getIdX()]);
 		_vTotalList.erase(_vTotalList.begin() + (node->getIdY()*_TotaltileX + node->getIdX()));
 		_vTotalList.insert(_vTotalList.begin() + (node->getIdY()*_TotaltileX + node->getIdX()), node);
 		_vTotalList.erase(_vTotalList.begin() + (_vCloseList.back()->getIdY()*_TotaltileX + _vCloseList.back()->getIdX()));
 		_vTotalList.insert(_vTotalList.begin() + (_vCloseList.back()->getIdY()*_TotaltileX + _vCloseList.back()->getIdX()), _startTile);
-		if (_vCloseList.size() != 1)
+		if (_vCloseList.size() >= 1)
 		{
-			//_start = false;
 			_vCloseList.erase(_vCloseList.end() - 1);
 		}
+		if (_vCloseList.size() == 0)
+		{
+			if ((_startTile->getIdX() == _endTile->getIdX() && (_startTile->getIdY() + 1 || _startTile->getIdY() - 1))||
+				(_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1)))
+			{
+				//hp달게할꺼양
+				hp = true;
+			}
+		}
 	}
+	else if (_vCloseList.size() == 0)
+	{
+		if ((_startTile->getIdX() == _endTile->getIdX() && (_startTile->getIdY() + 1 || _startTile->getIdY() - 1)) ||
+			(_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1)))
+		{
+			//hp달게할꺼양
+			hp = true;
+		}
+	}
+	
 }
