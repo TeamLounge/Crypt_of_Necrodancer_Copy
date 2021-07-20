@@ -29,7 +29,9 @@ private:
 	randomMap* _map;
 	
 	int _count;// 그냥렌더용
+	float time;
 	bool _start; // 그냥 시작용
+	bool ismove;
 	
 public:
 	aStarTest();
@@ -46,6 +48,7 @@ public:
 	//길 찾는 함수
 	void pathFinder(tile* currentTile);
 	void endmove(int playerIndexX, int playerIndexY);
+	void startmove();
 	void setLinkrandomMap(randomMap* map) { _map = map; }
 
 	int getenemyTileX() { return _startTile->getIdX(); }

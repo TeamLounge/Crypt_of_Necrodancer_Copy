@@ -36,8 +36,8 @@ HRESULT whiteSkeleton::init(int playerIndexX, int playerIndexY)
 				if (_map->getRoom()[i]._state == ROOM_START ||
 					_map->getRoom()[i]._state == ROOM_SHOP)
 				{
-					if ((_map->getRoom()[i].left+3 <= _x && _map->getRoom()[i].right-3 >= _x) ||
-						(_map->getRoom()[i].top+3 <= _y && _map->getRoom()[i].bottom-3 >= _y))
+					if ((_map->getRoom()[i].left+2 <= _x && _map->getRoom()[i].right-2 >= _x) ||
+						(_map->getRoom()[i].top+2 <= _y && _map->getRoom()[i].bottom-2 >= _y))
 						pass = false; //플레이어방과 상점 방 안의 좌표라면 false로 체크
 				}
 			}
@@ -56,8 +56,9 @@ HRESULT whiteSkeleton::init(int playerIndexX, int playerIndexY)
 void whiteSkeleton::update(int playerIndexX, int playerIndexY)
 {
 	//skeleton::update(playerIndexX, playerIndexY);
-	_astar->endmove(playerIndexX, playerIndexY);
+	//_astar->endmove(playerIndexX, playerIndexY);
 	_astar->update();
+	_astar->endmove(playerIndexX, playerIndexY);
 	skeletonMove();
 }
 

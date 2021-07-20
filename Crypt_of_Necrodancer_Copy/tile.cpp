@@ -48,4 +48,7 @@ void tile::render()
 
 	SelectObject(getMemDC(), (HPEN)_pen);
 	Rectangle(getMemDC(), _rc);
+	char str[50];
+	sprintf_s(str, "여기에요!");
+	TextOut(getMemDC(), _center.x, _center.y, str, strlen(str));
 }
