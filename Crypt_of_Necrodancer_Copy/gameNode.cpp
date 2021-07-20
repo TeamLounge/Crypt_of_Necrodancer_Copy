@@ -38,6 +38,7 @@ HRESULT gameNode::init(bool managerInit)
 		//RENDERMANAGER->init();
 		TXTDATA->init();
 		INIDATA->init();
+		STREAMMANAGER->init();
 		
 	}
 
@@ -81,6 +82,9 @@ void gameNode::release()
 
 		INIDATA->release();
 		INIDATA->releaseSingleton();
+
+		STREAMMANAGER->release();
+		STREAMMANAGER->releaseSingleton();
 	}
 	
 

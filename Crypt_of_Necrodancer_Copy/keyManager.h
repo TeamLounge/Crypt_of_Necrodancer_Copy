@@ -31,6 +31,9 @@ public:
 	//키를 토글하면 (캡스락이나 넘락 같은거)
 	bool isToggleKey(int key);
 
+	//스킵하기 위한 임의의 버튼생성
+	bool isOnceKeyDown();
+
 	bitset<KEYMAX> getKeyUp() { return _keyUp; }
 	bitset<KEYMAX> getKeyDown() { return _keyDown; }
 

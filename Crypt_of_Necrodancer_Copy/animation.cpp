@@ -113,7 +113,7 @@ void animation::setDefPlayFrame(BOOL reverse, BOOL loop)
 	}
 }
 
-void animation::setDefPlayFrame(BOOL reverse, BOOL loop, CALLBACK_FUNCTION cbFunction)
+void animation::setDefPlayFrame(BOOL reverse, BOOL loop, CALLBACK_FUNCTION_F cbFunction)
 {
 	_obj = NULL;
 	_callbackFunction = cbFunction;
@@ -243,7 +243,7 @@ void animation::setPlayFrame(int* playArr, int arrLen, BOOL loop)
 
 }
 
-void animation::setPlayFrame(int * playArr, int arrLen, BOOL loop, CALLBACK_FUNCTION cbFunction)
+void animation::setPlayFrame(int * playArr, int arrLen, BOOL loop, CALLBACK_FUNCTION_F cbFunction)
 {
 	_obj = NULL;
 	_callbackFunction = cbFunction;
@@ -387,7 +387,7 @@ void animation::setPlayFrame(int start, int end, BOOL reverse, BOOL loop)
 
 }
 
-void animation::setPlayFrame(int start, int end, BOOL reverse, BOOL loop, CALLBACK_FUNCTION cbFunction)
+void animation::setPlayFrame(int start, int end, BOOL reverse, BOOL loop, CALLBACK_FUNCTION_F cbFunction)
 {
 	_obj = NULL;
 	_callbackFunction = cbFunction;

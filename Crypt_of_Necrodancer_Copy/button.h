@@ -2,7 +2,7 @@
 #include "gameNode.h"
 
 //함수포인터 형태를 가진 콜백함수 
-typedef void(*CALLBACK_FUNCTION)(void);
+typedef void(*CALLBACK_FUNCTION_F)(void);
 
 //<Functional> 
 //std::Function, std::move, std::bind 등등의 함수가 있는데
@@ -36,7 +36,7 @@ private:
 	POINT _btnUpFramePoint;
 
 	//콜백함수 typedef 건 애를 정의한 것
-	CALLBACK_FUNCTION _callbackFunction;
+	CALLBACK_FUNCTION_F _callbackFunction;
 
 public:
 	button();
@@ -44,7 +44,7 @@ public:
 
 	HRESULT init(const char* imageName, int x, int y,
 		POINT btnDownFramePoint, POINT btnUpFramePoint,
-		CALLBACK_FUNCTION cbFunction);
+		CALLBACK_FUNCTION_F cbFunction);
 	void release();
 	void update();
 	void render();

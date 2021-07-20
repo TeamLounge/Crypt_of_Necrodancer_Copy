@@ -150,21 +150,29 @@
     <ClInclude Include="action.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="aStarTest.h" />
+    <ClInclude Include="beatHeart.h" />
     <ClInclude Include="blackSkeleton.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="cameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
+    <ClInclude Include="diamond.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="greenSkeleton.h" />
+    <ClInclude Include="Heart.h" />
+    <ClInclude Include="heartBeat.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniDataManager.h" />
+    <ClInclude Include="introScene.h" />
+    <ClInclude Include="itemHUD.h" />
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="mapGenerator.h" />
     <ClInclude Include="mapTool.h" />
+    <ClInclude Include="money.h" />
+    <ClInclude Include="numberUI.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerTestScene.h" />
     <ClInclude Include="playGround.h" />
@@ -179,35 +187,50 @@
     <ClInclude Include="slimeGold.h" />
     <ClInclude Include="slimeGreen.h" />
     <ClInclude Include="soundManager.h" />
+    <ClInclude Include="splashScene.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="streamManager.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="tileMap.h" />
     <ClInclude Include="timeManager.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="titleScene.h" />
     <ClInclude Include="txtData.h" />
+    <ClInclude Include="UI.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="video.h" />
     <ClInclude Include="whiteSkeleton.h" />
     <ClInclude Include="vision.h" />
+    <ClInclude Include="X.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="action.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="aStarTest.cpp" />
+    <ClCompile Include="beatHeart.cpp" />
     <ClCompile Include="blackSkeleton.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="cameraManager.cpp" />
+    <ClCompile Include="diamond.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="greenSkeleton.cpp" />
+    <ClCompile Include="Heart.cpp" />
+    <ClCompile Include="heartBeat.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniDataManager.cpp" />
+    <ClCompile Include="introScene.cpp" />
+    <ClCompile Include="itemHUD.cpp" />
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="mapGenerator.cpp" />
     <ClCompile Include="mapTool.cpp" />
+    <ClCompile Include="money.cpp" />
+    <ClCompile Include="numberUI.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerTestScene.cpp" />
     <ClCompile Include="playGround.cpp" />
@@ -219,21 +242,28 @@
     <ClCompile Include="slimeGold.cpp" />
     <ClCompile Include="slimeGreen.cpp" />
     <ClCompile Include="soundManager.cpp" />
+    <ClCompile Include="splashScene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="streamManager.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="tileMap.cpp" />
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />
+    <ClCompile Include="titleScene.cpp" />
     <ClCompile Include="txtData.cpp" />
+    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="video.cpp" />
     <ClCompile Include="whiteSkeleton.cpp" />
     <ClCompile Include="vision.cpp" />
     <ClCompile Include="winMain.cpp" />
+    <ClCompile Include="X.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="windowAPI.rc" />

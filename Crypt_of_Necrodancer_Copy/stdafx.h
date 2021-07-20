@@ -25,6 +25,7 @@
 //#include "keyAniManager.h"
 #include "iniDataManager.h"
 //#include "renderManager.h"
+#include "streamManager.h"
 
 
 using namespace std;
@@ -59,6 +60,7 @@ using namespace SUNFL_UTIL;
 //#define RENDERMANAGER	renderManager::getSingleton()
 #define TXTDATA			txtData::getSingleton()
 #define INIDATA			iniDataManager::getSingleton()
+#define STREAMMANAGER	streamManager::getSingleton()
 
 #define SAFE_DELETE(p) {if(p) {delete(p); (p) = nullptr;}}
 #define SAFE_RELEASE(p) {if(p) {(p)->release(); (p) = NULL;}}

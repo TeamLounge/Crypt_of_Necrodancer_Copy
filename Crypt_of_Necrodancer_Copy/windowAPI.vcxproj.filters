@@ -67,6 +67,27 @@
     <Filter Include="playGround\enemy\skeleton">
       <UniqueIdentifier>{f71c76b6-c2aa-46a0-b41d-907942b7b1f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DGameFramework\video">
+      <UniqueIdentifier>{668c954d-52b9-42f8-a41c-91a9e443693d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\UI">
+      <UniqueIdentifier>{f1925a29-5fe3-4dcc-8bfe-55190426f136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\scene">
+      <UniqueIdentifier>{8926df7c-99f5-44fc-aaa1-49641807da6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\scene\title">
+      <UniqueIdentifier>{406c15f9-5412-4dab-83d1-756192b94a20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\scene\splash">
+      <UniqueIdentifier>{d98c9af2-4700-49d7-866f-8b46af61e194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\scene\intro">
+      <UniqueIdentifier>{353ae757-72d5-47a1-aabb-c9c1f8a23579}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\UI\inGame">
+      <UniqueIdentifier>{7774373d-05cd-45c6-9ee3-2f742235efba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -195,6 +216,51 @@
     <ClInclude Include="playerTestScene.h">
       <Filter>playGround</Filter>
     </ClInclude>
+    <ClInclude Include="streamManager.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="video.h">
+      <Filter>2DGameFramework\video</Filter>
+    </ClInclude>
+    <ClInclude Include="beatHeart.h">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClInclude>
+    <ClInclude Include="diamond.h">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Heart.h">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClInclude>
+    <ClInclude Include="heartBeat.h">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClInclude>
+    <ClInclude Include="itemHUD.h">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClInclude>
+    <ClInclude Include="money.h">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClInclude>
+    <ClInclude Include="numberUI.h">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClInclude>
+    <ClInclude Include="X.h">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>playGround\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="titleScene.h">
+      <Filter>playGround\scene\title</Filter>
+    </ClInclude>
+    <ClInclude Include="introScene.h">
+      <Filter>playGround\scene\intro</Filter>
+    </ClInclude>
+    <ClInclude Include="splashScene.h">
+      <Filter>playGround\scene\splash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -310,6 +376,51 @@
     </ClCompile>
     <ClCompile Include="playerTestScene.cpp">
       <Filter>playGround</Filter>
+    </ClCompile>
+    <ClCompile Include="streamManager.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="video.cpp">
+      <Filter>2DGameFramework\video</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>playGround\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="beatHeart.cpp">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClCompile>
+    <ClCompile Include="diamond.cpp">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Heart.cpp">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClCompile>
+    <ClCompile Include="heartBeat.cpp">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClCompile>
+    <ClCompile Include="itemHUD.cpp">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClCompile>
+    <ClCompile Include="money.cpp">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClCompile>
+    <ClCompile Include="numberUI.cpp">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClCompile>
+    <ClCompile Include="X.cpp">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClCompile>
+    <ClCompile Include="introScene.cpp">
+      <Filter>playGround\scene\intro</Filter>
+    </ClCompile>
+    <ClCompile Include="splashScene.cpp">
+      <Filter>playGround\scene\splash</Filter>
+    </ClCompile>
+    <ClCompile Include="titleScene.cpp">
+      <Filter>playGround\scene\title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

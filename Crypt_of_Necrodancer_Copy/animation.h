@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-typedef void(*CALLBACK_FUNCTION)(void);
+typedef void(*CALLBACK_FUNCTION_F)(void);
 typedef void(*CALLBACK_FUNCTION_PARAMETER)(void*);
 
 //보이드 포인터
@@ -36,7 +36,7 @@ private:
 
 
 	void*						_obj;
-	CALLBACK_FUNCTION			_callbackFunction;
+	CALLBACK_FUNCTION_F			_callbackFunction;
 	CALLBACK_FUNCTION_PARAMETER _callbackFunctionParameter;
 
 public:
@@ -48,17 +48,17 @@ public:
 
 	//디폴트 애니메이션 재생
 	void setDefPlayFrame(BOOL reverse = FALSE, BOOL loop = FALSE);
-	void setDefPlayFrame(BOOL reverse, BOOL loop, CALLBACK_FUNCTION cbFunction);
+	void setDefPlayFrame(BOOL reverse, BOOL loop, CALLBACK_FUNCTION_F cbFunction);
 	void setDefPlayFrame(BOOL reverse, BOOL loop, CALLBACK_FUNCTION_PARAMETER cbFunction, void* obj);
 	
 	//배열로 담아서 애니메이션 재생
 	void setPlayFrame(int* playArr, int arrLen, BOOL loop = FALSE);
-	void setPlayFrame(int* playArr, int arrLen, BOOL loop, CALLBACK_FUNCTION cbFunction);
+	void setPlayFrame(int* playArr, int arrLen, BOOL loop, CALLBACK_FUNCTION_F cbFunction);
 	void setPlayFrame(int* playArr, int arrLen, BOOL loop, CALLBACK_FUNCTION_PARAMETER cbFunction, void* obj);
 		
 	//구간 애니메이션 재생
 	void setPlayFrame(int start, int end, BOOL reverse = FALSE, BOOL loop = FALSE);
-	void setPlayFrame(int start, int end, BOOL reverse, BOOL loop, CALLBACK_FUNCTION cbFunction);
+	void setPlayFrame(int start, int end, BOOL reverse, BOOL loop, CALLBACK_FUNCTION_F cbFunction);
 	void setPlayFrame(int start, int end, BOOL reverse, BOOL loop, CALLBACK_FUNCTION_PARAMETER cbFunction, void* obj);
 
 
