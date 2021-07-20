@@ -87,11 +87,12 @@ public:
 
 	void setBossRoom(); //보스룸 정하기
 
-	void setTorch();
+	void setTorch(); //횃불 놓기
+
+	void testObject(); //함정 테스트 용
 
 	//이거 쓰면 벡터가 큰데 그게 복사되서 프레임 떨어짐
 	//vector<vector<tagTile>> getTiles() { return _tiles; }
-
 
 	//설정자
 	void setTileObject(int tileX, int tileY, OBJECT obj, int objectFrameX = 0, int objectFrameY = 0)

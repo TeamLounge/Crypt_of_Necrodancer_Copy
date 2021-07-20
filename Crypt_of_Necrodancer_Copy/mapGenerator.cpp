@@ -694,6 +694,8 @@ void mapGenerator::generate(int maxFeatures)
 
 	_width = _tiles[0].size();
 	_height = _tiles.size();
+
+	testObject();
 }
 
 bool mapGenerator::makeRoom(int x, int y, ROOM_DIRECTION dir, bool firstRoom, int index)
@@ -1662,4 +1664,23 @@ void mapGenerator::setTorch()
 	}
 	
 	
+}
+
+void mapGenerator::testObject()
+{
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].obj = TR_UP;
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].objectFrameX = 0;
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].objectFrameY = 0;
+
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].obj = TR_DOWN;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].objectFrameX = 0;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].objectFrameY = 0;
+
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 3].obj = TR_LEFT;
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 3].objectFrameX = 0;
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 3].objectFrameY = 0;
+
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].obj = TR_RIGHT;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].objectFrameX = 0;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].objectFrameY = 0;
 }

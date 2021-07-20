@@ -88,6 +88,9 @@
     <Filter Include="playGround\UI\inGame">
       <UniqueIdentifier>{7774373d-05cd-45c6-9ee3-2f742235efba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\object">
+      <UniqueIdentifier>{0155db4d-7a06-446f-b33e-800dc1181060}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -261,6 +264,9 @@
     <ClInclude Include="splashScene.h">
       <Filter>playGround\scene\splash</Filter>
     </ClInclude>
+    <ClInclude Include="objectManager.h">
+      <Filter>playGround\object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -421,6 +427,9 @@
     </ClCompile>
     <ClCompile Include="titleScene.cpp">
       <Filter>playGround\scene\title</Filter>
+    </ClCompile>
+    <ClCompile Include="objectManager.cpp">
+      <Filter>playGround\object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

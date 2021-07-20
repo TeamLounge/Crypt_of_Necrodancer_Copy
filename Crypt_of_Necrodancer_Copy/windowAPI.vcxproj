@@ -173,6 +173,7 @@
     <ClInclude Include="mapTool.h" />
     <ClInclude Include="money.h" />
     <ClInclude Include="numberUI.h" />
+    <ClInclude Include="objectManager.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerTestScene.h" />
     <ClInclude Include="playGround.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="mapTool.cpp" />
     <ClCompile Include="money.cpp" />
     <ClCompile Include="numberUI.cpp" />
+    <ClCompile Include="objectManager.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerTestScene.cpp" />
     <ClCompile Include="playGround.cpp" />
