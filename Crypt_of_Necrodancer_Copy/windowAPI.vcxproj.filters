@@ -61,6 +61,12 @@
     <Filter Include="playGround\enemy\slime">
       <UniqueIdentifier>{6ef491fa-087c-41c3-b48a-070c76df0bb2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\player">
+      <UniqueIdentifier>{ad4a14c3-948d-4996-8bbd-e06dd1012066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\skeleton">
+      <UniqueIdentifier>{f71c76b6-c2aa-46a0-b41d-907942b7b1f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -129,27 +135,6 @@
     <ClInclude Include="mapGenerator.h">
       <Filter>playGround\mapTool</Filter>
     </ClInclude>
-    <ClInclude Include="greenSkeleton.h">
-      <Filter>playGround\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="skeleton.h">
-      <Filter>playGround\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="whiteSkeleton.h">
-      <Filter>playGround\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="blackSkeleton.h">
-      <Filter>playGround\enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="playerTestScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="vision.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="action.h">
       <Filter>2DGameFramework\action</Filter>
     </ClInclude>
@@ -188,6 +173,27 @@
     </ClInclude>
     <ClInclude Include="slimeGreen.h">
       <Filter>playGround\enemy\slime</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="vision.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="greenSkeleton.h">
+      <Filter>playGround\enemy\skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="blackSkeleton.h">
+      <Filter>playGround\enemy\skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="skeleton.h">
+      <Filter>playGround\enemy\skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="whiteSkeleton.h">
+      <Filter>playGround\enemy\skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="playerTestScene.h">
+      <Filter>playGround</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -245,27 +251,6 @@
     <ClCompile Include="mapGenerator.cpp">
       <Filter>playGround\mapTool</Filter>
     </ClCompile>
-    <ClCompile Include="greenSkeleton.cpp">
-      <Filter>playGround\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="skeleton.cpp">
-      <Filter>playGround\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="whiteSkeleton.cpp">
-      <Filter>playGround\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="blackSkeleton.cpp">
-      <Filter>playGround\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="playerTestScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="vision.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="action.cpp">
       <Filter>2DGameFramework\action</Filter>
     </ClCompile>
@@ -304,6 +289,27 @@
     </ClCompile>
     <ClCompile Include="slimeGreen.cpp">
       <Filter>playGround\enemy\slime</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="vision.cpp">
+      <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="greenSkeleton.cpp">
+      <Filter>playGround\enemy\skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="blackSkeleton.cpp">
+      <Filter>playGround\enemy\skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="skeleton.cpp">
+      <Filter>playGround\enemy\skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="whiteSkeleton.cpp">
+      <Filter>playGround\enemy\skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="playerTestScene.cpp">
+      <Filter>playGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
