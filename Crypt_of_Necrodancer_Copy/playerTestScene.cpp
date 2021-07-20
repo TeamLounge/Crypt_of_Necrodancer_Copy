@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "playerTestScene.h"
 
+
 HRESULT playerTestScene::init()
 {
 	_map = new mapGenerator;
