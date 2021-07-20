@@ -18,6 +18,9 @@ private:
 	RECT _body; //몸통
 	RECT _shadow; //그림자
 	float _x, _y; //플레이어 몸통 중심 좌표
+	float _headX, _headY;	//플레이어 머리 좌표
+	float _shadowX1, _shadowY1;	//플레이어 그림자1 좌표
+	float _shadowX2, _shadowY2;	//플레이어 그림자2 좌표
 	int _tileX; //플레이어가 현재 있는 타일 x인덱스
 	int _tileY; //플레이어가 현재 있는 타일 y인덱스
 	RECT _tileRect; //현재 있는 타일 렉트
@@ -26,6 +29,7 @@ private:
 	int _currentFrameX; //현재 프레임x
 	int _currentFrameY; //현재 프레임y
 	float _gravity;
+	int alpha;
 
 	mapGenerator* _map;
 	vision* _vision;
@@ -34,6 +38,11 @@ private:
 	bool _isPlayerMove;
 
 	PLAYER_DIRECTION _playerDirection;
+
+	//zOrder용
+	string _imgHeadName;
+	string _imgBodyName;
+	string _imgShadowName;
 
 public:
 	virtual HRESULT init(int tileX, int tileY);

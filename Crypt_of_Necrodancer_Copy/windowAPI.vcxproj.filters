@@ -43,6 +43,24 @@
     <Filter Include="playGround\enemy">
       <UniqueIdentifier>{1a971438-191b-4999-97cb-20fc884e9b52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DGameFramework\action">
+      <UniqueIdentifier>{8d5674ac-b8ad-4565-af18-66d9a3b3fd0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\animation">
+      <UniqueIdentifier>{e755f718-d414-418f-9e57-83111e0fb665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\button">
+      <UniqueIdentifier>{0fb3dc5a-e851-4dca-8517-49229d7c40c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\effect">
+      <UniqueIdentifier>{3c211f7c-8679-47d5-a7cf-051245edfaff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\txtData">
+      <UniqueIdentifier>{fd991e34-d5ed-4443-ad60-ddc29a312d66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\slime">
+      <UniqueIdentifier>{6ef491fa-087c-41c3-b48a-070c76df0bb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -123,6 +141,54 @@
     <ClInclude Include="blackSkeleton.h">
       <Filter>playGround\enemy</Filter>
     </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="playerTestScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="vision.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="action.h">
+      <Filter>2DGameFramework\action</Filter>
+    </ClInclude>
+    <ClInclude Include="animation.h">
+      <Filter>2DGameFramework\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="button.h">
+      <Filter>2DGameFramework\button</Filter>
+    </ClInclude>
+    <ClInclude Include="effect.h">
+      <Filter>2DGameFramework\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="txtData.h">
+      <Filter>2DGameFramework\txtData</Filter>
+    </ClInclude>
+    <ClInclude Include="effectManager.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="iniDataManager.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="soundManager.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="slime.h">
+      <Filter>playGround\enemy\slime</Filter>
+    </ClInclude>
+    <ClInclude Include="slimeBlue.h">
+      <Filter>playGround\enemy\slime</Filter>
+    </ClInclude>
+    <ClInclude Include="slimeGold.h">
+      <Filter>playGround\enemy\slime</Filter>
+    </ClInclude>
+    <ClInclude Include="slimeGreen.h">
+      <Filter>playGround\enemy\slime</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -190,6 +256,54 @@
     </ClCompile>
     <ClCompile Include="blackSkeleton.cpp">
       <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="playerTestScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="vision.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="action.cpp">
+      <Filter>2DGameFramework\action</Filter>
+    </ClCompile>
+    <ClCompile Include="animation.cpp">
+      <Filter>2DGameFramework\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>2DGameFramework\button</Filter>
+    </ClCompile>
+    <ClCompile Include="effect.cpp">
+      <Filter>2DGameFramework\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="txtData.cpp">
+      <Filter>2DGameFramework\txtData</Filter>
+    </ClCompile>
+    <ClCompile Include="effectManager.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="iniDataManager.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="soundManager.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyManager.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="slime.cpp">
+      <Filter>playGround\enemy\slime</Filter>
+    </ClCompile>
+    <ClCompile Include="slimeBlue.cpp">
+      <Filter>playGround\enemy\slime</Filter>
+    </ClCompile>
+    <ClCompile Include="slimeGold.cpp">
+      <Filter>playGround\enemy\slime</Filter>
+    </ClCompile>
+    <ClCompile Include="slimeGreen.cpp">
+      <Filter>playGround\enemy\slime</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

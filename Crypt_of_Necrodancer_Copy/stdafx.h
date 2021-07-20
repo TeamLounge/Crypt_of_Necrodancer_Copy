@@ -16,9 +16,15 @@
 #include "keyManager.h"
 #include "utils.h"
 #include "imageManager.h"
+#include "txtData.h"
 #include "timeManager.h"
 #include "cameraManager.h"
+#include "effectManager.h"
 #include "sceneManager.h"
+#include "soundManager.h"
+//#include "keyAniManager.h"
+#include "iniDataManager.h"
+//#include "renderManager.h"
 
 
 using namespace std;
@@ -46,7 +52,13 @@ using namespace SUNFL_UTIL;
 #define IMAGEMANAGER	imageManager::getSingleton()
 #define TIMEMANAGER		timeManager::getSingleton()
 #define CAMERAMANAGER	cameraManager::getSingleton()
+#define EFFECTMANAGER	effectManager::getSingleton()
 #define SCENEMANAGER	sceneManager::getSingleton()
+#define SOUNDMANAGER	soundManager::getSingleton()
+//#define KEYANIMANAGER	keyAniManager::getSingleton()
+//#define RENDERMANAGER	renderManager::getSingleton()
+#define TXTDATA			txtData::getSingleton()
+#define INIDATA			iniDataManager::getSingleton()
 
 #define SAFE_DELETE(p) {if(p) {delete(p); (p) = nullptr;}}
 #define SAFE_RELEASE(p) {if(p) {(p)->release(); (p) = NULL;}}

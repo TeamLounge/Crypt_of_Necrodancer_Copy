@@ -21,6 +21,7 @@ void playerTestScene::update()
 {
 	_map->update();
 	_player->update();
+	//RENDERMANAGER->update();
 	/*
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 	{
@@ -54,5 +55,6 @@ void playerTestScene::update()
 void playerTestScene::render()
 {
 	_map->render();
+	//RENDERMANAGER->render(getMemDC());
 	_player->render();
 }

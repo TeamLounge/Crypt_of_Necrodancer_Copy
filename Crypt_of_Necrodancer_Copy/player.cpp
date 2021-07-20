@@ -3,12 +3,12 @@
 
 HRESULT player::init(int tileX, int tileY)
 {
-	IMAGEMANAGER->addFrameImage("player_head", "image/player/playerHead.bmp", 216, 72, 4, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("player_body_basic", "image/player/playerArmor_basic.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("player_body_leather", "image/player/playerArmor_leather.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("player_body_chain", "image/player/playerArmor_chain.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("player_shadow", "image/player/shadow_standard1.bmp", 72, 81, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("player_shadow2", "image/player/shadow_standard2.bmp", 72, 81, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("player_head", "image/player/playerHead.bmp", 216, 72, 4, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("player_body_basic", "image/player/playerArmor_basic.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255), true);	//alpha 값 꼭 챙겨주자!!!
+	IMAGEMANAGER->addFrameImage("player_body_leather", "image/player/playerArmor_leather.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("player_body_chain", "image/player/playerArmor_chain.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("player_shadow", "image/player/shadow_standard1.bmp", 72, 81, true, RGB(255, 0, 255), true);	//검은색 타원
+	IMAGEMANAGER->addImage("player_shadow2", "image/player/shadow_standard2.bmp", 72, 81, true, RGB(255, 0, 255), true);//검은색 짝대기
 	
 	CAMERAMANAGER->setCamera(0, 0);
 
@@ -24,6 +24,35 @@ HRESULT player::init(int tileX, int tileY)
 
 	_vision = new vision;
 	_vision->init(_tileX, _tileY, 5);
+
+	alpha = 255;
+
+	//renderManager 해주기
+	//초기화 제일 긴 거
+	//_imgHeadName = "player_head";
+	//_imgBodyName = "player_body_basic";
+	//_imgShadowName = "player_shadow2";	
+	//머리
+	_headX = _body.left;
+	_headY = _body.top - 24;
+	//RENDERMANAGER->addObj("player_head", _headImageName.c_str(), &_headX, &_headY, true);
+	//몸통
+	//RENDERMANAGER->addObj("player_body_basic", _imgBodyName.c_str(), &_x, &_y, true);
+	//RENDERMANAGER->addObj("player_body_leather", _imgBodyName.c_str(), &_x, &_y, true);
+	//RENDERMANAGER->addObj("player_body_chain", _imgBodyName.c_str(), &_x, &_y, true);
+	//그림자
+	_shadowX1 = _tileRect.left;
+	_shadowY1 = _tileRect.top - 37;
+
+	_shadowX2 = _tileRect.left;
+	_shadowY2 = _tileRect.top - 37;
+	//RENDERMANAGER->addObj("player_shadow", _imgShadowName.c_str(), &_shadowX, &_shadowY, true);
+	//RENDERMANAGER->addObj("player_shadow2", _imgShadowName.c_str(), &_shadowX, &_shadowY, true);
+
+	//머리-몸통-그림자							//여러가지로 변하는 이미지는 이렇게 잡아주고, shadow처럼 그냥 이미지는 직접 입력
+	//RENDERMANAGER->addObj("player_head", _headImageName.c_str(), _bodyImageName.c_str(), "player_shadow", "player_shadow2", &_headX, &_headY, &_x, &_y, 
+	//	&_shadowX1, &_shadowY1, &_shadowX2, &_shadowY2, true, true, true, &_currentFrameX, &_currentFrameY, &alpha);
+
 	return S_OK;
 }
 
@@ -265,6 +294,7 @@ void player::render()
 	IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
 	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
 	//_vision->render();
+	
 }
 
 void player::setupPlayerRect()

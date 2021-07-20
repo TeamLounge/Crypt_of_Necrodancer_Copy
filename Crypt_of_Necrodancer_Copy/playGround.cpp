@@ -2,6 +2,8 @@
 #include "playGround.h"
 #include "aStarTest.h"
 #include "whiteSkeleton.h"
+//#include "slime.h"
+
 playGround::playGround()
 {
 }
@@ -33,6 +35,22 @@ HRESULT playGround::init()
 
 	SCENEMANAGER->addScene("player_test", new playerTestScene);
 	SCENEMANAGER->changeScene("player_test");
+
+
+	////카메라 테스트 ==================================================================
+	//_player.x = BACKGROUNDX / 2;
+	//_player.y = BACKGROUNDY / 2 + 200;
+
+	//_player.rc = RectMakeCenter(_player.x, _player.y, 50, 100);
+	//CAMERAMANAGER->setCameraCenter(_player.x, _player.y);
+
+
+	////충돌처리로 카메라 흔들기 위해 작성하는 testPlayer======================
+	//_test.x = BACKGROUNDX / 2 + 100;
+	//_test.y = BACKGROUNDY / 2 + 200;
+
+	//_test.rc = RectMakeCenter(_test.x, _test.y, 100, 100);
+	////==============================================================================
 
 	return S_OK;
 }
@@ -100,6 +118,53 @@ void playGround::update()
 		CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() + TILESIZE);
 	}
 	*/
+
+	////카메라 테스트용================================================================================================================
+	//if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+	//{
+	//	_player.x -= 5;
+	//}
+	//if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+	//{
+	//	_player.x += 5;
+	//}
+
+	//if (KEYMANAGER->isStayKeyDown(VK_UP))
+	//{
+	//	_player.y -= 5;
+	//}
+
+	//if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+	//{
+	//	_player.y += 5;
+	//}
+	//_player.rc = RectMakeCenter(_player.x, _player.y, 50, 100);
+	//_test.rc = RectMakeCenter(_test.x, _test.y, 100, 100);
+
+	//if (KEYMANAGER->isOnceKeyDown(VK_TAB))
+	//{
+	//	if (!CAMERAMANAGER->getSeeLine())
+	//	{
+	//		CAMERAMANAGER->setSeeLine(true);
+	//	}
+	//	else
+	//	{
+	//		CAMERAMANAGER->setSeeLine(false);
+	//	}
+	//}
+
+	////중점 기준으로 이용하고
+	//CAMERAMANAGER->updateCamera(_player.x, _player.y); //플레이어의 중점을 중심으로 움직이는 카메라
+	////CAMERAMANAGER->updateCamera(_player.rc, 0.7, 0.3); //플레이어가 일정 중심이상 나가면 움직임
+	////CAMERAMANAGER->updateCamera(_player.rc, 0.3, 0.7, 0.3, 0.7); //플레이어가 사각형 범위 밖으로 나가면 움직임
+
+	////충돌하면 카메라 흔들기
+	//RECT temp;
+	//if (IntersectRect(&temp, &_player.rc, &_test.rc))
+	//{
+	//	CAMERAMANAGER->vibrateScreen(_player.x, _player.y, 5.0f);	// 5.0f => 진동 세기 
+	//}
+	////============================================================================================================================
 }
 
 
@@ -118,6 +183,10 @@ void playGround::render()
 	//TIMEMANAGER->render(getMemDC());
 	//SCENEMANAGER->render();
 	DeleteObject(myPen);
+
+	//카메라 테스트용
+	//Rectangle(getMemDC(), _player.rc);
+	//Rectangle(getMemDC(), _test.rc);
 	//==================================================
 	//this->getBackBuffer()->render(getHDC(), 0, 0);
 	CAMERAMANAGER->render(this->getBackBuffer(), getHDC());
