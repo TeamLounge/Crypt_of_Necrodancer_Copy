@@ -2,7 +2,7 @@
 #include "gameNode.h"
 #include "tileMap.h"
 
-enum DIRECTION
+enum ROOM_DIRECTION
 {
 	NORTH,
 	SOUTH,
@@ -32,9 +32,10 @@ private:
 	bool _isMakeRoom;
 	bool _isHaveCorridor;
 
-	int _start;
+	int _startRoomIndex;
+	int _bossRoomIndex;
 
-	DIRECTION _corridorDirection;
+	ROOM_DIRECTION _corridorDirection;
 
 	vector<POINT> _newRoomXIndex;
 	vector<POINT> _newRoomYIndex;
@@ -42,6 +43,12 @@ private:
 	vector<POINT> _newWallIndex;
 
 	vector<POINT> _endBlockIndex;
+
+	bool _isEvenLight;
+
+	float _worldTime;
+
+	float _elapsedSec;
 
 public:
 	virtual HRESULT init(int width, int height);
@@ -51,17 +58,17 @@ public:
 
 	void generate(int maxFeatures);
 	//방 만들기
-	bool makeRoom(int x, int y, DIRECTION dir, bool firstRoom = false, int index = NULL);
+	bool makeRoom(int x, int y, ROOM_DIRECTION dir, bool firstRoom = false, int index = NULL);
 	//통로 만들기
-	bool makeCorridor(int x, int y, DIRECTION dir);
+	bool makeCorridor(int x, int y, ROOM_DIRECTION dir);
 
 	//상점 만들기
 	bool makeShop();
-	bool makeShop(int x, int y, DIRECTION dir);
+	bool makeShop(int x, int y, ROOM_DIRECTION dir);
 
-	bool placeTile(const tagRoom& room, OBJECT obj, int objectFrameX, int objectFrameY, bool _isShop = false, DIRECTION dir = DIRECTIONCOUNT);
+	bool placeTile(const tagRoom& room, OBJECT obj, int objectFrameX, int objectFrameY, bool _isShop = false, ROOM_DIRECTION dir = DIRECTIONCOUNT);
 	bool createFeature(int index);
-	bool createFeature(int x, int y, DIRECTION dir, int index = NULL);
+	bool createFeature(int x, int y, ROOM_DIRECTION dir, int index = NULL);
 
 	TERRAIN getTileTerrain(int x, int y);
 
@@ -80,8 +87,9 @@ public:
 
 	void setBossRoom(); //보스룸 정하기
 
-	tagRoom getStartRoom();
+	void setTorch();
 
+	//이거 쓰면 벡터가 큰데 그게 복사되서 프레임 떨어짐
 	//vector<vector<tagTile>> getTiles() { return _tiles; }
 
 
@@ -103,6 +111,7 @@ public:
 		_tiles[tileY][tileX].alpha = alpha;
 	}
 	void setIsSeen(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isSeen = b; }
+	void setIsHaveTorch(int tileX, int tileY, bool b){ _tiles[tileY][tileX].isHaveTorch = b; }
 
 	//접근자
 	bool getIsSeen(int tileX, int tileY) { return _tiles[tileY][tileX].isSeen; }
@@ -110,5 +119,17 @@ public:
 
 	int getXSize() { return _width; }
 	int getYSize() { return _height; }
+
+	int getStartRoomX() { return _rooms[_startRoomIndex].x; };
+	int getStartRoomY() { return _rooms[_startRoomIndex].y; };
+
+	int getBossRoomX() { return _rooms[_bossRoomIndex].x; }
+	int getBossRoomY() { return _rooms[_bossRoomIndex].y; }
+
+	bool getIsHaveTorch(int tileX, int tileY) { return _tiles[tileY][tileX].isHaveTorch; }
+
+	int getAlpha(int tileX, int tileY) { return _tiles[tileY][tileX].alpha; }
+	
+	tagTile getTile(int tileX, int tileY) { return _tiles[tileY][tileX]; }
 };
 

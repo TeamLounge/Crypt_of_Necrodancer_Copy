@@ -4,6 +4,7 @@
 #include "randomMap.h"
 #include "whiteSkeleton.h"
 #include "playerTestScene.h"
+
 //#include "slimeBlue.h"
 //#include "slimeGreen.h"
 //#include "slimeGold.h"
@@ -28,11 +29,13 @@
 //};
 //========================================
 
+
+#include "player.h"
 class playGround : public gameNode
 {
 private:
 	mapTool* _mapTool;
-	randomMap* _randomMap;
+	randomMap* _map;
 	whiteSkeleton* _skeleton;
 	//slime* _slime;
 
@@ -40,6 +43,7 @@ private:
 	//tagPlayer _player;
 	//tagPlayer _test;
 
+	player* _player;
 public:
 	playGround();
 	~playGround();

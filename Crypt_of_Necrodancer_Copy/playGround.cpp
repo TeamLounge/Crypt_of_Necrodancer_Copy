@@ -20,21 +20,21 @@ HRESULT playGround::init()
 	
 	setImage();
 
-	//_mapTool = new mapTool;
-	//_mapTool->init();
-
-	//SCENEMANAGER->addScene("에이스타",new aStarTest);
-	//SCENEMANAGER->changeScene("에이스타");
-	_randomMap = new randomMap;
-	_randomMap->init();
+	_map = new randomMap;
+	_map->init();
+	
+	_player = new player;
+	_player->init(_map->getStartRoom().left + 2, _map->getStartRoom().top + 2);
 	_skeleton = new whiteSkeleton;
-	_skeleton->setTileMapLinK(_randomMap);
+	_skeleton->setTileMapLinK(_map);
+	_player->setLinkMap(_map);
+	_player->setupPlayerRect();
+	_skeleton->init(_player->getTileX(), _player->getTileY());
 
-	_skeleton->init();
 
 
-	SCENEMANAGER->addScene("player_test", new playerTestScene);
-	SCENEMANAGER->changeScene("player_test");
+	//SCENEMANAGER->addScene("player_test", new playerTestScene);
+	//SCENEMANAGER->changeScene("player_test");
 
 
 	////카메라 테스트 ==================================================================
@@ -68,35 +68,16 @@ void playGround::update()
 {
 	gameNode::update();
 
+
+
+	_map->update();
+	_player->update();
+	_skeleton->update(_player->getTileX(),_player->getTileY());
+	//CAMERAMANAGER->setCameraCenterX((_player->+ _skeleton->getRect().left)/2);
+	//CAMERAMANAGER->setCameraCenterY((_player->getRect().bottom + _skeleton->getRect().top) / 2);
+
+	
 	//SCENEMANAGER->update();
-	//_mapTool->update();
-	
-
-
-	//_randomMap->update();
-	//_skeleton->update();
-	//CAMERAMANAGER->setCameraCenterX((_skeleton->getRect().right+ _skeleton->getRect().left)/2);
-	//CAMERAMANAGER->setCameraCenterY((_skeleton->getRect().bottom + _skeleton->getRect().top) / 2);
-
-	//CAMERAMANAGER->updateCamera(_skeleton->getX(), _skeleton->getY());
-	//if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-	//{
-	//	CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() - TILESIZE);
-	//}
-	//if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-	//{
-	//	CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() + TILESIZE);
-	//}
-	//if (KEYMANAGER->isStayKeyDown(VK_UP))
-	//{
-	//	CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() - TILESIZE);
-	//}
-	//if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-	//{
-	//	CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() + TILESIZE);
-	//}
-	
-	SCENEMANAGER->update();
 	//_mapTool->update();
 	//_randomMap->update();
 
@@ -165,6 +146,7 @@ void playGround::update()
 	//	CAMERAMANAGER->vibrateScreen(_player.x, _player.y, 5.0f);	// 5.0f => 진동 세기 
 	//}
 	////============================================================================================================================
+	
 }
 
 
@@ -175,11 +157,10 @@ void playGround::render()
 
 	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
 	SelectObject(getMemDC(), myPen);
-	//_mapTool->render();
-	//_randomMap->render();
-	//_skeleton->render();
-	//_randomMap->render();
-	SCENEMANAGER->render();
+	_map->render();
+	_player->render();
+	_skeleton->render();
+	//SCENEMANAGER->render();
 	//TIMEMANAGER->render(getMemDC());
 	//SCENEMANAGER->render();
 	DeleteObject(myPen);
@@ -230,6 +211,7 @@ void playGround::setImage()
 	IMAGEMANAGER->addFrameImage("box", "image/object/box.bmp", 102, 72, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("barrel", "image/object/barrel.bmp", 120, 72, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("wall_torch", "image/object/walls/wall_torch.bmp", 144, 78, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("wall_torch_black", "image/object/walls/wall_torch_black.bmp", 144, 78, 4, 1, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->findImage("wall_torch")->setFrameX(0);
 	IMAGEMANAGER->findImage("wall_torch")->setFrameY(0);
 }

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "aStarTest.h"
-
+#include "randomMap.h"
 
 aStarTest::aStarTest()
 {
@@ -14,6 +14,8 @@ aStarTest::~aStarTest()
 
 HRESULT aStarTest::init(int enemyX, int enemyY, int playerX, int playerY)
 {
+	_count = 0;
+	_start = false;
 
 	setTile(enemyX, enemyY,  playerX, playerY);
 
@@ -28,43 +30,49 @@ void aStarTest::release()
 
 void aStarTest::update()
 {
-	//endmove();
-	if (KEYMANAGER->isOnceKeyDown('S')) _start = true;
+	//_count++;
+	//if (_count % 5 == 0)
+	//{
+	if (ismove)
+	{
+		pathFinder(_startTile);
+	}
 	if (_start)
 	{
-		_count++;
-		if (_count % 10 == 0)
-		{
-			pathFinder(_currentTile);
-		
-			_count = 0;
-		}
+		time = TIMEMANAGER->getWorldTime();
+		startmove();
 	}
-
-	
+	//	_count = 0;
+	//}
 }
 
 void aStarTest::render()
 {
-
+	for (int i = 0; i < _vCloseList.size(); ++i)
+	{
+		_vCloseList[i]->render();
+	}
 }
 //타일 셋팅 함수
 void aStarTest::setTile(int enemyX, int enemyY, int playerX, int playerY)
 {
 	_startTile = new tile;
-	_startTile->init(4, 12);
-	_startTile->setAttribute("start");
+	_startTile->setLinkRandomMap(_map);
+	_startTile->init(enemyX, enemyY);
+	_startTile->setAttribute("enemy");
 
 	_endTile = new tile;
-	_endTile->init(20, 12);
-	_endTile->setAttribute("end");
+	_endTile->setLinkRandomMap(_map);
+	_endTile->init(playerX, playerY);
+	_endTile->setAttribute("player");
 
 	_currentTile = _startTile;
 
-	for (int i = 0; i < TILENUMY; ++i)
+	for (int i = 0; i <TILENUMY; ++i)
 	{
 		for (int j = 0; j<TILENUMX; ++j)
 		{
+	
 			if (j == _startTile->getIdX() && i == _startTile->getIdY())
 			{
 				_startTile->setColor(RGB(0, 255, 0));
@@ -78,7 +86,16 @@ void aStarTest::setTile(int enemyX, int enemyY, int playerX, int playerY)
 				continue;
 			}
 			tile* node = new tile;
+			node->setLinkRandomMap(_map);
 			node->init(j, i);
+			if (_map->getTileObject(j,i) == WALL_BASIC || _map->getTileObject(j, i) == WALL_GOLD)
+			{
+				node->setAttribute("wall");
+			}
+			if (_map->getTileTerrain(j, i) == EMPTY)
+			{
+				node->setAttribute("wall");
+			}
 			_vTotalList.push_back(node);
 		}
 	}
@@ -100,11 +117,11 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				tile* node = _vTotalList[(startY*TILENUMX) + startX + (i*TILENUMX)];
 				//예외처리
 				if (!node->getIsOpen()) continue;
-				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "enemy") continue;
 				if (node->getAttribute() == "wall") continue;
 				//현재 타일 계속 갱신해준다.
 				node->setParentNode(_currentTile);
-				node->setparentNumber(_currentTile->getparentNumber() + 1);
+				//node->setparentNumber(_currentTile->getparentNumber() + 1);
 				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
 				bool addObj = true;
 
@@ -119,7 +136,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 
 
 				//현재 노드가 끝노드가아니면 색칠해준다
-				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+				if (node->getAttribute() != "player") node->setColor(RGB(128, 64, 28));
 
 				//이미 체크된애는 건너뛴다
 				if (!addObj) continue;
@@ -133,11 +150,11 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				tile* node = _vTotalList[(startY*TILENUMX) + startX + i + (i*TILENUMX)];
 				//예외처리
 				if (!node->getIsOpen()) continue;
-				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "enemy") continue;
 				if (node->getAttribute() == "wall") continue;
 				//현재 타일 계속 갱신해준다.
 				node->setParentNode(_currentTile);
-				node->setparentNumber(_currentTile->getparentNumber() + 1);
+				//node->setparentNumber(_currentTile->getparentNumber() + 1);
 
 				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
 				bool addObj = true;
@@ -153,7 +170,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 
 
 				//현재 노드가 끝노드가아니면 색칠해준다
-				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+				if (node->getAttribute() != "player") node->setColor(RGB(128, 64, 28));
 
 				//이미 체크된애는 건너뛴다
 				if (!addObj) continue;
@@ -166,11 +183,11 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				tile* node = _vTotalList[(startY*TILENUMX) + startX - 1 + ((i - 2)*TILENUMX)];
 				//예외처리
 				if (!node->getIsOpen()) continue;
-				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "enemy") continue;
 				if (node->getAttribute() == "wall") continue;
 				//현재 타일 계속 갱신해준다.
 				node->setParentNode(_currentTile);
-				node->setparentNumber(_currentTile->getparentNumber() + 1);
+				//node->setparentNumber(_currentTile->getparentNumber() + 1);
 
 				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
 				bool addObj = true;
@@ -185,7 +202,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				}
 
 				//현재 노드가 끝노드가아니면 색칠해준다
-				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+				if (node->getAttribute() != "player") node->setColor(RGB(128, 64, 28));
 
 				//이미 체크된애는 건너뛴다
 				if (!addObj) continue;
@@ -204,11 +221,11 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				tile* node = _vTotalList[(startY*TILENUMX) + startX + (i*TILENUMX)];
 				//예외처리
 				if (!node->getIsOpen()) continue;
-				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "enemy") continue;
 				if (node->getAttribute() == "wall") continue;
 				//현재 타일 계속 갱신해준다.
 				node->setParentNode(_currentTile);
-				node->setparentNumber(_currentTile->getparentNumber() + 1);
+				//node->setparentNumber(_currentTile->getparentNumber() + 1);
 				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
 				bool addObj = true;
 		
@@ -223,7 +240,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 		
 		
 				//현재 노드가 끝노드가아니면 색칠해준다
-				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+				if (node->getAttribute() != "player") node->setColor(RGB(128, 64, 28));
 		
 				//이미 체크된애는 건너뛴다
 				if (!addObj) continue;
@@ -237,11 +254,11 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				tile* node = _vTotalList[(startY*TILENUMX) + startX + i + (i*TILENUMX)];
 				//예외처리
 				if (!node->getIsOpen()) continue;
-				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "enemy") continue;
 				if (node->getAttribute() == "wall") continue;
 				//현재 타일 계속 갱신해준다.
 				node->setParentNode(_currentTile);
-				node->setparentNumber(_currentTile->getparentNumber() + 1);
+				//node->setparentNumber(_currentTile->getparentNumber() + 1);
 		
 				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
 				bool addObj = true;
@@ -257,7 +274,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 		
 		
 				//현재 노드가 끝노드가아니면 색칠해준다
-				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+				if (node->getAttribute() != "player") node->setColor(RGB(128, 64, 28));
 		
 				//이미 체크된애는 건너뛴다
 				if (!addObj) continue;
@@ -270,11 +287,11 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				tile* node = _vTotalList[(startY*TILENUMX) + startX-1 + ((i-2)*TILENUMX)];
 				//예외처리
 				if (!node->getIsOpen()) continue;
-				if (node->getAttribute() == "start") continue;
+				if (node->getAttribute() == "enemy") continue;
 				if (node->getAttribute() == "wall") continue;
 				//현재 타일 계속 갱신해준다.
 				node->setParentNode(_currentTile);
-				node->setparentNumber(_currentTile->getparentNumber() + 1);
+				//node->setparentNumber(_currentTile->getparentNumber() + 1);
 		
 				//주변타일 검출하면서 체크했는지 유무를 알수있게 임의의 불값을 준다
 				bool addObj = true;
@@ -289,7 +306,7 @@ vector<tile*> aStarTest::addOpenList(tile * currentTile)
 				}
 		
 				//현재 노드가 끝노드가아니면 색칠해준다
-				//if (node->getAttribute() != "end") node->setColor(RGB(128, 64, 28));
+				if (node->getAttribute() != "player") node->setColor(RGB(128, 64, 28));
 		
 				//이미 체크된애는 건너뛴다
 				if (!addObj) continue;
@@ -358,21 +375,23 @@ void aStarTest::pathFinder(tile * currentTile)
 	{ 
 		return;
 	}
-	else if (tempTile->getAttribute() == "end")
+	else if (tempTile->getAttribute() == "player")
 	{
 		//최단경로를 색칠해줘라
 		while (_currentTile->getParentNode() != NULL)
 		{
+			_vCloseList.emplace_back(_currentTile);
 			_currentTile->setColor(RGB(22, 14, 128));
 			_currentTile = _currentTile->getParentNode();
+		
+			_start = true;
 		}
-		//_start = false;
 		return;
 	}
 
 
 	//최단경로
-	_vCloseList.push_back(tempTile);
+	//_vCloseList.push_back(tempTile);
 	
 	//최단경로를 넣어놧으면
 	for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
@@ -386,90 +405,69 @@ void aStarTest::pathFinder(tile * currentTile)
 	}
 
 	_currentTile = tempTile;
-	_currentTile->setColor(RGB(255, 0, 0));
-	//pathFinder(_currentTile);
-	//for (int i = 0; i < _vTotalList.size(); ++i)
-	//{
-	//	if (_vTotalList[i]->getAttribute() == "start")
-	//	{
-	//		
-	//		_vOpenList.clear();
-	//		RECT rc;
-	//		tile* node = new tile;
-	//		node->init(_startTile->getIdX(), _startTile->getIdY());
-	//		//node->setIsOpen(false);
-	//		_startTile->setIdX(_currentTile->getIdX());
-	//		_startTile->setIdY(_currentTile->getIdY());
-	//		_startTile->setCetner(PointMake(_currentTile->getIdX()* TILEWIDTH + (TILEWIDTH / 2),
-	//			_currentTile->getIdY()*TILEHEIGHT + (TILEHEIGHT / 2)));
-	//		rc = RectMakeCenter(_startTile->getCenter().x, _startTile->getCenter().y, TILEWIDTH, TILEHEIGHT);
-	//		_startTile->setRect(rc);
-	//		//swap(_startTile, _vTotalList[_currentTile->getIdY()*TILEWIDTH + _currentTile->getIdX()]);
-	//		_vTotalList.erase(_vTotalList.begin() + i);
-	//		_vTotalList.insert(_vTotalList.begin() + i, node);
-	//		_vTotalList.erase(_vTotalList.begin() + (_currentTile->getIdY()*TILENUMX + _currentTile->getIdX()));
-	//		_vTotalList.insert(_vTotalList.begin() + (_currentTile->getIdY()*TILENUMX + _currentTile->getIdX()), _startTile);
-	//		break;
-	//	}
-	//}
+	//_currentTile->setColor(RGB(255, 0, 0));
+	pathFinder(_currentTile);
+	
 }	
 
-void aStarTest::endmove()
+void aStarTest::endmove(int playerIndexX, int playerIndexY)
 {
 	RECT rc;
 	tile* node;
-	int nextIdx;
-	int nextIdy;
-	bool ismove = false;
-	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+	ismove = false;
+	if (_endTile->getIdX() != playerIndexX || _endTile->getIdY() != playerIndexY)
 	{
-		nextIdx = _endTile->getIdX() + 1;
-		nextIdy = _endTile->getIdY();
 		ismove = true;
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_UP))
-	{
-		nextIdx = _endTile->getIdX();
-		nextIdy = _endTile->getIdY()-1;
-		ismove = true;
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
-	{
-		nextIdx = _endTile->getIdX()-1;
-		nextIdy = _endTile->getIdY();
-		ismove = true;
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-	{
-		nextIdx = _endTile->getIdX();
-		nextIdy = _endTile->getIdY()+1;
-		ismove = true;
-	}
+	//if (direction == RIGHT)
+	//{
+	//	nextIdx = _endTile->getIdX() + 1;
+	//	nextIdy = _endTile->getIdY();
+	//	ismove = true;
+	//}
+	//if (direction == UP)
+	//{
+	//	nextIdx = _endTile->getIdX();
+	//	nextIdy = _endTile->getIdY()-1;
+	//	ismove = true;
+	//}
+	//if (direction == LEFT)
+	//{
+	//	nextIdx = _endTile->getIdX()-1;
+	//	nextIdy = _endTile->getIdY();
+	//	ismove = true;
+	//}
+	//if (direction == DOWN)
+	//{
+	//	nextIdx = _endTile->getIdX();
+	//	nextIdy = _endTile->getIdY()+1;
+	//	ismove = true;
+	//}
 	if (ismove) {
 		for (int i = 0; i < _vTotalList.size(); ++i)
 		{
-			if (_vTotalList[i]->getAttribute() == "end")
+			if (_vTotalList[i]->getAttribute() == "player")
 			{
-				if (_vTotalList[(nextIdy*TILENUMX + nextIdx)]->getAttribute() == "start") break;
-				if (_vTotalList[(nextIdy*TILENUMX + nextIdx)]->getAttribute() == "wall")break;
+				if (_vTotalList[(playerIndexY*TILENUMX + playerIndexX)]->getAttribute() == "enemy") break;
 				node = new tile;
+				node->setLinkRandomMap(_map);
 				node->init(_endTile->getIdX(), _endTile->getIdY());
-				_endTile->setIdX(nextIdx);
-				_endTile->setIdY(nextIdy);
-				_endTile->setCetner(PointMake(nextIdx* TILEWIDTH + (TILEWIDTH / 2),
-					nextIdy*TILEHEIGHT + (TILEHEIGHT / 2)));
-				rc = RectMakeCenter(_endTile->getCenter().x, _endTile->getCenter().y, TILEWIDTH, TILEHEIGHT);
+				_endTile->setIdX(playerIndexX);
+				_endTile->setIdY(playerIndexY);
+
+				rc = _map->getRect(_endTile->getIdX(), _endTile->getIdY());
 				_endTile->setRect(rc);
+				_endTile->setCetner(PointMake((rc.left + rc.right) / 2, (rc.bottom + rc.top) / 2));
 				_vTotalList.erase(_vTotalList.begin() + i);
 				_vTotalList.insert(_vTotalList.begin() + i, node);
-				_vTotalList.erase(_vTotalList.begin() + (nextIdy*TILENUMX + nextIdx));
-				_vTotalList.insert(_vTotalList.begin() + (nextIdy*TILENUMX + nextIdx), _endTile);
+				_vTotalList.erase(_vTotalList.begin() + (playerIndexY*TILENUMX + playerIndexX));
+				_vTotalList.insert(_vTotalList.begin() + (playerIndexY*TILENUMX + playerIndexX), _endTile);
 				break;
 			}
 		}
 		for (int i = 0; i < _vTotalList.size(); ++i)
 		{
-			if (_vTotalList[i]->getAttribute() == "none")
+			if (!(_vTotalList[i]->getAttribute() == "player" || _vTotalList[i]->getAttribute() == "enemy"))
 			{
 				_vTotalList[i]->setParentNode(nullptr);
 				_vTotalList[i]->setCostFromStart(0);
@@ -483,5 +481,32 @@ void aStarTest::endmove()
 		_vOpenList.clear();
 		_endTile->setIsOpen(true);
 		_currentTile = _startTile;
+	}
+}
+
+void aStarTest::startmove()
+{
+	if (_map->getTileObject(_vCloseList.back()->getIdX(), _vCloseList.back()->getIdY()) == OBJ_NONE)
+	{
+		RECT rc;
+		tile* node = new tile;
+		node->setLinkRandomMap(_map);
+		node->init(_startTile->getIdX(), _startTile->getIdY());
+		//node->setIsOpen(false);
+		_startTile->setIdX(_vCloseList.back()->getIdX());
+		_startTile->setIdY(_vCloseList.back()->getIdY());
+		rc = _map->getRect(_startTile->getIdX(), _startTile->getIdY());
+		_startTile->setCetner(PointMake((rc.left + rc.right) / 2, (rc.bottom + rc.top) / 2));
+		_startTile->setRect(rc);
+		//swap(_startTile, _vTotalList[_currentTile->getIdY()*TILEWIDTH + _currentTile->getIdX()]);
+		_vTotalList.erase(_vTotalList.begin() + (node->getIdY()*TILENUMX + node->getIdX()));
+		_vTotalList.insert(_vTotalList.begin() + (node->getIdY()*TILENUMX + node->getIdX()), node);
+		_vTotalList.erase(_vTotalList.begin() + (_vCloseList.back()->getIdY()*TILENUMX + _vCloseList.back()->getIdX()));
+		_vTotalList.insert(_vTotalList.begin() + (_vCloseList.back()->getIdY()*TILENUMX + _vCloseList.back()->getIdX()), _startTile);
+		if (_vCloseList.size() != 1)
+		{
+			//_start = false;
+			_vCloseList.erase(_vCloseList.end() - 1);
+		}
 	}
 }

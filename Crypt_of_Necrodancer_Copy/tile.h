@@ -1,16 +1,18 @@
 #pragma once
 #include "gameNode.h"
+#include "randomMap.h"
 
 #define TILEWIDTH 72
 #define TILEHEIGHT 72
 
+class randomMap;
 
 class tile : public gameNode
 {
 private:
 	int _idX;
 	int _idY;
-
+	
 	POINT _center;
 	RECT _rc;
 	//F = G + H 
@@ -24,6 +26,7 @@ private:
 
 	bool _isOpen; // 갈수있는 타일인지 알아보자
 
+	randomMap* _map;
 	tile* _parentNode; //제일 상위 타일 
 
 	COLORREF _color;
@@ -65,6 +68,7 @@ public:
 	void setIsOpen(bool isOpen) { _isOpen = isOpen; }
 	void setAttribute(string attribute) { _attribute = attribute; }
 	void setparentNumber(int number) { _parentNodenumber = number; }
+	void setLinkRandomMap(randomMap* map) { _map = map; }
 
 	void setColor(COLORREF color)
 	{

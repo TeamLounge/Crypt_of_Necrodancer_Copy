@@ -20,7 +20,7 @@ HRESULT player::init(int tileX, int tileY)
 	_currentFrameX = 0;
 	_currentFrameY = 0;
 	_gravity = 0;
-	_playerDirection = PLAYER_DIRECTION_RIGHT;
+	_playerDirection = RIGHT;
 
 	_vision = new vision;
 	_vision->init(_tileX, _tileY, 5);
@@ -74,101 +74,100 @@ void player::update()
 		{
 			_currentFrameX++;
 		}
-		if (_playerDirection == PLAYER_DIRECTION_LEFT)
+		if (_playerDirection == LEFT)
 		{
 			_currentFrameY = 1;
 		}
-		else if (_playerDirection == PLAYER_DIRECTION_RIGHT)
+		else if (_playerDirection == RIGHT)
 		{
 			_currentFrameY = 0;
 		}
 	}
-	
-	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+	if (!_isPlayerMove)
 	{
-		_playerDirection = PLAYER_DIRECTION_LEFT;
-		OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
-		if (obj == WALL_BASIC || obj == WALL_CRACK
-			|| obj == WALL_GOLD || obj == WALL_END)
+		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 		{
+			_playerDirection = LEFT;
+			OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
+			if (obj == WALL_CRACK || obj == WALL_END
+				|| obj == WALL_STONE
+				|| obj == WALL_GOLD)
+			{
 
+			}
+			else if (obj == WALL_DOOR || obj == WALL_BASIC)
+			{
+				_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
+				//_map->setIsHaveTorch(_tileX - 1, _tileY, false);
+			}
+			else
+			{
+				_tileX -= 1;
+				_isPlayerMove = true;
+			}
 		}
-		else if (obj == WALL_DOOR)
+		else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 		{
-			_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, NULL, NULL);
-			_tileX -= 1;
-			_isPlayerMove = true;
-		}
-		else
-		{
-			_tileX -= 1;
-			_isPlayerMove = true;
-		}
-	}
-	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
-	{
-		_playerDirection = PLAYER_DIRECTION_RIGHT;
-		OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
-		if (obj == WALL_BASIC || obj == WALL_CRACK
-			|| obj == WALL_GOLD || obj == WALL_END
-			|| obj == WALL_STONE)
-		{
+			_playerDirection = RIGHT;
+			OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
+			if (obj == WALL_CRACK || obj == WALL_END
+				|| obj == WALL_GOLD
+				|| obj == WALL_STONE)
+			{
 
+			}
+			else if (obj == WALL_DOOR || obj == WALL_BASIC)
+			{
+				_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
+				//_map->setIsHaveTorch(_tileX + 1, _tileY, false);
+			}
+			else
+			{
+				_tileX += 1;
+				_isPlayerMove = true;
+			}
 		}
-		else if (obj == WALL_DOOR)
+		else if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, NULL, NULL);
-			_tileX += 1;
-			_isPlayerMove = true;
-		}
-		else
-		{
-			_tileX += 1;
-			_isPlayerMove = true;
-		}
-	}
-	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
-	{
-		_playerDirection = PLAYER_DIRECTION_UP;
-		OBJECT obj = _map->getTileObject(_tileX , _tileY - 1);
-		if (obj == WALL_BASIC || obj == WALL_CRACK
-			|| obj == WALL_GOLD || obj == WALL_END
-			|| obj == WALL_STONE)
-		{
+			_playerDirection = UP;
+			OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
+			if (obj == WALL_CRACK || obj == WALL_END
+				|| obj == WALL_GOLD 
+				|| obj == WALL_STONE)
+			{
 
+			}
+			else if (obj == WALL_DOOR || obj == WALL_BASIC)
+			{
+				_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
+				//_map->setIsHaveTorch(_tileX, _tileY - 1, false);
+			}
+			else
+			{
+				_tileY -= 1;
+				_isPlayerMove = true;
+			}
 		}
-		else if (obj == WALL_DOOR)
+		else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-			_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, NULL, NULL);
-			_tileY -= 1;
-			_isPlayerMove = true;
-		}
-		else
-		{
-			_tileY -= 1;
-			_isPlayerMove = true;
-		}
-	}
-	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-	{
-		_playerDirection = PLAYER_DIRECTION_DOWN;
-		OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
-		if (obj == WALL_BASIC || obj == WALL_CRACK
-			|| obj == WALL_GOLD || obj == WALL_END
-			|| obj == WALL_STONE)
-		{
+			_playerDirection = DOWN;
+			OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
+			if (obj == WALL_CRACK || obj == WALL_END
+				|| obj == WALL_GOLD
+				|| obj == WALL_STONE)
+			{
 
-		}
-		else if (obj == WALL_DOOR)
-		{
-			_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, NULL, NULL);
-			_tileY += 1;
-			_isPlayerMove = true;
-		}
-		else
-		{
-			_tileY += 1;
-			_isPlayerMove = true;
+			}
+			else if (obj == WALL_DOOR || obj == WALL_BASIC)
+			{
+				_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
+				//_map->setIsHaveTorch(_tileX, _tileY + 1, false);
+			}
+			else
+			{
+				_tileY += 1;
+				_isPlayerMove = true;
+			}
 		}
 	}
 	_tileRect = _map->getRect(_tileX, _tileY);
@@ -177,7 +176,7 @@ void player::update()
 	{
 		switch (_playerDirection)
 		{
-		case PLAYER_DIRECTION_LEFT:
+		case LEFT:
 			_gravity += 0.965f;
 			_x += cosf(7 * PI / 9) * 9;
 			_y += -sinf(7 * PI / 9) * 9 + _gravity;
@@ -199,7 +198,7 @@ void player::update()
 				_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
 			}
 			break;
-		case PLAYER_DIRECTION_RIGHT:
+		case RIGHT:
 			_gravity += 0.965f;
 			_x -= cosf(7 * PI / 9) * 9;
 			_y += -sinf(7 * PI / 9) * 9 + _gravity;
@@ -221,7 +220,7 @@ void player::update()
 				_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
 			}
 			break;
-		case PLAYER_DIRECTION_UP:
+		case UP:
 			_gravity += 0.47f;
 			_y += -sinf(1 * PI / 2) * 9 + _gravity;
 			//_y -= 9;
@@ -239,7 +238,7 @@ void player::update()
 				}
 			}
 			break;
-		case PLAYER_DIRECTION_DOWN:
+		case DOWN:
 			/*
 			_y += 9;
 			_shadow.top += 9;
@@ -281,7 +280,7 @@ void player::update()
 		IMAGEMANAGER->findImage(_headImageName)->getFrameWidth(),
 		IMAGEMANAGER->findImage(_headImageName)->getFrameHeight());
 
-	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
+	CAMERAMANAGER->updateCamera((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 
 	_vision->update(_tileX, _tileY);
 }
@@ -292,7 +291,10 @@ void player::render()
 	IMAGEMANAGER->alphaRender("player_shadow", getMemDC(), _shadow.left, _shadow.top, 125);
 	IMAGEMANAGER->alphaRender("player_shadow2", getMemDC(), _shadow.left, _shadow.top, 125);
 	IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
-	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
+	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);\
+	char str[128];
+	sprintf_s(str, "x: %d, y: %d", _tileX, _tileY);
+	DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
 	//_vision->render();
 	
 }

@@ -41,7 +41,7 @@ void randomMap::render()
 	{
 		for (int j = 0; j < TILEX; ++j)
 		{
-			Rectangle(getMemDC(), _tiles[i][j].rc);
+			//Rectangle(getMemDC(), _tiles[i][j].rc);
 			switch (_tiles[i][j].terrain)
 			{
 			case DIRT1:
@@ -757,6 +757,21 @@ void randomMap::shuffle(vector<size_t>& unconnected, size_t size)
 	}
 
 }
+
+TERRAIN randomMap::getTileTerrain(int x, int y)
+{
+	if (x < 0 || y < 0 || x >= TILEX || y >= TILEY)
+		return EMPTY;
+	return _tiles[y][x].terrain;
+}
+
+OBJECT randomMap::getTileObject(int x, int y)
+{
+	if (x < 0 || y < 0 || x >= TILEX || y >= TILEY)
+		return OBJ_NONE;
+	return _tiles[y][x].obj;
+}
+
 
 
 void randomMap::setTile()

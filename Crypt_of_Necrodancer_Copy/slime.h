@@ -5,20 +5,11 @@
 
 //aStar 필요없다
 
-enum DIRECTION
-{
-	NONE,
-	LEFT,
-	UP,
-	RIGHT,
-	DOWN
-};
-
 class slime : public gameNode
 {
 private:
 	randomMap * _map;
-	DIRECTION _direction;
+	PLAYER_ENEMY_DIRECTION _direction;
 
 	image * _img;
 	RECT _rc;

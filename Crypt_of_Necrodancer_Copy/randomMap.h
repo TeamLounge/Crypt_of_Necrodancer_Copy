@@ -85,5 +85,43 @@ public:
 	vector<ROOM> getRoom() { return m_room; }
 	vector<floor> getFloor() { return _makeTile; }
 
+	RECT getRect(int tileX, int tileY) { return _tiles[tileY][tileX].rc; }
+	TERRAIN getTileTerrain(int x, int y);
+	OBJECT getTileObject(int x, int y);
+
+	ROOM getStartRoom()
+	{
+		for (int i = 0; i < m_room.size(); i++)
+		{
+			if (m_room[i]._state == ROOM_START)
+			{
+				return m_room[i];
+				break;
+			}
+		}
+	};
+
+	void setTileObject(int tileX, int tileY, OBJECT obj, int objectFrameX = 0, int objectFrameY = 0)
+	{
+		_tiles[tileY][tileX].obj = obj;
+		_tiles[tileY][tileX].objectFrameX = objectFrameX;
+		_tiles[tileY][tileX].objectFrameY = objectFrameY;
+	};
+	void setTileTerrain(int tileX, int tileY, TERRAIN terrain, int terrainFrameX = 0, int terrainFrameY = 0)
+	{
+		_tiles[tileY][tileX].terrain = terrain;
+		_tiles[tileY][tileX].terrainFrameX = terrainFrameX;
+		_tiles[tileY][tileX].terrainFrameY = terrainFrameY;
+	};
+	void setAlpha(int tileX, int tileY, int alpha)
+	{
+		_tiles[tileY][tileX].alpha = alpha;
+	}
+
+	bool getIsSeen(int tileX, int tileY) { return _tiles[tileY][tileX].isSeen; }
+	void setIsSeen(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isSeen = b; }
+
+	int getXSize() { return TILEX; }
+	int getYSize() { return TILEY; }
 };
 
