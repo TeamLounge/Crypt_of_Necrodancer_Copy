@@ -44,6 +44,12 @@ private:
 
 	vector<POINT> _endBlockIndex;
 
+	bool _isEvenLight;
+
+	float _worldTime;
+
+	float _elapsedSec;
+
 public:
 	virtual HRESULT init(int width, int height);
 	virtual void release();
@@ -105,6 +111,7 @@ public:
 		_tiles[tileY][tileX].alpha = alpha;
 	}
 	void setIsSeen(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isSeen = b; }
+	void setIsHaveTorch(int tileX, int tileY, bool b){ _tiles[tileY][tileX].isHaveTorch = b; }
 
 	//Á¢±ÙÀÚ
 	bool getIsSeen(int tileX, int tileY) { return _tiles[tileY][tileX].isSeen; }
@@ -120,5 +127,9 @@ public:
 	int getBossRoomY() { return _rooms[_bossRoomIndex].y; }
 
 	bool getIsHaveTorch(int tileX, int tileY) { return _tiles[tileY][tileX].isHaveTorch; }
+
+	int getAlpha(int tileX, int tileY) { return _tiles[tileY][tileX].alpha; }
+	
+	tagTile getTile(int tileX, int tileY) { return _tiles[tileY][tileX]; }
 };
 

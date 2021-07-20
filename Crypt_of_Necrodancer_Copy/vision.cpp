@@ -32,7 +32,7 @@ void vision::update(int tileX, int tileY)
 	_tileY = tileY;
 	setSearchBoundary();
 	searchSurround();
-	//findTorch();
+	findTorch();
 	setTileAlpha();
 }
 
@@ -248,17 +248,6 @@ void vision::setSearchBoundary()
 		}
 	}
 
-	for (int i = 0; i < 21; i++)
-	{
-		for (int j = 0; j < 21; j++)
-		{
-			if (_tileX - (10 - j) < 0 || _tileX - (10 - j) >= _map->getXSize()) continue;
-			if (_tileY - (10 - i) < 0 || _tileY - (10 - i) >= _map->getYSize()) continue;
-			_visionSearch[i][j].tileX = _tileX - (10 - j);
-			_visionSearch[i][j].tileY = _tileY - (10 - i);
-		}
-	}
-	/*
 	for (int i = _tileY - 10; i <= _tileY + 10; i++)
 	{
 		if (i < 0) continue;
@@ -275,7 +264,7 @@ void vision::setSearchBoundary()
 			_visionSearch[i - (_tileY - 10)][j - (_tileX - 10)].lightNum = 0;
 		}
 	}
-	*/
+
 	_visionSearch[10][10].tileX = _tileX;
 	_visionSearch[10][10].tileY = _tileY;
 	_visionSearch[10][10].lightNum = _startLightNum;
@@ -283,15 +272,24 @@ void vision::setSearchBoundary()
 
 void vision::findTorch()
 {
-	for (int i = 0; i < 21; i++)
+	//ÁÂ Å½»ö
+	for (int i = 9; i >= 0; i--)
 	{
-		for (int j = 0; j < 21; j++)
+		if (_visionSearch[10][i].tileX == -1) continue;
+		
+
+		//º®ÀÌ¸é Å½»ç ÁßÁö
+		OBJECT obj = _map->getTileObject(_visionSearch[10][i - (_tileX - 10)].tileX, _visionSearch[10][i - (_tileX - 10)].tileY);
+		if (obj == WALL_BASIC
+			|| obj == WALL_CRACK
+			|| obj == WALL_DOOR
+			|| obj == WALL_END
+			|| obj == WALL_GOLD
+			|| obj == WALL_STONE)
 		{
-			if (_map->getIsHaveTorch(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY) && _map->getIsSeen(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY))
-			{
-				addTorchLight(j, i);
-			}
+			break;
 		}
+
 	}
 }
 
@@ -301,98 +299,46 @@ void vision::addTorchLight(int x, int y)
 	_visionSearch[y][x].lightNum = 3;
 
 	//ÁÂ Å½»ö
-	for (int i = x - 1; i >= x - 3; i--)
+	for (int i = x - 1; i >= x - 5; i--)
 	{
 		if (i < 0) break;
 		if (_visionSearch[y][i].tileX == - 1) continue;
 		if (lightNum - (x - i) < 0) break;
-
-		_visionSearch[y][i].lightNum += lightNum - (x - i);
-
-		//º®ÀÌ¸é Å½»ç ÁßÁö
-
-		OBJECT obj = _map->getTileObject(_visionSearch[y][i].tileX, _visionSearch[y][i].tileY);
-		if (obj == WALL_BASIC
-			|| obj == WALL_CRACK
-			|| obj == WALL_DOOR
-			|| obj == WALL_END
-			|| obj == WALL_GOLD
-			|| obj == WALL_STONE)
-		{
-			break;
-		}
-
+		if (!_map->getIsSeen(_visionSearch[y][i].tileX, _visionSearch[y][i].tileY)) break;
+		_visionSearch[y][i].lightNum = (_visionSearch[y][i].lightNum + lightNum - (x - i)) /2 + 1;
 	}
 	//¿ì Å½»ö
-	for (int i = x + 1; i <= x + 3; i++)
+	for (int i = x + 1; i <= x + 5; i++)
 	{
 		if (i >= _map->getXSize()) break;
 		if (_visionSearch[y][i].tileX == - 1) continue;
 		if (lightNum - (i - x) < 0) break;
+		if (!_map->getIsSeen(_visionSearch[y][i].tileX, _visionSearch[y][i].tileY)) break;
 
-		_visionSearch[y][i].lightNum += lightNum - (i - x);
-
-		//º®ÀÌ¸é Å½»ç ÁßÁö
-
-		OBJECT obj = _map->getTileObject(_visionSearch[y][i].tileX, _visionSearch[y][i].tileY);
-		if (obj == WALL_BASIC
-			|| obj == WALL_CRACK
-			|| obj == WALL_DOOR
-			|| obj == WALL_END
-			|| obj == WALL_GOLD
-			|| obj == WALL_STONE)
-		{
-			break;
-		}
+		_visionSearch[y][i].lightNum = (_visionSearch[y][i].lightNum + (lightNum - (i - x))) /2 + 1;
 	}
 	//»ó Å½»ö
-	for (int i = y - 1; i >= y - 3; i--)
+	for (int i = y - 1; i >= y - 5; i--)
 	{
 		if (i < 0) break;
 		if (_visionSearch[i][x].tileY == - 1) continue;
 		if (lightNum - (y - i) < 0) break;
+		if (!_map->getIsSeen(_visionSearch[i][x].tileX, _visionSearch[i][x].tileY)) break;
 
-		_visionSearch[i][x].lightNum += lightNum - (y - i);
-
-
-		//º®ÀÌ¸é Å½»ç ÁßÁö
-		OBJECT obj = _map->getTileObject(_visionSearch[i][x].tileX, _visionSearch[i][x].tileY);
-		if (obj == WALL_BASIC
-			|| obj == WALL_CRACK
-			|| obj == WALL_DOOR
-			|| obj == WALL_END
-			|| obj == WALL_GOLD
-			|| obj == WALL_STONE)
-		{
-			break;
-		}
-
+		_visionSearch[i][x].lightNum = (_visionSearch[i][x].lightNum + (lightNum - (y - i))) / 2 + 1;
 	}
 	//ÇÏ Å½»ö
-	for (int i = y + 1; i <= y + 3; i++)
+	for (int i = y + 1; i <= y + 5; i++)
 	{
 		if (i >= _map->getYSize()) break;
 		if (_visionSearch[i][x].tileY == - 1) continue;
 		if (lightNum - (i - y) < 0) break;
-
-		_visionSearch[i][x].lightNum += lightNum - (i - y);
-
-
-		//º®ÀÌ¸é Å½»ç ÁßÁö
-		OBJECT obj = _map->getTileObject(_visionSearch[i][x].tileX, _visionSearch[i][x].tileY);
-		if (obj == WALL_BASIC
-			|| obj == WALL_CRACK
-			|| obj == WALL_DOOR
-			|| obj == WALL_END
-			|| obj == WALL_GOLD
-			|| obj == WALL_STONE)
-		{
-			break;
-		}
-
+		if (!_map->getIsSeen(_visionSearch[i][x].tileX, _visionSearch[i][x].tileY)) break;
+		
+		_visionSearch[i][x].lightNum = (_visionSearch[i][x].lightNum  + lightNum - (i - y)) /2;
 	}
 
-	for (int i = y - 1; i >= y - 3; i--)
+	for (int i = y - 1; i >= y - 5; i--)
 	{
 		if (i >= _map->getYSize()) break;
 		for (int j = x - 1; j >= x - 3; j--)
@@ -400,19 +346,23 @@ void vision::addTorchLight(int x, int y)
 			if (j < 0) break;
 			if (_visionSearch[i][j].tileY == - 1 ) continue;
 			if ((_visionSearch[i + 1][j].lightNum + _visionSearch[i][j + 1].lightNum) / 2 - 1 < 0) continue;
+			if (!_map->getIsSeen(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY)) break;
+
 			_visionSearch[i][j].lightNum += (_visionSearch[i + 1][j].lightNum + _visionSearch[i][j + 1].lightNum) / 2 - 1;
 		}
 
-		for (int j = x + 1; j <= x + 3; j++)
+		for (int j = x + 1; j <= x + 5; j++)
 		{
 			if (j < 0) break;
 			if (_visionSearch[i][j].tileY == - 1) continue;
 			if ((_visionSearch[i + 1][j].lightNum + _visionSearch[i][j - 1].lightNum) / 2 - 1 < 0) continue;
+			if (!_map->getIsSeen(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY)) break;
+
 			_visionSearch[i][j].lightNum += (_visionSearch[i + 1][j].lightNum + _visionSearch[i][j - 1].lightNum) / 2 - 1;
 		}
 	}
 
-	for (int i = y + 1; i <= y + 3; i++)
+	for (int i = y + 1; i <= y + 5; i++)
 	{
 		if (i >= _map->getYSize()) break;
 		for (int j = x - 1; j >= x - 3; j--)
@@ -420,14 +370,18 @@ void vision::addTorchLight(int x, int y)
 			if (j < 0) break;
 			if (_visionSearch[i][j].tileY == - 1) continue;
 			if ((_visionSearch[i - 1][j].lightNum + _visionSearch[i][j + 1].lightNum) / 2 - 1 < 0) continue;
+			if (!_map->getIsSeen(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY)) break;
+
 			_visionSearch[i][j].lightNum += (_visionSearch[i - 1][j].lightNum + _visionSearch[i][j + 1].lightNum) / 2 - 1;
 		}
 
-		for (int j = x + 1; j <= x + 3; j++)
+		for (int j = x + 1; j <= x + 5; j++)
 		{
 			if (j < 0) break;
 			if (_visionSearch[i][j].tileY == - 1) continue;
 			if ((_visionSearch[i - 1][j].lightNum + _visionSearch[i][j - 1].lightNum) / 2 - 1 < 0) continue;
+			if (!_map->getIsSeen(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY)) break;
+
 			_visionSearch[i][j].lightNum += (_visionSearch[i - 1][j].lightNum + _visionSearch[i][j - 1].lightNum) / 2 - 1;
 		}
 	}

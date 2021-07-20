@@ -43,5 +43,8 @@ public:
 	
 	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
 	void setupPlayerRect();
+
+	int getTileX() { return _tileX; }
+	int getTileY() { return _tileY; }
 };
 

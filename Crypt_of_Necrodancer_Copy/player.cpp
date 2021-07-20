@@ -68,7 +68,8 @@ void player::update()
 			}
 			else if (obj == WALL_DOOR || obj == WALL_BASIC)
 			{
-				_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, NULL, NULL);
+				_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
+				_map->setIsHaveTorch(_tileX - 1, _tileY, false);
 				_tileX -= 1;
 				_isPlayerMove = true;
 			}
@@ -90,7 +91,8 @@ void player::update()
 			}
 			else if (obj == WALL_DOOR || obj == WALL_BASIC)
 			{
-				_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, NULL, NULL);
+				_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
+				_map->setIsHaveTorch(_tileX + 1, _tileY, false);
 				_tileX += 1;
 				_isPlayerMove = true;
 			}
@@ -112,7 +114,8 @@ void player::update()
 			}
 			else if (obj == WALL_DOOR || obj == WALL_BASIC)
 			{
-				_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, NULL, NULL);
+				_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
+				_map->setIsHaveTorch(_tileX, _tileY - 1, false);
 				_tileY -= 1;
 				_isPlayerMove = true;
 			}
@@ -134,7 +137,8 @@ void player::update()
 			}
 			else if (obj == WALL_DOOR || obj == WALL_BASIC)
 			{
-				_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, NULL, NULL);
+				_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
+				_map->setIsHaveTorch(_tileX, _tileY + 1, false);
 				_tileY += 1;
 				_isPlayerMove = true;
 			}
@@ -270,7 +274,7 @@ void player::render()
 	char str[128];
 	sprintf_s(str, "x: %d, y: %d", _tileX, _tileY);
 	DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
-	_vision->render();
+	//_vision->render();
 }
 
 void player::setupPlayerRect()

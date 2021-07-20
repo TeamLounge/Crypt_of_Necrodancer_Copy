@@ -9,6 +9,10 @@ HRESULT mapGenerator::init(int width, int height)
 	_isMakeRoom = false;
 	_isHaveCorridor = false;
 
+	_worldTime = TIMEMANAGER->getWorldTime();
+	_elapsedSec = 0;
+	_isEvenLight = false;
+
 	return S_OK;
 }
 
@@ -23,6 +27,104 @@ void mapGenerator::update()
 		for (int j = 0; j < _tiles[i].size(); ++j)
 		{
 			_tiles[i][j].alpha = 0;
+		}
+	}
+
+	if (TIMEMANAGER->getWorldTime() - _worldTime >= 0.5f)
+	{
+		_worldTime = TIMEMANAGER->getWorldTime();
+		for (int i = 0; i < _tiles.size(); i++)
+		{
+			for (int j = 0; j < _tiles[i].size(); j++)
+			{
+				if (_tiles[i][j].terrain == STAIR_BOSS)
+				{
+					_tiles[i][j].terrainFrameX = 0;
+					_tiles[i][j].terrainFrameY = 0;
+					continue;
+				}
+				if (_tiles[i][j].terrain == STAIR_NONE)
+				{
+					_tiles[i][j].terrainFrameX = 1;
+					_tiles[i][j].terrainFrameY = 0;
+					continue;
+				}
+				if (i % 2 == 0)
+				{
+					if (_isEvenLight)
+					{
+						if (j % 2 == 0)
+						{
+							_tiles[i][j].terrainFrameX = 1;
+						}
+						else
+						{
+							_tiles[i][j].terrainFrameX = 0;
+						}
+					}
+					else
+					{
+						if (j % 2 == 0)
+						{
+							_tiles[i][j].terrainFrameX = 0;
+						}
+						else
+						{
+							_tiles[i][j].terrainFrameX = 2;
+						}
+					}
+				}
+				else
+				{
+					if (_isEvenLight)
+					{
+						if (j % 2 == 0)
+						{
+							_tiles[i][j].terrainFrameX = 0;
+						}
+						else
+						{
+							_tiles[i][j].terrainFrameX = 2;
+						}
+					}
+					else
+					{
+						if (j % 2 == 0)
+						{
+							_tiles[i][j].terrainFrameX = 1;
+						}
+						else
+						{
+							_tiles[i][j].terrainFrameX = 0;
+						}
+					}
+				}
+			}
+
+		}
+
+		if (_isEvenLight)
+		{
+			_isEvenLight = false;
+		}
+		else
+		{
+			_isEvenLight = true;
+		}
+	}
+	_elapsedSec += TIMEMANAGER->getElapsedTime();
+	if (_elapsedSec >= 0.2f)
+	{
+		_elapsedSec -= 0.2f;
+		if (IMAGEMANAGER->findImage("wall_torch")->getFrameX() >= IMAGEMANAGER->findImage("wall_torch")->getMaxFrameX())
+		{
+			IMAGEMANAGER->findImage("wall_torch")->setFrameX(0);
+			IMAGEMANAGER->findImage("wall_torch_black")->setFrameX(0);
+		}
+		else
+		{
+			IMAGEMANAGER->findImage("wall_torch")->setFrameX(IMAGEMANAGER->findImage("wall_torch")->getFrameX() + 1);
+			IMAGEMANAGER->findImage("wall_torch_black")->setFrameX(IMAGEMANAGER->findImage("wall_torch_black")->getFrameX() + 1);
 		}
 	}
 }
@@ -84,6 +186,9 @@ void mapGenerator::render()
 				IMAGEMANAGER->frameRender("wall_torch", getMemDC(),
 					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("wall_torch")->getFrameWidth() / 2 - 5,
 					_tiles[i][j].rc.top - (TILESIZE * 5) / 8 - TILESIZE / 3);
+				IMAGEMANAGER->alphaFrameRender("wall_torch_black", getMemDC(),
+					(_tiles[i][j].rc.left + _tiles[i][j].rc.right) / 2 - IMAGEMANAGER->findImage("wall_torch_black")->getFrameWidth() / 2 - 5,
+					_tiles[i][j].rc.top - (TILESIZE * 5) / 8 - TILESIZE / 3, 255 - _tiles[i][j].alpha);
 			}
 		}
 

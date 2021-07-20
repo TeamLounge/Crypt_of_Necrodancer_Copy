@@ -7,6 +7,8 @@ struct tagVision
 {
 	int tileX, tileY;
 	int lightNum;
+	bool isSearched;
+	bool isWall;
 };
 
 class vision : public gameNode
