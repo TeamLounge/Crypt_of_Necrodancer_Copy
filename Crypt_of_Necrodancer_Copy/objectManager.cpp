@@ -3,6 +3,8 @@
 
 HRESULT objectManager::init()
 {
+	_isMusicSpeedChanged = false;
+	_elapsedSec = 0;
 	return S_OK;
 }
 
@@ -13,6 +15,17 @@ void objectManager::release()
 void objectManager::update()
 {
 	playerObjectCollison();
+	if (_isMusicSpeedChanged)
+	{
+		_elapsedSec += TIMEMANAGER->getElapsedTime();
+		if (_elapsedSec >= 15.0f)
+		{
+			_elapsedSec -= 15.0f;
+			SOUNDMANAGER->setPitch();
+			_isMusicSpeedChanged = false;
+			_map->setTileObjectFrameX(_music.tileX, _music.tileY, 0);
+		}
+	}
 }
 
 void objectManager::render()
@@ -52,8 +65,10 @@ void objectManager::playerObjectCollison()
 		playerMove(1, 0, RIGHT);
 		break;
 	case TR_FAST:
+		changeMusicSpeed(1.2f);
 		break;
 	case TR_SLOW:
+		changeMusicSpeed(0.8f);
 		break;
 	case TR_JUMP:
 		switch (_player->getDirection())
@@ -119,5 +134,17 @@ void objectManager::playerMove(int addTileX, int addTileY, PLAYER_ENEMY_DIRECTIO
 			_player->setTileY(_player->getTileY() + addTileY);
 			_player->setIsMove(true);
 		}
+	}
+}
+
+void objectManager::changeMusicSpeed(float speed)
+{
+	if (!_isMusicSpeedChanged)
+	{
+		SOUNDMANAGER->setPitch(speed);
+		_isMusicSpeedChanged = true;
+		_map->setTileObjectFrameX(_player->getTileX(), _player->getTileY(), 1);
+		_music.tileX = _player->getTileX();
+		_music.tileY = _player->getTileY();
 	}
 }

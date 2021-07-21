@@ -99,7 +99,7 @@ void player::update()
 			{
 				_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
 				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 10.0f);
-				//_map->setIsHaveTorch(_tileX - 1, _tileY, false);
+				_map->setIsHaveTorch(_tileX - 1, _tileY, false);
 			}
 			else
 			{
@@ -121,7 +121,7 @@ void player::update()
 			{
 				_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
 				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 10.0f);
-				//_map->setIsHaveTorch(_tileX + 1, _tileY, false);
+				_map->setIsHaveTorch(_tileX + 1, _tileY, false);
 			}
 			else
 			{
@@ -144,7 +144,7 @@ void player::update()
 			{
 				_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
 				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 10.0f);
-				//_map->setIsHaveTorch(_tileX, _tileY - 1, false);
+				_map->setIsHaveTorch(_tileX, _tileY - 1, false);
 			}
 			else
 			{
@@ -166,7 +166,7 @@ void player::update()
 			{
 				_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
 				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 10.0f);
-				//_map->setIsHaveTorch(_tileX, _tileY + 1, false);
+				_map->setIsHaveTorch(_tileX, _tileY + 1, false);
 			}
 			else
 			{

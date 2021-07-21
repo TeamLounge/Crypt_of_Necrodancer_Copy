@@ -53,6 +53,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void setImage();
+	void addImage();
+	void addSound();
 };
 

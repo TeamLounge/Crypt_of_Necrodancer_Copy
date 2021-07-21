@@ -18,7 +18,8 @@ HRESULT playGround::init()
 {
 	gameNode::init(true);
 	
-	setImage();
+	addImage();
+	addSound();
 
 	/*_map = new randomMap;
 	_map->init();
@@ -174,7 +175,7 @@ void playGround::render()
 }
 
 
-void playGround::setImage()
+void playGround::addImage()
 {
 	//타일맵 이미지
 	IMAGEMANAGER->addFrameImage("boss_tile", "image/object/tile/boss.bmp", 216, 144, 3, 2, true, RGB(255, 0, 255), true);
@@ -224,4 +225,13 @@ void playGround::setImage()
 	IMAGEMANAGER->addImage("X", "image/UI/X.bmp", 14, 18, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("number", "image/UI/number.bmp", 140, 18, 10, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("itemHUD", "image/UI/itemHUD.bmp", 1260, 84, 21, 1, true, RGB(255, 0, 255));
+}
+
+void playGround::addSound()
+{
+	SOUNDMANAGER->addSound("zone1-2", "music/zone1_2.mp3", true, false);
+	SOUNDMANAGER->addSound("zone1-2_shopkeeper", "music/zone1_2_shopkeeper.ogg", true, false);
+	SOUNDMANAGER->addSound("zone1-3", "music/zone1_3.mp3", true, false);
+	SOUNDMANAGER->addSound("zone1-3_shopkeeper", "music/zone1_3_shopkeeper.ogg", true, false);
+	SOUNDMANAGER->addSound("boss", "music/boss_2.ogg", true, false);
 }

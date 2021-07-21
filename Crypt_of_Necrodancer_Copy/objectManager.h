@@ -17,8 +17,10 @@ class objectManager : public gameNode
 
 	vector<tagPushedObject> _playerPushedObject; //눌린 오브젝트 복구용
 
-	int _tileX;
-	int _tileY;
+	bool _isMusicSpeedChanged;
+	float _elapsedSec;
+
+	tagPushedObject _music;
 
 public:
 	virtual HRESULT init();
@@ -36,5 +38,7 @@ public:
 	//방향 함정 플레이어 움직이게 하기
 					//x축으로 더할 값, y축으로 더할값, 바뀔 방향
 	void playerMove(int addTileX, int addTileY, PLAYER_ENEMY_DIRECTION dir);
+
+	void changeMusicSpeed(float speed);
 };
 

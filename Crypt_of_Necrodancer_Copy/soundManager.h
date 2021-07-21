@@ -26,9 +26,9 @@ private:
 	Sound**		_sound;
 	Channel**	_channel;
 
+	ChannelGroup* _channelGroup;
+
 	arrSounds _mTotalSounds;
-
-
 public:
 	soundManager();
 	~soundManager();
@@ -44,8 +44,15 @@ public:
 	void pause(string keyName);
 	void resume(string keyName);
 
+	void setPitch(float pitch = 1.0f);
+
+	//À½¾Ç º¼·ý Á¶Àý
+	void setVolume(string keyName, float volume = 1.0f);
+
 	//È£¿Á½ÃÀÌ ¾µ±îºÁ ¸¸µé¾îµÒ
 	bool isPlaySound(string keyName);
 	bool isPauseSound(string keyName);
+
+	void setGroup(string keyName);
 };
 

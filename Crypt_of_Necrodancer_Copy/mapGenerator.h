@@ -134,6 +134,6 @@ public:
 
 	int getAlpha(int tileX, int tileY) { return _tiles[tileY][tileX].alpha; }
 	
-	tagTile getTile(int tileX, int tileY) { return _tiles[tileY][tileX]; }
+	tagTile* getTile(int tileX, int tileY) { return &_tiles[tileY][tileX]; }
 };
 
