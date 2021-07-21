@@ -118,6 +118,8 @@ public:
 	void setTileObjectFrameX(int tileX, int tileY, int objectFrameX) { _tiles[tileY][tileX].objectFrameX = objectFrameX; }
 	void setTileObjectFrameY(int tileX, int tileY, int objectFrameY) { _tiles[tileY][tileX].objectFrameY = objectFrameY; }
 
+	void setIsBombFired(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isBombFired = b; }
+
 	//Á¢±ÙÀÚ
 	bool getIsSeen(int tileX, int tileY) { return _tiles[tileY][tileX].isSeen; }
 	RECT getRect(int tileX, int tileY) { return _tiles[tileY][tileX].rc; }
@@ -136,5 +138,7 @@ public:
 	int getAlpha(int tileX, int tileY) { return _tiles[tileY][tileX].alpha; }
 	
 	tagTile* getTile(int tileX, int tileY) { return &_tiles[tileY][tileX]; }
+
+	bool getIsBombFired(int tileX, int tileY) { return _tiles[tileY][tileX].isBombFired; }
 };
 

@@ -324,6 +324,7 @@ void mapGenerator::generate(int maxFeatures)
 				tile.isHaveTorch = false;
 				tile.alpha = 0;
 				tile.isSeen = false;
+				tile.isBombFired = false;
 				vTile.push_back(tile);
 			}
 			_tiles.push_back(vTile);
@@ -1660,7 +1661,7 @@ void mapGenerator::setTorch()
 
 void mapGenerator::testObject()
 {
-	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].obj = TR_SLOW;
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].obj = TR_BOMB;
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].objectFrameX = 0;
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].objectFrameY = 0;
 

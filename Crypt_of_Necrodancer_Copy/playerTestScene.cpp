@@ -39,8 +39,8 @@ HRESULT playerTestScene::init()
 	_objectManager->setObjectPlayerMemoryAddressLink(_player);
 
 	//사운드 플레이
-	SOUNDMANAGER->play("zone1-1", 0.8f);
-	SOUNDMANAGER->play("zone1-1_shopkeeper", 0.8f);
+	SOUNDMANAGER->play("zone1-1", 0.5f);
+	SOUNDMANAGER->play("zone1-1_shopkeeper", 0.5f);
 	SOUNDMANAGER->setGroup("zone1-1");
 	SOUNDMANAGER->setGroup("zone1-1_shopkeeper");
 
@@ -86,4 +86,6 @@ void playerTestScene::render()
 	_UIM->renderHeartBeat();
 	_weapon->render();
 	_UIM->renderItemHUD();
+
+	_objectManager->render();
 }

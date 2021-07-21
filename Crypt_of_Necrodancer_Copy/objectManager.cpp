@@ -5,6 +5,9 @@ HRESULT objectManager::init()
 {
 	_isMusicSpeedChanged = false;
 	_elapsedSec = 0;
+
+	_bomb = new bomb;
+	_bomb->init();
 	return S_OK;
 }
 
@@ -18,18 +21,20 @@ void objectManager::update()
 	if (_isMusicSpeedChanged)
 	{
 		_elapsedSec += TIMEMANAGER->getElapsedTime();
-		if (_elapsedSec >= 15.0f)
+		if (_elapsedSec >= 10.0f)
 		{
-			_elapsedSec -= 15.0f;
+			_elapsedSec -= 10.0f;
 			SOUNDMANAGER->setPitch();
 			_isMusicSpeedChanged = false;
 			_map->setTileObjectFrameX(_music.tileX, _music.tileY, 0);
 		}
 	}
+	_bomb->update();
 }
 
 void objectManager::render()
 {
+	_bomb->render();
 }
 
 void objectManager::playerObjectCollison()
@@ -51,6 +56,12 @@ void objectManager::playerObjectCollison()
 	case WALL_END:
 		break;
 	case TR_BOMB:
+		if (!_map->getIsBombFired(_player->getTileX(), _player->getTileY()))
+		{
+			_bomb->fire(_player->getTileX(), _player->getTileY(), _map->getRect(_player->getTileX(), _player->getTileY()));
+			_map->setIsBombFired(_player->getTileX(), _player->getTileY(), true);
+			_map->setTileObjectFrameX(_player->getTileX(), _player->getTileY(), 1);
+		}
 		break;
 	case TR_UP:
 		playerMove(0, -1, UP);

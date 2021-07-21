@@ -26,6 +26,7 @@
 #include "iniDataManager.h"
 //#include "renderManager.h"
 #include "streamManager.h"
+#include <vector>
 
 
 using namespace std;

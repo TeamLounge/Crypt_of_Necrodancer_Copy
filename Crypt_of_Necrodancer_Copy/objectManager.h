@@ -3,6 +3,7 @@
 #include "mapGenerator.h"
 #include "player.h"
 #include "enemyManager.h"
+#include "bomb.h"
 
 struct tagPushedObject
 {
@@ -21,6 +22,8 @@ class objectManager : public gameNode
 	float _elapsedSec;
 
 	tagPushedObject _music;
+
+	bomb* _bomb;
 
 public:
 	virtual HRESULT init();
