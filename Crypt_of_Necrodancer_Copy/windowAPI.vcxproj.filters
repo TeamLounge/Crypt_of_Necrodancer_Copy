@@ -312,6 +312,9 @@
     <ClInclude Include="shovelType.h">
       <Filter>playGround\item\shovel\shovelType</Filter>
     </ClInclude>
+    <ClInclude Include="bomb.h">
+      <Filter>playGround\item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -505,6 +508,9 @@
     </ClCompile>
     <ClCompile Include="shovelType.cpp">
       <Filter>playGround\item\shovel\shovelType</Filter>
+    </ClCompile>
+    <ClCompile Include="bomb.cpp">
+      <Filter>playGround\item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
