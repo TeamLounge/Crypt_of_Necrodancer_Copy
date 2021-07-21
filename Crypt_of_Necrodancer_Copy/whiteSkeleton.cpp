@@ -4,7 +4,6 @@
 HRESULT whiteSkeleton::init(int playerIndexX, int playerIndexY)
 {
 
-	IMAGEMANAGER->addFrameImage("whiteSkeleton", "image/enemy/skeletonBasic.bmp", 576, 177, 8, 2, true, RGB(255, 0, 255));
 	skeleton::init(playerIndexX, playerIndexY);
 	_renderTime = _movingTime = TIMEMANAGER->getWorldTime();
 	_img = IMAGEMANAGER->findImage("whiteSkeleton");
@@ -49,7 +48,96 @@ void whiteSkeleton::update(int playerIndexX, int playerIndexY)
 			_count = 0;
 		}
 	}
-	if (playerIndexX > _x)
+	switch (_dir)
+	{
+	case NONE:
+		break;
+	case LEFT:
+		_gravity += 0.965f;
+		_x += cosf(7 * PI / 9) * 9;
+		_y += -sinf(7 * PI / 9) * 9 + _gravity;
+		//_shadow.left += cosf(7 * PI / 9) * 9;
+		//_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+		if (_x <= (_rc.left + _rc.right) / 2)
+		{
+			_x = (_rc.left + _rc.right) / 2;
+			_gravity = 0;
+			if (_y >= (_rc.top + _rc.bottom) / 2)
+			{
+				_y = (_rc.top + _rc.bottom) / 2;
+			}
+			//_tileRenderX = _tileX;
+		}
+		//if (_shadow.left <= _tileRect.left)
+		//{
+		//	_shadow.left = _tileRect.left;
+		//	_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+		//}
+		break;
+	case RIGHT:
+		_gravity += 0.965f;
+		_x -= cosf(7 * PI / 9) * 9;
+		_y += -sinf(7 * PI / 9) * 9 + _gravity;
+		//_shadow.left -= cosf(7 * PI / 9) * 10;
+		//_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+		if (_x >= (_rc.left + _rc.right) / 2)
+		{
+			_x = (_rc.left + _rc.right) / 2;
+			_gravity = 0;
+			if (_y >= (_rc.top + _rc.bottom) / 2)
+			{
+				_y = (_rc.top + _rc.bottom) / 2;
+			}
+			//_tileRenderX = _tileX;
+		}
+		//if (_shadow.left >= _tileRect.left)
+		//{
+		//	_shadow.left = _tileRect.left;
+		//	_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+		//}
+
+		break;
+	case UP:
+		_gravity += 0.47f;
+		_y += -sinf(1 * PI / 2) * 9 + _gravity;
+		//_y -= 9;
+		//_shadow.top += -sinf(1 * PI / 2) * 6;
+		//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+		//if (_shadow.top <= _tileRect.top - 13)
+		//{
+		//	_shadow.top = _tileRect.top - 13;
+		//	_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+		if (_y >= (_rc.top + _rc.bottom) / 2)
+		{
+			_y = (_rc.top + _rc.bottom) / 2;
+			//_isMove = false;
+			_gravity = 0;
+			//_tileRenderY = _tileY;
+		}
+		//}
+		break;
+	case DOWN:
+
+		_gravity += 1.2f;
+		_y += -sinf(1 * PI / 2) + _gravity;
+		//_y -= 9;
+		//_shadow.top -= -sinf(1 * PI / 2) * 6;
+		//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+		//if (_shadow.top >= _tileRect.top - 13)
+		//{
+		//_shadow.top = _tileRect.top - 13;
+		//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+		if (_y >= (_rc.top + _rc.bottom) / 2)
+		{
+			_y = (_rc.top + _rc.bottom) / 2;
+			_gravity = 0;
+			//_tileRenderY = _tileY;
+		}
+		//}
+		break;
+	}
+	
+	if (playerIndexX > _tilex)
 	{
 		_indey = 0;
 	}
@@ -68,9 +156,6 @@ void whiteSkeleton::release()
 void whiteSkeleton::render()
 {
 	//Rectangle(getMemDC(), _rc);
-	_img->frameRender(getMemDC(), _rc.left, _rc.top - (_rc.bottom-_rc.top)/2 ,_index ,_indey );
-	if (KEYMANAGER->isToggleKey(VK_TAB))
-	{
-		skeleton::render();
-	}
+	skeleton::render();
+	_img->frameRender(getMemDC(), _x, _y ,_index ,_indey);
 }

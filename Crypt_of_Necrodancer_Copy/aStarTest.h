@@ -24,13 +24,14 @@ private:
 	tile* _currentTile; //현재 타일
 
 	mapGenerator* _map;
-	
+	PLAYER_ENEMY_DIRECTION _dir;
+
 	int _count;// 그냥렌더용
 	int _damagecount;
 	float time;
 	bool _start; // 그냥 시작용
 	bool ismove;
-	bool hp;
+	bool damage;
 	int _TotaltileX,_TotaltileY;
 
 public:
@@ -51,7 +52,11 @@ public:
 	void startmove();
 	void setLinkrandomMap(mapGenerator* map) { _map = map; }
 
-	int getenemyTileX() { return _startTile->getIdX(); }
-	int getenemyTileY() { return _startTile->getIdY(); }
+	int getEnemyTileX() { return _startTile->getIdX(); }
+	int getEnemyTileY() { return _startTile->getIdY(); }
+	bool getDamage() { return damage; }
+	PLAYER_ENEMY_DIRECTION getDirection() { return _dir; };
+
+	void setDamage(bool _damage) { damage = _damage; }
 };
 

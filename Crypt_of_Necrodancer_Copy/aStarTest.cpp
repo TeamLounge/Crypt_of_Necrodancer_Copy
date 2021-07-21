@@ -16,7 +16,7 @@ HRESULT aStarTest::init(int enemyX, int enemyY, int playerX, int playerY)
 {
 	_count = _damagecount=0;
 	_start = false;
-	hp = false;
+	damage = false;
 	_TotaltileX = _map->getXSize();
 	_TotaltileY = _map->getYSize();
 	setTile(enemyX, enemyY,  playerX, playerY);
@@ -51,14 +51,14 @@ void aStarTest::render()
 	{
 		_vCloseList[i]->render();
 	}
-	if (hp)
+	if (damage)
 	{
 		char str[128];
 		sprintf_s(str, "hp±ïÀÓ");
 		TextOut(getMemDC(), _map->getRect(_endTile->getIdX(), _endTile->getIdY()).left, _map->getRect(_endTile->getIdX(), _endTile->getIdY()).top, str, strlen(str));
 		if (KEYMANAGER->isOnceKeyDown('S'))
 		{
-			hp = false;
+			damage = false;
 		}
 	}
 }
@@ -497,14 +497,20 @@ void aStarTest::startmove()
 					//hp´Þ°ÔÇÒ²¨¾ç
 					_damagecount++;
 					if (_damagecount > 1)
-						hp = true;
+					{
+						damage = true;
+						_dir = DOWN;
+					}
 				}
 				else if (_endTile->getIdY() == _startTile->getIdY() - 1)
 				{
 					//hp´Þ°ÔÇÒ²¨¾ç
 					_damagecount++;
 					if (_damagecount > 1)
-						hp = true;
+					{
+						damage = true;
+						_dir = UP;
+					}
 				}
 			}
 			else if (_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1))
@@ -514,14 +520,20 @@ void aStarTest::startmove()
 					//hp´Þ°ÔÇÒ²¨¾ç
 					_damagecount++;
 					if (_damagecount > 1)
-						hp = true;
+					{
+						damage = true;
+						_dir = RIGHT;
+					}
 				}
 				else if (_endTile->getIdX() == _startTile->getIdX() - 1)
 				{
 					//hp´Þ°ÔÇÒ²¨¾ç
 					_damagecount++;
 					if (_damagecount > 1)
-						hp = true;
+					{
+						damage = true;
+						_dir = LEFT;
+					}
 				}
 			}
 		}
@@ -532,7 +544,33 @@ void aStarTest::startmove()
 			(_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1)))
 		{
 			//hp´Þ°ÔÇÒ²¨¾ç
-			hp = true;
+			damage = true;
+			if (_startTile->getIdX() == _endTile->getIdX())
+			{
+				if (_endTile->getIdY() == _startTile->getIdY() + 1)
+				{
+			
+					_dir = DOWN;
+				}
+				else if (_endTile->getIdY() == _startTile->getIdY() - 1)
+				{
+			
+					_dir = UP;
+				}
+			}
+			else if (_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1))
+			{
+				if (_endTile->getIdX() == _startTile->getIdX() + 1)
+				{
+					_dir = RIGHT;
+	
+				}
+				else if (_endTile->getIdX() == _startTile->getIdX() - 1)
+				{
+					_dir = LEFT;
+			
+				}
+			}
 		}
 	}
 	

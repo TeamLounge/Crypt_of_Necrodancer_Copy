@@ -51,6 +51,7 @@ public:
 	virtual void update();
 	virtual void render();
 
+	void setImage();
 	void setWhiteSkeleton();
 
 	void setMapGeneratorMemoryAddressLink(mapGenerator* map) {_map = map;}
