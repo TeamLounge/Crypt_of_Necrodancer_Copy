@@ -20,10 +20,11 @@ protected:
 	int _count, _index , _indey;
 	int _hp;
 
-	float _worldTime;
+	float _movingTime , _renderTime;
 
 	bool isFind;
-
+	bool isTime;
+	bool toRender;
 public:
 	virtual HRESULT init(int playerIndexX, int playerIndexY);
 	virtual void update(int playerIndexX, int playerIndexY);

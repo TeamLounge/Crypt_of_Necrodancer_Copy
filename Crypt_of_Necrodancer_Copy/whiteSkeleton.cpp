@@ -6,33 +6,30 @@ HRESULT whiteSkeleton::init(int playerIndexX, int playerIndexY)
 
 	IMAGEMANAGER->addFrameImage("whiteSkeleton", "image/enemy/skeletonBasic.bmp", 576, 177, 8, 2, true, RGB(255, 0, 255));
 	skeleton::init(playerIndexX, playerIndexY);
-	_worldTime = TIMEMANAGER->getWorldTime();
+	_renderTime = _movingTime = TIMEMANAGER->getWorldTime();
 	_img = IMAGEMANAGER->findImage("whiteSkeleton");
 	_img->setFrameY(0);
-	_indexswitch = false;
 	return S_OK;
 }
 
 void whiteSkeleton::update(int playerIndexX, int playerIndexY)
 {
 	skeleton::update(playerIndexX, playerIndexY);
-	if (TIMEMANAGER->getWorldTime() - _worldTime > 0.5f)
+	
+
+	if (isFind&&toRender)
 	{
-		_worldTime = TIMEMANAGER->getWorldTime();
-		if (isFind)
+		if (_index >= 4)
 		{
-			if (_indexswitch) 
-			{ 
-				_index = 0; 
-				_indexswitch = false; 
-			}
-			else 
-			{ 
-				_index = 4;  
-				_indexswitch = true; 
-			}
+			_index = 0;
 		}
+		else
+		{
+			_index = 4;
+		}
+		toRender = false;
 	}
+
 	_count++;
 	if (_index >= 4 &&_index<8)
 	{

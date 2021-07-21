@@ -21,25 +21,25 @@ HRESULT playGround::init()
 	addImage();
 	addSound();
 
-	_map = new mapGenerator;
-	_map->init(70, 70);
-	_map->generate(7);
-	_player = new player;
-	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
-	_player->setPlayerMapMemoryAddressLink(_map);
-	_player->setupPlayerRect();
+	//_map = new mapGenerator;
+	//_map->init(70, 70);
+	//_map->generate(7);
+	//_player = new player;
+	//_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
+	//_player->setPlayerMapMemoryAddressLink(_map);
+	//_player->setupPlayerRect();
 
 
 
 	//슬라임
-	_slime = new slimeGreen;
-	_slime->setTileMapLink(_map);
-	_slime->init();
-	 
+	//_slime = new slimeGreen;
+	//_slime->setTileMapLink(_map);
+	//_slime->init();
+	// 
 
 
-	//SCENEMANAGER->addScene("player_test", new playerTestScene);
-	//SCENEMANAGER->changeScene("player_test");
+	SCENEMANAGER->addScene("player_test", new playerTestScene);
+	SCENEMANAGER->changeScene("player_test");
 
 
 	////카메라 테스트 ==================================================================
@@ -75,10 +75,10 @@ void playGround::update()
 
 
 
-	_map->update();
-	_player->update();
-	/*CAMERAMANAGER->setCameraCenterX((_player->+ _skeleton->getRect().left)/2);
-	CAMERAMANAGER->setCameraCenterY((_player->getRect().bottom + _skeleton->getRect().top) / 2);
+	//_map->update();
+	//_player->update();
+	//CAMERAMANAGER->setCameraCenterX((_player->+ _skeleton->getRect().left)/2);
+	//CAMERAMANAGER->setCameraCenterY((_player->getRect().bottom + _skeleton->getRect().top) / 2);
 
 	
 	SCENEMANAGER->update();
@@ -161,10 +161,10 @@ void playGround::render()
 
 	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
 	SelectObject(getMemDC(), myPen);
-	_map->render();
-	_player->render();
-	_slime->render();
-	//SCENEMANAGER->render();
+	//_map->render();
+	//_player->render();
+	//_slime->render();
+	SCENEMANAGER->render();
 	//TIMEMANAGER->render(getMemDC());
 	//SCENEMANAGER->render();
 	DeleteObject(myPen);

@@ -5,8 +5,9 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 {
 	_astar = new aStarTest;
 	isFind = false;
+	isTime = false;
 	_count = _index = _indey = 0;
-
+	toRender = false;
 	while (true) //·£´ý¹èÄ¡
 	{
 		int random = RND->getInt(_map->getRoom().size());//·£´ý¹æ¿¡ ¹èÄ¡
@@ -29,6 +30,33 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 void skeleton::update(int playerIndexX , int playerIndexY)
 {
 	_astar->endmove(playerIndexX, playerIndexY);
+	
+	if (TIMEMANAGER->getWorldTime() - _movingTime >= 1.0f)
+	{
+		_movingTime = TIMEMANAGER->getWorldTime();
+		if (isTime)
+		{
+			isTime = false;
+		}
+		else
+		{
+			isTime = true;
+		}
+	}
+	if (TIMEMANAGER->getWorldTime() - _renderTime >= 0.5f)
+	{
+		_renderTime = TIMEMANAGER->getWorldTime();
+		if (toRender)
+		{
+			toRender = false;
+		}
+		else
+		{
+			toRender = true;
+		}
+	}
+
+
 	for (int y = _y - 3; y <= _y + 3; y++)
 	{
 		for (int x = _x - 3; x <= _x + 3; x++)
@@ -41,8 +69,9 @@ void skeleton::update(int playerIndexX , int playerIndexY)
 	}
 	if (isFind)
 	{
-		_astar->update(1.0f);
+		_astar->update(isTime);
 		skeletonMove();
+		isTime = false;
 	}
 }
 

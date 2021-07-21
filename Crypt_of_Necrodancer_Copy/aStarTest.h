@@ -39,7 +39,7 @@ public:
 
 	HRESULT init(int enemyX, int enemyY, int playerX, int playerY);
 	void release();
-	void update(float worldTime);
+	void update(bool istime);
 	void render();
 	//타일 셋팅 함수
 	void setTile(int enemyX, int enemyY, int playerX, int playerY);

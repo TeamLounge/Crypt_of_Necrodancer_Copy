@@ -30,7 +30,7 @@ void aStarTest::release()
 
 }
 
-void aStarTest::update(float worldTime)
+void aStarTest::update(bool istime)
 {
 	
 	if (ismove)
@@ -38,10 +38,10 @@ void aStarTest::update(float worldTime)
 		pathFinder(_startTile);
 	}
 	
-	if (_start&& TIMEMANAGER->getWorldTime() - time >= worldTime)
+	if (_start)
 	{
-		time = TIMEMANAGER->getWorldTime();
-		startmove();
+		if(istime)
+			startmove();
 	}
 }
 
