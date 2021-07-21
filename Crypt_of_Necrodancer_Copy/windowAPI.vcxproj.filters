@@ -88,6 +88,21 @@
     <Filter Include="playGround\UI\inGame">
       <UniqueIdentifier>{7774373d-05cd-45c6-9ee3-2f742235efba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\item">
+      <UniqueIdentifier>{31aae90f-111b-4b05-a9b2-0a889ef1ddf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\item\weapon">
+      <UniqueIdentifier>{069f2dc3-06a6-4fa3-80b9-ad0c657b99f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\item\weapon\weaponType">
+      <UniqueIdentifier>{f8f8f75d-1da9-4aff-9f21-c8f5b89d7ea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\item\shovel">
+      <UniqueIdentifier>{51718e2e-c992-47c8-9a05-0d324359e768}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\item\shovel\shovelType">
+      <UniqueIdentifier>{3f91ee6b-8b32-4965-be7b-54e1a87d177f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -261,6 +276,36 @@
     <ClInclude Include="splashScene.h">
       <Filter>playGround\scene\splash</Filter>
     </ClInclude>
+    <ClInclude Include="weapon.h">
+      <Filter>playGround\item\weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="dagger.h">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClInclude>
+    <ClInclude Include="weaponType.h">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClInclude>
+    <ClInclude Include="broadSword.h">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClInclude>
+    <ClInclude Include="longSword.h">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClInclude>
+    <ClInclude Include="spear.h">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClInclude>
+    <ClInclude Include="shovel.h">
+      <Filter>playGround\item\shovel</Filter>
+    </ClInclude>
+    <ClInclude Include="shovelBasic.h">
+      <Filter>playGround\item\shovel\shovelType</Filter>
+    </ClInclude>
+    <ClInclude Include="shovelType.h">
+      <Filter>playGround\item\shovel\shovelType</Filter>
+    </ClInclude>
+    <ClInclude Include="shovelTitanium.h">
+      <Filter>playGround\item\shovel\shovelType</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -421,6 +466,36 @@
     </ClCompile>
     <ClCompile Include="titleScene.cpp">
       <Filter>playGround\scene\title</Filter>
+    </ClCompile>
+    <ClCompile Include="weapon.cpp">
+      <Filter>playGround\item\weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="weaponType.cpp">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClCompile>
+    <ClCompile Include="dagger.cpp">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClCompile>
+    <ClCompile Include="broadSword.cpp">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClCompile>
+    <ClCompile Include="longSword.cpp">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClCompile>
+    <ClCompile Include="spear.cpp">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClCompile>
+    <ClCompile Include="shovel.cpp">
+      <Filter>playGround\item\shovel</Filter>
+    </ClCompile>
+    <ClCompile Include="shovelBasic.cpp">
+      <Filter>playGround\item\shovel\shovelType</Filter>
+    </ClCompile>
+    <ClCompile Include="shovelType.cpp">
+      <Filter>playGround\item\shovel\shovelType</Filter>
+    </ClCompile>
+    <ClCompile Include="shovelTitanium.cpp">
+      <Filter>playGround\item\shovel\shovelType</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

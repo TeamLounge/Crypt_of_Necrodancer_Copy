@@ -152,9 +152,11 @@
     <ClInclude Include="aStarTest.h" />
     <ClInclude Include="beatHeart.h" />
     <ClInclude Include="blackSkeleton.h" />
+    <ClInclude Include="broadSword.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="cameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
+    <ClInclude Include="dagger.h" />
     <ClInclude Include="diamond.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
@@ -169,6 +171,7 @@
     <ClInclude Include="introScene.h" />
     <ClInclude Include="itemHUD.h" />
     <ClInclude Include="keyManager.h" />
+    <ClInclude Include="longSword.h" />
     <ClInclude Include="mapGenerator.h" />
     <ClInclude Include="mapTool.h" />
     <ClInclude Include="money.h" />
@@ -180,6 +183,10 @@
     <ClInclude Include="randomMap.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sceneManager.h" />
+    <ClInclude Include="shovel.h" />
+    <ClInclude Include="shovelBasic.h" />
+    <ClInclude Include="shovelTitanium.h" />
+    <ClInclude Include="shovelType.h" />
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="skeleton.h" />
     <ClInclude Include="slime.h" />
@@ -187,6 +194,7 @@
     <ClInclude Include="slimeGold.h" />
     <ClInclude Include="slimeGreen.h" />
     <ClInclude Include="soundManager.h" />
+    <ClInclude Include="spear.h" />
     <ClInclude Include="splashScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="streamManager.h" />
@@ -201,6 +209,8 @@
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="video.h" />
+    <ClInclude Include="weapon.h" />
+    <ClInclude Include="weaponType.h" />
     <ClInclude Include="whiteSkeleton.h" />
     <ClInclude Include="vision.h" />
     <ClInclude Include="X.h" />
@@ -211,8 +221,10 @@
     <ClCompile Include="aStarTest.cpp" />
     <ClCompile Include="beatHeart.cpp" />
     <ClCompile Include="blackSkeleton.cpp" />
+    <ClCompile Include="broadSword.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="cameraManager.cpp" />
+    <ClCompile Include="dagger.cpp" />
     <ClCompile Include="diamond.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
@@ -227,6 +239,7 @@
     <ClCompile Include="introScene.cpp" />
     <ClCompile Include="itemHUD.cpp" />
     <ClCompile Include="keyManager.cpp" />
+    <ClCompile Include="longSword.cpp" />
     <ClCompile Include="mapGenerator.cpp" />
     <ClCompile Include="mapTool.cpp" />
     <ClCompile Include="money.cpp" />
@@ -236,12 +249,17 @@
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="randomMap.cpp" />
     <ClCompile Include="sceneManager.cpp" />
+    <ClCompile Include="shovel.cpp" />
+    <ClCompile Include="shovelBasic.cpp" />
+    <ClCompile Include="shovelTitanium.cpp" />
+    <ClCompile Include="shovelType.cpp" />
     <ClCompile Include="skeleton.cpp" />
     <ClCompile Include="slime.cpp" />
     <ClCompile Include="slimeBlue.cpp" />
     <ClCompile Include="slimeGold.cpp" />
     <ClCompile Include="slimeGreen.cpp" />
     <ClCompile Include="soundManager.cpp" />
+    <ClCompile Include="spear.cpp" />
     <ClCompile Include="splashScene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -260,6 +278,8 @@
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="video.cpp" />
+    <ClCompile Include="weapon.cpp" />
+    <ClCompile Include="weaponType.cpp" />
     <ClCompile Include="whiteSkeleton.cpp" />
     <ClCompile Include="vision.cpp" />
     <ClCompile Include="winMain.cpp" />

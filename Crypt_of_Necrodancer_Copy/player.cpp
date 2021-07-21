@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "player.h"
+#include "weapon.h"
 
 HRESULT player::init(int tileX, int tileY)
 {

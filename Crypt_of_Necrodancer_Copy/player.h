@@ -4,7 +4,7 @@
 #include "vision.h"
 #include "randomMap.h"
 
-
+class weapon;
 
 class player : public gameNode
 {
@@ -40,6 +40,9 @@ private:
 	string _imgBodyName;
 	string _imgShadowName;
 
+	//링크용
+	weapon* _weapon;
+
 public:
 	virtual HRESULT init(int tileX, int tileY);
 	virtual void release();
@@ -48,11 +51,16 @@ public:
 
 	PLAYER_ENEMY_DIRECTION getDirection() { return _playerDirection; }
 
-	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
 
 	void setupPlayerRect();
 
 	int getTileX() { return _tileX; }
 	int getTileY() { return _tileY; }
+
+	RECT getTileRect() { return _tileRect; }
+
+	//웨폰링크
+	void setWeaponMemoryAddressLink(weapon* weapon) { _weapon = weapon; }
+	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; }
 };
 

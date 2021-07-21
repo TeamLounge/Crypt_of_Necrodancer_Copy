@@ -1,0 +1,6 @@
+#include "stdafx.h"
+#include "weaponType.h"
+#include "dagger.h"
+#include "broadSword.h"
+#include "longSword.h"
+#include "spear.h"

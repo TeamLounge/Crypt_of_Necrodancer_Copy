@@ -8,12 +8,24 @@ HRESULT playerTestScene::init()
 	_map->init(70,70);
 	_map->generate(7);
 	_player = new player;
-	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
 	_player->setPlayerMapMemoryAddressLink(_map);
+	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
 	_player->setupPlayerRect();
 
+	CAMERAMANAGER->setCamera(0, 0);
+
 	_UIM = new UIManager;
-	_UIM->setHeartBeat(7);
+	_UIM->init();
+	_UIM->setHeartBeat(10);
+	_UIM->setItemHUD();
+
+	_weapon = new weapon;
+	_weapon->init();
+
+	_weapon->setPlayerMemoryAddressLink(_player);
+	_player->setWeaponMemoryAddressLink(_weapon);
+	_weapon->setUIMMemortAddressLink(_UIM);
+	_UIM->setWeaponMemoryAddressLink(_weapon);
 	return S_OK;
 }
 
@@ -26,7 +38,9 @@ void playerTestScene::update()
 	//_map->update();
 	_player->update();
 	//RENDERMANAGER->update();
-	_UIM->updaetHeartBeat(1.7f);
+	_UIM->updaetHeartBeat(1.8f);
+	_weapon->update();
+	_UIM->updateItemHUD();
 }
 
 void playerTestScene::render()
@@ -102,4 +116,6 @@ void playerTestScene::render()
 	}
 
 	_UIM->renderHeartBeat();
+	_weapon->render();
+	_UIM->renderItemHUD();
 }
