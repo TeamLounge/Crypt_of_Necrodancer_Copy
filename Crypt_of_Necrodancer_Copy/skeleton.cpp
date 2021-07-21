@@ -5,8 +5,8 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 {
 	_astar = new aStarTest;
 	isFind = false;
-	_count = _index = 0;
-	_worldTime = TIMEMANAGER->getWorldTime();
+	_count = _index = _indey = 0;
+
 	while (true) //랜덤배치
 	{
 		int random = RND->getInt(_map->getRoom().size());//랜덤방에 배치
@@ -20,6 +20,7 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 		break;//// 모든 컨티뉴 지옥에서 벗어낫다면 빠져나오기
 	}
 	_rc = _map->getRect(_x, _y);
+	_map->setTileObject(_x, _y, ENEMY);
 	_astar->setLinkrandomMap(_map);
 	_astar->init(_x, _y, playerIndexX, playerIndexY);
 	return S_OK;
@@ -28,9 +29,9 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 void skeleton::update(int playerIndexX , int playerIndexY)
 {
 	_astar->endmove(playerIndexX, playerIndexY);
-	for (int y = _y - 3; y < _y + 3; y++)
+	for (int y = _y - 3; y <= _y + 3; y++)
 	{
-		for (int x = _x - 3; x < _x + 3; x++)
+		for (int x = _x - 3; x <= _x + 3; x++)
 		{
 			if (x == playerIndexX && y == playerIndexY)
 			{
@@ -58,8 +59,9 @@ void skeleton::render()
 
 void skeleton::skeletonMove()
 {
+	_map->setTileObject(_x, _y, OBJ_NONE);
 	_x = _astar->getenemyTileX();
 	_y = _astar->getenemyTileY();
 	_rc = _map->getRect(_x, _y);
-	
+	_map->setTileObject(_x, _y, ENEMY);
 }

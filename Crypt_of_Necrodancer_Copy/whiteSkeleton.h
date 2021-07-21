@@ -3,6 +3,7 @@
 
 class whiteSkeleton : public skeleton
 {
+	bool _indexswitch;
 public:
 	HRESULT init(int playerIndexX , int playerIndexY);
 	void update(int playerIndexX, int playerIndexY);

@@ -47,9 +47,9 @@ void aStarTest::update(float worldTime)
 
 void aStarTest::render()
 {
-	for (int i = 0; i < _vTotalList.size(); ++i)
+	for (int i = 0; i < _vCloseList.size(); ++i)
 	{
-		_vTotalList[i]->render();
+		_vCloseList[i]->render();
 	}
 	if (hp)
 	{
@@ -468,7 +468,7 @@ void aStarTest::endmove(int playerIndexX, int playerIndexY)
 void aStarTest::startmove()
 {
 	
-	if (_vCloseList.size() != 0 && _map->getTileObject(_vCloseList.back()->getIdX(), _vCloseList.back()->getIdY()) == OBJ_NONE)
+	if (_vCloseList.size() != 0 && _map->getTileObject(_vCloseList.back()->getIdX(), _vCloseList.back()->getIdY()) == OBJ_NONE )
 	{
 		RECT rc;
 		tile* node = new tile;
@@ -490,13 +490,39 @@ void aStarTest::startmove()
 		}
 		if (_vCloseList.size() == 0)
 		{
-			if ((_startTile->getIdX() == _endTile->getIdX() && (_startTile->getIdY() + 1 || _startTile->getIdY() - 1))||
-				(_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1)))
+			if (_startTile->getIdX() == _endTile->getIdX())
 			{
-				//hp´Þ°ÔÇÒ²¨¾ç
-				_damagecount++;
-				if(_damagecount>1)
-				hp = true;
+				if (_endTile->getIdY() == _startTile->getIdY() + 1)
+				{
+					//hp´Þ°ÔÇÒ²¨¾ç
+					_damagecount++;
+					if (_damagecount > 1)
+						hp = true;
+				}
+				else if (_endTile->getIdY() == _startTile->getIdY() - 1)
+				{
+					//hp´Þ°ÔÇÒ²¨¾ç
+					_damagecount++;
+					if (_damagecount > 1)
+						hp = true;
+				}
+			}
+			else if (_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1))
+			{
+				if (_endTile->getIdX() == _startTile->getIdX() + 1)
+				{
+					//hp´Þ°ÔÇÒ²¨¾ç
+					_damagecount++;
+					if (_damagecount > 1)
+						hp = true;
+				}
+				else if (_endTile->getIdX() == _startTile->getIdX() - 1)
+				{
+					//hp´Þ°ÔÇÒ²¨¾ç
+					_damagecount++;
+					if (_damagecount > 1)
+						hp = true;
+				}
 			}
 		}
 	}

@@ -17,7 +17,7 @@ protected:
 	
 	int _x, _y;
 	int _shadowX, _shadowY;
-	int _count, _index;
+	int _count, _index , _indey;
 	int _hp;
 
 	float _worldTime;
