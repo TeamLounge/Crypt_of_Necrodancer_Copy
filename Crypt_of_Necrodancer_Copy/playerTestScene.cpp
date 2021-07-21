@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "playerTestScene.h"
 
+
 HRESULT playerTestScene::init()
 {
-	CAMERAMANAGER->setCamera(0, 0);
 	SOUNDMANAGER->addSound("zone1-1", "music/zone1_1.ogg", true, false);
 	SOUNDMANAGER->addSound("zone1-1_shopkeeper", "music/zone1_1_shopkeeper.ogg", true, false);
 	
@@ -14,8 +14,8 @@ HRESULT playerTestScene::init()
 
 	//플레이어
 	_player = new player;
-	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
 	_player->setPlayerMapMemoryAddressLink(_map);
+	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
 	_player->setupPlayerRect();
 
 	//에너미
@@ -27,7 +27,9 @@ HRESULT playerTestScene::init()
 	//UI
 	_UIM = new UIManager;
 	_UIM->init();
+	CAMERAMANAGER->setCamera(0, 0);
 	_UIM->setHeartBeat(7);
+	_UIM->setItemHUD();
 
 	//오브젝트
 	_objectManager = new objectManager;
@@ -41,6 +43,13 @@ HRESULT playerTestScene::init()
 	SOUNDMANAGER->setGroup("zone1-1");
 	SOUNDMANAGER->setGroup("zone1-1_shopkeeper");
 
+	_weapon = new weapon;
+	_weapon->init();
+
+	_weapon->setPlayerMemoryAddressLink(_player);
+	_player->setWeaponMemoryAddressLink(_weapon);
+	_weapon->setUIMMemortAddressLink(_UIM);
+	_UIM->setWeaponMemoryAddressLink(_weapon);
 	return S_OK;
 }
 
@@ -54,10 +63,10 @@ void playerTestScene::update()
 	_player->update();
 	//RENDERMANAGER->update();
 	_em->update();
-
 	_UIM->updaetHeartBeat(1.7f);
-
 	_objectManager->update();
+	_weapon->update();
+	_UIM->updateItemHUD();
 }
 
 void playerTestScene::render()
@@ -178,4 +187,6 @@ void playerTestScene::render()
 	*/
 	_em->render();
 	_UIM->renderHeartBeat();
+	_weapon->render();
+	_UIM->renderItemHUD();
 }

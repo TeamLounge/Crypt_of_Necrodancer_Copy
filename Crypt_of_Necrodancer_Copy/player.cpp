@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "player.h"
+#include "weapon.h"
 
 HRESULT player::init(int tileX, int tileY)
 {
@@ -25,7 +26,6 @@ HRESULT player::init(int tileX, int tileY)
 	_vision = new vision;
 	_vision->init(_tileX, _tileY, 5);
 
-	_alpha = 255;
 	//renderManager 해주기
 	//초기화 제일 긴 거
 	//_imgHeadName = "player_head";

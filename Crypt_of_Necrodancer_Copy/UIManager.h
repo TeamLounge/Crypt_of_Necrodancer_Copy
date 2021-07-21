@@ -10,6 +10,8 @@
 #include "itemHUD.h"
 #include <vector>
 
+class weapon;
+
 class UIManager : public gameNode
 {
 private: 
@@ -39,6 +41,8 @@ private:
 	diamond* _diamond;
 	X* _moneyX;
 	X* _diaX;
+
+	weapon* _weapon;
 
 	int _heartNum;
 	float _elapsedSec;
@@ -155,5 +159,10 @@ public:
 
 	void setIsDiaPlus(bool isDiaPlus) { _isDiaPlus = isDiaPlus; }
 	bool getIsDiaPlus() { return _isDiaPlus; }
+
+	vector<UI*> getVItemHUD() { return _vItemHUD; }
+	vector<UI*>::iterator getVIItemHUD() { return _viItemHUD; }
+
+	void setWeaponMemoryAddressLink(weapon* weapon) { _weapon = weapon; }
 };
 
