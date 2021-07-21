@@ -14,7 +14,7 @@ aStarTest::~aStarTest()
 
 HRESULT aStarTest::init(int enemyX, int enemyY, int playerX, int playerY)
 {
-	_count = 0;
+	_count = _damagecount=0;
 	_start = false;
 	hp = false;
 	_TotaltileX = _map->getXSize();
@@ -47,15 +47,19 @@ void aStarTest::update(float worldTime)
 
 void aStarTest::render()
 {
-	for (int i = 0; i < _vCloseList.size(); ++i)
+	for (int i = 0; i < _vTotalList.size(); ++i)
 	{
-		_vCloseList[i]->render();
+		_vTotalList[i]->render();
 	}
 	if (hp)
 	{
 		char str[128];
 		sprintf_s(str, "hp깍임");
 		TextOut(getMemDC(), _map->getRect(_endTile->getIdX(), _endTile->getIdY()).left, _map->getRect(_endTile->getIdX(), _endTile->getIdY()).top, str, strlen(str));
+		if (KEYMANAGER->isOnceKeyDown('S'))
+		{
+			hp = false;
+		}
 	}
 }
 //타일 셋팅 함수
@@ -481,6 +485,7 @@ void aStarTest::startmove()
 		_vTotalList.insert(_vTotalList.begin() + (_vCloseList.back()->getIdY()*_TotaltileX + _vCloseList.back()->getIdX()), _startTile);
 		if (_vCloseList.size() >= 1)
 		{
+			_damagecount = 0;
 			_vCloseList.erase(_vCloseList.end() - 1);
 		}
 		if (_vCloseList.size() == 0)
@@ -489,6 +494,8 @@ void aStarTest::startmove()
 				(_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1)))
 			{
 				//hp달게할꺼양
+				_damagecount++;
+				if(_damagecount>1)
 				hp = true;
 			}
 		}

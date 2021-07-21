@@ -37,9 +37,6 @@ void playerTestScene::update()
 
 void playerTestScene::render()
 {
-	_map->render();
-	_player->render();
-	_em->render();
 	for (int i = 0; i < _map->getYSize(); ++i)
 	{
 		for (int j = 0; j < _map->getXSize(); ++j)
@@ -106,6 +103,6 @@ void playerTestScene::render()
 			}
 		}
 	}
-
+	_em->render();
 	_UIM->renderHeartBeat();
 }

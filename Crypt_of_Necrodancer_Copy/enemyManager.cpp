@@ -29,7 +29,7 @@ void enemyManager::render()
 
 void enemyManager::setWhiteSkeleton()
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		whiteSkeleton* _skeleton = new whiteSkeleton;
 		_skeleton->setTileMapLinK(_map);

@@ -26,6 +26,7 @@ private:
 	mapGenerator* _map;
 	
 	int _count;// 그냥렌더용
+	int _damagecount;
 	float time;
 	bool _start; // 그냥 시작용
 	bool ismove;
