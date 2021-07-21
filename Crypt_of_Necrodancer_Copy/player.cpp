@@ -311,6 +311,26 @@ void player::render()
 	
 }
 
+void player::render(int tileX, int tileY)
+{
+	if (tileX == _tileRenderX && tileY == _tileRenderY)
+	{
+		//Rectangle(getMemDC(), _shadow);
+		IMAGEMANAGER->alphaRender("player_shadow", getMemDC(), _shadow.left, _shadow.top, 125);
+		IMAGEMANAGER->alphaRender("player_shadow2", getMemDC(), _shadow.left, _shadow.top, 125);
+		IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
+		IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
+
+		if (KEYMANAGER->isToggleKey(VK_TAB))
+		{
+			char str[128];
+			sprintf_s(str, "x: %d, y: %d", _tileX, _tileY);
+			DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+		}
+		//_vision->render();
+	}
+}
+
 void player::setupPlayerRect()
 {
 	_tileRect = _map->getRect(_tileX, _tileY);

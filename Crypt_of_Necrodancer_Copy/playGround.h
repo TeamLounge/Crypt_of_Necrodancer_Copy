@@ -52,6 +52,5 @@ public:
 	virtual void render();
 
 	void addImage();
-	void addSound();
 };
 

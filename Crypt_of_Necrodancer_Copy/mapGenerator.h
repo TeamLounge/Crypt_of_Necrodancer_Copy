@@ -55,6 +55,7 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render();
+	virtual void render(int tileX, int tileY);
 
 	void generate(int maxFeatures);
 	//방 만들기

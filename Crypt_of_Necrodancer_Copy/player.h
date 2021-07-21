@@ -53,6 +53,7 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render();
+	virtual void render(int tileX, int tileY);
 
 	PLAYER_ENEMY_DIRECTION getDirection() { return _playerDirection; }
 	void setDirection(PLAYER_ENEMY_DIRECTION dir) { _playerDirection = dir; }

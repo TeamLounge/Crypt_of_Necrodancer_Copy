@@ -19,27 +19,26 @@ HRESULT playGround::init()
 	gameNode::init(true);
 	
 	addImage();
-	addSound();
 
-	_map = new mapGenerator;
-	_map->init(70, 70);
-	_map->generate(7);
-	_player = new player;
-	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
-	_player->setPlayerMapMemoryAddressLink(_map);
-	_player->setupPlayerRect();
-
+	//_map = new mapGenerator;
+	//_map->init(70, 70);
+	//_map->generate(7);
+	//_player = new player;
+	//_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
+	//_player->setPlayerMapMemoryAddressLink(_map);
+	//_player->setupPlayerRect();
 
 
-	//슬라임
-	_slime = new slimeGreen;
-	_slime->setTileMapLink(_map);
-	_slime->init();
-	 
+
+	////슬라임
+	//_slime = new slimeGreen;
+	//_slime->setTileMapLink(_map);
+	//_slime->init();
+	// 
 
 
-	//SCENEMANAGER->addScene("player_test", new playerTestScene);
-	//SCENEMANAGER->changeScene("player_test");
+	SCENEMANAGER->addScene("player_test", new playerTestScene);
+	SCENEMANAGER->changeScene("player_test");
 
 
 	////카메라 테스트 ==================================================================
@@ -75,10 +74,10 @@ void playGround::update()
 
 
 
-	_map->update();
-	_player->update();
-	/*CAMERAMANAGER->setCameraCenterX((_player->+ _skeleton->getRect().left)/2);
-	CAMERAMANAGER->setCameraCenterY((_player->getRect().bottom + _skeleton->getRect().top) / 2);
+	//_map->update();
+	//_player->update();
+	//CAMERAMANAGER->setCameraCenterX((_player->+ _skeleton->getRect().left)/2);
+	//CAMERAMANAGER->setCameraCenterY((_player->getRect().bottom + _skeleton->getRect().top) / 2);
 
 	
 	SCENEMANAGER->update();
@@ -161,10 +160,10 @@ void playGround::render()
 
 	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
 	SelectObject(getMemDC(), myPen);
-	_map->render();
-	_player->render();
-	_slime->render();
-	//SCENEMANAGER->render();
+	//_map->render();
+	//_player->render();
+	//_slime->render();
+	SCENEMANAGER->render();
 	//TIMEMANAGER->render(getMemDC());
 	//SCENEMANAGER->render();
 	DeleteObject(myPen);
@@ -235,13 +234,4 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("rapier", "image/item/rapier.bmp", 78, 162, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("longSword", "image/item/longsword.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("spear", "image/item/rapier.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
-}
-
-void playGround::addSound()
-{
-	SOUNDMANAGER->addSound("zone1-2", "music/zone1_2.mp3", true, false);
-	SOUNDMANAGER->addSound("zone1-2_shopkeeper", "music/zone1_2_shopkeeper.ogg", true, false);
-	SOUNDMANAGER->addSound("zone1-3", "music/zone1_3.mp3", true, false);
-	SOUNDMANAGER->addSound("zone1-3_shopkeeper", "music/zone1_3_shopkeeper.ogg", true, false);
-	SOUNDMANAGER->addSound("boss", "music/boss_2.ogg", true, false);
 }
