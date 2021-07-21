@@ -5,7 +5,8 @@
 soundManager::soundManager()
 	: _system(nullptr),
 	_channel(nullptr),
-	_sound(nullptr)
+	_sound(nullptr),
+	_channelGroup(nullptr)
 {
 }
 
@@ -24,9 +25,10 @@ HRESULT soundManager::init()
 	_sound = new Sound*[TOTALSOUNDBUFFER];
 	_channel = new Channel*[TOTALSOUNDBUFFER];
 
+	_system->createChannelGroup("background", &_channelGroup);
+
 	memset(_sound, 0, sizeof(Sound*)  * TOTALSOUNDBUFFER);
 	memset(_channel, 0, sizeof(Channel*) * TOTALSOUNDBUFFER);
-
 
 	return S_OK;
 }
@@ -140,6 +142,27 @@ void soundManager::resume(string keyName)
 	}
 }
 
+void soundManager::setPitch(float pitch)
+{
+	_channelGroup->setPitch(pitch);
+}
+
+void soundManager::setVolume(string keyName, float volume)
+{
+	arrSoundsIter iter = _mTotalSounds.begin();
+
+	int count = 0;
+
+	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	{
+		if (keyName == iter->first)
+		{
+			_channel[count]->setVolume(volume);
+			break;
+		}
+	}
+}
+
 bool soundManager::isPlaySound(string keyName)
 {
 	bool isPlay;
@@ -175,4 +198,21 @@ bool soundManager::isPauseSound(string keyName)
 		}
 	}
 	return isPause;
+}
+
+void soundManager::setGroup(string keyName)
+{
+	arrSoundsIter iter = _mTotalSounds.begin();
+
+	int count = 0;
+
+	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	{
+		if (keyName == iter->first)
+		{
+			_channel[count]->setChannelGroup(_channelGroup);
+
+			break;
+		}
+	}
 }

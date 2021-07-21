@@ -137,7 +137,7 @@ namespace FMOD
         FMOD_RESULT F_API createReverb           (Reverb **reverb); 
                                                 
         FMOD_RESULT F_API playSound              (FMOD_CHANNELINDEX channelid, Sound *sound, bool paused, Channel **channel);
-        FMOD_RESULT F_API playDSP                (FMOD_CHANNELINDEX channelid, DSP *dsp, bool paused, Channel **channel);
+		FMOD_RESULT F_API playDSP                (FMOD_CHANNELINDEX channelid, DSP *dsp, bool paused, Channel **channel);
         FMOD_RESULT F_API getChannel             (int channelid, Channel **channel);
         FMOD_RESULT F_API getMasterChannelGroup  (ChannelGroup **channelgroup);
         FMOD_RESULT F_API getMasterSoundGroup    (SoundGroup **soundgroup);

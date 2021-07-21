@@ -267,21 +267,6 @@ void mapGenerator::render()
 					_tiles[i][j].rc.top - (TILESIZE * 5) / 8 - TILESIZE / 3, 255 - _tiles[i][j].alpha);
 			}
 		}
-
-		/*
-		for (int i = 0; i < _tiles.size(); ++i)
-		{
-			for (int j = 0; j < _tiles[i].size(); ++j)
-			{
-				char str[128];
-				sprintf_s(str, "(%d, %d)", j, i);
-				if (KEYMANAGER->isToggleKey(VK_TAB))
-				{
-					DrawText(getMemDC(), str, strlen(str), &_tiles[i][j].rc, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
-				}
-			}
-		}
-		*/
 	}
 
 	for (int i = 0; i < _rooms.size(); i++)
@@ -694,6 +679,8 @@ void mapGenerator::generate(int maxFeatures)
 
 	_width = _tiles[0].size();
 	_height = _tiles.size();
+
+	testObject();
 }
 
 bool mapGenerator::makeRoom(int x, int y, ROOM_DIRECTION dir, bool firstRoom, int index)
@@ -1662,4 +1649,23 @@ void mapGenerator::setTorch()
 	}
 	
 	
+}
+
+void mapGenerator::testObject()
+{
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].obj = TR_SLOW;
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].objectFrameX = 0;
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].objectFrameY = 0;
+
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].obj = TR_FAST;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].objectFrameX = 0;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].objectFrameY = 0;
+
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 3].obj = TR_LEFT;
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 3].objectFrameX = 0;
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 3].objectFrameY = 0;
+
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].obj = TR_RIGHT;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].objectFrameX = 0;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].objectFrameY = 0;
 }

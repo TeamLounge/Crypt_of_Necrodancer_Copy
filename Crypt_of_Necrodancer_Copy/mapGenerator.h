@@ -87,11 +87,12 @@ public:
 
 	void setBossRoom(); //보스룸 정하기
 
-	void setTorch();
+	void setTorch(); //횃불 놓기
+
+	void testObject(); //함정 테스트 용
 
 	//이거 쓰면 벡터가 큰데 그게 복사되서 프레임 떨어짐
 	//vector<vector<tagTile>> getTiles() { return _tiles; }
-
 
 	//설정자
 	void setTileObject(int tileX, int tileY, OBJECT obj, int objectFrameX = 0, int objectFrameY = 0)
@@ -113,6 +114,9 @@ public:
 	void setIsSeen(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isSeen = b; }
 	void setIsHaveTorch(int tileX, int tileY, bool b){ _tiles[tileY][tileX].isHaveTorch = b; }
 
+	void setTileObjectFrameX(int tileX, int tileY, int objectFrameX) { _tiles[tileY][tileX].objectFrameX = objectFrameX; }
+	void setTileObjectFrameY(int tileX, int tileY, int objectFrameY) { _tiles[tileY][tileX].objectFrameY = objectFrameY; }
+
 	//접근자
 	bool getIsSeen(int tileX, int tileY) { return _tiles[tileY][tileX].isSeen; }
 	RECT getRect(int tileX, int tileY) { return _tiles[tileY][tileX].rc; }
@@ -130,6 +134,6 @@ public:
 
 	int getAlpha(int tileX, int tileY) { return _tiles[tileY][tileX].alpha; }
 	
-	tagTile getTile(int tileX, int tileY) { return _tiles[tileY][tileX]; }
+	tagTile* getTile(int tileX, int tileY) { return &_tiles[tileY][tileX]; }
 };
 

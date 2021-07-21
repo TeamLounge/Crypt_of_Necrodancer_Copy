@@ -4,6 +4,7 @@
 #include "enemyManager.h"
 #include "mapGenerator.h"
 #include "UIManager.h"
+#include "objectManager.h"
 
 class playerTestScene : public gameNode
 {
@@ -13,6 +14,7 @@ private:
 	UIManager* _UIM;
 	enemyManager* _em;
 
+	objectManager* _objectManager;
 
 public:
 	virtual HRESULT init();
