@@ -24,6 +24,7 @@ HRESULT playerTestScene::init()
 	SOUNDMANAGER->setGroup("zone1-1_shopkeeper");
 	
 	_objectManager = new objectManager;
+	_objectManager->init();
 	_objectManager->setObjectMapMemoryAddressLink(_map);
 	_objectManager->setObjectPlayerMemoryAddressLink(_player);
 	return S_OK;
