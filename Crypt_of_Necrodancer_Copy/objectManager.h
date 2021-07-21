@@ -8,7 +8,6 @@ struct tagPushedObject
 {
 	int tileX;
 	int tileY;
-	OBJECT obj;
 };
 class objectManager : public gameNode
 {
@@ -33,5 +32,9 @@ public:
 
 	void playerObjectCollison();
 	void enemyObjectCollison();
+
+	//방향 함정 플레이어 움직이게 하기
+					//x축으로 더할 값, y축으로 더할값, 바뀔 방향
+	void playerMove(int addTileX, int addTileY, PLAYER_ENEMY_DIRECTION dir);
 };
 
