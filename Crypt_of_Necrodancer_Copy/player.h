@@ -3,8 +3,10 @@
 #include "mapGenerator.h"
 #include "vision.h"
 #include "randomMap.h"
+#include "enemyManager.h"
 
 class weapon;
+class enemyManager;
 
 class player : public gameNode
 {
@@ -45,6 +47,8 @@ private:
 	weapon* _weapon;
 
 public:
+	enemyManager* _em; //에너미 정보 가져오기
+
 	virtual HRESULT init(int tileX, int tileY);
 	virtual void release();
 	virtual void update();
@@ -54,6 +58,8 @@ public:
 	void setDirection(PLAYER_ENEMY_DIRECTION dir) { _playerDirection = dir; }
 
 
+	void setEmMemoryAddressLink(enemyManager* em) { _em = em; }
+	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
 	void setupPlayerRect();
 
 	int getTileX() { return _tileX; }
@@ -72,6 +78,5 @@ public:
 
 	//웨폰링크
 	void setWeaponMemoryAddressLink(weapon* weapon) { _weapon = weapon; }
-	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; }
 };
 

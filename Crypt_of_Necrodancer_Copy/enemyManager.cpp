@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "enemyManager.h"
+#include "player.h"
 
 HRESULT enemyManager::init()
 {

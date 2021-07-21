@@ -16,6 +16,7 @@ HRESULT playerTestScene::init()
 	_player = new player;
 	_player->setPlayerMapMemoryAddressLink(_map);
 	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
+
 	_player->setupPlayerRect();
 
 	//¿¡³Ê¹Ì
