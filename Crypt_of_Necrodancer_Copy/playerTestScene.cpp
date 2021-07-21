@@ -8,7 +8,7 @@ HRESULT playerTestScene::init()
 	_map->generate(7);
 	_player = new player;
 	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
-	_player->setPlayerMapMemoryAddressLink(_map);
+	//_player->setPlayerMapMemoryAddressLink(_map);
 	_player->setupPlayerRect();
 
 	_UIM = new UIManager;

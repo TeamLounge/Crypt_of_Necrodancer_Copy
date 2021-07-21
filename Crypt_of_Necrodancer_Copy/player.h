@@ -3,6 +3,7 @@
 #include "mapGenerator.h"
 #include "vision.h"
 #include "randomMap.h"
+#include "enemyManager.h"
 
 
 
@@ -41,6 +42,8 @@ private:
 	string _imgShadowName;
 
 public:
+	enemyManager* _em; //에너미 정보 가져오기
+
 	virtual HRESULT init(int tileX, int tileY);
 	virtual void release();
 	virtual void update();
@@ -48,8 +51,9 @@ public:
 
 	PLAYER_ENEMY_DIRECTION getDirection() { return _playerDirection; }
 
-	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
-
+	void setEmMemoryAddressLink(enemyManager* em) { _em = em; }
+	//void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
+	void setLinkMap(mapGenerator* map) { _map = map; }
 	void setupPlayerRect();
 
 	int getTileX() { return _tileX; }

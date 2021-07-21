@@ -3,6 +3,10 @@
 
 HRESULT slimeBlue::init()
 {
+	slime::init();	//»ó¼Ó
+
+	_img = IMAGEMANAGER->findImage("slimeBlue");
+
 	return S_OK;
 }
 

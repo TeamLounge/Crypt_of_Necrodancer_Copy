@@ -1,14 +1,14 @@
 #pragma once
 #include "gameNode.h"
-#include "randomMap.h"
+#include "mapGenerator.h"
 //#include "aStarTest.h"
 
 //aStar 필요없다
 
 class slime : public gameNode
 {
-private:
-	randomMap * _map;
+protected:
+	mapGenerator * _map;
 	PLAYER_ENEMY_DIRECTION _direction;
 
 	image * _img;
@@ -21,6 +21,11 @@ private:
 	int _count;
 	int _index;
 	int _currentFrameX, _currentFrameY;
+	float _elapsedSec; //프레임 움직임 위함
+
+	float _gravity;
+	float _jumpPower;
+
 
 	bool _isRight;	//기본 방향 우측이야?
 
@@ -31,6 +36,8 @@ public:
 	virtual void render();
 
 	virtual void slimeMove();
+
+	void setImage();		//slime들 이미지 set
 
 	//get
 	///////////////////////////////////////////////
@@ -48,9 +55,7 @@ public:
 	virtual void setShadowX(float shadowX) { _shadowX = shadowX; }
 	virtual void setShadowY(float shadowY) { _shadowY = shadowY; }
 	virtual void setImage(image * image) { _img = image; }
+	virtual void setTileMapLink(mapGenerator* tileMap) { _map = tileMap; }
 	//virtual void setRect(RECT rc) { _rc = rc; }
-
-	//전방 선언 안해줘도 되나?
-	virtual void setTimeMapMemoryAddressLink(randomMap * map) { _map = map; }
 };
 
