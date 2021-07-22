@@ -20,41 +20,12 @@ HRESULT playGround::init()
 	
 	addImage();
 
-	//_map = new mapGenerator;
-	//_map->init(70, 70);
-	//_map->generate(7);
-	//_player = new player;
-	//_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
-	//_player->setPlayerMapMemoryAddressLink(_map);
-	//_player->setupPlayerRect();
-
-
-
-	////슬라임
-	//_slime = new slimeGreen;
-	//_slime->setTileMapLink(_map);
-	//_slime->init();
-	// 
-
 
 	SCENEMANAGER->addScene("player_test", new playerTestScene);
 	SCENEMANAGER->changeScene("player_test");
 
 
-	////카메라 테스트 ==================================================================
-	//_player.x = BACKGROUNDX / 2;
-	//_player.y = BACKGROUNDY / 2 + 200;
 
-	//_player.rc = RectMakeCenter(_player.x, _player.y, 50, 100);
-	//CAMERAMANAGER->setCameraCenter(_player.x, _player.y);
-
-
-	////충돌처리로 카메라 흔들기 위해 작성하는 testPlayer======================
-	//_test.x = BACKGROUNDX / 2 + 100;
-	//_test.y = BACKGROUNDY / 2 + 200;
-
-	//_test.rc = RectMakeCenter(_test.x, _test.y, 100, 100);
-	////==============================================================================
 
 	return S_OK;
 }
@@ -74,81 +45,8 @@ void playGround::update()
 
 
 
-	//_map->update();
-	//_player->update();
-	//CAMERAMANAGER->setCameraCenterX((_player->+ _skeleton->getRect().left)/2);
-	//CAMERAMANAGER->setCameraCenterY((_player->getRect().bottom + _skeleton->getRect().top) / 2);
-
 	
 	SCENEMANAGER->update();
-	//_mapTool->update();
-	//_randomMap->update();
-
-	/*
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-	{
-		CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() - TILESIZE);
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-	{
-		CAMERAMANAGER->setCameraX(CAMERAMANAGER->getCameraLEFT() + TILESIZE);
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_UP))
-	{
-		CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() - TILESIZE);
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-	{
-		CAMERAMANAGER->setCameraY(CAMERAMANAGER->getCameraTOP() + TILESIZE);
-	}
-	*/
-
-	////카메라 테스트용================================================================================================================
-	//if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-	//{
-	//	_player.x -= 5;
-	//}
-	//if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-	//{
-	//	_player.x += 5;
-	//}
-
-	//if (KEYMANAGER->isStayKeyDown(VK_UP))
-	//{
-	//	_player.y -= 5;
-	//}
-
-	//if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-	//{
-	//	_player.y += 5;
-	//}
-	//_player.rc = RectMakeCenter(_player.x, _player.y, 50, 100);
-	//_test.rc = RectMakeCenter(_test.x, _test.y, 100, 100);
-
-	//if (KEYMANAGER->isOnceKeyDown(VK_TAB))
-	//{
-	//	if (!CAMERAMANAGER->getSeeLine())
-	//	{
-	//		CAMERAMANAGER->setSeeLine(true);
-	//	}
-	//	else
-	//	{
-	//		CAMERAMANAGER->setSeeLine(false);
-	//	}
-	//}
-
-	////중점 기준으로 이용하고
-	//CAMERAMANAGER->updateCamera(_player.x, _player.y); //플레이어의 중점을 중심으로 움직이는 카메라
-	////CAMERAMANAGER->updateCamera(_player.rc, 0.7, 0.3); //플레이어가 일정 중심이상 나가면 움직임
-	////CAMERAMANAGER->updateCamera(_player.rc, 0.3, 0.7, 0.3, 0.7); //플레이어가 사각형 범위 밖으로 나가면 움직임
-
-	////충돌하면 카메라 흔들기
-	//RECT temp;
-	//if (IntersectRect(&temp, &_player.rc, &_test.rc))
-	//{
-	//	CAMERAMANAGER->vibrateScreen(_player.x, _player.y, 5.0f);	// 5.0f => 진동 세기 
-	//}
-	////============================================================================================================================
 	
 }
 
@@ -160,17 +58,11 @@ void playGround::render()
 
 	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
 	SelectObject(getMemDC(), myPen);
-	//_map->render();
-	//_player->render();
-	//_slime->render();
+	
 	SCENEMANAGER->render();
-	//TIMEMANAGER->render(getMemDC());
-	//SCENEMANAGER->render();
+
 	DeleteObject(myPen);
 
-	//카메라 테스트용
-	//Rectangle(getMemDC(), _player.rc);
-	//Rectangle(getMemDC(), _test.rc);
 	//==================================================
 	//this->getBackBuffer()->render(getHDC(), 0, 0);
 	CAMERAMANAGER->render(this->getBackBuffer(), getHDC());
@@ -239,19 +131,4 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("bomb", "image/item/bomb.bmp", 342, 144, 5, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("bomb_explosion", "image/item/bombExplosion.bmp", 1728, 216, 8, 1, true, RGB(255, 0, 255), true);
 
-	/*
-	//miniMap
-	IMAGEMANAGER->addImage("minimap_door", "image/minimap/minimap_door.bmp", 6, 6, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("minimap_enemy", "image/minimap/minimap_enemy.bmp", 6, 6, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("minimap_item", "image/minimap/minimap_item.bmp", 6, 6, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("minimap_obj_none", "image/minimap/minimap_obj_none.bmp", 6, 6, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("minimap_player", "image/minimap/minimap_player.bmp", 6, 6, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("minimap_shopkeeper", "image/minimap/minimap_shopkeeper.bmp", 6, 6, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("minimap_stair", "image/minimap/minimap_stair.bmp", 6, 6, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("minimap_trap", "image/minimap/minimap_trap.bmp", 6, 6, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("minimap_wall_basic", "image/minimap/minimap_wall_basic.bmp", 6, 6, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("minimap_wall_end", "image/minimap/minimap_wall_end.bmp", 6, 6, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("minimap_wall_gold", "image/minimap/minimap_wall_gold.bmp", 6, 6, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("minimap_wall_stone", "image/minimap/minimap_wall_stone.bmp", 6, 6, true, RGB(255, 0, 255));
-	*/
 }

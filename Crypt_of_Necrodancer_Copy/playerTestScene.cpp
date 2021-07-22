@@ -39,8 +39,9 @@ HRESULT playerTestScene::init()
 	_objectManager->setObjectPlayerMemoryAddressLink(_player);
 
 	//사운드 플레이
-	SOUNDMANAGER->play("zone1-1", 0.5f);
-	SOUNDMANAGER->play("zone1-1_shopkeeper", 0.5f);
+
+	SOUNDMANAGER->play("zone1-1", 0.2f);
+	SOUNDMANAGER->play("zone1-1_shopkeeper", 0.2f);
 	SOUNDMANAGER->setGroup("zone1-1");
 	SOUNDMANAGER->setGroup("zone1-1_shopkeeper");
 
@@ -73,7 +74,6 @@ void playerTestScene::update()
 void playerTestScene::render()
 {
 	_map->render(_player->getTileX(), _player->getTileY(), true);
-	//_player->render();
 	for (int i = _player->getTileY() - VISIONY/2; i <= _player->getTileY() + VISIONY / 2; i++)
 	{
 		if (i < 0) continue;
@@ -89,10 +89,9 @@ void playerTestScene::render()
 	}
 	_em->render();
 	_UIM->renderHeartBeat();
-	_weapon->render();
+	//_weapon->render();
 	_UIM->renderItemHUD();
 
 	_objectManager->render();
 	_player->getBomb()->render();
-	//_map->drawMiniMap();
 }
