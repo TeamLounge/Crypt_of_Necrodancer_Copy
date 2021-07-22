@@ -50,7 +50,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -175,6 +175,7 @@
     <ClInclude Include="longSword.h" />
     <ClInclude Include="mapGenerator.h" />
     <ClInclude Include="mapTool.h" />
+    <ClInclude Include="miniMap.h" />
     <ClInclude Include="money.h" />
     <ClInclude Include="numberUI.h" />
     <ClInclude Include="objectManager.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="longSword.cpp" />
     <ClCompile Include="mapGenerator.cpp" />
     <ClCompile Include="mapTool.cpp" />
+    <ClCompile Include="miniMap.cpp" />
     <ClCompile Include="money.cpp" />
     <ClCompile Include="numberUI.cpp" />
     <ClCompile Include="objectManager.cpp" />

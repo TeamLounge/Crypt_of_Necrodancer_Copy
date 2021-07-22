@@ -25,6 +25,7 @@ public :
 	void release();
 	void update();
 	void render();
+	void render(int tileX, int tileY);
 	void fire(int tileX, int tileY, RECT rc); //ÆøÅºÀ§Ä¡ Å¸ÀÏ·ºÆ®·Î ¹Þ¾Æ¿È
 };
 

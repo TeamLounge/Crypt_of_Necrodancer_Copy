@@ -315,6 +315,9 @@
     <ClInclude Include="bomb.h">
       <Filter>playGround\item</Filter>
     </ClInclude>
+    <ClInclude Include="miniMap.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -511,6 +514,9 @@
     </ClCompile>
     <ClCompile Include="bomb.cpp">
       <Filter>playGround\item</Filter>
+    </ClCompile>
+    <ClCompile Include="miniMap.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

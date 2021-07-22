@@ -161,6 +161,9 @@ void cameraManager::render(image* backBuffer, HDC frontDC)
 		sprintf_s(str, "_isHaveToMove: %d", _isHaveToMove);
 		TextOut(cameraDC, 0, 120, str, strlen(str));
 	}
+
+	MINIMAP->render(cameraDC);
+
 	_cameraBuffer->render(frontDC, 0, 0);
 }
 

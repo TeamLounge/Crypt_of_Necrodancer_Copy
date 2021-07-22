@@ -65,7 +65,8 @@ public:
 	image();
 	~image();
 
-	HRESULT init(int width, int height, bool isBlend = FALSE);
+	HRESULT init(int width, int height);
+	HRESULT init(int width, int height, BOOL trans, COLORREF transColor = FALSE, bool isBlend = FALSE);
 	HRESULT init(const char* fileName, int width, int height,
 		BOOL trans = FALSE, COLORREF transColor = FALSE, bool isBlend = FALSE);
 	HRESULT init(const char* fileName, float x, float y,

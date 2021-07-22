@@ -50,12 +50,13 @@ private:
 
 	float _elapsedSec;
 
+	float _drawStartX, _drawStartY;
+
 public:
 	virtual HRESULT init(int width, int height);
 	virtual void release();
-	virtual void update();
-	virtual void render();
-	virtual void render(int tileX, int tileY);
+	virtual void update(int tileX, int tileY);
+	virtual void render(int tileX, int tileY, bool isTile);
 
 	void generate(int maxFeatures);
 	//방 만들기
@@ -91,6 +92,8 @@ public:
 	void setTorch(); //횃불 놓기
 
 	void testObject(); //함정 테스트 용
+
+	void drawMiniMap();
 
 	//이거 쓰면 벡터가 큰데 그게 복사되서 프레임 떨어짐
 	//vector<vector<tagTile>> getTiles() { return _tiles; }
@@ -140,5 +143,6 @@ public:
 	tagTile* getTile(int tileX, int tileY) { return &_tiles[tileY][tileX]; }
 
 	bool getIsBombFired(int tileX, int tileY) { return _tiles[tileY][tileX].isBombFired; }
+
 };
 

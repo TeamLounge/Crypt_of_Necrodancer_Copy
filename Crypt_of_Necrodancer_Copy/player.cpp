@@ -52,6 +52,10 @@ HRESULT player::init(int tileX, int tileY)
 	//RENDERMANAGER->addObj("player_head", _headImageName.c_str(), _bodyImageName.c_str(), "player_shadow", "player_shadow2", &_headX, &_headY, &_x, &_y, 
 	//	&_shadowX1, &_shadowY1, &_shadowX2, &_shadowY2, true, true, true, &_currentFrameX, &_currentFrameY, &alpha);
 	_isMove = false;
+
+	_bomb = new bomb;
+	_bomb->init();
+
 	return S_OK;
 }
 
@@ -85,26 +89,39 @@ void player::update()
 	}
 	if (!_isMove)
 	{
+		/*
+		if ((KEYMANAGER->isStayKeyDown(VK_LEFT) && KEYMANAGER->isStayKeyDown(VK_DOWN)) || (KEYMANAGER->isStayKeyDown(VK_DOWN) && KEYMANAGER->isStayKeyDown(VK_LEFT)))
+		{
+			_bomb->fire(_tileX, _tileY, _map->getRect(_tileX, _tileY));
+		}
+		*/
 		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 		{
-			_playerDirection = LEFT;
-			OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
-			if (obj == WALL_CRACK || obj == WALL_END
-				|| obj == WALL_STONE
-				|| obj == WALL_GOLD)
+			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 			{
-
-			}
-			else if (obj == WALL_DOOR || obj == WALL_BASIC)
-			{
-				_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
-				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 10.0f);
-				_map->setIsHaveTorch(_tileX - 1, _tileY, false);
+				_bomb->fire(_tileX, _tileY, _map->getRect(_tileX, _tileY));
 			}
 			else
 			{
-				_tileX -= 1;
-				_isMove = true;
+				_playerDirection = LEFT;
+				OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
+				if (obj == WALL_CRACK || obj == WALL_END
+					|| obj == WALL_STONE
+					|| obj == WALL_GOLD)
+				{
+
+				}
+				else if (obj == WALL_DOOR || obj == WALL_BASIC)
+				{
+					_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
+					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+					_map->setIsHaveTorch(_tileX - 1, _tileY, false);
+				}
+				else
+				{
+					_tileX -= 1;
+					_isMove = true;
+				}
 			}
 		}
 		else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
@@ -120,7 +137,7 @@ void player::update()
 			else if (obj == WALL_DOOR || obj == WALL_BASIC)
 			{
 				_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
-				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 10.0f);
+				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
 				_map->setIsHaveTorch(_tileX + 1, _tileY, false);
 			}
 			else
@@ -143,7 +160,7 @@ void player::update()
 			else if (obj == WALL_DOOR || obj == WALL_BASIC)
 			{
 				_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
-				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 10.0f);
+				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
 				_map->setIsHaveTorch(_tileX, _tileY - 1, false);
 			}
 			else
@@ -154,25 +171,32 @@ void player::update()
 		}
 		else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-			_playerDirection = DOWN;
-			OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
-			if (obj == WALL_CRACK || obj == WALL_END
-				|| obj == WALL_GOLD
-				|| obj == WALL_STONE)
+			if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 			{
-
-			}
-			else if (obj == WALL_DOOR || obj == WALL_BASIC)
-			{
-				_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
-				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 10.0f);
-				_map->setIsHaveTorch(_tileX, _tileY + 1, false);
+				_bomb->fire(_tileX, _tileY, _map->getRect(_tileX, _tileY));
 			}
 			else
 			{
-				_tileY += 1;
-				_tileRenderY = _tileY;
-				_isMove = true;
+				_playerDirection = DOWN;
+				OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
+				if (obj == WALL_CRACK || obj == WALL_END
+					|| obj == WALL_GOLD
+					|| obj == WALL_STONE)
+				{
+
+				}
+				else if (obj == WALL_DOOR || obj == WALL_BASIC)
+				{
+					_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
+					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+					_map->setIsHaveTorch(_tileX, _tileY + 1, false);
+				}
+				else
+				{
+					_tileY += 1;
+					_tileRenderY = _tileY;
+					_isMove = true;
+				}
 			}
 		}
 	}
@@ -291,6 +315,9 @@ void player::update()
 		IMAGEMANAGER->findImage(_headImageName)->getFrameHeight());
 
 	_vision->update(_tileX, _tileY);
+
+	_bomb->update();
+
 }
 
 void player::render()
@@ -329,6 +356,7 @@ void player::render(int tileX, int tileY)
 		}
 		//_vision->render();
 	}
+	_bomb->render(tileX, tileY);
 }
 
 void player::setupPlayerRect()

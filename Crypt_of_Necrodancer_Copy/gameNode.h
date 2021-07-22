@@ -29,6 +29,7 @@ enum TERRAIN
 	DIRT1, DIRT2, BOSS, WATER, SHOP, STAIR_BOSS, STAIR_NONE, EMPTY
 };
 
+/*
 enum OBJECT
 {
 	OBJ_NONE, WALL_BASIC, WALL_GOLD, WALL_STONE, WALL_CRACK, WALL_DOOR, WALL_END,
@@ -36,7 +37,7 @@ enum OBJECT
 	TR_FAST, TR_SLOW, TR_JUMP, TR_DOOR, TR_SPIKE, RED_ITEM_BOX, BLACK_ITEM_BOX, BOX, BARREL
 	,ENEMY
 };
-
+*/
 enum CATEGORY
 {
 	CATEGORY_TERRAIN,
@@ -58,7 +59,7 @@ class gameNode
 private:
 	HDC _hdc;
 	bool _managerInit;
-	
+
 public:
 	gameNode();
 	virtual ~gameNode();

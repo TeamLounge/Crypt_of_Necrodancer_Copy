@@ -238,4 +238,20 @@ void playGround::addImage()
 	//item
 	IMAGEMANAGER->addFrameImage("bomb", "image/item/bomb.bmp", 342, 144, 5, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("bomb_explosion", "image/item/bombExplosion.bmp", 1728, 216, 8, 1, true, RGB(255, 0, 255), true);
+
+	/*
+	//miniMap
+	IMAGEMANAGER->addImage("minimap_door", "image/minimap/minimap_door.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap_enemy", "image/minimap/minimap_enemy.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap_item", "image/minimap/minimap_item.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap_obj_none", "image/minimap/minimap_obj_none.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap_player", "image/minimap/minimap_player.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap_shopkeeper", "image/minimap/minimap_shopkeeper.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap_stair", "image/minimap/minimap_stair.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap_trap", "image/minimap/minimap_trap.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap_wall_basic", "image/minimap/minimap_wall_basic.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap_wall_end", "image/minimap/minimap_wall_end.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap_wall_gold", "image/minimap/minimap_wall_gold.bmp", 6, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("minimap_wall_stone", "image/minimap/minimap_wall_stone.bmp", 6, 6, true, RGB(255, 0, 255));
+	*/
 }

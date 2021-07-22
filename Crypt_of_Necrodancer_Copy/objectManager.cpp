@@ -37,6 +37,11 @@ void objectManager::render()
 	_bomb->render();
 }
 
+void objectManager::render(int tileX, int tileY)
+{
+	_bomb->render(tileX, tileY);
+}
+
 void objectManager::playerObjectCollison()
 {
 	switch (_map->getTileObject(_player->getTileX(), _player->getTileY()))

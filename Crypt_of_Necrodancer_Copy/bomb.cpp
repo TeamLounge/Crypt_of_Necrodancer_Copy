@@ -69,12 +69,34 @@ void bomb::render()
 {
 	for (_viBomb = _vBomb.begin(); _viBomb != _vBomb.end(); ++_viBomb)
 	{
+		if (_viBomb->isExplode)
 		IMAGEMANAGER->findImage(_viBomb->imageName)->frameRender(getMemDC(), _viBomb->rc.left, _viBomb->rc.top, _viBomb->currentFrameX, _viBomb->currentFrameY);
+	}
+}
+
+void bomb::render(int tileX, int tileY)
+{
+	for (_viBomb = _vBomb.begin(); _viBomb != _vBomb.end(); ++_viBomb)
+	{
+		if (tileX == _viBomb->tileX && tileY == _viBomb->tileY)
+		{
+			if (!_viBomb->isExplode)
+			{
+				IMAGEMANAGER->findImage(_viBomb->imageName)->frameRender(getMemDC(), _viBomb->rc.left, _viBomb->rc.top, _viBomb->currentFrameX, _viBomb->currentFrameY);
+			}
+		}
 	}
 }
 
 void bomb::fire(int tileX, int tileY, RECT rc)
 {
+	for (int i = 0; i < _vBomb.size(); i++)
+	{
+		if (_vBomb[i].tileX == tileX && _vBomb[i].tileY == tileY)
+		{
+			return;
+		}
+	}
 	tagBomb bomb;
 	ZeroMemory(&bomb, sizeof(tagBomb));
 	bomb.rc = rc;

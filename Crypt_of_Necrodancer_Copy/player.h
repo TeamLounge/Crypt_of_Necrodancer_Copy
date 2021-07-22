@@ -4,6 +4,7 @@
 #include "vision.h"
 #include "randomMap.h"
 #include "enemyManager.h"
+#include "bomb.h"
 
 class weapon;
 class enemyManager;
@@ -46,6 +47,8 @@ private:
 	//링크용
 	weapon* _weapon;
 
+	bomb* _bomb;
+
 public:
 	enemyManager* _em; //에너미 정보 가져오기
 
@@ -76,6 +79,8 @@ public:
 	int getRenderY() { return _tileRenderY; }
 
 	RECT getTileRect() { return _tileRect; }
+
+	bomb* getBomb() { return _bomb; }
 
 	//웨폰링크
 	void setWeaponMemoryAddressLink(weapon* weapon) { _weapon = weapon; }
