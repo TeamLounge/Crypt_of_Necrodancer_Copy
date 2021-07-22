@@ -4,16 +4,17 @@
 
 HRESULT enemyManager::init()
 {
-	setImage();
+	//setImage();
 	setWhiteSkeleton();
 
-	setSlimeGreen();
-	setSlimeGold();
-	setSlimeBlue();
+	//setSlimeGreen();
+	//setSlimeGold();
+	//setSlimeBlue();
 
 	setGreenSkeleton();
 	setBlackSkeleton();
-
+	setGhost();
+	setMimic();
 	return S_OK;
 }
 
@@ -40,6 +41,14 @@ void enemyManager::update()
 	{
 		(*_viBlackSkeleton)->update(_player->getTileX(), _player->getTileY());
 	}
+	for (_viGhost = _vGhost.begin(); _viGhost != _vGhost.end(); ++_viGhost)
+	{
+		(*_viGhost)->update(_player->getTileX(), _player->getTileY());
+	}
+	for (_viMimic = _vMimic.begin(); _viMimic != _vMimic.end(); ++_viMimic)
+	{
+		(*_viMimic)->update(_player->getTileX(), _player->getTileY());
+	}
 }
 
 void enemyManager::render()
@@ -60,6 +69,15 @@ void enemyManager::render()
 	for (_viBlackSkeleton = _vBlackSkeleton.begin(); _viBlackSkeleton != _vBlackSkeleton.end(); ++_viBlackSkeleton)
 	{
 		(*_viBlackSkeleton)->render();
+	}
+
+	for (_viGhost = _vGhost.begin(); _viGhost != _vGhost.end(); ++_viGhost)
+	{
+		(*_viGhost)->render();
+	}
+	for (_viMimic = _vMimic.begin(); _viMimic != _vMimic.end(); ++_viMimic)
+	{
+		(*_viMimic)->render();
 	}
 }
 
@@ -199,28 +217,28 @@ void enemyManager::setBlackSkeleton()
 	}
 }
 
-//void enemyManager::setGhost()
-//{
-//	for (int i = 0; i < 1; i++)
-//	{
-//		ghost* _ghost = new ghost;
-//		_ghost->setTileMapLinK(_map);
-//		_ghost->init(_player->getTileX(), _player->getTileY());
-//		_vGhost.emplace_back(_ghost);
-//	}
-//}
+void enemyManager::setGhost()
+{
+	for (int i = 0; i < 1; i++)
+	{
+		ghost* _ghost = new ghost;
+		_ghost->setTileMapLinK(_map);
+		_ghost->init(_player->getTileX(), _player->getTileY());
+		_vGhost.emplace_back(_ghost);
+	}
+}
 
-//void enemyManager::setMimic()
-//{
-//	for (int i = 0; i < 1; i++)
-//	{
-//		mimic* _mimic = new mimic;
-//		_mimic->setTileMapLinK(_map);
-//		_mimic->init(_player->getTileX(), _player->getTileY());
-//		_vMimic.emplace_back(_skeleton);
-//	}
-//}
-//
+void enemyManager::setMimic()
+{
+	for (int i = 0; i < 1; i++)
+	{
+		mimic* _mimic = new mimic;
+		_mimic->setTileMapLinK(_map);
+		_mimic->init(_player->getTileX(), _player->getTileY());
+		_vMimic.emplace_back(_mimic);
+	}
+}
+
 //void enemyManager::setMonkey()
 //{
 //	for (int i = 0; i < 1; i++)

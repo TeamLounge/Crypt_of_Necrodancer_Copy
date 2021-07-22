@@ -77,19 +77,19 @@ private:
 	//////////////////////////////
 	//	     ∞ÌΩ∫∆Æ&πÃπÕ 		//
 	//////////////////////////////
-	//typedef vector<ghost*>  vGhost;
-	//typedef vector<ghost*>::iterator viGhost;
-	//
-	//typedef vector<mimic*>  vMimic;
-	//typedef vector<mimic*>::iterator viMimic;
-	//
-	//
-	//vGhost _vGhost;
-	//viGhost _viGhost;
-	//
-	//vMimic  _vMimic;
-	//viMimic _viMimic;
-	//
+	typedef vector<ghost*>  vGhost;
+	typedef vector<ghost*>::iterator viGhost;
+	
+	typedef vector<mimic*>  vMimic;
+	typedef vector<mimic*>::iterator viMimic;
+	
+	
+	vGhost _vGhost;
+	viGhost _viGhost;
+	
+	vMimic  _vMimic;
+	viMimic _viMimic;
+	
 	////////////////////////////////
 	////			 ∏¡≈∞	 		//
 	////////////////////////////////
@@ -146,8 +146,8 @@ public:
 	void setWhiteSkeleton();
 	void setGreenSkeleton();
 	void setBlackSkeleton();
-	//void setGhost();
-	//void setMimic();
+	void setGhost();
+	void setMimic();
 	//void setMonkey();
 	//void setMinotaur();
 

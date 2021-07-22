@@ -17,7 +17,7 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 			continue;// 그 방이 플레이어방이거나 상점이면 컨티뉴  
 		_tilex = RND->getFromIntTo(_map->getRoom()[random].x, _map->getRoom()[random].x + _map->getRoom()[random].width);
 		_tiley = RND->getFromIntTo(_map->getRoom()[random].y, _map->getRoom()[random].y + _map->getRoom()[random].height);
-		if (_map->getTileObject(_tilex, _tiley) != OBJ_NONE || _map->getTileTerrain(_tilex, _tiley) != DIRT1)
+		if (_map->getTileObject(_tilex, _tiley) != OBJ_NONE || _map->getTileTerrain(_tilex, _tiley) != DIRT1 || _map->getIsEnemy(_tilex, _tiley))
 			continue; //랜덤하게 찍은 방안의 좌표 중 벽이있어도 컨티뉴
 		break;//// 모든 컨티뉴 지옥에서 벗어낫다면 빠져나오기
 	}
@@ -31,9 +31,7 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 }
 
 void skeleton::update(int playerIndexX , int playerIndexY)
-{
-	_astar->endmove(playerIndexX, playerIndexY);
-	
+{	
 	if (TIMEMANAGER->getWorldTime() - _movingTime >= 1.0f)
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
@@ -60,19 +58,21 @@ void skeleton::update(int playerIndexX , int playerIndexY)
 		}
 	}
 
-
-	for (int y = _tiley - 3; y <= _tiley + 3; y++)
-	{
-		for (int x = _tilex - 3; x <= _tilex + 3; x++)
+	if (!isFind) {
+		for (int y = _tiley - 3; y <= _tiley + 3; y++)
 		{
-			if (x == playerIndexX && y == playerIndexY)
+			for (int x = _tilex - 3; x <= _tilex + 3; x++)
 			{
-				isFind = true;
+				if (x == playerIndexX && y == playerIndexY)
+				{
+					isFind = true;
+				}
 			}
 		}
 	}
-	if (isFind)
+	else
 	{
+		_astar->endmove(playerIndexX, playerIndexY);
 		_astar->update();
 
 		if (_map->getTileObject(_tilex, _tiley) == TR_LEFT)

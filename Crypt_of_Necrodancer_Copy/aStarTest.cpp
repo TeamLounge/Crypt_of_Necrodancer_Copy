@@ -648,8 +648,8 @@ void aStarTest::callPathFinder()
 
 void aStarTest::enemyAttack()
 {
-	if ((_startTile->getIdX() == _endTile->getIdX() && (_startTile->getIdY() + 1 || _startTile->getIdY() - 1)) ||
-		(_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1)))
+	if ((_startTile->getIdX() == _endTile->getIdX() && ( _startTile->getIdY() + 1 == _endTile->getIdY() || _startTile->getIdY() - 1) == _endTile->getIdY()) ||
+		(_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 == _endTile->getIdX() || _startTile->getIdX() - 1) == _endTile->getIdX()))
 	{
 		//hp´Þ°ÔÇÒ²¨¾ç
 		damage = true;
