@@ -26,6 +26,8 @@
 #include "iniDataManager.h"
 //#include "renderManager.h"
 #include "streamManager.h"
+#include "miniMap.h"
+#include <vector>
 
 
 using namespace std;
@@ -44,6 +46,10 @@ using namespace SUNFL_UTIL;
 #define BACKGROUNDY 4096
 #define CAMERAX WINSIZEX
 #define CAMERAY	WINSIZEY
+
+#define VISIONX 21 //중심에서 오른쪽 왼쪽으로 보이는 타일 개수
+#define VISIONY 21 //중심에서 위 아래로 보이는 타일 개수
+
 #define WINSTYLE WS_CAPTION | WS_SYSMENU
 
 #define TILESIZE 72
@@ -61,6 +67,7 @@ using namespace SUNFL_UTIL;
 #define TXTDATA			txtData::getSingleton()
 #define INIDATA			iniDataManager::getSingleton()
 #define STREAMMANAGER	streamManager::getSingleton()
+#define MINIMAP		miniMap::getSingleton()
 
 #define SAFE_DELETE(p) {if(p) {delete(p); (p) = nullptr;}}
 #define SAFE_RELEASE(p) {if(p) {(p)->release(); (p) = NULL;}}

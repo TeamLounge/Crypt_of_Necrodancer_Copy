@@ -3,6 +3,7 @@
 #include "mapGenerator.h"
 #include "player.h"
 #include "enemyManager.h"
+#include "bomb.h"
 
 struct tagPushedObject
 {
@@ -22,11 +23,14 @@ class objectManager : public gameNode
 
 	tagPushedObject _music;
 
+	bomb* _bomb;
+
 public:
 	virtual HRESULT init();
 	virtual void release();
 	virtual void update();
 	virtual void render();
+	virtual void render(int tileX, int tileY);
 
 	void setObjectMapMemoryAddressLink(mapGenerator* map) { _map = map; };
 	void setObjectPlayerMemoryAddressLink(player* player) { _player = player; };

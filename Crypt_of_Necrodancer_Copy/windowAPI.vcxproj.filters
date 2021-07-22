@@ -106,6 +106,18 @@
     <Filter Include="playGround\item\shovel\shovelType">
       <UniqueIdentifier>{a1c3a33e-f78e-4fed-843a-d1ce250a8bbf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\enemy\ghostAndMimic">
+      <UniqueIdentifier>{f74a0f02-ed2b-4aca-86de-9ee2ceddab8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\monkey">
+      <UniqueIdentifier>{ba7f7f8f-f013-4f6f-a2f6-28d2bb492d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\minotaur">
+      <UniqueIdentifier>{c10f12bc-28e3-4292-95b2-9e270dd55b06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\miniMap">
+      <UniqueIdentifier>{48071f4d-3377-4e12-a20c-fd663f2c5d07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -312,6 +324,27 @@
     <ClInclude Include="shovelType.h">
       <Filter>playGround\item\shovel\shovelType</Filter>
     </ClInclude>
+    <ClInclude Include="bomb.h">
+      <Filter>playGround\item</Filter>
+    </ClInclude>
+    <ClInclude Include="ghost.h">
+      <Filter>playGround\enemy\ghostAndMimic</Filter>
+    </ClInclude>
+    <ClInclude Include="ghostAndMinic.h">
+      <Filter>playGround\enemy\ghostAndMimic</Filter>
+    </ClInclude>
+    <ClInclude Include="monkey.h">
+      <Filter>playGround\enemy\monkey</Filter>
+    </ClInclude>
+    <ClInclude Include="mimic.h">
+      <Filter>playGround\enemy\ghostAndMimic</Filter>
+    </ClInclude>
+    <ClInclude Include="minotaur.h">
+      <Filter>playGround\enemy\minotaur</Filter>
+    </ClInclude>
+    <ClInclude Include="miniMap.h">
+      <Filter>2DGameFramework\miniMap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -505,6 +538,27 @@
     </ClCompile>
     <ClCompile Include="shovelType.cpp">
       <Filter>playGround\item\shovel\shovelType</Filter>
+    </ClCompile>
+    <ClCompile Include="bomb.cpp">
+      <Filter>playGround\item</Filter>
+    </ClCompile>
+    <ClCompile Include="ghost.cpp">
+      <Filter>playGround\enemy\ghostAndMimic</Filter>
+    </ClCompile>
+    <ClCompile Include="ghostAndMinic.cpp">
+      <Filter>playGround\enemy\ghostAndMimic</Filter>
+    </ClCompile>
+    <ClCompile Include="monkey.cpp">
+      <Filter>playGround\enemy\monkey</Filter>
+    </ClCompile>
+    <ClCompile Include="mimic.cpp">
+      <Filter>playGround\enemy\ghostAndMimic</Filter>
+    </ClCompile>
+    <ClCompile Include="minotaur.cpp">
+      <Filter>playGround\enemy\minotaur</Filter>
+    </ClCompile>
+    <ClCompile Include="miniMap.cpp">
+      <Filter>2DGameFramework\miniMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

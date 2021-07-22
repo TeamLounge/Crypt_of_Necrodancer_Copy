@@ -19,18 +19,12 @@ HRESULT playGround::init()
 	gameNode::init(true);
 	
 	addImage();
-	addSound();
 
-	//_map = new mapGenerator;
-	//_map->init(70, 70);
-	//_map->generate(7);
-	//_player = new player;
-	//_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
-	//_player->setPlayerMapMemoryAddressLink(_map);
-	//_player->setupPlayerRect();
+
 
 	SCENEMANAGER->addScene("player_test", new playerTestScene);
 	SCENEMANAGER->changeScene("player_test");
+
 
 	return S_OK;
 }
@@ -49,15 +43,9 @@ void playGround::update()
 	gameNode::update();
 
 
-
-	//_map->update();
-	//_player->update();
-	//CAMERAMANAGER->setCameraCenterX((_player->+ _skeleton->getRect().left)/2);
-	//CAMERAMANAGER->setCameraCenterY((_player->getRect().bottom + _skeleton->getRect().top) / 2);
-
 	
 	SCENEMANAGER->update();
-	//_mapTool->update();	
+	
 }
 
 
@@ -68,10 +56,9 @@ void playGround::render()
 
 	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
 	SelectObject(getMemDC(), myPen);
-	//_map->render();
-	//_player->render();
+
 	SCENEMANAGER->render();
-	TIMEMANAGER->render(getMemDC());
+
 	DeleteObject(myPen);
 
 	//==================================================
@@ -100,23 +87,23 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("walls2", "image/object/walls/walls2.bmp", 576, 576, 8, 4, true, RGB(255, 0, 255), true);
 
 	//함정 이미지
-	IMAGEMANAGER->addFrameImage("bomb_trap", "image/object/trapBomb.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("up_trap", "image/object/trapBounceUp.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("down_trap", "image/object/trapBounceDown.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("left_trap", "image/object/trapBounceLeft.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("right_trap", "image/object/trapBounceRight.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("fast_trap", "image/object/trapSpeedUp.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("slow_trap", "image/object/trapSpeedDown.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("jump_trap", "image/object/trapJump.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("door_trap", "image/object/trapDoor.bmp", 138, 108, 2, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("spike_trap", "image/object/trapSpike.bmp", 189, 102, 3, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("bomb_trap", "image/object/trapBomb.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("up_trap", "image/object/trapBounceUp.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("down_trap", "image/object/trapBounceDown.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("left_trap", "image/object/trapBounceLeft.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("right_trap", "image/object/trapBounceRight.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("fast_trap", "image/object/trapSpeedUp.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("slow_trap", "image/object/trapSpeedDown.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("jump_trap", "image/object/trapJump.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("door_trap", "image/object/trapDoor.bmp", 138, 108, 2, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("spike_trap", "image/object/trapSpike.bmp", 189, 102, 3, 2, true, RGB(255, 0, 255), true);
 
 	//그 외 오브젝트
-	IMAGEMANAGER->addFrameImage("red_item_box", "image/object/boxRed.bmp", 144, 60, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("black_item_box", "image/object/boxBlack.bmp", 144, 60, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("box", "image/object/box.bmp", 102, 72, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("barrel", "image/object/barrel.bmp", 120, 72, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("wall_torch", "image/object/walls/wall_torch.bmp", 144, 78, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("red_item_box", "image/object/boxRed.bmp", 144, 60, 2, 1, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("black_item_box", "image/object/boxBlack.bmp", 144, 60, 2, 1, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("box", "image/object/box.bmp", 102, 72, 2, 1, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("barrel", "image/object/barrel.bmp", 120, 72, 2, 1, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("wall_torch", "image/object/walls/wall_torch.bmp", 144, 78, 4, 1, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("wall_torch_black", "image/object/walls/wall_torch_black.bmp", 144, 78, 4, 1, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->findImage("wall_torch")->setFrameX(0);
 	IMAGEMANAGER->findImage("wall_torch")->setFrameY(0);
@@ -137,13 +124,9 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("rapier", "image/item/rapier.bmp", 78, 162, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("longSword", "image/item/longsword.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("spear", "image/item/rapier.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
-}
 
-void playGround::addSound()
-{
-	SOUNDMANAGER->addSound("zone1-2", "music/zone1_2.mp3", true, false);
-	SOUNDMANAGER->addSound("zone1-2_shopkeeper", "music/zone1_2_shopkeeper.ogg", true, false);
-	SOUNDMANAGER->addSound("zone1-3", "music/zone1_3.mp3", true, false);
-	SOUNDMANAGER->addSound("zone1-3_shopkeeper", "music/zone1_3_shopkeeper.ogg", true, false);
-	SOUNDMANAGER->addSound("boss", "music/boss_2.ogg", true, false);
+	//item
+	IMAGEMANAGER->addFrameImage("bomb", "image/item/bomb.bmp", 342, 144, 5, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("bomb_explosion", "image/item/bombExplosion.bmp", 1728, 216, 8, 1, true, RGB(255, 0, 255), true);
+
 }

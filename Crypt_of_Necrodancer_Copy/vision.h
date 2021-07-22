@@ -17,7 +17,7 @@ class vision : public gameNode
 private:
 	int _tileX, _tileY;
 	int _startLightNum;
-	tagVision _visionSearch[21][21];
+	tagVision _visionSearch[VISIONY][VISIONX];
 	mapGenerator* _map;
 
 public :
@@ -39,6 +39,8 @@ public :
 
 	void findTorch();
 
-	void addTorchLight(int x, int y);
+	//void addTorchLight(int x, int y);
+
+	void drawMiniMap();
 };
 

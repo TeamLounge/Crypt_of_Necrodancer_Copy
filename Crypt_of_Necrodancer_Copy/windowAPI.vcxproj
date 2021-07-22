@@ -50,7 +50,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -152,6 +152,7 @@
     <ClInclude Include="aStarTest.h" />
     <ClInclude Include="beatHeart.h" />
     <ClInclude Include="blackSkeleton.h" />
+    <ClInclude Include="bomb.h" />
     <ClInclude Include="broadSword.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="cameraManager.h" />
@@ -162,6 +163,8 @@
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="gameNode.h" />
+    <ClInclude Include="ghost.h" />
+    <ClInclude Include="ghostAndMinic.h" />
     <ClInclude Include="greenSkeleton.h" />
     <ClInclude Include="Heart.h" />
     <ClInclude Include="heartBeat.h" />
@@ -174,7 +177,11 @@
     <ClInclude Include="longSword.h" />
     <ClInclude Include="mapGenerator.h" />
     <ClInclude Include="mapTool.h" />
+    <ClInclude Include="miniMap.h" />
+    <ClInclude Include="mimic.h" />
+    <ClInclude Include="minotaur.h" />
     <ClInclude Include="money.h" />
+    <ClInclude Include="monkey.h" />
     <ClInclude Include="numberUI.h" />
     <ClInclude Include="objectManager.h" />
     <ClInclude Include="player.h" />
@@ -222,6 +229,7 @@
     <ClCompile Include="aStarTest.cpp" />
     <ClCompile Include="beatHeart.cpp" />
     <ClCompile Include="blackSkeleton.cpp" />
+    <ClCompile Include="bomb.cpp" />
     <ClCompile Include="broadSword.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="cameraManager.cpp" />
@@ -231,6 +239,8 @@
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="gameNode.cpp" />
+    <ClCompile Include="ghost.cpp" />
+    <ClCompile Include="ghostAndMinic.cpp" />
     <ClCompile Include="greenSkeleton.cpp" />
     <ClCompile Include="Heart.cpp" />
     <ClCompile Include="heartBeat.cpp" />
@@ -243,7 +253,11 @@
     <ClCompile Include="longSword.cpp" />
     <ClCompile Include="mapGenerator.cpp" />
     <ClCompile Include="mapTool.cpp" />
+    <ClCompile Include="miniMap.cpp" />
+    <ClCompile Include="mimic.cpp" />
+    <ClCompile Include="minotaur.cpp" />
     <ClCompile Include="money.cpp" />
+    <ClCompile Include="monkey.cpp" />
     <ClCompile Include="numberUI.cpp" />
     <ClCompile Include="objectManager.cpp" />
     <ClCompile Include="player.cpp" />

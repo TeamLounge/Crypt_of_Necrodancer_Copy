@@ -1,31 +1,29 @@
 #pragma once
 #include "gameNode.h"
-#include "aStarTest.h"
 #include "mapGenerator.h"
+#include "aStarTest.h"
 
-
-class skeleton : public gameNode
+class ghost : public gameNode
 {
 protected:
-
 	mapGenerator* _map;
 	aStarTest* _astar;
 	PLAYER_ENEMY_DIRECTION _dir;
 
 	image* _img;
 	RECT _rc;
-	
+
 	float _x, _y;
 	float _gravity;
 	int _tilex, _tiley;
 	int _shadowX, _shadowY;
-	int _count, _damageRenderCount,_damageindex, _index , _indey;
+	int _count, _damageRenderCount, _damageindex, _index, _indey;
 	int _hp;
 
-	float _movingTime , _renderTime;
+	float _movingTime, _renderTime;
 
 	bool isFind;
-	bool isTime , isMove;
+	bool isTime, isMove;
 	bool toRender, damageRender;
 public:
 	virtual HRESULT init(int playerIndexX, int playerIndexY);
@@ -33,7 +31,7 @@ public:
 	virtual void release();
 	virtual void render();
 
-	virtual void skeletonMove(bool Time);
+	virtual void GhostMove(bool Time);
 
 	virtual image* getImage() { return _img; }
 	virtual int getX() { return _tilex; }
@@ -52,3 +50,4 @@ public:
 	virtual void setTileMapLinK(mapGenerator* tileMap) { _map = tileMap; }
 	virtual void setHp(int hp) { _hp = hp; }
 };
+

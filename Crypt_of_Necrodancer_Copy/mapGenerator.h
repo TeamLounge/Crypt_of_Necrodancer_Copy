@@ -50,11 +50,13 @@ private:
 
 	float _elapsedSec;
 
+	float _drawStartX, _drawStartY;
+
 public:
 	virtual HRESULT init(int width, int height);
 	virtual void release();
-	virtual void update();
-	virtual void render();
+	virtual void update(int tileX, int tileY);
+	virtual void render(int tileX, int tileY, bool isTile);
 
 	void generate(int maxFeatures);
 	//방 만들기
@@ -91,6 +93,8 @@ public:
 
 	void testObject(); //함정 테스트 용
 
+	void drawMiniMap();
+
 	//이거 쓰면 벡터가 큰데 그게 복사되서 프레임 떨어짐
 	//vector<vector<tagTile>> getTiles() { return _tiles; }
 
@@ -113,9 +117,11 @@ public:
 	}
 	void setIsSeen(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isSeen = b; }
 	void setIsHaveTorch(int tileX, int tileY, bool b){ _tiles[tileY][tileX].isHaveTorch = b; }
-
+	void setIsEnemy(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isEnemy = b; }
 	void setTileObjectFrameX(int tileX, int tileY, int objectFrameX) { _tiles[tileY][tileX].objectFrameX = objectFrameX; }
 	void setTileObjectFrameY(int tileX, int tileY, int objectFrameY) { _tiles[tileY][tileX].objectFrameY = objectFrameY; }
+
+	void setIsBombFired(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isBombFired = b; }
 
 	//접근자
 	bool getIsSeen(int tileX, int tileY) { return _tiles[tileY][tileX].isSeen; }
@@ -131,9 +137,12 @@ public:
 	int getBossRoomY() { return _rooms[_bossRoomIndex].y; }
 
 	bool getIsHaveTorch(int tileX, int tileY) { return _tiles[tileY][tileX].isHaveTorch; }
-
+	bool getIsEnemy(int tileX, int tileY) { return _tiles[tileY][tileX].isEnemy; }
 	int getAlpha(int tileX, int tileY) { return _tiles[tileY][tileX].alpha; }
 	
 	tagTile* getTile(int tileX, int tileY) { return &_tiles[tileY][tileX]; }
+
+	bool getIsBombFired(int tileX, int tileY) { return _tiles[tileY][tileX].isBombFired; }
+
 };
 

@@ -16,7 +16,35 @@ image::~image()
 {
 }
 
-HRESULT image::init(int width, int height, bool isBlend)
+HRESULT image::init(int width, int height)
+{
+	if (_imageInfo != NULL) release();
+
+	_isBlend = false;
+
+	HDC hdc = GetDC(_hWnd);
+
+	_imageInfo = new IMAGE_INFO;
+	_imageInfo->hMemDC = CreateCompatibleDC(hdc); //빈 DC영역 생성해줌
+	_imageInfo->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, width, height);
+	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDC, _imageInfo->hBit);
+	_imageInfo->width = width;
+	_imageInfo->height = height;
+
+	//위에 초기화를 제대로했는데 잘 안됐다면?
+	if (_imageInfo == nullptr)
+	{
+		release();
+
+		return E_FAIL;
+	}
+
+	ReleaseDC(_hWnd, hdc);
+
+	return S_OK;
+}
+
+HRESULT image::init(int width, int height, BOOL trans, COLORREF transColor, bool isBlend)
 {
 	if (_imageInfo != NULL) release();
 
@@ -30,6 +58,9 @@ HRESULT image::init(int width, int height, bool isBlend)
 	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDC, _imageInfo->hBit);
 	_imageInfo->width = width;
 	_imageInfo->height = height;
+
+	_trans = trans;
+	_transColor = transColor;
 
 	if (_isBlend)
 	{
