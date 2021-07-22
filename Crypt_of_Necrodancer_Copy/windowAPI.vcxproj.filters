@@ -106,6 +106,15 @@
     <Filter Include="playGround\item\shovel\shovelType">
       <UniqueIdentifier>{a1c3a33e-f78e-4fed-843a-d1ce250a8bbf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\enemy\ghost&amp;mimic">
+      <UniqueIdentifier>{7d68d603-6310-4bff-b5dd-c67f67aef1f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\minotaur">
+      <UniqueIdentifier>{cfb5add5-9a78-4917-b664-1a0f9929c347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy\monkey">
+      <UniqueIdentifier>{50b0130e-d794-4a5a-a31a-feecf4c1e3ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -312,6 +321,21 @@
     <ClInclude Include="shovelType.h">
       <Filter>playGround\item\shovel\shovelType</Filter>
     </ClInclude>
+    <ClInclude Include="ghostAndMinic.h">
+      <Filter>playGround\enemy\ghost&amp;mimic</Filter>
+    </ClInclude>
+    <ClInclude Include="ghost.h">
+      <Filter>playGround\enemy\ghost&amp;mimic</Filter>
+    </ClInclude>
+    <ClInclude Include="mimic.h">
+      <Filter>playGround\enemy\ghost&amp;mimic</Filter>
+    </ClInclude>
+    <ClInclude Include="minotaur.h">
+      <Filter>playGround\enemy\minotaur</Filter>
+    </ClInclude>
+    <ClInclude Include="monkey.h">
+      <Filter>playGround\enemy\monkey</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -505,6 +529,21 @@
     </ClCompile>
     <ClCompile Include="shovelType.cpp">
       <Filter>playGround\item\shovel\shovelType</Filter>
+    </ClCompile>
+    <ClCompile Include="ghostAndMinic.cpp">
+      <Filter>playGround\enemy\ghost&amp;mimic</Filter>
+    </ClCompile>
+    <ClCompile Include="ghost.cpp">
+      <Filter>playGround\enemy\ghost&amp;mimic</Filter>
+    </ClCompile>
+    <ClCompile Include="mimic.cpp">
+      <Filter>playGround\enemy\ghost&amp;mimic</Filter>
+    </ClCompile>
+    <ClCompile Include="minotaur.cpp">
+      <Filter>playGround\enemy\minotaur</Filter>
+    </ClCompile>
+    <ClCompile Include="monkey.cpp">
+      <Filter>playGround\enemy\monkey</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

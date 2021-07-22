@@ -6,6 +6,7 @@ HRESULT whiteSkeleton::init(int playerIndexX, int playerIndexY)
 
 	skeleton::init(playerIndexX, playerIndexY);
 	_renderTime = _movingTime = TIMEMANAGER->getWorldTime();
+	_hp = 1;
 	_img = IMAGEMANAGER->findImage("whiteSkeleton");
 	_img->setFrameY(0);
 	return S_OK;

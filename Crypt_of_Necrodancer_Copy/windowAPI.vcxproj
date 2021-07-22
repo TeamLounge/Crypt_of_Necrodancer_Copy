@@ -162,6 +162,8 @@
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="gameNode.h" />
+    <ClInclude Include="ghost.h" />
+    <ClInclude Include="ghostAndMinic.h" />
     <ClInclude Include="greenSkeleton.h" />
     <ClInclude Include="Heart.h" />
     <ClInclude Include="heartBeat.h" />
@@ -174,7 +176,10 @@
     <ClInclude Include="longSword.h" />
     <ClInclude Include="mapGenerator.h" />
     <ClInclude Include="mapTool.h" />
+    <ClInclude Include="mimic.h" />
+    <ClInclude Include="minotaur.h" />
     <ClInclude Include="money.h" />
+    <ClInclude Include="monkey.h" />
     <ClInclude Include="numberUI.h" />
     <ClInclude Include="objectManager.h" />
     <ClInclude Include="player.h" />
@@ -231,6 +236,8 @@
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="gameNode.cpp" />
+    <ClCompile Include="ghost.cpp" />
+    <ClCompile Include="ghostAndMinic.cpp" />
     <ClCompile Include="greenSkeleton.cpp" />
     <ClCompile Include="Heart.cpp" />
     <ClCompile Include="heartBeat.cpp" />
@@ -243,7 +250,10 @@
     <ClCompile Include="longSword.cpp" />
     <ClCompile Include="mapGenerator.cpp" />
     <ClCompile Include="mapTool.cpp" />
+    <ClCompile Include="mimic.cpp" />
+    <ClCompile Include="minotaur.cpp" />
     <ClCompile Include="money.cpp" />
+    <ClCompile Include="monkey.cpp" />
     <ClCompile Include="numberUI.cpp" />
     <ClCompile Include="objectManager.cpp" />
     <ClCompile Include="player.cpp" />

@@ -191,13 +191,18 @@ void skeleton::skeletonMove(bool Time)
 		_map->setIsEnemy(_tilex, _tiley,false);
 		if (_astar->getCloseListsize() != 0)
 		{
-			_tilex = _astar->getClosebackX();
-			_tiley = _astar->getClosebackY();
+			if (!(_map->getTileObject(_astar->getClosebackX(), _astar->getClosebackY()) == WALL_DOOR ||
+				_map->getIsEnemy(_astar->getClosebackX(), _astar->getClosebackY())))
+			{
+				_tilex = _astar->getClosebackX();
+				_tiley = _astar->getClosebackY();
+			}
 		}
 		else if (_astar->getCloseListsize() == 0)
 		{
 			_astar->enemyAttack();
 		}
+		
 		_rc = _map->getRect(_tilex, _tiley);
 		if (pastY == _tiley && _tilex - pastX == -1)
 		{
@@ -223,45 +228,4 @@ void skeleton::skeletonMove(bool Time)
 		_map->setIsEnemy(_tilex, _tiley, true);
 		isMove = true;
 	}
-}
-
-void skeleton::skeletonTrap()
-{
-	int pastX = _tilex;
-	int pastY = _tiley;
-	_map->setIsEnemy(_tilex, _tiley, false);
-	if (_astar->getCloseListsize() != 0)
-	{
-		_tilex = _astar->getClosebackX();
-		_tiley = _astar->getClosebackY();
-	}
-	else if (_astar->getCloseListsize() == 0)
-	{
-		_astar->enemyAttack();
-	}
-	_rc = _map->getRect(_tilex, _tiley);
-	if (pastY == _tiley && _tilex - pastX == -1)
-	{
-		_dir = LEFT;
-	}
-	else if (pastY == _tiley && _tilex - pastX == 1)
-	{
-		_dir = RIGHT;
-	}
-	else if (pastX == _tilex && _tiley - pastY == -1)
-	{
-		_dir = UP;
-	}
-	else if (pastX == _tilex && _tiley - pastY == 1)
-	{
-		_dir = DOWN;
-	}
-	else if (_tilex == pastX && _tiley == pastY)
-	{
-		_dir = NONE;
-	}
-	_astar->move(_tilex, _tiley);
-	_map->setIsEnemy(_tilex, _tiley, true);
-	isMove = true;
-
 }
