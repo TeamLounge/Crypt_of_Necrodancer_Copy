@@ -33,10 +33,10 @@ HRESULT playerTestScene::init()
 	_UIM->setItemHUD();
 
 	//오브젝트
-	//_objectManager = new objectManager;
-	//_objectManager->init();
-	//_objectManager->setObjectMapMemoryAddressLink(_map);
-	//_objectManager->setObjectPlayerMemoryAddressLink(_player);
+	_objectManager = new objectManager;
+	_objectManager->init();
+	_objectManager->setObjectMapMemoryAddressLink(_map);
+	_objectManager->setObjectPlayerMemoryAddressLink(_player);
 
 	//사운드 플레이
 	SOUNDMANAGER->play("zone1-1", 0.5f);
@@ -65,7 +65,7 @@ void playerTestScene::update()
 	//RENDERMANAGER->update();
 	_em->update();
 	_UIM->updaetHeartBeat(3.0f);
-	//_objectManager->update();
+	_objectManager->update();
 	_weapon->update();
 	_UIM->updateItemHUD();
 }
@@ -84,7 +84,7 @@ void playerTestScene::render()
 			if (j >= _map->getXSize()) break;
 			_map->render(j, i, false);
 			_player->render(j, i);
-			//_objectManager->render(j, i);
+			_objectManager->render(j, i);
 		}
 	}
 	_em->render();
@@ -92,7 +92,7 @@ void playerTestScene::render()
 	_weapon->render();
 	_UIM->renderItemHUD();
 
-	//_objectManager->render();
+	_objectManager->render();
 	_player->getBomb()->render();
 	//_map->drawMiniMap();
 }
