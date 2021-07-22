@@ -39,8 +39,8 @@ HRESULT playerTestScene::init()
 	_objectManager->setObjectPlayerMemoryAddressLink(_player);
 
 	//사운드 플레이
-	SOUNDMANAGER->play("zone1-1", 0.8f);
-	SOUNDMANAGER->play("zone1-1_shopkeeper", 0.8f);
+	SOUNDMANAGER->play("zone1-1", 0.1f);
+	SOUNDMANAGER->play("zone1-1_shopkeeper", 0.1f);
 	SOUNDMANAGER->setGroup("zone1-1");
 	SOUNDMANAGER->setGroup("zone1-1_shopkeeper");
 

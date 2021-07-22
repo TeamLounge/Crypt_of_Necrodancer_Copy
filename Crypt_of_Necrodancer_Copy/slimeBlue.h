@@ -7,5 +7,8 @@ class slimeBlue :public slime
 	virtual void update();
 	virtual void release();
 	virtual void render();
+
+	virtual void setImage();
+	virtual void setSlimeFrame();
 };
 

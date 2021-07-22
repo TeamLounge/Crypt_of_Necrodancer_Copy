@@ -14,14 +14,21 @@ protected:
 	image * _img;
 	RECT _rc;
 
-	float _x, _y;	//중점 좌표로
+	float _x, _y;	//중점 좌표로 //플레이어 몸통 중심 좌표
+	int _tileX; //현재 있는 타일 x인덱스
+	int _tileY; //현재 있는 타일 y인덱스
+	int _tileRenderX;	//이전 함정 값 가져와서 렌더하기 위함(이전꺼 저장해둬.. 그러지 않으면 함정 밟아도 함정이 플레이어보다 위에 렌더될 것)
+	int _tileRenderY;
 	float _shadowX, _shadowY;
+
+
 	int _hp;
 
-	int _count;
-	int _index;
+	int _frameCount;
+	int _frameIndex;
 	int _currentFrameX, _currentFrameY;
 	float _elapsedSec; //프레임 움직임 위함
+	float _worldTime;
 
 	float _gravity;
 	float _jumpPower;
@@ -35,9 +42,9 @@ public:
 	virtual void update();
 	virtual void render();
 
+	virtual void setArrangement();
 	virtual void slimeMove();
 
-	void setImage();		//slime들 이미지 set
 
 	//get
 	///////////////////////////////////////////////
@@ -48,6 +55,10 @@ public:
 	virtual image * getImage() { return _img; }
 	inline RECT getRect() { return _rc; }
 
+	virtual int getCurrentFrameX() { return _currentFrameX; }
+	virtual int getCurrentFrameY() { return _currentFrameY; }
+
+
 	//set
 	///////////////////////////////////////////////
 	virtual void setX(float x) { _x = x; }
@@ -56,6 +67,10 @@ public:
 	virtual void setShadowY(float shadowY) { _shadowY = shadowY; }
 	virtual void setImage(image * image) { _img = image; }
 	virtual void setTileMapLink(mapGenerator* tileMap) { _map = tileMap; }
+
+	virtual void setCurrentFrameX(int currentX) { _currentFrameX = currentX; }
+	virtual void setCurrentFrameY(int currentY) { _currentFrameY = currentY; }
+
 	//virtual void setRect(RECT rc) { _rc = rc; }
 };
 

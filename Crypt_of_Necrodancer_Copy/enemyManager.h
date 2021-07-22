@@ -40,6 +40,10 @@ private:
 	vSlimeGold				_vSlimeGold;
 	viSlimeGold				_viSlimeGold;
 
+	//////////////////////////////
+	//			½ºÄÌ·¹Åæ			//
+	//////////////////////////////
+
 	vector<whiteSkeleton*> _vWitheSkeleton;
 	vector<whiteSkeleton*>::iterator _viWitheSkeleton;
 public:
@@ -53,8 +57,21 @@ public:
 
 	void setWhiteSkeleton();
 
+	void setSlimeGreen();
+	void updateSlimeGreen();
+	void renderSlimeGreen();
+
+	void setSlimeGold();
+	void updateSlimeGold();
+	void renderSlimeGold();
+
+	void setSlimeBlue();
+	void updateSlimeBlue();
+	void renderSlimeBlue();
+
 	void setMapGeneratorMemoryAddressLink(mapGenerator* map) {_map = map;}
 	void setPlayerMemoryAddressLink(player* player) { _player = player; }
+
 	vector<slimeGreen*> getVSlimeGreen() { return _vSlimeGreen; }
 	vector<slimeGreen*>::iterator getVISlimeGreen() { return _viSlimeGreen; }
 

@@ -7,5 +7,8 @@ class slimeGold :public slime
 	virtual void update();
 	virtual void release();
 	virtual void render();
+
+	virtual void setImage();
+	virtual void setSlimeFrame();
 };
 
