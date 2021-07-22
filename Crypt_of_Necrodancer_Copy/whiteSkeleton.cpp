@@ -159,7 +159,7 @@ void whiteSkeleton::update(int playerIndexX, int playerIndexY)
 			break;
 		}
 	}
-	if (playerIndexX > _tilex)
+	if (playerIndexX < _tilex)
 	{
 		_indey = 0;
 	}

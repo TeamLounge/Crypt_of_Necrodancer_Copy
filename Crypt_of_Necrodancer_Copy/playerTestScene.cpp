@@ -188,6 +188,6 @@ void playerTestScene::render()
 	*/
 	_em->render();
 	_UIM->renderHeartBeat();
-	_weapon->render();
+	//_weapon->render();
 	_UIM->renderItemHUD();
 }

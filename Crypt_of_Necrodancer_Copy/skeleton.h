@@ -34,6 +34,7 @@ public:
 	virtual void render();
 
 	virtual void skeletonMove(bool Time);
+	virtual void skeletonTrap();
 
 	virtual image* getImage() { return _img; }
 	virtual int getX() { return _tilex; }
@@ -42,6 +43,8 @@ public:
 	virtual int getShadowX() { return _shadowX; }
 	virtual int getShadowY() { return _shadowY; }
 	
+
+
 	virtual void setImage(image* image) { _img = image; }
 	virtual void setX(int x) { _tilex = x; }
 	virtual void setY(int y) { _tiley = y; }
