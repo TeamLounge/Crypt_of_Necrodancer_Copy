@@ -25,7 +25,7 @@ protected:
 	float _movingTime , _renderTime;
 
 	bool isFind;
-	bool isTime;
+	bool isTime , isMove;
 	bool toRender, damageRender;
 public:
 	virtual HRESULT init(int playerIndexX, int playerIndexY);
@@ -33,7 +33,7 @@ public:
 	virtual void release();
 	virtual void render();
 
-	virtual void skeletonMove();
+	virtual void skeletonMove(bool Time);
 
 	virtual image* getImage() { return _img; }
 	virtual int getX() { return _tilex; }

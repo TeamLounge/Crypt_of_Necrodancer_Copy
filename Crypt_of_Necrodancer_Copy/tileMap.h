@@ -16,6 +16,7 @@ struct tagTile
 	bool isHaveTorch;
 	int alpha;
 	bool isSeen;
+	bool isEnemy = false;
 };
 
 class tileMap : public gameNode

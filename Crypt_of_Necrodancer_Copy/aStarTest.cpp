@@ -30,26 +30,27 @@ void aStarTest::release()
 
 }
 
-void aStarTest::update(bool istime)
+void aStarTest::update()
 {
 	
 	if (ismove)
 	{
 		pathFinder(_startTile);
+		ismove = false;
 	}
 	
-	if (_start)
-	{
-		if(istime)
-			startmove();
-	}
+	//if (_start)
+	//{
+	//	if (istime)
+	//		start();
+	//}
 }
 
 void aStarTest::render()
 {
-	for (int i = 0; i < _vCloseList.size(); ++i)
+	for (int i = 0; i < _vTotalList.size(); ++i)
 	{
-		_vCloseList[i]->render();
+		_vTotalList[i]->render();
 	}
 	if (damage)
 	{
@@ -393,7 +394,6 @@ void aStarTest::pathFinder(tile * currentTile)
 			_vOpenList.clear();
 			_currentTile->setColor(RGB(22, 14, 128));
 			_currentTile = _currentTile->getParentNode();
-			
 			_start = true;
 		}
 		return;
@@ -419,7 +419,6 @@ void aStarTest::endmove(int playerIndexX, int playerIndexY)
 {
 	RECT rc;
 	tile* node;
-	ismove = false;
 	if (_endTile->getIdX() != playerIndexX || _endTile->getIdY() != playerIndexY)
 	{
 		ismove = true;
@@ -465,74 +464,67 @@ void aStarTest::endmove(int playerIndexX, int playerIndexY)
 	}
 }
 
-void aStarTest::startmove()
+void aStarTest::start()
 {
 	
-	if (_vCloseList.size() != 0 && _map->getTileObject(_vCloseList.back()->getIdX(), _vCloseList.back()->getIdY()) == OBJ_NONE )
-	{
-		RECT rc;
-		tile* node = new tile;
-		node->setLinkRandomMap(_map);
-		node->init(_startTile->getIdX(), _startTile->getIdY());
-		_startTile->setIdX(_vCloseList.back()->getIdX());
-		_startTile->setIdY(_vCloseList.back()->getIdY());
-		rc = _map->getRect(_startTile->getIdX(), _startTile->getIdY());
-		_startTile->setCetner(PointMake((rc.left + rc.right) / 2, (rc.bottom + rc.top) / 2));
-		_startTile->setRect(rc);
-		_vTotalList.erase(_vTotalList.begin() + (node->getIdY()*_TotaltileX + node->getIdX()));
-		_vTotalList.insert(_vTotalList.begin() + (node->getIdY()*_TotaltileX + node->getIdX()), node);
-		_vTotalList.erase(_vTotalList.begin() + (_vCloseList.back()->getIdY()*_TotaltileX + _vCloseList.back()->getIdX()));
-		_vTotalList.insert(_vTotalList.begin() + (_vCloseList.back()->getIdY()*_TotaltileX + _vCloseList.back()->getIdX()), _startTile);
-		if (_vCloseList.size() >= 1)
+	if (_vCloseList.size() != 0) {
+		if (!(_map->getTileObject(_vCloseList.back()->getIdX(), _vCloseList.back()->getIdY()) == WALL_BASIC ||
+			_map->getTileObject(_vCloseList.back()->getIdX(), _vCloseList.back()->getIdY()) == WALL_GOLD ||
+			_map->getTileObject(_vCloseList.back()->getIdX(), _vCloseList.back()->getIdY()) == WALL_STONE ||
+			_map->getTileObject(_vCloseList.back()->getIdX(), _vCloseList.back()->getIdY()) == WALL_DOOR))
 		{
-			_damagecount = 0;
-			_vCloseList.erase(_vCloseList.end() - 1);
-		}
-		if (_vCloseList.size() == 0)
-		{
-			if (_startTile->getIdX() == _endTile->getIdX())
+			move(_vCloseList.back()->getIdX(), _vCloseList.back()->getIdY());
+			if (_vCloseList.size() >= 1)
 			{
-				if (_endTile->getIdY() == _startTile->getIdY() + 1)
-				{
-					//hp´Þ°ÔÇÒ²¨¾ç
-					_damagecount++;
-					if (_damagecount > 1)
-					{
-						damage = true;
-						_dir = DOWN;
-					}
-				}
-				else if (_endTile->getIdY() == _startTile->getIdY() - 1)
-				{
-					//hp´Þ°ÔÇÒ²¨¾ç
-					_damagecount++;
-					if (_damagecount > 1)
-					{
-						damage = true;
-						_dir = UP;
-					}
-				}
+				_damagecount = 0;
+				_vCloseList.erase(_vCloseList.end() - 1);
 			}
-			else if (_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1))
+			if (_vCloseList.size() == 0)
 			{
-				if (_endTile->getIdX() == _startTile->getIdX() + 1)
+				if (_startTile->getIdX() == _endTile->getIdX())
 				{
-					//hp´Þ°ÔÇÒ²¨¾ç
-					_damagecount++;
-					if (_damagecount > 1)
+					if (_endTile->getIdY() == _startTile->getIdY() + 1)
 					{
-						damage = true;
-						_dir = RIGHT;
+						//hp´Þ°ÔÇÒ²¨¾ç
+						_damagecount++;
+						if (_damagecount > 1)
+						{
+							damage = true;
+							_dir = DOWN;
+						}
+					}
+					else if (_endTile->getIdY() == _startTile->getIdY() - 1)
+					{
+						//hp´Þ°ÔÇÒ²¨¾ç
+						_damagecount++;
+						if (_damagecount > 1)
+						{
+							damage = true;
+							_dir = UP;
+						}
 					}
 				}
-				else if (_endTile->getIdX() == _startTile->getIdX() - 1)
+				else if (_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1))
 				{
-					//hp´Þ°ÔÇÒ²¨¾ç
-					_damagecount++;
-					if (_damagecount > 1)
+					if (_endTile->getIdX() == _startTile->getIdX() + 1)
 					{
-						damage = true;
-						_dir = LEFT;
+						//hp´Þ°ÔÇÒ²¨¾ç
+						_damagecount++;
+						if (_damagecount > 1)
+						{
+							damage = true;
+							_dir = RIGHT;
+						}
+					}
+					else if (_endTile->getIdX() == _startTile->getIdX() - 1)
+					{
+						//hp´Þ°ÔÇÒ²¨¾ç
+						_damagecount++;
+						if (_damagecount > 1)
+						{
+							damage = true;
+							_dir = LEFT;
+						}
 					}
 				}
 			}
@@ -574,4 +566,118 @@ void aStarTest::startmove()
 		}
 	}
 	
+}
+
+void aStarTest::move(int X, int Y)
+{
+	RECT rc;
+	tile* node = new tile;
+	node->setLinkRandomMap(_map);
+	node->init(_startTile->getIdX(), _startTile->getIdY());
+	_startTile->setIdX(X);
+	_startTile->setIdY(Y);
+	rc = _map->getRect(_startTile->getIdX(), _startTile->getIdY());
+	_startTile->setCetner(PointMake((rc.left + rc.right) / 2, (rc.bottom + rc.top) / 2));
+	_startTile->setRect(rc);
+	_vTotalList.erase(_vTotalList.begin() + (node->getIdY()*_TotaltileX + node->getIdX()));
+	_vTotalList.insert(_vTotalList.begin() + (node->getIdY()*_TotaltileX + node->getIdX()), node);
+	_vTotalList.erase(_vTotalList.begin() + (Y*_TotaltileX + X));
+	_vTotalList.insert(_vTotalList.begin() + (Y*_TotaltileX + X), _startTile);
+	if (_vCloseList.size() >= 1)
+	{
+		_damagecount = 0;
+		_vCloseList.erase(_vCloseList.end() - 1);
+	}
+	if (_vCloseList.size() == 0)
+	{
+		if (_startTile->getIdX() == _endTile->getIdX())
+		{
+			if (_endTile->getIdY() == _startTile->getIdY() + 1)
+			{
+				//hp´Þ°ÔÇÒ²¨¾ç
+				_damagecount++;
+				if (_damagecount > 1)
+				{
+					damage = true;
+					_dir = DOWN;
+				}
+			}
+			else if (_endTile->getIdY() == _startTile->getIdY() - 1)
+			{
+				//hp´Þ°ÔÇÒ²¨¾ç
+				_damagecount++;
+				if (_damagecount > 1)
+				{
+					damage = true;
+					_dir = UP;
+				}
+			}
+		}
+		else if (_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1))
+		{
+			if (_endTile->getIdX() == _startTile->getIdX() + 1)
+			{
+				//hp´Þ°ÔÇÒ²¨¾ç
+				_damagecount++;
+				if (_damagecount > 1)
+				{
+					damage = true;
+					_dir = RIGHT;
+				}
+			}
+			else if (_endTile->getIdX() == _startTile->getIdX() - 1)
+			{
+				//hp´Þ°ÔÇÒ²¨¾ç
+				_damagecount++;
+				if (_damagecount > 1)
+				{
+					damage = true;
+					_dir = LEFT;
+				}
+			}
+		}
+	}
+}
+
+void aStarTest::callPathFinder()
+{
+	_vCloseList.clear();
+	_vOpenList.clear();
+	pathFinder(_startTile);
+}
+
+void aStarTest::enemyAttack()
+{
+	if ((_startTile->getIdX() == _endTile->getIdX() && (_startTile->getIdY() + 1 || _startTile->getIdY() - 1)) ||
+		(_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1)))
+	{
+		//hp´Þ°ÔÇÒ²¨¾ç
+		damage = true;
+		if (_startTile->getIdX() == _endTile->getIdX())
+		{
+			if (_endTile->getIdY() == _startTile->getIdY() + 1)
+			{
+
+				_dir = DOWN;
+			}
+			else if (_endTile->getIdY() == _startTile->getIdY() - 1)
+			{
+
+				_dir = UP;
+			}
+		}
+		else if (_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1))
+		{
+			if (_endTile->getIdX() == _startTile->getIdX() + 1)
+			{
+				_dir = RIGHT;
+
+			}
+			else if (_endTile->getIdX() == _startTile->getIdX() - 1)
+			{
+				_dir = LEFT;
+
+			}
+		}
+	}
 }

@@ -40,7 +40,7 @@ public:
 
 	HRESULT init(int enemyX, int enemyY, int playerX, int playerY);
 	void release();
-	void update(bool istime);
+	void update();
 	void render();
 	//타일 셋팅 함수
 	void setTile(int enemyX, int enemyY, int playerX, int playerY);
@@ -49,14 +49,25 @@ public:
 	//길 찾는 함수
 	void pathFinder(tile* currentTile);
 	void endmove(int playerIndexX, int playerIndexY);
-	void startmove();
+	void start();
+	void move(int X ,int Y);
+	void callPathFinder();
+	void enemyAttack();
+
 	void setLinkrandomMap(mapGenerator* map) { _map = map; }
 
+	//겟터
 	int getEnemyTileX() { return _startTile->getIdX(); }
 	int getEnemyTileY() { return _startTile->getIdY(); }
 	bool getDamage() { return damage; }
+	bool getStart() { return _start; }
 	PLAYER_ENEMY_DIRECTION getDirection() { return _dir; };
+	int getCloseListsize() { return _vCloseList.size(); }
+	int getClosebackX() { return _vCloseList.back()->getIdX(); }
+	int getClosebackY() { return _vCloseList.back()->getIdY(); }
 
+
+	//셋터
 	void setDamage(bool _damage) { damage = _damage; }
 };
 
