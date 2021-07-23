@@ -356,3 +356,8 @@ void player::setupPlayerRect()
 	//카메라 설정
 	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 }
+
+void player::shopkeeperSound()
+{
+	
+}
