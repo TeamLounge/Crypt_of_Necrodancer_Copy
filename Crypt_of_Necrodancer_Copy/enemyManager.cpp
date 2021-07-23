@@ -32,7 +32,7 @@ void enemyManager::update()
 	updateMimic();
 	updateGhost();
 	updateSlimeGreen();
-	//updateSlimeGold();
+	updateSlimeGold();
 	updateSlimeBlue();
 	updateMonkeyBasic();
 	updateMonkeyWhite();
@@ -48,7 +48,7 @@ void enemyManager::render()
 	renderMimic();
 	renderGhost();
 	renderSlimeGreen();
-	//renderSlimeGold();
+	renderSlimeGold();
 	renderSlimeBlue();
 	renderMonkeyBasic();
 	renderMonkeyWhite();

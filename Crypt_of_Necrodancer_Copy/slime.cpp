@@ -12,11 +12,7 @@ HRESULT slime::init()
 	_isMove = false;		//시작하자마자 움직여
 	_isTime = false;
 
-	_isMoveUp = false;		//위, 아래
-	_isMoveRight = false;	//좌, 우
-
 	_gravity = 0;
-	_jumpPower = 0;
 
 	_worldTime = TIMEMANAGER->getWorldTime();
 

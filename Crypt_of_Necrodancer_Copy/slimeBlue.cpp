@@ -11,7 +11,7 @@ HRESULT slimeBlue::init()
 	_img->setFrameY(RND->getFromIntTo(0, 1));
 	_map->setIsEnemy(_tileX, _tileY, true);	//에너미 타일 속성 ON
 
-	_isMoveUp = true;
+	_direction = UP;
 
 	return S_OK;
 }
@@ -80,21 +80,23 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 
 		if (!_isMove)
 		{
-			if (_isMoveUp)
+			switch (_direction)
 			{
+			case UP:
 				_isMove = true;
 				_tileY -= 1;
 
 				_rc = _map->getRect(_tileX, _tileY);
 				_map->setIsEnemy(_tileX, _tileY, true);
-			}
-			else
-			{
+				break;
+
+			case DOWN:
 				_isMove = true;
 				_tileY += 1;
 
 				_rc = _map->getRect(_tileX, _tileY);
 				_map->setIsEnemy(_tileX, _tileY, true);
+				break;
 			}
 		}
 	}
@@ -114,29 +116,31 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 	//점프 & 움직임
 	if (_isMove)
 	{
-		if (_isMoveUp)
+		switch (_direction)
 		{
+		case UP:
 			_gravity += 0.2f;
 			_y += -sinf(PI / 2) * 9 + _gravity;
 			if (_y <= _rc.top - (_rc.bottom - _rc.top) / 2)
 			{
 				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 				_isMove = false;
-				_isMoveUp = false;
+				_direction = DOWN;
 				_gravity = 0;
 			}
-		}
-		else
-		{
+			break;
+
+		case DOWN:
 			_gravity += 1.2f;
 			_y += -sinf(PI / 2) + _gravity;
 			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
 			{
 				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 				_isMove = false;
-				_isMoveUp = true;
+				_direction = UP;
 				_gravity = 0;
 			}
+			break;
 		}
 	}
 

@@ -27,13 +27,8 @@ protected:
 	float _worldTime, _movingTime, _renderTime;
 
 	float _gravity;
-	float _jumpPower;
-
 
 	bool _isMove;	//움직여?
-	//사방으로 움직임
-	bool _isMoveUp;
-	bool _isMoveRight;
 
 	bool _isTime;
 	bool _toRender, _damageRender;

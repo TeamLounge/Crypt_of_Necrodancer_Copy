@@ -11,7 +11,7 @@ HRESULT slimeGold::init()
 	_img->setFrameY(RND->getFromIntTo(0, 1));
 	_map->setIsEnemy(_tileX, _tileY, true);	//¿¡³Ê¹Ì Å¸ÀÏ ¼Ó¼º ON
 
-	_isMoveRight = true;
+	_direction = RIGHT;
 
 	return S_OK;
 }
@@ -80,37 +80,39 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 		
 		if (!_isMove)
 		{
-			if (_isMoveRight)	//RIGHT
+			switch (_direction)
 			{
-				_isMove = true;
-				_tileX += 1;
-
-				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
-			}
-			else				//LEFT
-			{
+			case LEFT:
 				_isMove = true;
 				_tileX -= 1;
 
 				_rc = _map->getRect(_tileX, _tileY);
 				_map->setIsEnemy(_tileX, _tileY, true);
-			}
-			if (_isMoveUp)		//UP
-			{
+				break;
+
+			case RIGHT:
+				_isMove = true;
+				_tileX += 1;
+
+				_rc = _map->getRect(_tileX, _tileY);
+				_map->setIsEnemy(_tileX, _tileY, true);
+				break;
+
+			case UP:
 				_isMove = true;
 				_tileY -= 1;
 
 				_rc = _map->getRect(_tileX, _tileY);
 				_map->setIsEnemy(_tileX, _tileY, true);
-			}
-			else				//DOWN
-			{
+				break;
+
+			case DOWN:
 				_isMove = true;
 				_tileY += 1;
 
 				_rc = _map->getRect(_tileX, _tileY);
 				_map->setIsEnemy(_tileX, _tileY, true);
+				break;
 			}
 		}
 	}
@@ -133,28 +135,9 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 	//Á¡ÇÁ
 	if (_isMove)	//RIGHT -> DOWN -> LEFT -> UP -> RIGHT ..¼ø¼­
 	{
-		if (_isMoveRight)	//RIGHT
+		switch (_direction)
 		{
-			_gravity += 0.965f;
-			_x -= cosf(7 * PI / 9) * 9;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-
-			if (_x >= _rc.left)
-			{
-				_x = _rc.left;
-				_isMove = false;
-				_isMoveUp = false;		//RIGHT -> DOWN
-				_isMoveRight = true;
-				_gravity = 0;
-				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
-				{
-
-					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				}
-			}
-		}
-		else			//LEFT
-		{
+		case LEFT:
 			_gravity += 0.965f;
 			_x += cosf(7 * PI / 9) * 9;
 			_y += -sinf(7 * PI / 9) * 9 + _gravity;
@@ -163,17 +146,35 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 			{
 				_x = _rc.left;
 				_isMove = false;
-				_isMoveUp = true;		//LEFT -> UP
-				_isMoveRight = false;
+				_direction = UP;		//LEFT -> UP
 				_gravity = 0;
 				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
 				{
 					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 				}
 			}
-		}
-		if (_isMoveUp)	//UP
-		{
+			break;
+
+		case RIGHT:
+			_gravity += 0.965f;
+			_x -= cosf(7 * PI / 9) * 9;
+			_y += -sinf(7 * PI / 9) * 9 + _gravity;
+
+			if (_x >= _rc.left)
+			{
+				_x = _rc.left;
+				_isMove = false;
+				_direction = DOWN;		//RIGHT -> DOWN
+				_gravity = 0;
+				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
+				{
+
+					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+				}
+			}
+			break;
+
+		case UP:
 			_gravity += 0.2f;
 			_y += -sinf(PI / 2) * 9 + _gravity;
 
@@ -181,13 +182,12 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 			{
 				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 				_isMove = false;
-				_isMoveUp = true;
-				_isMoveRight = true;		//UP -> RIGHT
+				_direction = RIGHT;		//UP -> RIGHT
 				_gravity = 0;
 			}
-		}
-		else			//DOWN
-		{
+			break;
+
+		case DOWN:
 			_gravity += 1.2f;
 			_y += -sinf(PI / 2) + _gravity;
 
@@ -195,11 +195,10 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 			{
 				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 				_isMove = false;
-				_isMoveUp = false;
-				_isMoveRight = false;		//DOWN -> LEFT
+				_direction = LEFT;		//DOWN -> LEFT
 				_gravity = 0;
 			}
+			break;
 		}
-		
 	}
 }
