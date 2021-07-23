@@ -37,6 +37,8 @@ public :
 
 	void setSearchBoundary();
 
+	int getStartLightNum() { return _startLightNum; }
+
 	void findTorch();
 
 	//void addTorchLight(int x, int y);

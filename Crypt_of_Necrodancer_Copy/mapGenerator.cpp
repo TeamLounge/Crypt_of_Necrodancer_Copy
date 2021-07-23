@@ -1886,13 +1886,13 @@ void mapGenerator::testObject()
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].objectFrameY = 0;
 	*/
 
-	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].item = MAP_TORCH_PLUS_2;
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].item = MAP_TORCH_PLUS_1;
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].itemDirection = UP;
 
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 2].item = MAP_CHEESE;
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 2].itemDirection = UP;
 
-	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 3].item = MAP_APPLE;
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 3].item = MAP_TORCH_PLUS_2;
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 3].itemDirection = UP;
 
 	_tiles[_rooms[_startRoomIndex].y + 2][_rooms[_startRoomIndex].x + 1].item = MAP_CHAIN_ARMOR;

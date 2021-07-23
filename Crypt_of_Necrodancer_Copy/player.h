@@ -8,6 +8,7 @@
 
 #define SHADOWMARGIN 30
 #define BODYMARGIN 17
+#define BASICVISION 5
 
 class weapon;
 class enemyManager;
@@ -85,5 +86,10 @@ public:
 
 	//웨폰링크
 	void setWeaponMemoryAddressLink(weapon* weapon) { _weapon = weapon; }
+
+	//바디 이미지 바꾸기
+	void setBodyImageName(string s) { _bodyImageName = s; }
+
+	vision* getVision() { return _vision; }
 };
 

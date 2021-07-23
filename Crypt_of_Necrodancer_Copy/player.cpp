@@ -15,7 +15,7 @@ HRESULT player::init()
 	_playerDirection = RIGHT;
 
 	_vision = new vision;
-	_vision->init(_tileX, _tileY, 5);
+	_vision->init(_tileX, _tileY, BASICVISION);
 
 	_isMove = false;
 
