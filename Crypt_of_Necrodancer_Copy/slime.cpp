@@ -37,72 +37,7 @@ void slime::release()
 
 void slime::update()
 {
-	if (TIMEMANAGER->getWorldTime() - _movingTime >= 1.0f)
-	{
-		_movingTime = TIMEMANAGER->getWorldTime();
-		if (_isTime)
-		{
-			_isTime = false;
-		}
-		else
-		{
-			_isTime = true;
-		}
 
-	}
-	if (TIMEMANAGER->getWorldTime() - _renderTime >= 0.5f)
-	{
-		_renderTime = TIMEMANAGER->getWorldTime();
-		if (_toRender)
-		{
-			_toRender = false;
-		}
-		else
-		{
-			_toRender = true;
-		}
-	}
-	
-	if (_map->getTileObject(_tileX, _tileY) == TR_LEFT)
-	{
-		_direction = LEFT;
-		_map->setIsEnemy(_tileX, _tileY, false);
-		_tileX -= 1;
-		_rc = _map->getRect(_tileX, _tileY);
-		_map->setIsEnemy(_tileX, _tileY, true);
-		_isMove = true;
-	}
-	else if (_map->getTileObject(_tileX, _tileY) == TR_RIGHT)
-	{
-		_direction = RIGHT;
-		_map->setIsEnemy(_tileX, _tileY, false);
-		_tileX += 1;
-		_rc = _map->getRect(_tileX, _tileY);
-		_map->setIsEnemy(_tileX, _tileY, true);
-		_isMove = true;
-	}
-	else if (_map->getTileObject(_tileX, _tileY) == TR_UP)
-	{
-		_direction = UP;
-		_map->setIsEnemy(_tileX, _tileY, false);
-		_tileY -= 1;
-		_rc = _map->getRect(_tileX, _tileY);
-		_map->setIsEnemy(_tileX, _tileY, true);
-		_isMove = true;
-	}
-	else if (_map->getTileObject(_tileX, _tileY) == TR_DOWN)
-	{
-		_direction = DOWN;
-		_map->setIsEnemy(_tileX, _tileY, false);
-		_tileY += 1;
-		_rc = _map->getRect(_tileX, _tileY);
-		_map->setIsEnemy(_tileX, _tileY, true);
-		_isMove = true;
-	}
-	/*else if (_astar->getStart())
-	{
-		skeletonMove(isTime);
-	}*/
 }
 
 void slime::render()
@@ -130,7 +65,8 @@ void slime::setArrangement()
 		//랜덤하게 찍은 방안의 좌표 중 벽이 있어도 컨티뉴
 		_tileX = RND->getFromIntTo(_map->getRoom()[random].x, _map->getRoom()[random].x + _map->getRoom()[random].width);
 		_tileY = RND->getFromIntTo(_map->getRoom()[random].y, _map->getRoom()[random].y + _map->getRoom()[random].height);
-		if (_map->getTileObject(_tileX, _tileY) != OBJ_NONE || _map->getTileTerrain(_tileX, _tileY) != DIRT1)
+		if (_map->getTileObject(_tileX, _tileY) != OBJ_NONE || _map->getTileTerrain(_tileX, _tileY) != DIRT1 
+			|| _map->getIsEnemy(_tileX, _tileY))		//복도 tile은 2지만, room으로 배치하니까 무관!
 			continue;
 		break;		//// 모든 컨티뉴 지옥에서 벗어낫다면 빠져 나오기
 	}
