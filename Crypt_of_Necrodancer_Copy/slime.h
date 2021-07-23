@@ -1,9 +1,6 @@
 #pragma once
 #include "gameNode.h"
 #include "mapGenerator.h"
-//#include "aStarTest.h"
-
-//aStar 필요없다
 
 class slime : public gameNode
 {
@@ -27,14 +24,20 @@ protected:
 	int _frameCount;
 	int _frameIndex;
 	int _currentFrameX, _currentFrameY;
-	float _elapsedSec; //프레임 움직임 위함
-	float _worldTime;
+	float _worldTime, _movingTime, _renderTime;
 
 	float _gravity;
 	float _jumpPower;
 
 
-	bool _isRight;	//기본 방향 우측이야?
+	bool _isMove;	//움직여?
+	//사방으로 움직임
+	bool _isMoveUp;
+	bool _isMoveRight;
+
+	bool _isTime;
+	bool _toRender, _damageRender;
+
 
 public:
 	virtual HRESULT init();
@@ -43,7 +46,6 @@ public:
 	virtual void render();
 
 	virtual void setArrangement();
-	virtual void slimeMove();
 
 
 	//get

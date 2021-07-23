@@ -3,6 +3,7 @@
 
 class slimeBlue :public slime
 {
+public:
 	virtual HRESULT init();
 	virtual void update();
 	virtual void release();
@@ -10,5 +11,6 @@ class slimeBlue :public slime
 
 	virtual void setImage();
 	virtual void setSlimeFrame();
+	virtual void moveSlimeBlue();
 };
 

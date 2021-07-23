@@ -3,6 +3,7 @@
 
 class slimeGold :public slime
 {
+public:
 	virtual HRESULT init();
 	virtual void update();
 	virtual void release();
@@ -10,5 +11,6 @@ class slimeGold :public slime
 
 	virtual void setImage();
 	virtual void setSlimeFrame();
+	virtual void moveSlimeGold();
 };
 

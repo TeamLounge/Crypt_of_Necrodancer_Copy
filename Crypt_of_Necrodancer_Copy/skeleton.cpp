@@ -21,10 +21,10 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 			continue; //랜덤하게 찍은 방안의 좌표 중 벽이있어도 컨티뉴
 		break;//// 모든 컨티뉴 지옥에서 벗어낫다면 빠져나오기
 	}
-	_rc = _map->getRect(_tilex, _tiley);
-	_map->setIsEnemy(_tilex, _tiley, true);
-	_x = _rc.left;
-	_y = _rc.top-(_rc.bottom - _rc.top)/2;
+	_rc = _map->getRect(_tilex, _tiley);		//_tileX, _tileY는 움직임을 위한 첫번째 타일맵의 좌표
+	_map->setIsEnemy(_tilex, _tiley, true);		
+	_x = _rc.left;								//_x, _y는 이미지를 움직이기 위한 _rc를 토대로 가져온 실제 좌표(정보 가져오기 위함)
+	_y = _rc.top-(_rc.bottom - _rc.top)/2;	
 	_astar->setLinkrandomMap(_map);
 	_astar->init(_tilex, _tiley, playerIndexX, playerIndexY);
 	return S_OK;

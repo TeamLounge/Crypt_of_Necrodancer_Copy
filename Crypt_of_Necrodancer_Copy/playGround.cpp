@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "playGround.h"
 #include "aStarTest.h"
-#include "whiteSkeleton.h"
-#include "slimeGreen.h"
 
 playGround::playGround()
 {

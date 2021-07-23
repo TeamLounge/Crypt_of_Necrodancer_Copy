@@ -6,9 +6,9 @@ HRESULT enemyManager::init()
 {
 	setWhiteSkeleton();
 
-	//setSlimeGreen();
-	//setSlimeGold();
-	//setSlimeBlue();
+	setSlimeGreen();
+	setSlimeGold();
+	setSlimeBlue();
 
 	setGreenSkeleton();
 	setBlackSkeleton();
@@ -32,7 +32,7 @@ void enemyManager::update()
 	updateMimic();
 	updateGhost();
 	updateSlimeGreen();
-	updateSlimeGold();
+	//updateSlimeGold();
 	updateSlimeBlue();
 	updateMonkeyBasic();
 	updateMonkeyWhite();
@@ -48,7 +48,7 @@ void enemyManager::render()
 	renderMimic();
 	renderGhost();
 	renderSlimeGreen();
-	renderSlimeGold();
+	//renderSlimeGold();
 	renderSlimeBlue();
 	renderMonkeyBasic();
 	renderMonkeyWhite();
@@ -65,7 +65,6 @@ void enemyManager::setWhiteSkeleton()
 		_vWitheSkeleton.emplace_back(_skeleton);
 	}
 }
-
 void enemyManager::updateWhiteSkeleton()
 {
 	for (_viWitheSkeleton = _vWitheSkeleton.begin(); _viWitheSkeleton != _vWitheSkeleton.end(); ++_viWitheSkeleton)
@@ -73,23 +72,11 @@ void enemyManager::updateWhiteSkeleton()
 		(*_viWitheSkeleton)->update(_player->getTileX(), _player->getTileY());
 	}
 }
-
 void enemyManager::renderWhiteSkeleton()
 {
 	for (_viWitheSkeleton = _vWitheSkeleton.begin(); _viWitheSkeleton != _vWitheSkeleton.end(); ++_viWitheSkeleton)
 	{
 		(*_viWitheSkeleton)->render();
-	}
-}
-
-void enemyManager::setSlimeGreen()
-{
-	for (int i = 0; i < 3; i++)
-	{
-		slimeGreen* _slimeGreen = new slimeGreen;
-		_slimeGreen->setTileMapLink(_map);
-		_slimeGreen->init();	//ÁÂÇ¥..?
-		_vSlimeGreen.push_back(_slimeGreen);		//emplace_back..?
 	}
 }
 
@@ -104,7 +91,6 @@ void enemyManager::setGreenSkeleton()
 	}
 
 }
-
 void enemyManager::updateGreenSkeleton()
 {
 	for (_viGreenSkeleton = _vGreenSkeleton.begin(); _viGreenSkeleton != _vGreenSkeleton.end(); ++_viGreenSkeleton)
@@ -112,7 +98,6 @@ void enemyManager::updateGreenSkeleton()
 		(*_viGreenSkeleton)->update(_player->getTileX(), _player->getTileY());
 	}
 }
-
 void enemyManager::renderGreenSkeleton()
 {
 	for (_viGreenSkeleton = _vGreenSkeleton.begin(); _viGreenSkeleton != _vGreenSkeleton.end(); ++_viGreenSkeleton)
@@ -121,75 +106,6 @@ void enemyManager::renderGreenSkeleton()
 	}
 }
 
-void enemyManager::updateSlimeGreen()
-{
-	for (_viSlimeGreen = _vSlimeGreen.begin(); _viSlimeGreen != _vSlimeGreen.end(); ++_viSlimeGreen)
-	{
-		(*_viSlimeGreen)->update();
-	}
-}
-
-void enemyManager::renderSlimeGreen()
-{
-	for (_viSlimeGreen = _vSlimeGreen.begin(); _viSlimeGreen != _vSlimeGreen.end(); ++_viSlimeGreen)
-	{
-		(*_viSlimeGreen)->render();
-	}
-}
-
-void enemyManager::setSlimeGold()
-{
-	/*for (int i = 0; i < 3; i++)
-	{
-		slimeGold* _slimeGold = new slimeGold;
-		_slimeGold->setTileMapLink(_map);
-		_slimeGold->init();
-		_vSlimeGold.push_back(_slimeGold);
-	}*/
-}
-
-void enemyManager::updateSlimeGold()
-{
-	/*for (_viSlimeGold = _vSlimeGold.begin(); _viSlimeGold != _vSlimeGold.end(); ++_viSlimeGold)
-	{
-		(*_viSlimeGold)->update();
-	}*/
-}
-
-void enemyManager::renderSlimeGold()
-{
-	/*for (_viSlimeGold = _vSlimeGold.begin(); _viSlimeGold != _vSlimeGold.end(); ++_viSlimeGold)
-	{
-		(*_viSlimeGold)->render();
-	}*/
-}
-
-void enemyManager::setSlimeBlue()
-{
-	/*for (int i = 0; i < 3; i++)
-	{
-		slimeBlue* _slimeBlue = new slimeBlue;
-		_slimeBlue->setTileMapLink(_map);
-		_slimeBlue->init();
-		_vSlimeBlue.push_back(_slimeBlue);
-	}*/
-}
-
-void enemyManager::updateSlimeBlue()
-{
-	/*for (_viSlimeBlue = _vSlimeBlue.begin(); _viSlimeBlue != _vSlimeBlue.end(); ++_viSlimeBlue)
-	{
-		(*_viSlimeBlue)->update();
-	}*/
-}
-
-void enemyManager::renderSlimeBlue()
-{
-	/*for (_viSlimeBlue = _vSlimeBlue.begin(); _viSlimeBlue != _vSlimeBlue.end(); ++_viSlimeBlue)
-	{
-		(*_viSlimeBlue)->render();
-	}*/
-}
 void enemyManager::setBlackSkeleton()
 {
 	for (int i = 0; i < 2; i++)
@@ -200,7 +116,6 @@ void enemyManager::setBlackSkeleton()
 		_vBlackSkeleton.emplace_back(_skeleton);
 	}
 }
-
 void enemyManager::updateBlackSkeleton()
 {
 	for (_viBlackSkeleton = _vBlackSkeleton.begin(); _viBlackSkeleton != _vBlackSkeleton.end(); ++_viBlackSkeleton)
@@ -208,7 +123,6 @@ void enemyManager::updateBlackSkeleton()
 		(*_viBlackSkeleton)->update(_player->getTileX(), _player->getTileY());
 	}
 }
-
 void enemyManager::renderBlackSkeleton()
 {
 	for (_viBlackSkeleton = _vBlackSkeleton.begin(); _viBlackSkeleton != _vBlackSkeleton.end(); ++_viBlackSkeleton)
@@ -216,6 +130,83 @@ void enemyManager::renderBlackSkeleton()
 		(*_viBlackSkeleton)->render();
 	}
 }
+
+void enemyManager::setSlimeGreen()
+{
+	for (int i = 0; i < 5; i++)
+	{
+		slimeGreen* _slimeGreen = new slimeGreen;
+		_slimeGreen->setTileMapLink(_map);
+		_slimeGreen->init();
+		_vSlimeGreen.push_back(_slimeGreen);		//emplace_back..?
+	}
+}
+void enemyManager::updateSlimeGreen()
+{
+	for (_viSlimeGreen = _vSlimeGreen.begin(); _viSlimeGreen != _vSlimeGreen.end(); ++_viSlimeGreen)
+	{
+		(*_viSlimeGreen)->update();
+	}
+}
+void enemyManager::renderSlimeGreen()
+{
+	for (_viSlimeGreen = _vSlimeGreen.begin(); _viSlimeGreen != _vSlimeGreen.end(); ++_viSlimeGreen)
+	{
+		(*_viSlimeGreen)->render();
+	}
+}
+
+void enemyManager::setSlimeGold()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		slimeGold* _slimeGold = new slimeGold;
+		_slimeGold->setTileMapLink(_map);
+		_slimeGold->init();
+		_vSlimeGold.push_back(_slimeGold);
+	}
+}
+void enemyManager::updateSlimeGold()
+{
+	for (_viSlimeGold = _vSlimeGold.begin(); _viSlimeGold != _vSlimeGold.end(); ++_viSlimeGold)
+	{
+		(*_viSlimeGold)->update();
+	}
+}
+void enemyManager::renderSlimeGold()
+{
+	for (_viSlimeGold = _vSlimeGold.begin(); _viSlimeGold != _vSlimeGold.end(); ++_viSlimeGold)
+	{
+		(*_viSlimeGold)->render();
+	}
+}
+
+void enemyManager::setSlimeBlue()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		slimeBlue* _slimeBlue = new slimeBlue;
+		_slimeBlue->setTileMapLink(_map);
+		_slimeBlue->init();
+		_vSlimeBlue.push_back(_slimeBlue);
+	}
+}
+void enemyManager::updateSlimeBlue()
+{
+	for (_viSlimeBlue = _vSlimeBlue.begin(); _viSlimeBlue != _vSlimeBlue.end(); ++_viSlimeBlue)
+	{
+		(*_viSlimeBlue)->update();
+	}
+}
+void enemyManager::renderSlimeBlue()
+{
+	for (_viSlimeBlue = _vSlimeBlue.begin(); _viSlimeBlue != _vSlimeBlue.end(); ++_viSlimeBlue)
+	{
+		(*_viSlimeBlue)->render();
+	}
+}
+
+
 
 void enemyManager::setGhost()
 {
@@ -227,7 +218,6 @@ void enemyManager::setGhost()
 		_vGhost.emplace_back(_ghost);
 	}
 }
-
 void enemyManager::updateGhost()
 {
 	for (_viGhost = _vGhost.begin(); _viGhost != _vGhost.end(); ++_viGhost)
@@ -235,7 +225,6 @@ void enemyManager::updateGhost()
 		(*_viGhost)->update(_player->getTileX(), _player->getTileY());
 	}
 }
-
 void enemyManager::renderGhost()
 {
 	for (_viGhost = _vGhost.begin(); _viGhost != _vGhost.end(); ++_viGhost)
@@ -254,7 +243,6 @@ void enemyManager::setMimic()
 		_vMimic.emplace_back(_mimic);
 	}
 }
-
 void enemyManager::updateMimic()
 {
 	for (_viMimic = _vMimic.begin(); _viMimic != _vMimic.end(); ++_viMimic)
@@ -262,7 +250,6 @@ void enemyManager::updateMimic()
 		(*_viMimic)->update(_player->getTileX(), _player->getTileY());
 	}
 }
-
 void enemyManager::renderMimic()
 {
 	for (_viMimic = _vMimic.begin(); _viMimic != _vMimic.end(); ++_viMimic)
@@ -281,7 +268,6 @@ void enemyManager::setMonkeyBasic()
 		_vMonkeyBasic.emplace_back(_monkey);
 	}
 }
-
 void enemyManager::updateMonkeyBasic()
 {
 	for (_viMonkeyBasic = _vMonkeyBasic.begin(); _viMonkeyBasic != _vMonkeyBasic.end(); ++_viMonkeyBasic)
@@ -289,7 +275,6 @@ void enemyManager::updateMonkeyBasic()
 		(*_viMonkeyBasic)->update(_player->getTileX(), _player->getTileY());
 	}
 }
-
 void enemyManager::renderMonkeyBasic()
 {
 	for (_viMonkeyBasic = _vMonkeyBasic.begin(); _viMonkeyBasic != _vMonkeyBasic.end(); ++_viMonkeyBasic)
@@ -308,7 +293,6 @@ void enemyManager::setMonkeyWhite()
 		_vMonkeyWhite.emplace_back(_monkey);
 	}
 }
-
 void enemyManager::updateMonkeyWhite()
 {
 	for (_viMonkeyWhite = _vMonkeyWhite.begin(); _viMonkeyWhite != _vMonkeyWhite.end(); ++_viMonkeyWhite)
@@ -316,7 +300,6 @@ void enemyManager::updateMonkeyWhite()
 		(*_viMonkeyWhite)->update(_player->getTileX(), _player->getTileY());
 	}
 }
-
 void enemyManager::renderMonkeyWhite()
 {
 	for (_viMonkeyWhite = _vMonkeyWhite.begin(); _viMonkeyWhite != _vMonkeyWhite.end(); ++_viMonkeyWhite)
@@ -335,7 +318,6 @@ void enemyManager::setMinotaur()
 		_vMinotaur.emplace_back(_minotaur);
 	}
 }
-
 void enemyManager::updateMinotaur()
 {
 	for (_viMinotaur = _vMinotaur.begin(); _viMinotaur != _vMinotaur.end(); ++_viMinotaur)
@@ -343,7 +325,6 @@ void enemyManager::updateMinotaur()
 		(*_viMinotaur)->update(_player->getTileX(), _player->getTileY());
 	}
 }
-
 void enemyManager::renderMinotaur()
 {
 	for (_viMinotaur = _vMinotaur.begin(); _viMinotaur != _vMinotaur.end(); ++_viMinotaur)
@@ -351,14 +332,3 @@ void enemyManager::renderMinotaur()
 		(*_viMinotaur)->render();
 	}
 }
-
-//void enemyManager::setMinotaur()
-//{
-//	for (int i = 0; i < 1; i++)
-//	{
-//		blackSkeleton* _skeleton = new blackSkeleton;
-//		_skeleton->setTileMapLinK(_map);
-//		_skeleton->init(_player->getTileX(), _player->getTileY());
-//		_vBlackSkeleton.emplace_back(_skeleton);
-//	}
-//}

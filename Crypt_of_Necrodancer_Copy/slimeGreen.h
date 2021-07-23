@@ -13,4 +13,5 @@ public:
 
 	virtual void setImage();
 	virtual void setSlimeFrame();
+	virtual void moveSlimeGreen();
 };
