@@ -401,9 +401,12 @@ void vision::drawMiniMap()
 			if (_visionSearch[i][j].tileY == -1 || _visionSearch[i][j].tileX == -1) continue;
 			if (_map->getIsSeen(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY))
 			{
-				MINIMAP->drawMiniMap(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY, _map->getTileObject(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY));
+				MINIMAP->drawMiniMap(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY, 
+					_map->getTileTerrain(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY), 
+					_map->getTileObject(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY),
+					_map->getTileItem(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY), _map->getIsEnemy(_visionSearch[i][j].tileX, _visionSearch[i][j].tileY));
 			}
 		}
 	}
-	MINIMAP->drawMiniMap(_tileX, _tileY, OBJ_NONE, true);
+	MINIMAP->drawPlayer(_tileX, _tileY);
 }

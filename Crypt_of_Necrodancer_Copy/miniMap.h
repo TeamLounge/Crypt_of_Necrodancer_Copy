@@ -10,6 +10,31 @@ enum OBJECT
 	, ENEMY
 };
 
+enum MAP_ITEM
+{
+	MAP_ITEM_NONE,
+	MAP_TORCH_PLUS_1,
+	MAP_TORCH_PLUS_2,
+	MAP_TITANUM_SHOVEL,
+	MAP_LEATHER_ARMOR,
+	MAP_CHAIN_ARMOR,
+	MAP_DAGGER,
+	MAP_BROADSWORD,
+	MAP_RAPIER,
+	MAP_LONGSWORD,
+	MAP_SPEAR,
+	MAP_BOMB,
+	MAP_APPLE,
+	MAP_CHEESE,
+	MAP_COIN10
+};
+
+enum TERRAIN
+{
+	DIRT1, DIRT2, BOSS, WATER, SHOP, STAIR_BOSS, STAIR_NONE, EMPTY
+};
+
+
 class miniMap : public singletonBase<miniMap>
 {
 private:
@@ -28,5 +53,6 @@ public :
 
 	void setupMiniMap(int sizeX, int sizeY);
 
-	void drawMiniMap(int tileX, int tileY, OBJECT obj = OBJ_NONE, bool isPlayer = false, bool isEnemy = false);
+	void drawMiniMap(int tileX, int tileY, TERRAIN terrain, OBJECT obj = OBJ_NONE, MAP_ITEM item = MAP_ITEM_NONE, bool isEnemy = false);
+	void drawPlayer(int tileX, int tileY);
 };

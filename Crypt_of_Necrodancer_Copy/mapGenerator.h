@@ -51,8 +51,6 @@ private:
 
 	float _elapsedSec;
 
-	float _drawStartX, _drawStartY;
-
 public:
 	virtual HRESULT init(int width, int height);
 	virtual void release();
@@ -143,5 +141,8 @@ public:
 
 	bool getIsBombFired(int tileX, int tileY) { return _tiles[tileY][tileX].isBombFired; }
 
+	MAP_ITEM getTileItem(int tileX, int tileY) { return _tiles[tileY][tileX].item; }
+
+	void seeItemRect(int tileX, int tileY);
 };
 

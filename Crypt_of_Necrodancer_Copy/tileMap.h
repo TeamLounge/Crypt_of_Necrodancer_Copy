@@ -8,9 +8,10 @@ struct tagTile
 {
 	TERRAIN terrain;
 	OBJECT obj;
-	MAP_ITEM item;
 	RECT rc;
-	RECT item_rc;
+	MAP_ITEM item;
+	RECT itemRect;
+	PLAYER_ENEMY_DIRECTION itemDirection;
 	int terrainFrameX;
 	int terrainFrameY;
 	int objectFrameX;

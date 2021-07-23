@@ -15,8 +15,7 @@ HRESULT playerTestScene::init()
 	//플레이어
 	_player = new player;
 	_player->setPlayerMapMemoryAddressLink(_map);
-	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
-	_player->setupPlayerRect();
+	_player->init();
 
 	//에너미
 	_em = new enemyManager;
@@ -93,4 +92,6 @@ void playerTestScene::render()
 
 	_objectManager->render();
 	_player->getBomb()->render();
+
+	_map->seeItemRect(_player->getTileX(), _player->getTileY());
 }
