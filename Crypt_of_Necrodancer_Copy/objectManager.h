@@ -44,5 +44,7 @@ public:
 	void playerMove(int addTileX, int addTileY, PLAYER_ENEMY_DIRECTION dir);
 
 	void changeMusicSpeed(float speed);
+
+	bomb* getBomb() { return _bomb; }
 };
 

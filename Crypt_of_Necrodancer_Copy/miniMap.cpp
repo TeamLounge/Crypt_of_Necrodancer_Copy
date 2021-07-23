@@ -69,6 +69,7 @@ void miniMap::drawMiniMap(int tileX, int tileY, OBJECT obj, bool isPlayer, bool 
 		IMAGEMANAGER->findImage("minimap_door")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
 		break;
 	case WALL_END:
+		IMAGEMANAGER->findImage("minimap_wall_end")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
 		break;
 	case TR_BOMB:
 	case TR_UP:

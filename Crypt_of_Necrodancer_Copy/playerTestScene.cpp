@@ -16,7 +16,6 @@ HRESULT playerTestScene::init()
 	_player = new player;
 	_player->setPlayerMapMemoryAddressLink(_map);
 	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
-
 	_player->setupPlayerRect();
 
 	//에너미
@@ -37,6 +36,7 @@ HRESULT playerTestScene::init()
 	_objectManager->init();
 	_objectManager->setObjectMapMemoryAddressLink(_map);
 	_objectManager->setObjectPlayerMemoryAddressLink(_player);
+	_objectManager->getBomb()->setBombMapMemoryAddressLink(_map);
 
 	//사운드 플레이
 	SOUNDMANAGER->play("zone1-1", 0.2f);

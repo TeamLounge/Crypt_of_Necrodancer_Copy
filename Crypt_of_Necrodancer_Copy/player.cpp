@@ -384,6 +384,8 @@ void player::setupPlayerRect()
 	_vision->setVisionMapMemoryAddressLink(_map);
 	_vision->setSearchBoundary();
 
+	_bomb->setBombMapMemoryAddressLink(_map);
+
 	//카메라 설정
 	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 }

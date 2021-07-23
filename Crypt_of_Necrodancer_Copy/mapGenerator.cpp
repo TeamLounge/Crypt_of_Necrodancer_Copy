@@ -336,6 +336,41 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("wall_torch_black")->getFrameWidth() / 2 - 5,
 				_tiles[tileY][tileX].rc.top - (TILESIZE * 5) / 8 - TILESIZE / 3, 255 - _tiles[tileY][tileX].alpha);
 		}
+
+		switch (_tiles[tileY][tileX].item)
+		{
+		case MAP_ITEM_NONE:
+			break;
+		case MAP_TORCH_PLUS_1:
+			break;
+		case MAP_TORCH_PLUS_2:
+			break;
+		case MAP_TITANUM_SHOVEL:
+			break;
+		case MAP_LEATHER_ARMOR:
+			break;
+		case MAP_CHAIN_ARMOR:
+			break;
+		case MAP_DAGGER:
+			break;
+		case MAP_BROADSWORD:
+			break;
+		case MAP_RAPIER:
+			break;
+		case MAP_LONGSWORD:
+			break;
+		case MAP_SPEAR:
+			break;
+		case MAP_BOMB:
+			break;
+		case MAP_APPLE:
+			break;
+		case MAP_CHEESE:
+			break;
+		case MAP_COIN10:
+		default:
+			break;
+		}
 	}
 }
 
@@ -363,6 +398,7 @@ void mapGenerator::generate(int maxFeatures)
 				tile.rc = RectMake(j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
 				tile.terrain = EMPTY;
 				tile.obj = OBJ_NONE;
+				tile.item = MAP_ITEM_NONE;
 				tile.terrainFrameX = NULL;
 				tile.terrainFrameY = NULL;
 				tile.objectFrameX = NULL;
@@ -719,17 +755,16 @@ void mapGenerator::generate(int maxFeatures)
 			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameX = 0;
 			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameY = 0;
 		}
-
-
-		setEndBlock();
-		setEndEdge();
-		moveMap();
-		setEndBlock();
-		setStone();
-		setBossRoom();
-		setTorch();
-		deleteEmptyTiles();
 	}
+
+	setEndBlock();
+	setEndEdge();
+	moveMap();
+	setEndBlock();
+	setStone();
+	setBossRoom();
+	setTorch();
+	deleteEmptyTiles();
 
 	_width = _tiles[0].size();
 	_height = _tiles.size();
@@ -1709,9 +1744,12 @@ void mapGenerator::setTorch()
 
 void mapGenerator::testObject()
 {
+	/*
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].obj = TR_BOMB;
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].objectFrameX = 0;
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].objectFrameY = 0;
+	*/
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].item = MAP_DAGGER;
 
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].obj = TR_FAST;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].objectFrameX = 0;
@@ -1724,52 +1762,4 @@ void mapGenerator::testObject()
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].obj = TR_RIGHT;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].objectFrameX = 0;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].objectFrameY = 0;
-}
-
-void mapGenerator::drawMiniMap()
-{
-	for (int i = 0; i < _tiles.size(); ++i)
-	{
-		for (int j = 0; j < _tiles[i].size(); ++j)
-		{
-			if (!_tiles[i][j].isSeen) continue;
-			switch (_tiles[i][j].obj)
-			{
-			case OBJ_NONE:
-				IMAGEMANAGER->findImage("minimap_obj_none")->render(getMemDC(), _drawStartX + j * MINIMAP_TILE_SIZE, _drawStartY + i * MINIMAP_TILE_SIZE);
-				break;
-			case WALL_BASIC:
-				IMAGEMANAGER->findImage("minimap_wall_basic")->render(getMemDC(), _drawStartX + j * MINIMAP_TILE_SIZE, _drawStartY + i * MINIMAP_TILE_SIZE);
-				break;
-			case WALL_STONE:
-			case WALL_CRACK:
-				IMAGEMANAGER->findImage("minimap_wall_stone")->render(getMemDC(), _drawStartX + j * MINIMAP_TILE_SIZE, _drawStartY + i * MINIMAP_TILE_SIZE);
-				break;
-			case WALL_DOOR:
-				IMAGEMANAGER->findImage("minimap_door")->render(getMemDC(), _drawStartX + j * MINIMAP_TILE_SIZE, _drawStartY + i * MINIMAP_TILE_SIZE);
-				break;
-			case WALL_END:
-				IMAGEMANAGER->findImage("minimap_wall_end")->render(getMemDC(), _drawStartX + j * MINIMAP_TILE_SIZE, _drawStartY + i * MINIMAP_TILE_SIZE);
-				break;
-			case WALL_GOLD:
-				IMAGEMANAGER->findImage("minimap_wall_gold")->render(getMemDC(), _drawStartX + j * MINIMAP_TILE_SIZE, _drawStartY + i * MINIMAP_TILE_SIZE);
-				break;
-			case TR_BOMB:
-			case TR_DOOR:
-			case TR_DOWN:
-			case TR_FAST:
-			case TR_JUMP:
-			case TR_LEFT:
-			case TR_RIGHT:
-			case TR_SLOW:
-			case TR_SPIKE:
-			case TR_UP:
-				IMAGEMANAGER->findImage("minimap_trap")->render(getMemDC(), _drawStartX + j * MINIMAP_TILE_SIZE, _drawStartY + i * MINIMAP_TILE_SIZE);
-				break;
-			case BLACK_ITEM_BOX:
-			case RED_ITEM_BOX:
-				break;
-			}
-		}
-	}
 }
