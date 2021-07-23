@@ -87,7 +87,8 @@ public:
 	//웨폰링크
 	void setWeaponMemoryAddressLink(weapon* weapon) { _weapon = weapon; }
 
-	//바디 이미지 바꾸기
+	//바디 이미지 접근자 설정자
+	string getBodyImageName() { return _bodyImageName; }
 	void setBodyImageName(string s) { _bodyImageName = s; }
 
 	vision* getVision() { return _vision; }
