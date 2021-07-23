@@ -81,8 +81,10 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("sample_walls2", "image/object/walls/sampleWalls2.bmp", 384, 384, 8, 4, true, RGB(255, 0, 255));
 
 	//벽 이미지
-	IMAGEMANAGER->addFrameImage("walls1", "image/object/walls/walls1.bmp", 576, 720, 8, 5, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addFrameImage("walls2", "image/object/walls/walls2.bmp", 576, 576, 8, 4, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("walls1", "image/object/walls/walls1.bmp", 576, 720, 8, 5, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("walls2", "image/object/walls/walls2.bmp", 576, 576, 8, 4, true, RGB(255, 0, 255));
+	//벽 위에 알파값 씌울 검은 이미지
+	IMAGEMANAGER->addImage("wall_black", "image/object/walls/wall_black.bmp", 72, 117, true, RGB(255, 0, 255), true);
 
 	//함정 이미지
 	IMAGEMANAGER->addFrameImage("bomb_trap", "image/object/trapBomb.bmp", 72, 84, 2, 2, true, RGB(255, 0, 255), true);
@@ -117,15 +119,25 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("itemHUD", "image/UI/itemHUD.bmp", 1890, 126, 21, 1, true, RGB(255, 0, 255));
 
 	//item HUD
-	IMAGEMANAGER->addFrameImage("dagger", "image/item/dagger.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("broadSword", "image/item/broadsword.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("rapier", "image/item/rapier.bmp", 78, 162, 1, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("longSword", "image/item/longsword.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("spear", "image/item/rapier.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("dagger", "image/item/dagger.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("broadSword", "image/item/broadsword.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("rapier", "image/item/rapier.bmp", 78, 162, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("longSword", "image/item/longsword.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("spear", "image/item/rapier.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+
+	//armor
+	IMAGEMANAGER->addFrameImage("chain_armor", "image/item/chainmail.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("leather_armor", "image/item/leather.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+
+	//torch
+	IMAGEMANAGER->addFrameImage("torch_plus_1", "image/item/torch_1.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("torch_plus_2", "image/item/torch_2.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 
 	//item
 	IMAGEMANAGER->addFrameImage("bomb", "image/item/bomb.bmp", 342, 144, 5, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("bomb_explosion", "image/item/bombExplosion.bmp", 1728, 216, 8, 1, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("cheese", "image/item/cheese.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("apple", "image/item/apple.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 
 	//enemy
 	IMAGEMANAGER->addFrameImage("whiteSkeleton", "image/enemy/skeletonBasic.bmp", 576, 177, 8, 2, true, RGB(255, 0, 255));
@@ -146,4 +158,17 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("enemyAttackX", "image/enemy/enemyAttack.bmp", 360, 138, 5, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("enemyAttackY", "image/enemy/enemyAttack2.bmp", 358, 144, 5, 2, true, RGB(255, 0, 255));
 
+	//player
+	IMAGEMANAGER->addFrameImage("player_head", "image/player/playerHead.bmp", 216, 72, 4, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("player_body_basic", "image/player/playerArmor_basic.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255), true);	//alpha 값 꼭 챙겨주자!!!
+	IMAGEMANAGER->addFrameImage("player_body_leather", "image/player/playerArmor_leather.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("player_body_chain", "image/player/playerArmor_chain.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("shadow_standard_1", "image/player/shadow_standard1.bmp", 72, 81, true, RGB(255, 0, 255), true);	//검은색 타원
+	IMAGEMANAGER->addImage("shadow_standard_2", "image/player/shadow_standard2.bmp", 72, 81, true, RGB(255, 0, 255), true);//검은색 짝대기
+
+	//coin
+	IMAGEMANAGER->addFrameImage("coin10", "image/item/coin/coin10.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+
+	//shopkeeper
+	IMAGEMANAGER->addFrameImage("shopkeeper", "image/object/shopkeeper.bmp", 1128, 228, 8, 2, true, RGB(255, 0, 255), true);
 }

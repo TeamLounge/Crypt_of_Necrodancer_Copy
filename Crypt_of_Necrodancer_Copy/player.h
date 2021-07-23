@@ -6,6 +6,10 @@
 #include "enemyManager.h"
 #include "bomb.h"
 
+#define SHADOWMARGIN 30
+#define BODYMARGIN 17
+#define BASICVISION 5
+
 class weapon;
 class enemyManager;
 
@@ -16,9 +20,7 @@ private:
 	RECT _body; //몸통
 	RECT _shadow; //그림자
 	float _x, _y; //플레이어 몸통 중심 좌표
-	float _headX, _headY;	//플레이어 머리 좌표
-	float _shadowX1, _shadowY1;	//플레이어 그림자1 좌표
-	float _shadowX2, _shadowY2;	//플레이어 그림자2 좌표
+
 	int _tileX; //플레이어가 현재 있는 타일 x인덱스
 	int _tileY; //플레이어가 현재 있는 타일 y인덱스
 	int _tileRenderX;//렌더용 x인덱스
@@ -52,7 +54,7 @@ private:
 public:
 	enemyManager* _em; //에너미 정보 가져오기
 
-	virtual HRESULT init(int tileX, int tileY);
+	virtual HRESULT init();
 	virtual void release();
 	virtual void update();
 	virtual void render();
@@ -65,6 +67,7 @@ public:
 	void setEmMemoryAddressLink(enemyManager* em) { _em = em; }
 	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
 	void setupPlayerRect();
+	void shopkeeperSound();
 
 	int getTileX() { return _tileX; }
 	int getTileY() { return _tileY; }
@@ -84,5 +87,11 @@ public:
 
 	//웨폰링크
 	void setWeaponMemoryAddressLink(weapon* weapon) { _weapon = weapon; }
+
+	//바디 이미지 접근자 설정자
+	string getBodyImageName() { return _bodyImageName; }
+	void setBodyImageName(string s) { _bodyImageName = s; }
+
+	vision* getVision() { return _vision; }
 };
 

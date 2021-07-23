@@ -38,13 +38,15 @@ void miniMap::setupMiniMap(int sizeX, int sizeY)
 	PatBlt(_miniMapBuffer->getMemDC(), 0, 0, _miniMapBuffer->getWidth(), _miniMapBuffer->getHeight(), BLACKNESS);
 }
 
-void miniMap::drawMiniMap(int tileX, int tileY, OBJECT obj, bool isPlayer, bool isEnemy)
+void miniMap::drawPlayer(int tileX, int tileY)
 {
-	if (isPlayer)
-	{
-		IMAGEMANAGER->findImage("minimap_player")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
-		return;
-	}
+	IMAGEMANAGER->findImage("minimap_player")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
+	return;
+}
+
+void miniMap::drawMiniMap(int tileX, int tileY, TERRAIN terrain, OBJECT obj, MAP_ITEM item, bool isEnemy)
+{
+	if (terrain == EMPTY) return;
 	if (isEnemy)
 	{
 		IMAGEMANAGER->findImage("minimap_enemy")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
@@ -69,6 +71,7 @@ void miniMap::drawMiniMap(int tileX, int tileY, OBJECT obj, bool isPlayer, bool 
 		IMAGEMANAGER->findImage("minimap_door")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
 		break;
 	case WALL_END:
+		IMAGEMANAGER->findImage("minimap_wall_end")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
 		break;
 	case TR_BOMB:
 	case TR_UP:
@@ -95,6 +98,10 @@ void miniMap::drawMiniMap(int tileX, int tileY, OBJECT obj, bool isPlayer, bool 
 		break;
 	default:
 		break;
+	}
+	if (item != MAP_ITEM_NONE)
+	{
+		IMAGEMANAGER->findImage("minimap_item")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
 	}
 }
 

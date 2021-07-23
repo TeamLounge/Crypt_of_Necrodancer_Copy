@@ -8,6 +8,7 @@ HRESULT objectManager::init()
 
 	_bomb = new bomb;
 	_bomb->init();
+	_playerBeforeX = _playerBeforeY = 0;
 	return S_OK;
 }
 
@@ -18,6 +19,7 @@ void objectManager::release()
 void objectManager::update()
 {
 	playerObjectCollison();
+	playerItemCollision();
 	if (_isMusicSpeedChanged)
 	{
 		_elapsedSec += TIMEMANAGER->getElapsedTime();
@@ -30,6 +32,12 @@ void objectManager::update()
 		}
 	}
 	_bomb->update();
+
+	if (_player->getTileX() != _playerBeforeX || _player->getTileY() != _playerBeforeY)
+	{
+		_playerBeforeX = _player->getTileX();
+		_playerBeforeY = _player->getTileY();
+	}
 }
 
 void objectManager::render()
@@ -125,10 +133,115 @@ void objectManager::playerObjectCollison()
 			iter = _playerPushedObject.erase(iter);
 		}
 	}
+
+
 }
 
 void objectManager::enemyObjectCollison()
 {
+}
+
+void objectManager::playerItemCollision()
+{
+	if (_player->getTileX() == _playerBeforeX && _player->getTileY() == _playerBeforeY) return;
+	int playerTileX = _player->getTileX();
+	int playerTileY = _player->getTileY();
+	switch (_map->getTileItem(playerTileX, playerTileY))
+	{
+	case MAP_ITEM_NONE:
+		break;
+	case MAP_TORCH_PLUS_1:
+		if (_player->getVision()->getStartLightNum() == BASICVISION)
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		}
+		else if (_player->getVision()->getStartLightNum() == BASICVISION + 1)
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_TORCH_PLUS_1);
+		}
+		else if (_player->getVision()->getStartLightNum() == BASICVISION + 2)
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_TORCH_PLUS_2);
+		}
+		_player->getVision()->setStartLightNum(BASICVISION + 1);
+		
+		break;
+	case MAP_TORCH_PLUS_2:
+		if (_player->getVision()->getStartLightNum() == BASICVISION)
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		}
+		else if (_player->getVision()->getStartLightNum() == BASICVISION + 1)
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_TORCH_PLUS_1);
+		}
+		else if (_player->getVision()->getStartLightNum() == BASICVISION + 2)
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_TORCH_PLUS_2);
+		}
+		_player->getVision()->setStartLightNum(BASICVISION + 2);
+		break;
+	case MAP_TITANUM_SHOVEL:
+		break;
+	case MAP_LEATHER_ARMOR:
+		if (_player->getBodyImageName() == "player_body_basic")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		}
+		else if (_player->getBodyImageName() == "player_body_leather")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_LEATHER_ARMOR);
+		}
+		else if (_player->getBodyImageName() == "player_body_chain")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_CHAIN_ARMOR);
+		}
+		_player->setBodyImageName("player_body_leather");
+		break;
+	case MAP_CHAIN_ARMOR:
+		if (_player->getBodyImageName() == "player_body_basic")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		}
+		else if (_player->getBodyImageName() == "player_body_leather")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_LEATHER_ARMOR);
+		}
+		else if (_player->getBodyImageName() == "player_body_chain")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_CHAIN_ARMOR);
+		}
+		_player->setBodyImageName("player_body_chain");
+		break;
+	case MAP_DAGGER:
+		
+		break;
+	case MAP_BROADSWORD:
+		
+		break;
+	case MAP_RAPIER:
+		
+		break;
+	case MAP_LONGSWORD:
+		
+		break;
+	case MAP_SPEAR:
+		
+		break;
+	case MAP_BOMB:
+
+		break;
+	case MAP_APPLE:
+		
+		break;
+	case MAP_CHEESE:
+		
+		break;
+	case MAP_COIN10:
+		
+	default:
+		break;
+	}
 }
 
 void objectManager::playerMove(int addTileX, int addTileY, PLAYER_ENEMY_DIRECTION dir)

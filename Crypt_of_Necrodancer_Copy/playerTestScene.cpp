@@ -15,9 +15,7 @@ HRESULT playerTestScene::init()
 	//플레이어
 	_player = new player;
 	_player->setPlayerMapMemoryAddressLink(_map);
-	_player->init(_map->getStartRoomX() + 2, _map->getStartRoomY() + 2);
-
-	_player->setupPlayerRect();
+	_player->init();
 
 	//에너미
 	_em = new enemyManager;
@@ -37,6 +35,7 @@ HRESULT playerTestScene::init()
 	_objectManager->init();
 	_objectManager->setObjectMapMemoryAddressLink(_map);
 	_objectManager->setObjectPlayerMemoryAddressLink(_player);
+	_objectManager->getBomb()->setBombMapMemoryAddressLink(_map);
 
 	//사운드 플레이
 	SOUNDMANAGER->play("zone1-1", 0.2f);
@@ -93,4 +92,6 @@ void playerTestScene::render()
 
 	_objectManager->render();
 	_player->getBomb()->render();
+
+	_map->seeItemRect(_player->getTileX(), _player->getTileY());
 }

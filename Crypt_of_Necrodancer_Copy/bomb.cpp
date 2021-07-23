@@ -63,6 +63,8 @@ void bomb::update()
 			}
 		}
 	}
+
+	explode();
 }
 
 void bomb::render()
@@ -82,7 +84,8 @@ void bomb::render(int tileX, int tileY)
 		{
 			if (!_viBomb->isExplode)
 			{
-				IMAGEMANAGER->findImage(_viBomb->imageName)->frameRender(getMemDC(), _viBomb->rc.left, _viBomb->rc.top, _viBomb->currentFrameX, _viBomb->currentFrameY);
+				IMAGEMANAGER->findImage(_viBomb->imageName)->frameRender(getMemDC(), _viBomb->rc.left, _viBomb->rc.top, _viBomb->currentFrameX, 0);
+				IMAGEMANAGER->findImage(_viBomb->imageName)->alphaFrameRender(getMemDC(), _viBomb->rc.left, _viBomb->rc.top, _viBomb->currentFrameX, 1, 255 - _map->getAlpha(_viBomb->tileX, _viBomb->tileY));
 			}
 		}
 	}
@@ -109,4 +112,33 @@ void bomb::fire(int tileX, int tileY, RECT rc)
 	bomb.isExplode = false;
 	bomb.imageName = "bomb";
 	_vBomb.push_back(bomb);
+}
+
+void bomb::explode()
+{
+	for (_viBomb = _vBomb.begin(); _viBomb != _vBomb.end(); ++_viBomb)
+	{
+		if (_viBomb->isExplode)
+		{
+			for (int i = _viBomb->tileY - 1; i <= _viBomb->tileY + 1; i++)
+			{
+				if (i < 0 || i >= _map->getYSize()) continue;
+				for (int j = _viBomb->tileX - 1; j <= _viBomb->tileX + 1; j++)
+				{
+					if (j < 0 || j >= _map->getXSize()) continue;
+					if (_map->getTileObject(j, i) == WALL_GOLD)
+					{
+						_map->setTileObject(j, i, OBJ_NONE);
+						_map->setIsHaveTorch(j, i, false);
+						_map->setTileItem(j, i, MAP_COIN10);
+					}
+					else if (_map->getTileObject(j, i) != OBJ_NONE && _map->getTileObject(j, i) != WALL_END)
+					{
+						_map->setTileObject(j, i, OBJ_NONE);
+						_map->setIsHaveTorch(j, i, false);
+					}
+				}
+			}
+		}
+	}
 }

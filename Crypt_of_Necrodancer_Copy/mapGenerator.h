@@ -18,6 +18,7 @@ struct tagRoom
 	ROOMSTATE roomState;
 };
 
+
 class mapGenerator : public gameNode
 {
 private:
@@ -49,8 +50,6 @@ private:
 	float _worldTime;
 
 	float _elapsedSec;
-
-	float _drawStartX, _drawStartY;
 
 public:
 	virtual HRESULT init(int width, int height);
@@ -93,8 +92,6 @@ public:
 
 	void testObject(); //함정 테스트 용
 
-	void drawMiniMap();
-
 	//이거 쓰면 벡터가 큰데 그게 복사되서 프레임 떨어짐
 	//vector<vector<tagTile>> getTiles() { return _tiles; }
 
@@ -123,6 +120,14 @@ public:
 
 	void setIsBombFired(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isBombFired = b; }
 
+	void setTileItem(int tileX, int tileY, MAP_ITEM item) { 
+		_tiles[tileY][tileX].item = item; 
+		if (item != MAP_ITEM_NONE && item != MAP_COIN10 && _tiles[tileY][tileX].itemDirection == NONE)
+		{
+			_tiles[tileY][tileX].itemDirection = UP;
+		}
+	}
+
 	//접근자
 	bool getIsSeen(int tileX, int tileY) { return _tiles[tileY][tileX].isSeen; }
 	RECT getRect(int tileX, int tileY) { return _tiles[tileY][tileX].rc; }
@@ -144,5 +149,10 @@ public:
 
 	bool getIsBombFired(int tileX, int tileY) { return _tiles[tileY][tileX].isBombFired; }
 
+	MAP_ITEM getTileItem(int tileX, int tileY) { return _tiles[tileY][tileX].item; }
+	
+
+	//아이템 렉트 보기 위한 것
+	void seeItemRect(int tileX, int tileY);
 };
 

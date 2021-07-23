@@ -9,6 +9,9 @@ struct tagTile
 	TERRAIN terrain;
 	OBJECT obj;
 	RECT rc;
+	MAP_ITEM item;
+	RECT itemRect;
+	PLAYER_ENEMY_DIRECTION itemDirection;
 	int terrainFrameX;
 	int terrainFrameY;
 	int objectFrameX;
@@ -23,6 +26,7 @@ struct tagTile
 class tileMap : public gameNode
 {
 	image* _tileBuffer;
+
 	int _tileX, _tileY;
 
 	int _savedX, _savedY;
@@ -56,9 +60,9 @@ public:
 
 	OBJECT wallSelect(int frameX, int frameY, CATEGORY category); //선택한 벽에 따른 OBJECT 구분
 
-	image* getTileBuffer() { return _tileBuffer; }
-
 	vector<vector<tagTile>> getTiles() { return _tiles; }
+
+	image* getTileBuffer() { return _tileBuffer; }
 
 	int getTileX() { return _tileX; }
 	int getTileY() { return _tileY; }

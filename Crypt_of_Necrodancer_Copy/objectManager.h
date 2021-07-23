@@ -23,6 +23,8 @@ class objectManager : public gameNode
 
 	tagPushedObject _music;
 
+	int _playerBeforeX, _playerBeforeY;
+
 	bomb* _bomb;
 
 public:
@@ -36,13 +38,20 @@ public:
 	void setObjectPlayerMemoryAddressLink(player* player) { _player = player; };
 	void setObjectEnemyManagerMemoryAddressLink(enemyManager* em) { _em = em; };
 
+	//벽이나 함정 등 오브젝트와 충돌
 	void playerObjectCollison();
 	void enemyObjectCollison();
+
+	//맵에 있는 아이템과 충돌
+	void playerItemCollision();
+
 
 	//방향 함정 플레이어 움직이게 하기
 					//x축으로 더할 값, y축으로 더할값, 바뀔 방향
 	void playerMove(int addTileX, int addTileY, PLAYER_ENEMY_DIRECTION dir);
 
 	void changeMusicSpeed(float speed);
+
+	bomb* getBomb() { return _bomb; }
 };
 
