@@ -3,22 +3,34 @@
 
 HRESULT slime::init()
 {
-	_worldTime = TIMEMANAGER->getWorldTime();
 
-	_rc = _map->getRect(_tileX, _tileY);
-	_map->setTileObject(_x, _y, ENEMY);
-
+	_toRender = _damageRender = false;
 	_direction = NONE;
-	_isRight = true;
 	_frameCount = 0;
 	_frameIndex = 0;
 
+	_isMove = false;		//시작하자마자 움직여
+	_isTime = false;
+
+	_isMoveUp = false;		//위, 아래
+	_isMoveRight = false;	//좌, 우
 
 	_gravity = 0;
 	_jumpPower = 0;
 
+	_worldTime = TIMEMANAGER->getWorldTime();
+
+
 	//맵에 뿌려주기
-	setArrangement();
+	/////////////////////////////////////////////////////////////////// 순서 잘 잡아라 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	setArrangement();	//타일에 먼저 뿌리고
+
+	_rc = _map->getRect(_tileX, _tileY);		//자리 잡고 나서 갱신해줘야지
+	_map->setIsEnemy(_tileX, _tileY, true);		//_map->setTileObject(_tileX, _tileY, ENEMY);  같은 거
+	_x = _rc.left;								//_x, _y는 이미지를 움직이기 위한 _rc를 토대로 가져온 실제 좌표(정보 가져오기 위함)
+	_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+
+
 
 	return S_OK;
 }
@@ -29,8 +41,72 @@ void slime::release()
 
 void slime::update()
 {
-	//플레이어 위치 파악
-	//따라가기 혹은 제자리 뛰기
+	if (TIMEMANAGER->getWorldTime() - _movingTime >= 1.0f)
+	{
+		_movingTime = TIMEMANAGER->getWorldTime();
+		if (_isTime)
+		{
+			_isTime = false;
+		}
+		else
+		{
+			_isTime = true;
+		}
+
+	}
+	if (TIMEMANAGER->getWorldTime() - _renderTime >= 0.5f)
+	{
+		_renderTime = TIMEMANAGER->getWorldTime();
+		if (_toRender)
+		{
+			_toRender = false;
+		}
+		else
+		{
+			_toRender = true;
+		}
+	}
+	
+	if (_map->getTileObject(_tileX, _tileY) == TR_LEFT)
+	{
+		_direction = LEFT;
+		_map->setIsEnemy(_tileX, _tileY, false);
+		_tileX -= 1;
+		_rc = _map->getRect(_tileX, _tileY);
+		_map->setIsEnemy(_tileX, _tileY, true);
+		_isMove = true;
+	}
+	else if (_map->getTileObject(_tileX, _tileY) == TR_RIGHT)
+	{
+		_direction = RIGHT;
+		_map->setIsEnemy(_tileX, _tileY, false);
+		_tileX += 1;
+		_rc = _map->getRect(_tileX, _tileY);
+		_map->setIsEnemy(_tileX, _tileY, true);
+		_isMove = true;
+	}
+	else if (_map->getTileObject(_tileX, _tileY) == TR_UP)
+	{
+		_direction = UP;
+		_map->setIsEnemy(_tileX, _tileY, false);
+		_tileY -= 1;
+		_rc = _map->getRect(_tileX, _tileY);
+		_map->setIsEnemy(_tileX, _tileY, true);
+		_isMove = true;
+	}
+	else if (_map->getTileObject(_tileX, _tileY) == TR_DOWN)
+	{
+		_direction = DOWN;
+		_map->setIsEnemy(_tileX, _tileY, false);
+		_tileY += 1;
+		_rc = _map->getRect(_tileX, _tileY);
+		_map->setIsEnemy(_tileX, _tileY, true);
+		_isMove = true;
+	}
+	/*else if (_astar->getStart())
+	{
+		skeletonMove(isTime);
+	}*/
 }
 
 void slime::render()
@@ -43,7 +119,6 @@ void slime::setArrangement()
 	//랜덤 배치
 	while (true)
 	{
-
 		//랜덤방에 배치
 		int random = RND->getInt(_map->getRoom().size());
 		if (_map->getRoom()[random].roomState == ROOM_START ||
@@ -62,13 +137,5 @@ void slime::setArrangement()
 		if (_map->getTileObject(_tileX, _tileY) != OBJ_NONE || _map->getTileTerrain(_tileX, _tileY) != DIRT1)
 			continue;
 		break;		//// 모든 컨티뉴 지옥에서 벗어낫다면 빠져 나오기
-
 	}
-}
-
-void slime::slimeMove()
-{
-	_map->setTileObject(_tileX, _tileY, OBJ_NONE);
-	_rc = _map->getRect(_tileX, _tileY);	//slime의 _x, _y 좌표를 타일 값으로 받아온다
-	_map->setTileObject(_tileX, _tileY, ENEMY);
 }

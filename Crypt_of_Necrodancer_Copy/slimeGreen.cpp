@@ -17,8 +17,8 @@ HRESULT slimeGreen::init()
 
 void slimeGreen::update()
 {
-	slimeMove();
 	setSlimeFrame();
+	moveSlimeGreen();	//그린슬라임만의 움직임
 
 }
 
@@ -33,7 +33,7 @@ void slimeGreen::render()
 		Rectangle(getMemDC(), _rc);
 	}
 
-	_img->frameRender(getMemDC(), _rc.left, _rc.top - (_rc.bottom - _rc.top) / 2, _currentFrameX, _currentFrameY);
+	_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
 }
 
 void slimeGreen::setImage()
@@ -49,92 +49,78 @@ void slimeGreen::setSlimeFrame()
 		_worldTime = TIMEMANAGER->getWorldTime();
 	}
 
-	if (_currentFrameX >= IMAGEMANAGER->findImage("slimeGreen")->getMaxFrameX())
+	_frameCount++;
+	if (_frameCount % 8 == 0)
 	{
-		_currentFrameX = 0;
-	}
-	else
-	{
-		_currentFrameX++;
-	}
-	if (_direction == LEFT)
-	{
-		_currentFrameY = 1;
-	}
-	else if (_direction == RIGHT)
-	{
-		_currentFrameY = 0;
-	}
-
-	/*if (IMAGEMANAGER->findImage("slimeGreen")->getFrameY() == 0)
-	{
-		_frameCount++;
-		if (_img->getFrameX() == _img->getMaxFrameX())
+		_frameCount = 0;
+		if (_currentFrameX >= IMAGEMANAGER->findImage("slimeGreen")->getMaxFrameX())
 		{
-			_img->setFrameX(0);
-			_img->setFrameY(0);
-			_frameCount = 0;
-		}
-	}
-	else if (IMAGEMANAGER->findImage("slimeGreen")->getFrameY() == 1)
-	{
-		_frameCount++;
-		if (_img->getFrameX() == _img->getMaxFrameX())
-		{
-			_img->setFrameX(0);
-			_img->setFrameY(1);
-			_frameCount = 0;
-		}
-	}*/
-
-	/*_count++;
-	if (_count >= 3)
-	{
-		_count = 0;
-		if (getCurrentFrameX() == _img->getMaxFrameX())
-		{
-			setCurrentFrameX(0);
+			_currentFrameX = 0;
 		}
 		else
 		{
-			setCurrentFrameX(getCurrentFrameX() + 1);
+			_currentFrameX++;
 		}
-		setCurrentFrameY(1);
-	}*/
-
-
-	/*if(_currentFrameX >= IMAGEMANAGER->findImage("slimeGreen")->getMaxFrameX())
-	{
-		_count++;
-		if (_count >= 3)
+		//좌우 랜덤 생성 어떻게 할까
+		/*if (RND->getFromIntTo(0, 1) == 1)
 		{
-			_count = 0;
-			if (getCurrentFrameX() == _img->getMaxFrameX());
-			{
-				setCurrentFrameY(_img->getMaxFrameX());
-			}
-			else
-			{
-				setCurrentFrameX(_img->getCurrentFrameX() + 1);
-			}
-			setCurrentFrameY(1);
+			_currentFrameY = 1;
 		}
-	}*/
-
-
-	/*_count++;
-	if (_count % 10 == 0)
-	{
-		_count = 0;
-		if (getcurrentframex() == _img->getmaxframex())
+		else if (RND->getFromIntTo(0, 1) == 0)
 		{
-			setcurrentframey(_img->getmaxframex());
+			_currentFrameY = 0;
+		}*/
+	}
+
+	
+
+}
+
+void slimeGreen::moveSlimeGreen()
+{
+	
+
+	if (TIMEMANAGER->getWorldTime() - _movingTime >= 1.0f)	//2박자
+	{
+		_movingTime = TIMEMANAGER->getWorldTime();
+		if (_isTime)
+		{
+			_isTime = false;
+			//_isMove = true;
 		}
 		else
 		{
-			setcurrentframex(getcurrentframex() + 1);
+			_isTime = true;
+			//_isMove = true;
 		}
-		setcurrentframey(1);
-	}*/
 
+	}
+	if (TIMEMANAGER->getWorldTime() - _renderTime >= 0.5f)	//1박자
+	{
+		_renderTime = TIMEMANAGER->getWorldTime();
+		if (_toRender)
+		{
+			_toRender = false;
+			_isMove = true;
+		}
+		else
+		{
+			_toRender = true;
+			_isMove = true;
+		}
+	}
+
+	//점프
+	if (_isMove)
+	{
+		_gravity += 0.965f;
+		_y += -sinf(7 * PI / 9) * 9 + _gravity;
+
+		if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
+		{
+			_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+			_isMove = false;
+			_gravity = 0;
+		}
+	}
 }

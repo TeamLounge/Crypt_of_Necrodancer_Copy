@@ -3,7 +3,6 @@
 #include "mapTool.h"
 #include "mapGenerator.h"
 #include "playerTestScene.h"
-#include "slimeGreen.h"
 #include "player.h"
 
 
