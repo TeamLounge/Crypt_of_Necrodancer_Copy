@@ -120,6 +120,14 @@ public:
 
 	void setIsBombFired(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isBombFired = b; }
 
+	void setTileItem(int tileX, int tileY, MAP_ITEM item) { 
+		_tiles[tileY][tileX].item = item; 
+		if (item != MAP_ITEM_NONE && item != MAP_COIN10 && _tiles[tileY][tileX].itemDirection == NONE)
+		{
+			_tiles[tileY][tileX].itemDirection = UP;
+		}
+	}
+
 	//접근자
 	bool getIsSeen(int tileX, int tileY) { return _tiles[tileY][tileX].isSeen; }
 	RECT getRect(int tileX, int tileY) { return _tiles[tileY][tileX].rc; }
@@ -142,7 +150,9 @@ public:
 	bool getIsBombFired(int tileX, int tileY) { return _tiles[tileY][tileX].isBombFired; }
 
 	MAP_ITEM getTileItem(int tileX, int tileY) { return _tiles[tileY][tileX].item; }
+	
 
+	//아이템 렉트 보기 위한 것
 	void seeItemRect(int tileX, int tileY);
 };
 

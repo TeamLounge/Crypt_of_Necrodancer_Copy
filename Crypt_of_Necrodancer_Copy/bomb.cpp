@@ -126,7 +126,13 @@ void bomb::explode()
 				for (int j = _viBomb->tileX - 1; j <= _viBomb->tileX + 1; j++)
 				{
 					if (j < 0 || j >= _map->getXSize()) continue;
-					if (_map->getTileObject(j, i) != OBJ_NONE && _map->getTileObject(j, i) != WALL_END)
+					if (_map->getTileObject(j, i) == WALL_GOLD)
+					{
+						_map->setTileObject(j, i, OBJ_NONE);
+						_map->setIsHaveTorch(j, i, false);
+						_map->setTileItem(j, i, MAP_COIN10);
+					}
+					else if (_map->getTileObject(j, i) != OBJ_NONE && _map->getTileObject(j, i) != WALL_END)
 					{
 						_map->setTileObject(j, i, OBJ_NONE);
 						_map->setIsHaveTorch(j, i, false);

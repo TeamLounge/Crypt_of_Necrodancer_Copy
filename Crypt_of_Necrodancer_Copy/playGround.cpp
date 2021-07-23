@@ -167,4 +167,7 @@ void playGround::addImage()
 	IMAGEMANAGER->addImage("shadow_standard_1", "image/player/shadow_standard1.bmp", 72, 81, true, RGB(255, 0, 255), true);	//검은색 타원
 	IMAGEMANAGER->addImage("shadow_standard_2", "image/player/shadow_standard2.bmp", 72, 81, true, RGB(255, 0, 255), true);//검은색 짝대기
 
+	//coin
+	IMAGEMANAGER->addFrameImage("coin10", "image/item/coin/coin10.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+
 }
