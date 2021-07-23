@@ -1,9 +1,9 @@
-#pragma 
+#pragma once
 #include "minotaurAndDragon.h"
-class minotaur : public minotaurAndDragon
+class dragon : public minotaurAndDragon
 {
 private:
-	bool isCursh;
+	bool isFire;
 public:
 	HRESULT init(int playerIndexX, int playerIndexY);
 	void update(int playerIndexX, int playerIndexY);

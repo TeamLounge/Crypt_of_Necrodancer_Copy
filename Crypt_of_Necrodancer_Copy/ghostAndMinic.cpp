@@ -27,7 +27,7 @@ HRESULT ghostAndMinic::init(int playerIndexX, int playerIndexY)
 	_astar->setLinkrandomMap(_map);
 	_astar->init(_tilex, _tiley, playerIndexX, playerIndexY);
 
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void ghostAndMinic::update(int playerIndexX, int playerIndexY)
@@ -167,21 +167,22 @@ void ghostAndMinic::GhostAndMimicMove(bool Time)
 	if (Time) {
 		int pastX = _tilex;
 		int pastY = _tiley;
-		_map->setIsEnemy(_tilex, _tiley, false);
 		if (_astar->getCloseListsize() != 0)
 		{
-			if (!(_map->getTileObject(_astar->getClosebackX(), _astar->getClosebackY()) == WALL_DOOR ||
-				_map->getIsEnemy(_astar->getClosebackX(), _astar->getClosebackY())))
+			if (_map->getTileObject(_astar->getClosebackX(), _astar->getClosebackY()) != WALL_DOOR &&
+				!_map->getIsEnemy(_astar->getClosebackX(), _astar->getClosebackY()))
 			{
+				_map->setIsEnemy(_tilex, _tiley, false);
 				_tilex = _astar->getClosebackX();
 				_tiley = _astar->getClosebackY();
+				_astar->move(_tilex, _tiley);
+				_map->setIsEnemy(_tilex, _tiley, true);
 			}
 		}
 		else if (_astar->getCloseListsize() == 0)
 		{
 			_astar->enemyAttack();
 		}
-
 		_rc = _map->getRect(_tilex, _tiley);
 		if (pastY == _tiley && _tilex - pastX == -1)
 		{
@@ -203,8 +204,7 @@ void ghostAndMinic::GhostAndMimicMove(bool Time)
 		{
 			_dir = NONE;
 		}
-		_astar->move(_tilex, _tiley);
-		_map->setIsEnemy(_tilex, _tiley, true);
+
 		isMove = true;
 	}
 }

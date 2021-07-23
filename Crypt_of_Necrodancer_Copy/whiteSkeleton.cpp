@@ -15,7 +15,6 @@ HRESULT whiteSkeleton::init(int playerIndexX, int playerIndexY)
 void whiteSkeleton::update(int playerIndexX, int playerIndexY)
 {
 	skeleton::update(playerIndexX, playerIndexY);
-	
 
 	if (isFind&&toRender)
 	{
@@ -56,27 +55,18 @@ void whiteSkeleton::update(int playerIndexX, int playerIndexY)
 		case NONE:
 			_gravity += 0.965f;
 			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-				//_y -= 9;
-			//_shadow.top -= -sinf(1 * PI / 2) * 6;
-			//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-			//if (_shadow.top >= _tileRect.top - 13)
-			//{
-			//_shadow.top = _tileRect.top - 13;
-			//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
 			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
 			{
 				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 				isMove = false;
 				_gravity = 0;
-				//_tileRenderY = _tileY;
 			}
 			break;
 		case LEFT:
 			_gravity += 0.965f;
 			_x += cosf(7 * PI / 9) * 9;
 			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-			//_shadow.left += cosf(7 * PI / 9) * 9;
-			//_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+		
 			if (_x <= _rc.left)
 			{
 				_x = _rc.left;
@@ -86,20 +76,13 @@ void whiteSkeleton::update(int playerIndexX, int playerIndexY)
 				{
 					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 				}
-				//_tileRenderX = _tileX;
 			}
-			//if (_shadow.left <= _tileRect.left)
-			//{
-			//	_shadow.left = _tileRect.left;
-			//	_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
-			//}
+		
 			break;
 		case RIGHT:
 			_gravity += 0.965f;
 			_x -= cosf(7 * PI / 9) * 9;
 			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-			//_shadow.left -= cosf(7 * PI / 9) * 10;
-			//_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
 			if (_x >= _rc.left)
 			{
 				_x = _rc.left;
@@ -110,53 +93,35 @@ void whiteSkeleton::update(int playerIndexX, int playerIndexY)
 
 					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 				}
-				//_tileRenderX = _tileX;
+				
 			}
-			//if (_shadow.left >= _tileRect.left)
-			//{
-			//	_shadow.left = _tileRect.left;
-			//	_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
-			//}
 
 			break;
 		case UP:
 			_gravity += 0.2f;
 			_y += -sinf(PI / 2) * 9 + _gravity;
-			//_y -= 9;
-			//_shadow.top += -sinf(1 * PI / 2) * 6;
-			//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-			//if (_shadow.top <= _tileRect.top - 13)
-			//{
-			//	_shadow.top = _tileRect.top - 13;
-			//	_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+			
 			if (_y <= _rc.top - (_rc.bottom - _rc.top) / 2)
 			{
 				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 				isMove = false;
 				_gravity = 0;
-				//_tileRenderY = _tileY;
+	
 			}
-			//}
+
 			break;
 		case DOWN:
 
 			_gravity += 1.2f;
 			_y += -sinf(PI / 2) + _gravity;
-			//_y -= 9;
-			//_shadow.top -= -sinf(1 * PI / 2) * 6;
-			//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-			//if (_shadow.top >= _tileRect.top - 13)
-			//{
-			//_shadow.top = _tileRect.top - 13;
-			//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+			
 			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
 			{
 				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 				isMove = false;
 				_gravity = 0;
-				//_tileRenderY = _tileY;
+				
 			}
-			//}
 			break;
 		}
 	}

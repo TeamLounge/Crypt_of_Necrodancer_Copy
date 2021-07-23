@@ -1,41 +1,33 @@
 #include "stdafx.h"
-#include "minotaur.h"
+#include "monkeyBasic.h"
 
-HRESULT minotaur::init(int playerIndexX, int playerIndexY)
+HRESULT monkeyBasic::init(int playerIndexX, int playerIndexY)
 {
-	minotaurAndDragon::init(playerIndexX, playerIndexY);
+	monkey::init(playerIndexX, playerIndexY);
 	_hp = 4;
-	_img = IMAGEMANAGER->findImage("minotaur");
+	_img = IMAGEMANAGER->findImage("monkeyBasic");
 	_img->setFrameY(0);
 	return S_OK;
 }
 
-void minotaur::update(int playerIndexX, int playerIndexY)
+void monkeyBasic::update(int playerIndexX, int playerIndexY)
 {
-	minotaurAndDragon::update(playerIndexX, playerIndexY);
+	monkey::update(playerIndexX, playerIndexY);
 
 	_count++;
 	if (_count % 10 == 0)
 	{
 		_index++;
-		if (_index > 3) _index = 0;
+		if (_index > 3) _index =0;
 		_count = 0;
 	}
-	if (isAction&&_index == 4)
+	if (iscatch&&_index == 4)
 	{
 		if (_count % 10 == 0)
 		{
 			_index++;
-
+			
 		}
-	}
-	if (!isAction)
-	{
-		//액션
-	}
-	if (isCursh)
-	{
-		//액션끝나고 박앗을때
 	}
 	if (isMove)
 	{
@@ -158,12 +150,12 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 	}
 }
 
-void minotaur::release()
+void monkeyBasic::release()
 {
 }
 
-void minotaur::render()
+void monkeyBasic::render()
 {
-	minotaurAndDragon::render();
+	monkey::render();
 	_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 }

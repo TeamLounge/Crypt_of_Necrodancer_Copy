@@ -1,14 +1,13 @@
 #include "stdafx.h"
-#include "skeleton.h"
+#include "minotaurAndDragon.h"
 
-HRESULT skeleton::init(int playerIndexX, int playerIndexY)
+HRESULT minotaurAndDragon::init(int playerIndexX, int playerIndexY)
 {
-
 	_astar = new aStarTest;
 	isFind = false;
 	isTime = isMove = false;
-	_count = _damageRenderCount =_damageindex =_index = _indey = 0;
-	toRender = damageRender = false;
+	_count = _damageRenderCount = _damageindex = _index = _indey = 0;
+	isAction = damageRender = false;
 	while (true) //·£´ý¹èÄ¡
 	{
 		int random = RND->getInt(_map->getRoom().size());//·£´ý¹æ¿¡ ¹èÄ¡
@@ -24,44 +23,49 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 	_rc = _map->getRect(_tilex, _tiley);
 	_map->setIsEnemy(_tilex, _tiley, true);
 	_x = _rc.left;
-	_y = _rc.top-(_rc.bottom - _rc.top)/2;
+	_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 	_astar->setLinkrandomMap(_map);
 	_astar->init(_tilex, _tiley, playerIndexX, playerIndexY);
 	return S_OK;
 }
 
-void skeleton::update(int playerIndexX , int playerIndexY)
-{	
-	if (TIMEMANAGER->getWorldTime() - _movingTime >= 1.0f)
-	{
-		_movingTime = TIMEMANAGER->getWorldTime();
-		if (isTime)
+void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
+{
+	if (isAction) {
+		if (TIMEMANAGER->getWorldTime() - _movingTime >= 0.5f)
 		{
-			isTime = false;
+			_movingTime = TIMEMANAGER->getWorldTime();
+			if (isTime)
+			{
+				isTime = false;
+			}
+			else
+			{
+				isTime = true;
+			}
 		}
-		else
-		{
-			isTime = true;
-		}
-
 	}
-	if (TIMEMANAGER->getWorldTime() - _renderTime >= 0.5f)
+	else
 	{
-		_renderTime = TIMEMANAGER->getWorldTime();
-		if (toRender)
+		if (TIMEMANAGER->getWorldTime() - _movingTime >= 1.0f)
 		{
-			toRender = false;
-		}
-		else
-		{
-			toRender = true;
+			_movingTime = TIMEMANAGER->getWorldTime();
+			if (isTime)
+			{
+				isTime = false;
+			}
+			else
+			{
+				isTime = true;
+			}
+
 		}
 	}
 
 	if (!isFind) {
-		for (int y = _tiley - 3; y <= _tiley + 3; y++)
+		for (int y = _tiley - 4; y <= _tiley + 4; y++)
 		{
-			for (int x = _tilex - 3; x <= _tilex + 3; x++)
+			for (int x = _tilex - 4; x <= _tilex + 4; x++)
 			{
 				if (x == playerIndexX && y == playerIndexY)
 				{
@@ -84,7 +88,7 @@ void skeleton::update(int playerIndexX , int playerIndexY)
 			_astar->move(_tilex, _tiley);
 			_map->setIsEnemy(_tilex, _tiley, true);
 			//_astar->callPathFinder();
-			isMove =true;
+			isMove = true;
 		}
 		else if (_map->getTileObject(_tilex, _tiley) == TR_RIGHT)
 		{
@@ -117,13 +121,13 @@ void skeleton::update(int playerIndexX , int playerIndexY)
 			_astar->move(_tilex, _tiley);
 			_map->setIsEnemy(_tilex, _tiley, true);
 			//_astar->callPathFinder();
-			isMove =true;
+			isMove = true;
 		}
 		else if (_astar->getStart())
 		{
-			skeletonMove(isTime);
+			minotaurAndDragonMove(isTime);
 		}
-		
+
 		isTime = false;
 	}
 	if (_astar->getDamage())
@@ -147,12 +151,11 @@ void skeleton::update(int playerIndexX , int playerIndexY)
 	}
 }
 
-void skeleton::release()
+void minotaurAndDragon::release()
 {
-
 }
 
-void skeleton::render()
+void minotaurAndDragon::render()
 {
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
@@ -168,22 +171,21 @@ void skeleton::render()
 			break;
 		case RIGHT:
 			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
-				(_map->getRect(_tilex, _tiley).left+_map->getRect(_tilex, _tiley).right)/2, _map->getRect(_tilex, _tiley).top, _damageindex, 0);
+				(_map->getRect(_tilex, _tiley).left + _map->getRect(_tilex, _tiley).right) / 2, _map->getRect(_tilex, _tiley).top, _damageindex, 0);
 			break;
 		case UP:
 			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
-				_map->getRect(_tilex, _tiley).left, _map->getRect(_tilex, _tiley).top +(_map->getRect(_tilex, _tiley).top - _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
+				_map->getRect(_tilex, _tiley).left, _map->getRect(_tilex, _tiley).top + (_map->getRect(_tilex, _tiley).top - _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
 			break;
 		case DOWN:
 			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
-				_map->getRect(_tilex, _tiley).left, (_map->getRect(_tilex, _tiley).top +_map->getRect(_tilex, _tiley).bottom)/2, _damageindex, 1);
+				_map->getRect(_tilex, _tiley).left, (_map->getRect(_tilex, _tiley).top + _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
 			break;
 		}
 	}
 }
 
-
-void skeleton::skeletonMove(bool Time)
+void minotaurAndDragon::minotaurAndDragonMove(bool Time)
 {
 	if (Time) {
 		int pastX = _tilex;

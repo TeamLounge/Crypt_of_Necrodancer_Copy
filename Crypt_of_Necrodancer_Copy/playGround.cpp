@@ -135,8 +135,9 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("blackSkeleton", "image/enemy/skeletonBlack.bmp", 576, 177, 8, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("ghost", "image/enemy/ghost.bmp", 144, 144, 2, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("mimic", "image/enemy/mimic.bmp", 375, 75, 5, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("minotaur", "image/enemy/minotaur.bmp", 1350, 294, 8, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("minotaur", "image/enemy/minotaur.bmp", 1350, 294, 9, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("monkeyBasic", "image/enemy/monkeyBasic.bmp", 450, 150, 6, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("monkeyWhite" ,"image/enemy/monkeyWhite.bmp", 450, 150, 6, 2, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addFrameImage("skeleton_dark", "image/enemy/skeletonBasic_dark.bmp", 576, 177, 8, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("ghost_dark", "image/enemy/ghost_dark.bmp", 144, 144, 2, 2, true, RGB(255, 0, 255));

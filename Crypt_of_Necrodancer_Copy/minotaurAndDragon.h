@@ -2,8 +2,7 @@
 #include "gameNode.h"
 #include "mapGenerator.h"
 #include "aStarTest.h"
-
-class monkey : public gameNode
+class minotaurAndDragon : public gameNode
 {
 protected:
 	mapGenerator* _map;
@@ -24,14 +23,14 @@ protected:
 
 	bool isFind;
 	bool isTime, isMove;
-	bool iscatch, damageRender;
+	bool isAction ,damageRender;
 public:
 	virtual HRESULT init(int playerIndexX, int playerIndexY);
 	virtual void update(int playerIndexX, int playerIndexY);
 	virtual void release();
 	virtual void render();
 
-	virtual void monkeyMove(bool Time);
+	virtual void minotaurAndDragonMove(bool Time);
 
 	virtual image* getImage() { return _img; }
 	virtual int getX() { return _tilex; }

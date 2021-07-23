@@ -16,7 +16,8 @@
 #include "ghost.h"
 #include "mimic.h"
 
-#include "monkey.h"
+#include "monkeyBasic.h"
+#include "monkeyWhite.h"
 
 #include "minotaur.h"
 
@@ -93,25 +94,30 @@ private:
 	////////////////////////////////
 	////			 망키	 		//
 	////////////////////////////////
-	//
-	//typedef vector<monkey*>  vMonkey;
-	//typedef vector<monkey*>::iterator viMonkey;
-	//
-	//vMonkey _vMonkey;
-	//viMonkey _viMonkey;
-	//
-	//
-	////////////////////////////////
-	////	     미노타우르스 		//
-	////////////////////////////////
-	//
-	//typedef vector<minotaur*>  vMinotaur;
-	//typedef vector<minotaur*>::iterator viMinotaur;
-	//
-	//
-	//vMinotaur _vMinotaur;
-	//viMinotaur _viMinotaur;
-	//
+	
+	typedef vector<monkeyBasic*>  vMonkeyBasic;
+	typedef vector<monkeyBasic*>::iterator viMonkeyBasic;
+	
+	vMonkeyBasic _vMonkeyBasic;
+	viMonkeyBasic _viMonkeyBasic;
+	
+	typedef vector<monkeyWhite*>  vMonkeyWhite;
+	typedef vector<monkeyWhite*>::iterator viMonkeyWhite;
+
+	vMonkeyWhite _vMonkeyWhite;
+	viMonkeyWhite _viMonkeyWhite;
+	
+	//////////////////////////////
+	//	     미노타우르스 		//
+	//////////////////////////////
+	
+	typedef vector<minotaur*>  vMinotaur;
+	typedef vector<minotaur*>::iterator viMinotaur;
+	
+	
+	vMinotaur _vMinotaur;
+	viMinotaur _viMinotaur;
+	
 
 
 public:
@@ -123,9 +129,10 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void setImage();
+	void setMapGeneratorMemoryAddressLink(mapGenerator* map) { _map = map; }
+	void setPlayerMemoryAddressLink(player* player) { _player = player; }
 
-
+	//ㄹㅇ 수만은 셋터들
 	void setSlimeGreen();
 	void updateSlimeGreen();
 	void renderSlimeGreen();
@@ -138,18 +145,40 @@ public:
 	void updateSlimeBlue();
 	void renderSlimeBlue();
 
-	void setMapGeneratorMemoryAddressLink(mapGenerator* map) {_map = map;}
-	void setPlayerMemoryAddressLink(player* player) { _player = player; }
 
-	
-	//ㄹㅇ 수만은 셋터들
 	void setWhiteSkeleton();
+	void updateWhiteSkeleton();
+	void renderWhiteSkeleton();
+
 	void setGreenSkeleton();
+	void updateGreenSkeleton();
+	void renderGreenSkeleton();
+
 	void setBlackSkeleton();
+	void updateBlackSkeleton();
+	void renderBlackSkeleton();
+
 	void setGhost();
+	void updateGhost();
+	void renderGhost();
+
 	void setMimic();
-	//void setMonkey();
-	//void setMinotaur();
+	void updateMimic();
+	void renderMimic();
+
+	void setMonkeyBasic();
+	void updateMonkeyBasic();
+	void renderMonkeyBasic();
+
+	void setMonkeyWhite();
+	void updateMonkeyWhite();
+	void renderMonkeyWhite();
+	
+	void setMinotaur();
+	void updateMinotaur();
+	void renderMinotaur();
+
+
 
 	//ㄹㅇ 수만은 겟터들
 
@@ -171,15 +200,19 @@ public:
 	vBlackSkeleton getVBlackSkeleton() { return _vBlackSkeleton; }
 	viBlackSkeleton getVIBlackSkeleton() { return _viBlackSkeleton; }
 
-	//vGhost getVGhost() { return _vGhost; }
-	//viGhost getVIGhost() { return _viGhost; }
-	//
-	//vMimic getVMimic() { return _vMimic; }
-	//viMimic getVIMimic() { return _viMimic; }
-	//
-	//vMonkey getVMonkey() { return _vMonkey; }
-	//viMonkey getVIMonkey() { return _viMonkey; }
-	//
-	//vMinotaur getVMinotaur() { return _vMinotaur; }
-	//viMinotaur getVIMinotaur() { return _viMinotaur; }
+	vGhost getVGhost() { return _vGhost; }
+	viGhost getVIGhost() { return _viGhost; }
+	
+	vMimic getVMimic() { return _vMimic; }
+	viMimic getVIMimic() { return _viMimic; }
+	
+	vMonkeyBasic getVMonkeyBasic() { return _vMonkeyBasic; }
+	viMonkeyBasic getVIMonkeyBasic() { return _viMonkeyBasic; }
+	
+	vMonkeyWhite getVMonkeyWhite() { return _vMonkeyWhite; }
+	viMonkeyWhite getVIMonkeyWhite() { return _viMonkeyWhite; }
+
+	vMinotaur getVMinotaur() { return _vMinotaur; }
+	viMinotaur getVIMinotaur() { return _viMinotaur; }
+
 };

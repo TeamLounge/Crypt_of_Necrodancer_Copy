@@ -648,35 +648,49 @@ void aStarTest::callPathFinder()
 
 void aStarTest::enemyAttack()
 {
-	if ((_startTile->getIdX() == _endTile->getIdX() && ( _startTile->getIdY() + 1 == _endTile->getIdY() || _startTile->getIdY() - 1) == _endTile->getIdY()) ||
-		(_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 == _endTile->getIdX() || _startTile->getIdX() - 1) == _endTile->getIdX()))
+	if (_startTile->getIdX() == _endTile->getIdX())
 	{
-		//hp´Þ°ÔÇÒ²¨¾ç
-		damage = true;
-		if (_startTile->getIdX() == _endTile->getIdX())
+		if (_endTile->getIdY() == _startTile->getIdY() + 1)
 		{
-			if (_endTile->getIdY() == _startTile->getIdY() + 1)
+			//hp´Þ°ÔÇÒ²¨¾ç
+			_damagecount++;
+			if (_damagecount > 1)
 			{
-
+				damage = true;
 				_dir = DOWN;
 			}
-			else if (_endTile->getIdY() == _startTile->getIdY() - 1)
+		}
+		else if (_endTile->getIdY() == _startTile->getIdY() - 1)
+		{
+			//hp´Þ°ÔÇÒ²¨¾ç
+			_damagecount++;
+			if (_damagecount > 1)
 			{
-
+				damage = true;
 				_dir = UP;
 			}
 		}
-		else if (_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1))
+	}
+	else if (_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1))
+	{
+		if (_endTile->getIdX() == _startTile->getIdX() + 1)
 		{
-			if (_endTile->getIdX() == _startTile->getIdX() + 1)
+			//hp´Þ°ÔÇÒ²¨¾ç
+			_damagecount++;
+			if (_damagecount > 1)
 			{
+				damage = true;
 				_dir = RIGHT;
-
 			}
-			else if (_endTile->getIdX() == _startTile->getIdX() - 1)
+		}
+		else if (_endTile->getIdX() == _startTile->getIdX() - 1)
+		{
+			//hp´Þ°ÔÇÒ²¨¾ç
+			_damagecount++;
+			if (_damagecount > 1)
 			{
+				damage = true;
 				_dir = LEFT;
-
 			}
 		}
 	}
