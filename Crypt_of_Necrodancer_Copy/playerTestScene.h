@@ -6,6 +6,7 @@
 #include "UIManager.h"
 #include "objectManager.h"
 #include "weapon.h"
+#include "shovel.h"
 
 class playerTestScene : public gameNode
 {
@@ -16,6 +17,7 @@ private:
 	enemyManager* _em;
 	objectManager* _objectManager;
 	weapon* _weapon;
+	shovel* _shovel;
 
 public:
 	virtual HRESULT init();

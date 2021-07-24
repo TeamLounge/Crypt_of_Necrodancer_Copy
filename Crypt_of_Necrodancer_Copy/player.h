@@ -11,6 +11,7 @@
 #define BASICVISION 5
 
 class weapon;
+class shovel;
 class enemyManager;
 
 class player : public gameNode
@@ -48,6 +49,7 @@ private:
 
 	//링크용
 	weapon* _weapon;
+	shovel* _shovel;
 
 	bomb* _bomb;
 
@@ -85,8 +87,12 @@ public:
 
 	bomb* getBomb() { return _bomb; }
 
-	//웨폰링크
+	//겟타일 접근
+	OBJECT getOBJ(int tileX, int tileY) { return _map->getTileObject(tileX, tileY); }
+
+	//아이템링크
 	void setWeaponMemoryAddressLink(weapon* weapon) { _weapon = weapon; }
+	void setShovelMemoryAddressLink(shovel* shovel) { _shovel = shovel; }
 
 	//바디 이미지 접근자 설정자
 	string getBodyImageName() { return _bodyImageName; }

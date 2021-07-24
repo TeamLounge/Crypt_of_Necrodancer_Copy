@@ -9,6 +9,13 @@ HRESULT objectManager::init()
 	_bomb = new bomb;
 	_bomb->init();
 	_playerBeforeX = _playerBeforeY = 0;
+
+	bodyName = "bodyarmor_basic";
+	torchName = "torch_basic_none";
+
+	UIMANAGER->addUI("body", bodyName.c_str(), 0, 0);
+	UIMANAGER->addUI("torch", torchName.c_str(), 0, 0);
+
 	return S_OK;
 }
 
@@ -154,32 +161,39 @@ void objectManager::playerItemCollision()
 		if (_player->getVision()->getStartLightNum() == BASICVISION)
 		{
 			_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+			torchName = "torch_basic_none";
 		}
 		else if (_player->getVision()->getStartLightNum() == BASICVISION + 1)
 		{
 			_map->setTileItem(playerTileX, playerTileY, MAP_TORCH_PLUS_1);
+			torchName = "torch_plus_1";
 		}
 		else if (_player->getVision()->getStartLightNum() == BASICVISION + 2)
 		{
 			_map->setTileItem(playerTileX, playerTileY, MAP_TORCH_PLUS_2);
+			torchName = "torch_plus_2";
 		}
 		_player->getVision()->setStartLightNum(BASICVISION + 1);
-		
+		torchName = "torch_plus_1";
 		break;
 	case MAP_TORCH_PLUS_2:
 		if (_player->getVision()->getStartLightNum() == BASICVISION)
 		{
 			_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+			torchName = "torch_basic_none";
 		}
 		else if (_player->getVision()->getStartLightNum() == BASICVISION + 1)
 		{
 			_map->setTileItem(playerTileX, playerTileY, MAP_TORCH_PLUS_1);
+			torchName = "torch_plus_1";
 		}
 		else if (_player->getVision()->getStartLightNum() == BASICVISION + 2)
 		{
 			_map->setTileItem(playerTileX, playerTileY, MAP_TORCH_PLUS_2);
+			torchName = "torch_plus_2";
 		}
 		_player->getVision()->setStartLightNum(BASICVISION + 2);
+		torchName = "torch_plus_2";
 		break;
 	case MAP_TITANUM_SHOVEL:
 		break;
@@ -187,31 +201,39 @@ void objectManager::playerItemCollision()
 		if (_player->getBodyImageName() == "player_body_basic")
 		{
 			_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+			bodyName = "bodyarmor_basic";
 		}
 		else if (_player->getBodyImageName() == "player_body_leather")
 		{
 			_map->setTileItem(playerTileX, playerTileY, MAP_LEATHER_ARMOR);
+			bodyName = "leather_armor";
 		}
 		else if (_player->getBodyImageName() == "player_body_chain")
 		{
 			_map->setTileItem(playerTileX, playerTileY, MAP_CHAIN_ARMOR);
+			bodyName = "chain_armor";
 		}
 		_player->setBodyImageName("player_body_leather");
+		bodyName = "leather_armor";
 		break;
 	case MAP_CHAIN_ARMOR:
 		if (_player->getBodyImageName() == "player_body_basic")
 		{
 			_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+			bodyName = "bodyarmor_basic";
 		}
 		else if (_player->getBodyImageName() == "player_body_leather")
 		{
 			_map->setTileItem(playerTileX, playerTileY, MAP_LEATHER_ARMOR);
+			bodyName = "leather_armor";
 		}
 		else if (_player->getBodyImageName() == "player_body_chain")
 		{
 			_map->setTileItem(playerTileX, playerTileY, MAP_CHAIN_ARMOR);
+			bodyName = "chain_armor";
 		}
 		_player->setBodyImageName("player_body_chain");
+		bodyName = "chain_armor";
 		break;
 	case MAP_DAGGER:
 		

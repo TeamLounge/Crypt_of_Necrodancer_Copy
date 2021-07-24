@@ -31,6 +31,9 @@ void longSword::update(weapon * weapon)
 				weapon->_player->getTileRect().left - TILESIZE - i * TILESIZE,
 				weapon->_player->getTileRect().top,
 				TILESIZE, TILESIZE);
+
+			(weapon->_vCollision.begin() + i)->tileX = weapon->_player->getTileX() - 1 - i;
+			(weapon->_vCollision.begin() + i)->tileY = weapon->_player->getTileY();
 		}
 	}
 
@@ -42,6 +45,9 @@ void longSword::update(weapon * weapon)
 				weapon->_player->getTileRect().left,
 				weapon->_player->getTileRect().top - TILESIZE - i * TILESIZE,
 				TILESIZE, TILESIZE);
+
+			(weapon->_vCollision.begin() + i)->tileX = weapon->_player->getTileX();
+			(weapon->_vCollision.begin() + i)->tileY = weapon->_player->getTileY() - 1 - i;
 		}
 	}
 
@@ -53,6 +59,9 @@ void longSword::update(weapon * weapon)
 				weapon->_player->getTileRect().left + TILESIZE + i * TILESIZE,
 				weapon->_player->getTileRect().top,
 				TILESIZE, TILESIZE);
+
+			(weapon->_vCollision.begin() + i)->tileX = weapon->_player->getTileX() + 1 + i;
+			(weapon->_vCollision.begin() + i)->tileY = weapon->_player->getTileY();
 		}
 	}
 
@@ -64,6 +73,9 @@ void longSword::update(weapon * weapon)
 				weapon->_player->getTileRect().left,
 				weapon->_player->getTileRect().top + TILESIZE + i * TILESIZE,
 				TILESIZE, TILESIZE);
+
+			(weapon->_vCollision.begin() + i)->tileX = weapon->_player->getTileX();
+			(weapon->_vCollision.begin() + i)->tileY = weapon->_player->getTileY() + 1 + i;
 		}
 	}
 }

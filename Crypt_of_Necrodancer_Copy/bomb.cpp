@@ -5,6 +5,8 @@ HRESULT bomb::init()
 {
 	_worldTime = TIMEMANAGER->getWorldTime();
 	_elapsedSec = 0;
+
+	UIMANAGER->addUI("bomb", "bomb", 0, 0);
 	return S_OK;
 }
 

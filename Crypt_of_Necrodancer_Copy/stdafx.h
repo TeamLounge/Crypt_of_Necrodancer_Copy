@@ -27,6 +27,7 @@
 //#include "renderManager.h"
 #include "streamManager.h"
 #include "miniMap.h"
+#include "UIUIManager.h"
 #include <vector>
 
 
@@ -67,7 +68,8 @@ using namespace SUNFL_UTIL;
 #define TXTDATA			txtData::getSingleton()
 #define INIDATA			iniDataManager::getSingleton()
 #define STREAMMANAGER	streamManager::getSingleton()
-#define MINIMAP		miniMap::getSingleton()
+#define MINIMAP			miniMap::getSingleton()
+#define UIMANAGER		UIUIManager::getSingleton()
 
 #define SAFE_DELETE(p) {if(p) {delete(p); (p) = nullptr;}}
 #define SAFE_RELEASE(p) {if(p) {(p)->release(); (p) = NULL;}}

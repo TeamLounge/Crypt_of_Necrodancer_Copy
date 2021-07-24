@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "UIManager.h"
-#include "weapon.h"
 
 UIManager::UIManager()
 {
@@ -31,8 +30,6 @@ HRESULT UIManager::init()
 		_isOnOff = _isReload = _isThrow =
 		_isPress = _isHolster = _isHolster2 = false;
 	_isSpell = _isSpell2 = _isSpell3 = false;
-
-	_weapon = new weapon;
 	return S_OK;
 }
 
@@ -1546,7 +1543,27 @@ void UIManager::renderItemHUD()
 
 		if ((*(_vItemHUD.begin() + i))->getItemType() == ATTACK)
 		{
-			_weapon->getWeaponImage()->frameRender(getMemDC(), (*(_vItemHUD.begin() + i))->getRect().left + 10, (*(_vItemHUD.begin() + i))->getRect().top + 20, 0, 0);
+			UIMANAGER->render("weapon", getMemDC(), (*(_vItemHUD.begin() + i))->getRect().left + 10, (*(_vItemHUD.begin() + i))->getRect().top + 20, 0, 0);
+		}
+
+		if ((*(_vItemHUD.begin() + i))->getItemType() == SHOVEL)
+		{
+			UIMANAGER->render("shovel", getMemDC(), (*(_vItemHUD.begin() + i))->getRect().left + 10, (*(_vItemHUD.begin() + i))->getRect().top + 20, 0, 0);
+		}
+
+		if ((*(_vItemHUD.begin() + i))->getItemType() == BOMB)
+		{
+			UIMANAGER->render("bomb", getMemDC(), (*(_vItemHUD.begin() + i))->getRect().left + 10, (*(_vItemHUD.begin() + i))->getRect().top + 20, 0, 0);
+		}
+
+		if ((*(_vItemHUD.begin() + i))->getItemType() == BODY)
+		{
+			UIMANAGER->render("body", getMemDC(), (*(_vItemHUD.begin() + i))->getRect().left + 10, (*(_vItemHUD.begin() + i))->getRect().top + 20, 0, 0);
+		}
+
+		if ((*(_vItemHUD.begin() + i))->getItemType() == TORCH)
+		{
+			UIMANAGER->render("torch", getMemDC(), (*(_vItemHUD.begin() + i))->getRect().left + 10, (*(_vItemHUD.begin() + i))->getRect().top + 20, 0, 0);
 		}
 	}
 }
