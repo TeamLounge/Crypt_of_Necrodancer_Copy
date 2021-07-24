@@ -29,7 +29,9 @@ HRESULT minotaurAndDragon::init(int playerIndexX, int playerIndexY)
 
 void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 {
-	if (isAction) {
+	_astar->endmove(playerIndexX, playerIndexY);
+	if (isAction) 
+	{
 		if (TIMEMANAGER->getWorldTime() - _movingTime >= 0.5f)
 		{
 			_movingTime = TIMEMANAGER->getWorldTime();
@@ -60,6 +62,8 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 				isTime = true;
 			}
 		}
+		isMove = true;
+		moveMotion(isTime);
 		if (!isFind) {
 			for (int y = _tiley - 4; y <= _tiley + 4; y++)
 			{
@@ -74,7 +78,6 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 		}
 		else
 		{
-			_astar->endmove(playerIndexX, playerIndexY);
 			_astar->update();
 
 			if (_map->getTileObject(_tilex, _tiley) == TR_LEFT)
@@ -127,6 +130,7 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 			}
 			else if (_astar->getStart())
 			{
+				isMove = true;
 				minotaurAndDragonMove(isTime);
 			}
 			isTime = false;
@@ -144,6 +148,7 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 		if (_damageRenderCount % 3 == 0)
 		{
 			_damageindex++;
+			_damageRenderCount = 0;
 		}
 		if (_damageindex > 4)
 		{
@@ -200,6 +205,7 @@ void minotaurAndDragon::minotaurAndDragonMove(bool Time)
 				_map->setIsEnemy(_tilex, _tiley, false);
 				_tilex = _astar->getClosebackX();
 				_tiley = _astar->getClosebackY();
+				_rc = _map->getRect(_tilex, _tiley);
 				moveMotion(isTime);
 				_astar->move(_tilex, _tiley);
 				_map->setIsEnemy(_tilex, _tiley, true);
@@ -209,7 +215,6 @@ void minotaurAndDragon::minotaurAndDragonMove(bool Time)
 		{
 			_astar->enemyAttack();
 		}
-		_rc = _map->getRect(_tilex, _tiley);
 		if (pastY == _tiley && _tilex - pastX == -1)
 		{
 			_dir = LEFT;
@@ -259,7 +264,7 @@ void minotaurAndDragon::minotaurActionMove(bool Time)
 			_astar->enemyAttack();
 			if (_astar->getDamage())
 			{
-				_tilex = pastx;
+ 				_tilex = pastx;
 				_tiley = pasty;
 				_dir = NONE;
 				_index = 5;
@@ -279,7 +284,6 @@ void minotaurAndDragon::minotaurActionMove(bool Time)
 		{
 			_map->setIsEnemy(pastx, pasty, false);
 			_rc = _map->getRect(_tilex, _tiley);
-			moveMotion(isTime);
 			_map->setIsEnemy(_tilex, _tiley, true);
 			_astar->actionMove(_tilex, _tiley);
 			isMove = true;

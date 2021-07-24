@@ -77,7 +77,7 @@ void weapon::render()
 		{
 			Rectangle(getMemDC(), (*_viCollision).rc);
 		}
-
+	
 		Rectangle(getMemDC(), _weapon.rc);
 	}
 }

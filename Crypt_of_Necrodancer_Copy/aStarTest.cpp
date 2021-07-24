@@ -48,9 +48,9 @@ void aStarTest::update()
 
 void aStarTest::render()
 {
-	for (int i = 0; i < _vCloseList.size(); ++i)
+	for (int i = 0; i < _vTotalList.size(); ++i)
 	{
-		_vCloseList[i]->render();
+		_vTotalList[i]->render();
 	}
 	if (damage)
 	{
@@ -679,22 +679,16 @@ void aStarTest::enemyAttack()
 		if (_endTile->getIdY() == _startTile->getIdY() + 1)
 		{
 			//hp´Þ°ÔÇÒ²¨¾ç
-			_damagecount++;
-			if (_damagecount > 1)
-			{
-				damage = true;
-				_dir = DOWN;
-			}
+			damage = true;
+			_dir = DOWN;
+		
 		}
 		else if (_endTile->getIdY() == _startTile->getIdY() - 1)
 		{
 			//hp´Þ°ÔÇÒ²¨¾ç
-			_damagecount++;
-			if (_damagecount > 1)
-			{
-				damage = true;
-				_dir = UP;
-			}
+			damage = true;
+			_dir = DOWN;
+
 		}
 	}
 	else if (_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1))
@@ -702,22 +696,16 @@ void aStarTest::enemyAttack()
 		if (_endTile->getIdX() == _startTile->getIdX() + 1)
 		{
 			//hp´Þ°ÔÇÒ²¨¾ç
-			_damagecount++;
-			if (_damagecount > 1)
-			{
-				damage = true;
-				_dir = RIGHT;
-			}
+			damage = true;
+			_dir = DOWN;
+
 		}
 		else if (_endTile->getIdX() == _startTile->getIdX() - 1)
 		{
 			//hp´Þ°ÔÇÒ²¨¾ç
-			_damagecount++;
-			if (_damagecount > 1)
-			{
-				damage = true;
-				_dir = LEFT;
-			}
+			damage = true;
+			_dir = DOWN;
+
 		}
 	}
 }

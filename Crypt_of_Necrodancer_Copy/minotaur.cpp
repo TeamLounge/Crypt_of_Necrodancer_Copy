@@ -17,12 +17,14 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 {
 	minotaurAndDragon::update(playerIndexX, playerIndexY);
 
-	_count++;
-	if (_count % 10 == 0)
-	{
-		_index++;
-		if (_index > 3) _index = 0;
-		_count = 0;
+	if (_index <= 3) {
+		_count++;
+		if (_count % 10 == 0)
+		{
+			_index++;
+			if (_index > 3) _index = 0;
+			_count = 0;
+		}
 	}
 	if (isAction&& _index >= 5)
 	{

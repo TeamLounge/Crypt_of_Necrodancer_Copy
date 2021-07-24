@@ -108,17 +108,17 @@ void playerTestScene::render()
 			if (j >= _map->getXSize()) break;
 			_map->render(j, i, false);
 			_player->render(j, i);
-			_objectManager->render(j, i);
+			//_objectManager->render(j, i);
 		}
 	}
 	_em->render();
-	_UIM->renderHeartBeat();
-	_weapon->render();
-	_UIM->renderItemHUD();
-	_shovel->render();
+	//_UIM->renderHeartBeat();
+	//_weapon->render();
+	//_UIM->renderItemHUD();
+	//_shovel->render();
 
-	_objectManager->render();
-	_player->getBomb()->render();
+	//_objectManager->render();
+	//_player->getBomb()->render();
 
-	_map->seeItemRect(_player->getTileX(), _player->getTileY());
+	//_map->seeItemRect(_player->getTileX(), _player->getTileY());
 }
