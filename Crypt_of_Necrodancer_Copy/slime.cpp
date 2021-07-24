@@ -5,7 +5,7 @@ HRESULT slime::init()
 {
 
 	_toRender = _damageRender = false;
-	_direction = NONE;
+	//_direction = NONE;
 	_frameCount = 0;
 	_frameIndex = 0;
 

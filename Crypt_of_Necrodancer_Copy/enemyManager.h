@@ -21,6 +21,8 @@
 
 #include "minotaur.h"
 
+#include "zombie.h"
+
 
 
 class player;	//상호 참조 위한 전방 선언
@@ -76,7 +78,7 @@ private:
 	viBlackSkeleton _viBlackSkeleton;
 
 	//////////////////////////////
-	//	     고스트&미믹 		//
+	//	     고스트&미믹 			//
 	//////////////////////////////
 	typedef vector<ghost*>  vGhost;
 	typedef vector<ghost*>::iterator viGhost;
@@ -92,7 +94,7 @@ private:
 	viMimic _viMimic;
 	
 	////////////////////////////////
-	////			 망키	 		//
+	////			 망키	 	  //
 	////////////////////////////////
 	
 	typedef vector<monkeyBasic*>  vMonkeyBasic;
@@ -108,15 +110,23 @@ private:
 	viMonkeyWhite _viMonkeyWhite;
 	
 	//////////////////////////////
-	//	     미노타우르스 		//
+	//	     미노타우르스 			//
 	//////////////////////////////
 	
 	typedef vector<minotaur*>  vMinotaur;
 	typedef vector<minotaur*>::iterator viMinotaur;
 	
-	
 	vMinotaur _vMinotaur;
 	viMinotaur _viMinotaur;
+
+	//////////////////////////////
+	//			  좀비			//
+	//////////////////////////////
+	typedef vector<zombie*>					vZombie;
+	typedef vector<zombie*>::iterator		viZombie;
+
+	vZombie					_vZombie;
+	viZombie				_viZombie;
 	
 
 
@@ -178,6 +188,9 @@ public:
 	void updateMinotaur();
 	void renderMinotaur();
 
+	void setZombie();
+	void updateZombie();
+	void renderZombie();
 
 
 	//ㄹㅇ 수만은 겟터들
@@ -214,5 +227,8 @@ public:
 
 	vMinotaur getVMinotaur() { return _vMinotaur; }
 	viMinotaur getVIMinotaur() { return _viMinotaur; }
+
+	vZombie getVZombie() { return _vZombie; }
+	viZombie getVIZombie() { return _viZombie; }
 
 };

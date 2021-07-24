@@ -226,6 +226,7 @@
     <ClInclude Include="whiteSkeleton.h" />
     <ClInclude Include="vision.h" />
     <ClInclude Include="X.h" />
+    <ClInclude Include="zombie.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="action.cpp" />
@@ -308,6 +309,7 @@
     <ClCompile Include="vision.cpp" />
     <ClCompile Include="winMain.cpp" />
     <ClCompile Include="X.cpp" />
+    <ClCompile Include="zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="windowAPI.rc" />

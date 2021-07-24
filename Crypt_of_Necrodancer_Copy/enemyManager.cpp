@@ -4,17 +4,26 @@
 
 HRESULT enemyManager::init()
 {
-	setSlimeGreen();
+
+	setWhiteSkeleton();
+	setGreenSkeleton();
+	setBlackSkeleton();
+	
+	//setSlimeGreen();
 	//setSlimeGold();
 	//setSlimeBlue();
-	//setWhiteSkeleton();
-	//setGreenSkeleton();
-	//setBlackSkeleton();
+
 	//setGhost();
+
 	//setMimic();
+
 	//setMonkeyBasic();
 	//setMonkeyWhite();
-	setMinotaur();
+
+	//setMinotaur();
+
+	setZombie();
+
 	return S_OK;
 }
 
@@ -24,33 +33,48 @@ void enemyManager::release()
 
 void enemyManager::update()
 {
-	//updateWhiteSkeleton();
-	//updateGreenSkeleton();
-	//updateBlackSkeleton();
+	updateWhiteSkeleton();
+	updateGreenSkeleton();
+	updateBlackSkeleton();
+
 	//updateMimic();
+
 	//updateGhost();
-	updateSlimeGreen();
+
+	//updateSlimeGreen();
 	//updateSlimeGold();
 	//updateSlimeBlue();
+
 	//updateMonkeyBasic();
 	//updateMonkeyWhite();
-	updateMinotaur();
+
+	//updateMinotaur();
+	
+	updateZombie();
+
 }
 
 void enemyManager::render()
 {
 
-	//renderWhiteSkeleton();
-	//renderGreenSkeleton();
-	//renderBlackSkeleton();
+	renderWhiteSkeleton();
+	renderGreenSkeleton();
+	renderBlackSkeleton();
+
 	//renderMimic();
+
 	//renderGhost();
-	renderSlimeGreen();
+
+	//renderSlimeGreen();
 	//renderSlimeGold();
 	//renderSlimeBlue();
+
 	//renderMonkeyBasic();
 	//renderMonkeyWhite();
-	renderMinotaur();
+
+	//renderMinotaur();
+
+	renderZombie();
 }
 
 void enemyManager::setWhiteSkeleton()
@@ -328,5 +352,32 @@ void enemyManager::renderMinotaur()
 	for (_viMinotaur = _vMinotaur.begin(); _viMinotaur != _vMinotaur.end(); ++_viMinotaur)
 	{
 		(*_viMinotaur)->render();
+	}
+}
+
+void enemyManager::setZombie()
+{
+	for (int i = 0; i < 5; i++)
+	{
+		zombie* _zombie = new zombie;
+		_zombie->setTileMapLink(_map);
+		_zombie->init();
+		_vZombie.push_back(_zombie);
+	}
+}
+
+void enemyManager::updateZombie()
+{
+	for (_viZombie = _vZombie.begin(); _viZombie != _vZombie.end(); ++_viZombie)
+	{
+		(*_viZombie)->update();
+	}
+}
+
+void enemyManager::renderZombie()
+{
+	for (_viZombie = _vZombie.begin(); _viZombie != _vZombie.end(); ++_viZombie)
+	{
+		(*_viZombie)->render();
 	}
 }

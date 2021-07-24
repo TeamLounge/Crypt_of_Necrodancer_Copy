@@ -3,12 +3,9 @@
 
 HRESULT slimeBlue::init()
 {
-	setImage();
-
 	slime::init();	//상속
 
 	_img = IMAGEMANAGER->findImage("slimeBlue");
-	_img->setFrameY(RND->getFromIntTo(0, 1));
 	_map->setIsEnemy(_tileX, _tileY, true);	//에너미 타일 속성 ON
 
 	_direction = UP;
@@ -34,12 +31,6 @@ void slimeBlue::render()
 	}
 
 	_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
-}
-
-void slimeBlue::setImage()
-{
-	IMAGEMANAGER->addFrameImage("slimeBlue", "image/enemy/slimeBlue.bmp", 312, 150, 4, 2, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addFrameImage("slimeBlue_dark", "image/enemy/slimeBlue_dark.bmp", 312, 150, 4, 2, true, RGB(255, 0, 255), true);
 }
 
 void slimeBlue::setSlimeFrame()
@@ -80,36 +71,44 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 
 		if (!_isMove)
 		{
-			switch (_direction)
+			if (_direction == UP)
 			{
-			case UP:
-				_isMove = true;
-				_tileY -= 1;
+				OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
+				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
+					|| obj == WALL_GOLD || obj == WALL_STONE )
+				{
+					_direction = DOWN;
+					_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
+					_map->setIsEnemy(_tileX, _tileY, true);
+				}
+				else
+				{
+					_tileY -= 1;
+					_isMove = true;
+				}
 
 				_rc = _map->getRect(_tileX, _tileY);
 				_map->setIsEnemy(_tileX, _tileY, true);
-				break;
-
-			case DOWN:
-				_isMove = true;
-				_tileY += 1;
-
-				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
-				break;
 			}
-		}
-	}
-	if (TIMEMANAGER->getWorldTime() - _renderTime >= 0.5f)	//1박자
-	{
-		_renderTime = TIMEMANAGER->getWorldTime();
-		if (_toRender)
-		{
-			_toRender = false;
-		}
-		else
-		{
-			_toRender = true;
+			else if (_direction == DOWN)
+			{
+				OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
+				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
+					|| obj == WALL_GOLD || obj == WALL_STONE )
+				{
+					_direction = UP;
+					_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
+					_map->setIsEnemy(_tileX, _tileY, true);
+				}
+				else
+				{
+					_tileY += 1;
+					_isMove = true;
+				}
+
+				_rc = _map->getRect(_tileX, _tileY);
+				_map->setIsEnemy(_tileX, _tileY, true);
+			}
 		}
 	}
 

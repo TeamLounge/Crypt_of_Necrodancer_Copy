@@ -9,7 +9,6 @@ public:
 	virtual void release();
 	virtual void render();
 
-	virtual void setImage();
 	virtual void setSlimeFrame();
 	virtual void moveSlimeGold();
 };

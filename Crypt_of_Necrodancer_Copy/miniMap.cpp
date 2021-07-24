@@ -93,9 +93,7 @@ void miniMap::drawMiniMap(int tileX, int tileY, TERRAIN terrain, OBJECT obj, MAP
 		break;
 	case BARREL:
 		break;
-	case ENEMY:
-		IMAGEMANAGER->findImage("minimap_enemy")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
-		break;
+	
 	default:
 		break;
 	}
