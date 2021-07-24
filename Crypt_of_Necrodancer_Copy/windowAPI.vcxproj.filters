@@ -345,6 +345,18 @@
     <ClInclude Include="miniMap.h">
       <Filter>2DGameFramework\miniMap</Filter>
     </ClInclude>
+    <ClInclude Include="monkeyWhite.h">
+      <Filter>playGround\enemy\monkey</Filter>
+    </ClInclude>
+    <ClInclude Include="monkeyBasic.h">
+      <Filter>playGround\enemy\monkey</Filter>
+    </ClInclude>
+    <ClInclude Include="minotaurAndDragon.h">
+      <Filter>playGround\enemy\minotaur</Filter>
+    </ClInclude>
+    <ClInclude Include="dragon.h">
+      <Filter>playGround\enemy\minotaur</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -559,6 +571,18 @@
     </ClCompile>
     <ClCompile Include="miniMap.cpp">
       <Filter>2DGameFramework\miniMap</Filter>
+    </ClCompile>
+    <ClCompile Include="monkeyWhite.cpp">
+      <Filter>playGround\enemy\monkey</Filter>
+    </ClCompile>
+    <ClCompile Include="monkeyBasic.cpp">
+      <Filter>playGround\enemy\monkey</Filter>
+    </ClCompile>
+    <ClCompile Include="dragon.cpp">
+      <Filter>playGround\enemy\minotaur</Filter>
+    </ClCompile>
+    <ClCompile Include="minotaurAndDragon.cpp">
+      <Filter>playGround\enemy\minotaur</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

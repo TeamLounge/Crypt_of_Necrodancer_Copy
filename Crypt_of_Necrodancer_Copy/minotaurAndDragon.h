@@ -19,6 +19,9 @@ protected:
 	int _count, _damageRenderCount, _damageindex, _index, _indey;
 	int _hp;
 
+	int _playerindex, _playerindey;
+
+
 	float _movingTime, _renderTime;
 
 	bool isFind;
@@ -31,7 +34,8 @@ public:
 	virtual void render();
 
 	virtual void minotaurAndDragonMove(bool Time);
-
+	virtual void minotaurActionMove(bool Time);
+	virtual void moveMotion(bool Time);
 	virtual image* getImage() { return _img; }
 	virtual int getX() { return _tilex; }
 	virtual int getY() { return _tiley; }

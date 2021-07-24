@@ -48,7 +48,7 @@ void slime::update()
 		{
 			_isTime = true;
 		}
-
+	
 	}
 	if (TIMEMANAGER->getWorldTime() - _renderTime >= 0.5f)
 	{

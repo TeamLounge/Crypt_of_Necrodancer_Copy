@@ -32,13 +32,14 @@ private:
 	bool _start; // 그냥 시작용
 	bool ismove;
 	bool damage;
+	bool isMiniboss;
 	int _TotaltileX,_TotaltileY;
 
 public:
 	aStarTest();
 	~aStarTest();
 
-	HRESULT init(int enemyX, int enemyY, int playerX, int playerY);
+	HRESULT init(int enemyX, int enemyY, int playerX, int playerY ,bool miniboss = false);
 	void release();
 	void update();
 	void render();
@@ -51,6 +52,7 @@ public:
 	void endmove(int playerIndexX, int playerIndexY);
 	void start();
 	void move(int X ,int Y);
+	void actionMove(int X, int Y);
 	void callPathFinder();
 	void enemyAttack();
 
@@ -69,5 +71,6 @@ public:
 
 	//셋터
 	void setDamage(bool _damage) { damage = _damage; }
+	void clear() { _vCloseList.clear(); _vOpenList.clear(); }
 };
 

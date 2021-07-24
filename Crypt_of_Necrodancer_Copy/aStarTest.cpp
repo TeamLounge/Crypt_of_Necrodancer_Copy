@@ -12,11 +12,12 @@ aStarTest::~aStarTest()
 
 }
 
-HRESULT aStarTest::init(int enemyX, int enemyY, int playerX, int playerY)
+HRESULT aStarTest::init(int enemyX, int enemyY, int playerX, int playerY , bool miniboss)
 {
 	_count = _damagecount=0;
 	_start = false;
 	damage = false;
+	isMiniboss = miniboss;
 	_TotaltileX = _map->getXSize();
 	_TotaltileY = _map->getYSize();
 	setTile(enemyX, enemyY,  playerX, playerY);
@@ -36,7 +37,6 @@ void aStarTest::update()
 	if (ismove)
 	{
 		pathFinder(_startTile);
-		ismove = false;
 	}
 	
 	//if (_start)
@@ -98,9 +98,18 @@ void aStarTest::setTile(int enemyX, int enemyY, int playerX, int playerY)
 			tile* node = new tile;
 			node->setLinkRandomMap(_map);
 			node->init(j, i);
-			if (_map->getTileObject(j,i) == WALL_BASIC || _map->getTileObject(j, i) == WALL_CRACK || _map->getTileObject(j, i) == WALL_STONE || _map->getTileObject(j, i) == WALL_GOLD)
+			if (isMiniboss) {
+				if (_map->getTileObject(j, i) == WALL_END || _map->getTileObject(j, i) == WALL_GOLD)
+				{
+					node->setAttribute("wall");
+				}
+			}
+			else
 			{
-				node->setAttribute("wall");
+				if (_map->getTileObject(j, i) == WALL_END || _map->getTileObject(j, i) == WALL_BASIC || _map->getTileObject(j, i) == WALL_CRACK || _map->getTileObject(j, i) == WALL_STONE || _map->getTileObject(j, i) == WALL_GOLD)
+				{
+					node->setAttribute("wall");
+				}
 			}
 			if (_map->getTileTerrain(j, i) == EMPTY)
 			{
@@ -637,6 +646,23 @@ void aStarTest::move(int X, int Y)
 			}
 		}
 	}
+}
+
+void aStarTest::actionMove(int X, int Y)
+{
+	RECT rc;
+	tile* node = new tile;
+	node->setLinkRandomMap(_map);
+	node->init(_startTile->getIdX(), _startTile->getIdY());
+	_startTile->setIdX(X);
+	_startTile->setIdY(Y);
+	rc = _map->getRect(_startTile->getIdX(), _startTile->getIdY());
+	_startTile->setCetner(PointMake((rc.left + rc.right) / 2, (rc.bottom + rc.top) / 2));
+	_startTile->setRect(rc);
+	_vTotalList.erase(_vTotalList.begin() + (node->getIdY()*_TotaltileX + node->getIdX()));
+	_vTotalList.insert(_vTotalList.begin() + (node->getIdY()*_TotaltileX + node->getIdX()), node);
+	_vTotalList.erase(_vTotalList.begin() + (Y*_TotaltileX + X));
+	_vTotalList.insert(_vTotalList.begin() + (Y*_TotaltileX + X), _startTile);
 }
 
 void aStarTest::callPathFinder()
