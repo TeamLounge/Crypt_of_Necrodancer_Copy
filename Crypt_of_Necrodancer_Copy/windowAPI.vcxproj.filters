@@ -345,6 +345,21 @@
     <ClInclude Include="miniMap.h">
       <Filter>2DGameFramework\miniMap</Filter>
     </ClInclude>
+    <ClInclude Include="dragon.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="minotaurAndDragon.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="monkeyBasic.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="monkeyWhite.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UIUIManager.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -559,6 +574,21 @@
     </ClCompile>
     <ClCompile Include="miniMap.cpp">
       <Filter>2DGameFramework\miniMap</Filter>
+    </ClCompile>
+    <ClCompile Include="dragon.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="minotaurAndDragon.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="monkeyBasic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="monkeyWhite.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UIUIManager.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

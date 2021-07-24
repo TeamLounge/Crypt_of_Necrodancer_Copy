@@ -17,7 +17,7 @@ struct WEAPON
 struct COLLISION
 {
 	RECT rc;
-	float x, y;		// 타일좌표와 일치 필요
+	int  tileX, tileY;		// 타일좌표와 일치 필요
 };
 
 class weapon : public gameNode
@@ -52,5 +52,8 @@ public:
 
 	void setPlayerMemoryAddressLink(player* player) { _player = player; }
 	void setUIMMemortAddressLink(UIManager* UIM) { _UIM = UIM; }
+
+	vector<COLLISION> getVCollision() { return _vCollision; }
+	vector<COLLISION>::iterator getVICollision() { return _viCollision; }
 };
 

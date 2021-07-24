@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "player.h"
 #include "weapon.h"
+#include "shovel.h"
 
 HRESULT player::init()
 {	

@@ -29,6 +29,9 @@ void dagger::update(weapon* weapon)
 			weapon->_player->getTileRect().left -TILESIZE,
 			weapon->_player->getTileRect().top,
 			TILESIZE, TILESIZE);
+
+		(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX() - 1;
+		(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY();
 	}
 
 	if (weapon->_player->getDirection() == UP)
@@ -37,6 +40,9 @@ void dagger::update(weapon* weapon)
 			weapon->_player->getTileRect().left,
 			weapon->_player->getTileRect().top - TILESIZE,
 			TILESIZE, TILESIZE);
+
+		(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX();
+		(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY() - 1;
 	}
 
 	if (weapon->_player->getDirection() == RIGHT)
@@ -45,6 +51,9 @@ void dagger::update(weapon* weapon)
 			weapon->_player->getTileRect().left + TILESIZE,
 			weapon->_player->getTileRect().top,
 			TILESIZE, TILESIZE);
+
+		(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX() + 1;
+		(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY();
 	}
 
 	if (weapon->_player->getDirection() == DOWN)
@@ -53,6 +62,9 @@ void dagger::update(weapon* weapon)
 			weapon->_player->getTileRect().left,
 			weapon->_player->getTileRect().top + TILESIZE,
 			TILESIZE, TILESIZE);
+
+		(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX();
+		(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY() + 1;
 	}
 }
 

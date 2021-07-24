@@ -27,6 +27,9 @@ class objectManager : public gameNode
 
 	bomb* _bomb;
 
+	string bodyName;
+	string torchName;
+
 public:
 	virtual HRESULT init();
 	virtual void release();
@@ -53,5 +56,8 @@ public:
 	void changeMusicSpeed(float speed);
 
 	bomb* getBomb() { return _bomb; }
+
+	string getBodyName() { return bodyName; }
+	string getTorchName() { return torchName; }
 };
 

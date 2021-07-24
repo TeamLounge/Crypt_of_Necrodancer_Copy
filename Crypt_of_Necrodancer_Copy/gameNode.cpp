@@ -40,6 +40,7 @@ HRESULT gameNode::init(bool managerInit)
 		INIDATA->init();
 		STREAMMANAGER->init();
 		MINIMAP->init();
+		UIMANAGER->init();
 	}
 
 	return S_OK;
@@ -88,6 +89,9 @@ void gameNode::release()
 
 		MINIMAP->release();
 		MINIMAP->releaseSingleton();
+
+		UIMANAGER->release();
+		UIMANAGER->releaseSingleton();
 	}
 	
 

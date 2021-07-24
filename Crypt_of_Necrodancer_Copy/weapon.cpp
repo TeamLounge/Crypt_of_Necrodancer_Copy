@@ -40,10 +40,14 @@ void weapon::InputHandle(weaponType* WeaponType)
 
 HRESULT weapon::init()
 {
+	_weapon.imageName = "broadSword";
+
 	_weaponType = new dagger();
 	_weaponType->enter(this);
 
 	ZeroMemory(&_collision, sizeof(COLLISION));
+
+	UIMANAGER->addUI("weapon", _weapon.imageName.c_str(), _weapon.x, _weapon.y);
 
 	return S_OK;
 }
