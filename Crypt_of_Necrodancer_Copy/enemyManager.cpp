@@ -2,6 +2,7 @@
 #include "enemyManager.h"
 #include "player.h"
 
+
 HRESULT enemyManager::init()
 {
 	setWhiteSkeleton();
