@@ -37,7 +37,7 @@ void slime::release()
 
 void slime::update()
 {
-
+	
 }
 
 void slime::render()

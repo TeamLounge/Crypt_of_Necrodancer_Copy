@@ -7,6 +7,9 @@ HRESULT minotaur::init(int playerIndexX, int playerIndexY)
 	_hp = 4;
 	_img = IMAGEMANAGER->findImage("minotaur");
 	_img->setFrameY(0);
+	_x = (_rc.left+_rc.right)/2 - (_img->getFrameWidth()/2);
+	_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight()/2);
+	isCursh = isRun = false;
 	return S_OK;
 }
 
@@ -21,133 +24,62 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 		if (_index > 3) _index = 0;
 		_count = 0;
 	}
-	if (isAction&&_index == 4)
+	if (isAction&& _index >= 5)
 	{
-		if (_count % 10 == 0)
-		{
+		if (isTime)
+		{	
 			_index++;
-
+		}
+		if (_index > 9)
+		{
+			_index = 0;
+			isAction = false;
 		}
 	}
-	if (!isAction)
+	if (!isAction&&isFind)
 	{
 		//액션
-	}
-	if (isCursh)
-	{
-		//액션끝나고 박앗을때
-	}
-	if (isMove)
-	{
-		switch (_dir)
+		if (_tilex == playerIndexX)
 		{
-		case NONE:
-			_gravity += 0.965f;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-			//_y -= 9;
-		//_shadow.top -= -sinf(1 * PI / 2) * 6;
-		//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-		//if (_shadow.top >= _tileRect.top - 13)
-		//{
-		//_shadow.top = _tileRect.top - 13;
-		//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
+			_index == 4;
+			if (_tiley > playerIndexY)
 			{
-				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				isMove = false;
-				_gravity = 0;
-				//_tileRenderY = _tileY;
+				isAction = true;
+				_playerindex = playerIndexX;
+				_playerindey = playerIndexY;
+				_index == 4;
+				_dir = UP;
 			}
-			break;
-		case LEFT:
-			_gravity += 0.965f;
-			_x += cosf(7 * PI / 9) * 9;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-			//_shadow.left += cosf(7 * PI / 9) * 9;
-			//_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
-			if (_x <= _rc.left)
+			else if (_tiley < playerIndexY)
 			{
-				_x = _rc.left;
-				isMove = false;
-				_gravity = 0;
-				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
-				{
-					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				}
-				//_tileRenderX = _tileX;
+				isAction = true;
+				_playerindex = playerIndexX;
+				_playerindey = playerIndexY;
+				_index == 4;
+				_dir = DOWN;
 			}
-			//if (_shadow.left <= _tileRect.left)
-			//{
-			//	_shadow.left = _tileRect.left;
-			//	_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
-			//}
-			break;
-		case RIGHT:
-			_gravity += 0.965f;
-			_x -= cosf(7 * PI / 9) * 9;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-			//_shadow.left -= cosf(7 * PI / 9) * 10;
-			//_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
-			if (_x >= _rc.left)
+		}
+		else if (_tiley == playerIndexY)
+		{
+			if (_tilex > playerIndexX)
 			{
-				_x = _rc.left;
-				isMove = false;
-				_gravity = 0;
-				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
-				{
-
-					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				}
-				//_tileRenderX = _tileX;
+				isAction = true;
+				_playerindex = playerIndexX;
+				_playerindey = playerIndexY;
+				_index == 4;
+				_dir = LEFT;
 			}
-			//if (_shadow.left >= _tileRect.left)
-			//{
-			//	_shadow.left = _tileRect.left;
-			//	_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
-			//}
-
-			break;
-		case UP:
-			_gravity += 0.2f;
-			_y += -sinf(PI / 2) * 9 + _gravity;
-			//_y -= 9;
-			//_shadow.top += -sinf(1 * PI / 2) * 6;
-			//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-			//if (_shadow.top <= _tileRect.top - 13)
-			//{
-			//	_shadow.top = _tileRect.top - 13;
-			//	_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-			if (_y <= _rc.top - (_rc.bottom - _rc.top) / 2)
+			else if (_tilex < playerIndexX)
 			{
-				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				isMove = false;
-				_gravity = 0;
-				//_tileRenderY = _tileY;
+				isAction = true;
+				_playerindex = playerIndexX;
+				_playerindey = playerIndexY;
+				_index == 4;
+				_dir = RIGHT;
 			}
-			//}
-			break;
-		case DOWN:
-
-			_gravity += 1.2f;
-			_y += -sinf(PI / 2) + _gravity;
-			//_y -= 9;
-			//_shadow.top -= -sinf(1 * PI / 2) * 6;
-			//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-			//if (_shadow.top >= _tileRect.top - 13)
-			//{
-			//_shadow.top = _tileRect.top - 13;
-			//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
-			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
-			{
-				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				isMove = false;
-				_gravity = 0;
-				//_tileRenderY = _tileY;
-			}
-			//}
-			break;
 		}
 	}
+
 	if (playerIndexX < _tilex)
 	{
 		_indey = 0;
@@ -156,6 +88,7 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 	{
 		_indey = 1;
 	}
+	isTime = false;
 }
 
 void minotaur::release()
@@ -165,5 +98,6 @@ void minotaur::release()
 void minotaur::render()
 {
 	minotaurAndDragon::render();
+	Rectangle(getMemDC(), _rc);
 	_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 }

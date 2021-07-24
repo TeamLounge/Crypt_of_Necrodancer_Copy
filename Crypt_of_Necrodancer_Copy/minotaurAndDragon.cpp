@@ -22,10 +22,8 @@ HRESULT minotaurAndDragon::init(int playerIndexX, int playerIndexY)
 	}
 	_rc = _map->getRect(_tilex, _tiley);
 	_map->setIsEnemy(_tilex, _tiley, true);
-	_x = _rc.left;
-	_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 	_astar->setLinkrandomMap(_map);
-	_astar->init(_tilex, _tiley, playerIndexX, playerIndexY);
+	_astar->init(_tilex, _tiley, playerIndexX, playerIndexY, true);
 	return S_OK;
 }
 
@@ -44,6 +42,9 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 				isTime = true;
 			}
 		}
+		//_astar->endmove(playerIndexX, playerIndexY);
+		_astar->clear();
+		if (_dir != NONE) minotaurActionMove(isTime);
 	}
 	else
 	{
@@ -58,77 +59,78 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 			{
 				isTime = true;
 			}
-
 		}
-	}
-
-	if (!isFind) {
-		for (int y = _tiley - 4; y <= _tiley + 4; y++)
-		{
-			for (int x = _tilex - 4; x <= _tilex + 4; x++)
+		if (!isFind) {
+			for (int y = _tiley - 4; y <= _tiley + 4; y++)
 			{
-				if (x == playerIndexX && y == playerIndexY)
+				for (int x = _tilex - 4; x <= _tilex + 4; x++)
 				{
-					isFind = true;
+					if (x == playerIndexX && y == playerIndexY)
+					{
+						isFind = true;
+					}
 				}
 			}
 		}
-	}
-	else
-	{
-		_astar->endmove(playerIndexX, playerIndexY);
-		_astar->update();
+		else
+		{
+			_astar->endmove(playerIndexX, playerIndexY);
+			_astar->update();
 
-		if (_map->getTileObject(_tilex, _tiley) == TR_LEFT)
-		{
-			_dir = LEFT;
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_tilex -= 1;
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			//_astar->callPathFinder();
-			isMove = true;
+			if (_map->getTileObject(_tilex, _tiley) == TR_LEFT)
+			{
+				_dir = LEFT;
+				_map->setIsEnemy(_tilex, _tiley, false);
+				_tilex -= 1;
+				_rc = _map->getRect(_tilex, _tiley);
+				moveMotion(isTime);
+				_astar->move(_tilex, _tiley);
+				_map->setIsEnemy(_tilex, _tiley, true);
+				//_astar->callPathFinder();
+				isMove = true;
+			}
+			else if (_map->getTileObject(_tilex, _tiley) == TR_RIGHT)
+			{
+				_dir = RIGHT;
+				_map->setIsEnemy(_tilex, _tiley, false);
+				_tilex += 1;
+				_rc = _map->getRect(_tilex, _tiley);
+				moveMotion(isTime);
+				_astar->move(_tilex, _tiley);
+				_map->setIsEnemy(_tilex, _tiley, true);
+				//_astar->callPathFinder();
+				isMove = true;
+			}
+			else if (_map->getTileObject(_tilex, _tiley) == TR_UP)
+			{
+				_dir = UP;
+				_map->setIsEnemy(_tilex, _tiley, false);
+				_tiley -= 1;
+				_rc = _map->getRect(_tilex, _tiley);
+				moveMotion(isTime);
+				_astar->move(_tilex, _tiley);
+				_map->setIsEnemy(_tilex, _tiley, true);
+				//_astar->callPathFinder();
+				isMove = true;
+			}
+			else if (_map->getTileObject(_tilex, _tiley) == TR_DOWN)
+			{
+				_dir = DOWN;
+				_map->setIsEnemy(_tilex, _tiley, false);
+				_tilex += 1;
+				_rc = _map->getRect(_tilex, _tiley);
+				moveMotion(isTime);
+				_astar->move(_tilex, _tiley);
+				_map->setIsEnemy(_tilex, _tiley, true);
+				//_astar->callPathFinder();
+				isMove = true;
+			}
+			else if (_astar->getStart())
+			{
+				minotaurAndDragonMove(isTime);
+			}
+			isTime = false;
 		}
-		else if (_map->getTileObject(_tilex, _tiley) == TR_RIGHT)
-		{
-			_dir = RIGHT;
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_tilex += 1;
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			//_astar->callPathFinder();
-			isMove = true;
-		}
-		else if (_map->getTileObject(_tilex, _tiley) == TR_UP)
-		{
-			_dir = UP;
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_tiley -= 1;
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			//_astar->callPathFinder();
-			isMove = true;
-		}
-		else if (_map->getTileObject(_tilex, _tiley) == TR_DOWN)
-		{
-			_dir = DOWN;
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_tilex += 1;
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			//_astar->callPathFinder();
-			isMove = true;
-		}
-		else if (_astar->getStart())
-		{
-			minotaurAndDragonMove(isTime);
-		}
-
-		isTime = false;
 	}
 	if (_astar->getDamage())
 	{
@@ -198,6 +200,7 @@ void minotaurAndDragon::minotaurAndDragonMove(bool Time)
 				_map->setIsEnemy(_tilex, _tiley, false);
 				_tilex = _astar->getClosebackX();
 				_tiley = _astar->getClosebackY();
+				moveMotion(isTime);
 				_astar->move(_tilex, _tiley);
 				_map->setIsEnemy(_tilex, _tiley, true);
 			}
@@ -228,5 +231,155 @@ void minotaurAndDragon::minotaurAndDragonMove(bool Time)
 			_dir = NONE;
 		}
 		isMove = true;
+	}
+}
+
+void minotaurAndDragon::minotaurActionMove(bool Time)
+{
+	if (Time) {
+		int pastx = _tilex;
+		int pasty = _tiley;
+		switch (_dir)
+		{
+		case LEFT:
+			_tilex -= 1;
+			break;
+		case RIGHT:
+			_tilex += 1;
+			break;
+		case UP:
+			_tiley -= 1;
+			break;
+		case DOWN:
+			_tiley += 1;
+			break;
+		}
+		if (_tilex == _playerindex && _tiley == _playerindey )
+		{
+			_astar->enemyAttack();
+			if (_astar->getDamage())
+			{
+				_tilex = pastx;
+				_tiley = pasty;
+				_dir = NONE;
+				_index = 5;
+			}
+		}
+		else if (_map->getTileObject(_tilex, _tiley) == WALL_BASIC ||
+			_map->getTileObject(_tilex, _tiley) == WALL_GOLD ||
+			_map->getTileObject(_tilex, _tiley) == WALL_STONE)
+		{
+			_map->setTileObject(_tilex, _tiley, OBJ_NONE);
+			_tilex = pastx;
+			_tiley = pasty;
+			_dir = NONE;
+			_index = 5;
+		}
+		else if(!_map->getIsEnemy(_tilex, _tiley))
+		{
+			_map->setIsEnemy(pastx, pasty, false);
+			_rc = _map->getRect(_tilex, _tiley);
+			moveMotion(isTime);
+			_map->setIsEnemy(_tilex, _tiley, true);
+			_astar->actionMove(_tilex, _tiley);
+			isMove = true;
+		}
+	}
+}
+
+void minotaurAndDragon::moveMotion(bool Time)
+{
+	if (isMove)
+	{
+		switch (_dir)
+		{
+		case LEFT:
+			_gravity += 0.965f;
+			_x += cosf(7 * PI / 9) * 9;
+			_y += -sinf(7 * PI / 9) * 9 + _gravity;
+			//_shadow.left += cosf(7 * PI / 9) * 9;
+			//_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+			if (_x >= (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2))
+			{
+				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
+				isMove = false;
+				_gravity = 0;
+				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2))
+				{
+					_y = _rc.top - (_rc.bottom - _rc.top) / 2 - (_img->getFrameHeight() / 2);
+				}
+				//_tileRenderX = _tileX;
+			}
+			//if (_shadow.left <= _tileRect.left)
+			//{
+			//	_shadow.left = _tileRect.left;
+			//	_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+			//}
+			break;
+		case RIGHT:
+			_gravity += 0.965f;
+			_x -= cosf(7 * PI / 9) * 9;
+			_y += -sinf(7 * PI / 9) * 9 + _gravity;
+			//_shadow.left -= cosf(7 * PI / 9) * 10;
+			//_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+			if (_x <= (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2))
+			{
+				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
+				isMove = false;
+				_gravity = 0;
+				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2))
+				{
+
+					_y = _rc.top - (_rc.bottom - _rc.top) / 2 - (_img->getFrameHeight() / 2);
+				}
+				//_tileRenderX = _tileX;
+			}
+			//if (_shadow.left >= _tileRect.left)
+			//{
+			//	_shadow.left = _tileRect.left;
+			//	_shadow.right = _shadow.left + IMAGEMANAGER->findImage("player_shadow")->getWidth();
+			//}
+
+			break;
+		case UP:
+			_gravity += 0.2f;
+			_y += -sinf(PI / 2) * 9 + _gravity;
+			//_y -= 9;
+			//_shadow.top += -sinf(1 * PI / 2) * 6;
+			//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+			//if (_shadow.top <= _tileRect.top - 13)
+			//{
+			//	_shadow.top = _tileRect.top - 13;
+			//	_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+			if (_y <= _rc.top - (_rc.bottom - _rc.top) / 2 - (_img->getFrameHeight() / 2))
+			{
+				_y = _rc.top - (_rc.bottom - _rc.top) / 2 - (_img->getFrameHeight() / 2);
+				isMove = false;
+				_gravity = 0;
+				//_tileRenderY = _tileY;
+			}
+			//}
+			break;
+		case DOWN:
+
+			_gravity += 1.2f;
+			_y += -sinf(PI / 2) + _gravity;
+			//_y -= 9;
+			//_shadow.top -= -sinf(1 * PI / 2) * 6;
+			//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+			//if (_shadow.top >= _tileRect.top - 13)
+			//{
+			//_shadow.top = _tileRect.top - 13;
+			//_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("player_shadow")->getHeight();
+			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2 - (_img->getFrameHeight() / 2))
+			{
+				_y = _rc.top - (_rc.bottom - _rc.top) / 2 - (_img->getFrameHeight() / 2);
+				isMove = false;
+				_gravity = 0;
+				//_tileRenderY = _tileY;
+			}
+			//}
+			break;
+		}
 	}
 }
