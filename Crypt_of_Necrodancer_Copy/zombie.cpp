@@ -1,32 +1,46 @@
 #include "stdafx.h"
-#include "slimeGold.h"
+#include "zombie.h"
 
-HRESULT slimeGold::init()
+HRESULT zombie::init()
 {
+	//»ó¼Ó init
+	_toRender = _damageRender = false;
+	_direction = (PLAYER_ENEMY_DIRECTION)RND->getFromIntTo(1, 4); //»ç¹æ ·£´ý
+	_frameCount = 0;
+	_frameIndex = 0;
 
-	slime::init();	//»ó¼Ó
+	_isMove = false;		//½ÃÀÛÇÏÀÚ¸¶ÀÚ ¿òÁ÷¿©
+	_isTime = false;
 
-	_direction = RIGHT;		//slimeGold´Â Ç×»ó ¿ìÃøÀ¸·Î °¡¸ç ½ÃÀÛ
+	_gravity = 0;
 
-	_img = IMAGEMANAGER->findImage("slimeGold");
-	_map->setIsEnemy(_tileX, _tileY, true);	//¿¡³Ê¹Ì Å¸ÀÏ ¼Ó¼º ON
+	_worldTime = TIMEMANAGER->getWorldTime();
 
-	_direction = RIGHT;
+	//¸Ê¿¡ »Ñ·ÁÁÖ±â
+	setArrangement();	//Å¸ÀÏ¿¡ ¸ÕÀú »Ñ¸®°í
+
+	_img = IMAGEMANAGER->findImage("zombie");	//ÀÚ½Ä
+	_rc = _map->getRect(_tileX, _tileY);
+	_map->setIsEnemy(_tileX, _tileY, true);
+	_x = _rc.left;
+	_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+	///////////////////////////////////////////////
+
 
 	return S_OK;
 }
 
-void slimeGold::update()
-{
-	setSlimeFrame();
-	moveSlimeGold();
-}
-
-void slimeGold::release()
+void zombie::release()
 {
 }
 
-void slimeGold::render()
+void zombie::update()
+{
+	setZombieFrame();
+	moveZombie();
+}
+
+void zombie::render()
 {
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
@@ -36,8 +50,28 @@ void slimeGold::render()
 	_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
 }
 
+void zombie::setArrangement()
+{
+	//·£´ý ¹èÄ¡
+	while (true)
+	{
+		//·£´ý¹æ¿¡ ¹èÄ¡
+		int random = RND->getInt(_map->getRoom().size());
+		if (_map->getRoom()[random].roomState == ROOM_START ||
+			_map->getRoom()[random].roomState == ROOM_SHOP)
+			continue;	// ±× ¹æÀÌ ÇÃ·¹ÀÌ¾î¹æÀÌ°Å³ª »óÁ¡ÀÌ¸é ÄÁÆ¼´º
 
-void slimeGold::setSlimeFrame()
+		//·£´ýÇÏ°Ô ÂïÀº ¹æ¾ÈÀÇ ÁÂÇ¥ Áß º®ÀÌ ÀÖ¾îµµ ÄÁÆ¼´º
+		_tileX = RND->getFromIntTo(_map->getRoom()[random].x, _map->getRoom()[random].x + _map->getRoom()[random].width);
+		_tileY = RND->getFromIntTo(_map->getRoom()[random].y, _map->getRoom()[random].y + _map->getRoom()[random].height);
+		if (_map->getTileObject(_tileX, _tileY) != OBJ_NONE || _map->getTileTerrain(_tileX, _tileY) != DIRT1
+			|| _map->getIsEnemy(_tileX, _tileY))		//º¹µµ tileÀº 2Áö¸¸, roomÀ¸·Î ¹èÄ¡ÇÏ´Ï±î ¹«°ü!
+			continue;
+		break;		//// ¸ðµç ÄÁÆ¼´º Áö¿Á¿¡¼­ ¹þ¾î³´´Ù¸é ºüÁ® ³ª¿À±â
+	}
+}
+
+void zombie::setZombieFrame()
 {
 	if (TIMEMANAGER->getWorldTime() - _worldTime > 0.5f)
 	{
@@ -48,7 +82,7 @@ void slimeGold::setSlimeFrame()
 	if (_frameCount % 8 == 0)
 	{
 		_frameCount = 0;
-		if (_currentFrameX >= IMAGEMANAGER->findImage("slimeGold")->getMaxFrameX())
+		if (_currentFrameX >= IMAGEMANAGER->findImage("zombie")->getMaxFrameX())
 		{
 			_currentFrameX = 0;
 		}
@@ -59,11 +93,11 @@ void slimeGold::setSlimeFrame()
 		//¹æÇâ ¹Ù²ã º¸¿©ÁÖ±â
 		if (_direction == UP)
 		{
-			_currentFrameY = 1;
+			_currentFrameY = 2;
 		}
 		else if (_direction == DOWN)
 		{
-			_currentFrameY = 0;
+			_currentFrameY = 3;
 		}
 		if (_direction == LEFT)
 		{
@@ -76,11 +110,13 @@ void slimeGold::setSlimeFrame()
 	}
 }
 
-void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´Ù ¶§¸²
+void zombie::moveZombie()
 {
-	if (TIMEMANAGER->getWorldTime() - _movingTime >= 0.5f)	//1¹ÚÀÚ
+	if (TIMEMANAGER->getWorldTime() - _movingTime >= 1.0f)	//2¹ÚÀÚ
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
+
+		//Á¡ÇÁ ¾Æ´Ñ »óÅÂ => ¹æÇâÀº ÀÌ ¶§ ¹Ù²Þ
 		if (!_isMove)
 		{
 			if (_direction == UP)
@@ -160,63 +196,10 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 				_map->setIsEnemy(_tileX, _tileY, true);
 			}
 		}
-
-		/*if (!_isMove)
-		{
-			switch (_direction)
-			{
-			case LEFT:
-				_isMove = true;
-				_tileX -= 1;
-
-				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
-				break;
-
-			case RIGHT:
-				_isMove = true;
-				_tileX += 1;
-
-				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
-				break;
-
-			case UP:
-				_isMove = true;
-				_tileY -= 1;
-
-				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
-				break;
-
-			case DOWN:
-				_isMove = true;
-				_tileY += 1;
-
-				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
-				break;
-			}
-		}*/
-	}
-	//Àå¾Ö¹°ÀÌ³ª ¿¡³Ê¹Ì ÀÖÀ¸¸é ¿òÁ÷ÀÌÁö ¾Ê°í Á¦ÀÚ¸® ¶Ù±â ¸¸µé¾î¾ßÇÔ
-	/////////////////////////////////////////////////////
-
-	if (TIMEMANAGER->getWorldTime() - _renderTime >= 0.5f)	//1¹ÚÀÚ
-	{
-		_renderTime = TIMEMANAGER->getWorldTime();
-		if (_toRender)
-		{
-			_toRender = false;
-		}
-		else
-		{
-			_toRender = true;
-		}
 	}
 
-	//Á¡ÇÁ
-	if (_isMove)	//RIGHT -> DOWN -> LEFT -> UP -> RIGHT ..¼ø¼­
+	//ÀÏÁ÷¼±À¸·Î ³¡±îÁö ´Þ·Á°¡±â
+	if (_isMove)	//_isMove¸é Á¡ÇÁ
 	{
 		switch (_direction)
 		{
@@ -229,7 +212,6 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 			{
 				_x = _rc.left;
 				_isMove = false;
-				_direction = UP;		//LEFT -> UP
 				_gravity = 0;
 				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
 				{
@@ -247,7 +229,6 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 			{
 				_x = _rc.left;
 				_isMove = false;
-				_direction = DOWN;		//RIGHT -> DOWN
 				_gravity = 0;
 				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
 				{
@@ -265,7 +246,6 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 			{
 				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 				_isMove = false;
-				_direction = RIGHT;		//UP -> RIGHT
 				_gravity = 0;
 			}
 			break;
@@ -278,7 +258,6 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 			{
 				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 				_isMove = false;
-				_direction = LEFT;		//DOWN -> LEFT
 				_gravity = 0;
 			}
 			break;

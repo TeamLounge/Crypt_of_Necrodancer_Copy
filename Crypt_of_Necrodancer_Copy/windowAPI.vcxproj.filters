@@ -118,6 +118,9 @@
     <Filter Include="2DGameFramework\miniMap">
       <UniqueIdentifier>{48071f4d-3377-4e12-a20c-fd663f2c5d07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\enemy\zombie">
+      <UniqueIdentifier>{01bc2608-adc6-4a2a-8c4e-8b71417ae6dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -345,6 +348,21 @@
     <ClInclude Include="miniMap.h">
       <Filter>2DGameFramework\miniMap</Filter>
     </ClInclude>
+    <ClInclude Include="dragon.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="minotaurAndDragon.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="monkeyBasic.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="monkeyWhite.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie.h">
+      <Filter>playGround\enemy\zombie</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -559,6 +577,21 @@
     </ClCompile>
     <ClCompile Include="miniMap.cpp">
       <Filter>2DGameFramework\miniMap</Filter>
+    </ClCompile>
+    <ClCompile Include="dragon.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="minotaurAndDragon.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="monkeyBasic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="monkeyWhite.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie.cpp">
+      <Filter>playGround\enemy\zombie</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
