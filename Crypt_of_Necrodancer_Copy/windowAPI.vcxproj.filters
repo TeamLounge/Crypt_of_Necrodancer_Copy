@@ -121,6 +121,18 @@
     <Filter Include="playGround\enemy\minotaurAndRedDragon">
       <UniqueIdentifier>{c10f12bc-28e3-4292-95b2-9e270dd55b06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\item\food">
+      <UniqueIdentifier>{9d198e6c-10c2-4c49-a265-bd7997bc92fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\item\food\foodType">
+      <UniqueIdentifier>{5fefbc23-720a-4120-a020-d281922a29ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\shopKeeper">
+      <UniqueIdentifier>{ee30baa4-64e1-4d29-a939-f8edd68ef13e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\scene\boss">
+      <UniqueIdentifier>{aa9b81b7-0ec5-44c4-bd05-6046c7bf9891}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -357,9 +369,6 @@
     <ClInclude Include="minotaurAndDragon.h">
       <Filter>playGround\enemy\minotaurAndRedDragon</Filter>
     </ClInclude>
-    <ClInclude Include="UIUIManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="zombie.h">
       <Filter>playGround\enemy\zombie</Filter>
     </ClInclude>
@@ -372,11 +381,29 @@
     <ClInclude Include="zombie.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="apple.h">
+      <Filter>playGround\item\food\foodType</Filter>
+    </ClInclude>
+    <ClInclude Include="cheese.h">
+      <Filter>playGround\item\food\foodType</Filter>
+    </ClInclude>
+    <ClInclude Include="foodType.h">
+      <Filter>playGround\item\food\foodType</Filter>
+    </ClInclude>
+    <ClInclude Include="food.h">
+      <Filter>playGround\item\food</Filter>
+    </ClInclude>
+    <ClInclude Include="rapier.h">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClInclude>
+    <ClInclude Include="UIUIManager.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
     <ClInclude Include="shopkeeper.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>playGround\shopKeeper</Filter>
     </ClInclude>
     <ClInclude Include="bossScene.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>playGround\scene\boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -599,9 +626,6 @@
     <ClCompile Include="monkeyBasic.cpp">
       <Filter>playGround\enemy\monkey</Filter>
     </ClCompile>
-    <ClCompile Include="UIUIManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="zombie.cpp">
       <Filter>playGround\enemy\zombie</Filter>
     </ClCompile>
@@ -617,11 +641,29 @@
     <ClCompile Include="zombie.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="apple.cpp">
+      <Filter>playGround\item\food\foodType</Filter>
+    </ClCompile>
+    <ClCompile Include="cheese.cpp">
+      <Filter>playGround\item\food\foodType</Filter>
+    </ClCompile>
+    <ClCompile Include="foodType.cpp">
+      <Filter>playGround\item\food\foodType</Filter>
+    </ClCompile>
+    <ClCompile Include="food.cpp">
+      <Filter>playGround\item\food</Filter>
+    </ClCompile>
+    <ClCompile Include="rapier.cpp">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClCompile>
+    <ClCompile Include="UIUIManager.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
     <ClCompile Include="shopkeeper.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\shopKeeper</Filter>
     </ClCompile>
     <ClCompile Include="bossScene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\scene\boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

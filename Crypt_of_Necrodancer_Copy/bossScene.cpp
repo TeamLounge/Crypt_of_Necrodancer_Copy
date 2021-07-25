@@ -16,11 +16,11 @@ HRESULT bossScene::init()
 	_player->init();
 
 	//오브젝트
-	_objectManager = new objectManager;
-	_objectManager->init();
-	_objectManager->setObjectMapMemoryAddressLink(_map);
-	_objectManager->setObjectPlayerMemoryAddressLink(_player);
-	_objectManager->getBomb()->setBombMapMemoryAddressLink(_map);
+	//_objectManager = new objectManager;
+	//_objectManager->init();
+	//_objectManager->setObjectMapMemoryAddressLink(_map);
+	//_objectManager->setObjectPlayerMemoryAddressLink(_player);
+	//_objectManager->getBomb()->setBombMapMemoryAddressLink(_map);
 
 	SOUNDMANAGER->play("boss", 0.2f);
 
@@ -35,7 +35,7 @@ void bossScene::update()
 {
 	_map->update(_player->getTileX(), _player->getTileY());
 	_player->update();
-	_objectManager->update();
+	//_objectManager->update();
 }
 
 void bossScene::render()
