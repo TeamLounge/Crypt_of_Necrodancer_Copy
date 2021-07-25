@@ -52,6 +52,14 @@ HRESULT playerTestScene::init()
 	_player->setWeaponMemoryAddressLink(_weapon);
 	_shovel->setPlayerMemoryAddressLink(_player);
 	_player->setShovelMemoryAddressLink(_shovel);
+	_objectManager->setUIMMemoryAddressLink(_UIM);
+	_UIM->setOMMemoryAddressLink(_objectManager);
+	_shovel->setOMMemoryAddressLink(_objectManager);
+	_weapon->setOMMemoryAddressLink(_objectManager);
+	_objectManager->setWeaponMemoryAddressLink(_weapon);
+	_objectManager->setShovelMemoryAddressLink(_shovel);
+	_weapon->setMGMemoryAddressLink(_map);
+
 	return S_OK;
 }
 
@@ -68,30 +76,10 @@ void playerTestScene::update()
 	_UIM->updaetHeartBeat(3.0f);
 	_objectManager->update();
 	_weapon->update();
-	_UIM->updateItemHUD();
 	_shovel->update();
 
 	_UIM->plusItemHUD(BOMB);
-
-	if (_objectManager->getBodyName() == "bodyarmor_basic")
-	{
-		_UIM->minusItemHUD(BODY);
-	}
-
-	else
-	{
-		_UIM->plusItemHUD(BODY);
-	}
-
-	if (_objectManager->getTorchName() == "torch_basic_none")
-	{
-		_UIM->minusItemHUD(TORCH);
-	}
-
-	else
-	{
-		_UIM->plusItemHUD(TORCH);
-	}
+	_UIM->updateItemHUD();
 }
 
 void playerTestScene::render()
@@ -113,11 +101,11 @@ void playerTestScene::render()
 	_em->render();
 	_UIM->renderHeartBeat();
 	_weapon->render();
-	_UIM->renderItemHUD();
 	_shovel->render();
 
 	_objectManager->render();
 	_player->getBomb()->render();
 
 	_map->seeItemRect(_player->getTileX(), _player->getTileY());
+	_UIM->renderItemHUD();
 }

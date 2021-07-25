@@ -4,3 +4,5 @@
 #include "broadSword.h"
 #include "longSword.h"
 #include "spear.h"
+#include "rapier.h"
+#include "mapGenerator.h"

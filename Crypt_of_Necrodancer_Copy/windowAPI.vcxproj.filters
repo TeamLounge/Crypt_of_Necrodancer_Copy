@@ -118,6 +118,12 @@
     <Filter Include="2DGameFramework\miniMap">
       <UniqueIdentifier>{48071f4d-3377-4e12-a20c-fd663f2c5d07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\item\food">
+      <UniqueIdentifier>{ba1438c5-ae34-46c1-9735-935628107a44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\item\food\foodType">
+      <UniqueIdentifier>{0f32de56-6ad2-40ec-a382-0a04447238ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -357,6 +363,27 @@
     <ClInclude Include="dragon.h">
       <Filter>playGround\enemy\minotaur</Filter>
     </ClInclude>
+    <ClInclude Include="UIUIManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="rapier.h">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClInclude>
+    <ClInclude Include="food.h">
+      <Filter>playGround\item\food</Filter>
+    </ClInclude>
+    <ClInclude Include="foodType.h">
+      <Filter>playGround\item\food\foodType</Filter>
+    </ClInclude>
+    <ClInclude Include="apple.h">
+      <Filter>playGround\item\food\foodType</Filter>
+    </ClInclude>
+    <ClInclude Include="cheese.h">
+      <Filter>playGround\item\food\foodType</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -583,6 +610,27 @@
     </ClCompile>
     <ClCompile Include="minotaurAndDragon.cpp">
       <Filter>playGround\enemy\minotaur</Filter>
+    </ClCompile>
+    <ClCompile Include="UIUIManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="rapier.cpp">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClCompile>
+    <ClCompile Include="food.cpp">
+      <Filter>playGround\item\food</Filter>
+    </ClCompile>
+    <ClCompile Include="foodType.cpp">
+      <Filter>playGround\item\food\foodType</Filter>
+    </ClCompile>
+    <ClCompile Include="apple.cpp">
+      <Filter>playGround\item\food\foodType</Filter>
+    </ClCompile>
+    <ClCompile Include="cheese.cpp">
+      <Filter>playGround\item\food\foodType</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

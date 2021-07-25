@@ -5,17 +5,36 @@
 #include "dagger.h"
 #include "weapon.h"
 #include "player.h"
+#include "rapier.h"
 
 weaponType * dagger::inputHandle(weapon* weapon)
 {
-	if (KEYMANAGER->isOnceKeyDown('Q'))
-	{
-		return new broadSword;
-	}
+	if (weapon->_player->getTileX() == weapon->_playerBeforeX && weapon->_player->getTileY() == weapon->_playerBeforeY) return nullptr;
 
-	if (KEYMANAGER->isOnceKeyDown('W'))
+	switch (weapon->_map->getTileItem(weapon->_player->getTileX(), weapon->_player->getTileY()))
 	{
-		return new longSword;
+	case MAP_ITEM_NONE:
+		return nullptr;
+		break;
+	case MAP_SPEAR:
+		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_DAGGER);
+		return new spear();
+		break;
+	case MAP_BROADSWORD:
+		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_DAGGER);
+		return new broadSword();
+		break;
+	case MAP_DAGGER:
+		return new dagger();
+		break;
+	case MAP_LONGSWORD:
+		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_DAGGER);
+		return new longSword();
+		break;
+	case MAP_RAPIER:
+		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_DAGGER);
+		return new rapier();
+		break;
 	}
 
 	return nullptr;

@@ -5,6 +5,8 @@
 
 class player;
 class UIManager;
+class objectManager;
+class mapGenerator;
 
 struct WEAPON
 {
@@ -34,6 +36,11 @@ public:
 
 	player* _player;
 	UIManager* _UIM;
+	objectManager* _om;
+	mapGenerator* _map;
+
+	int _playerBeforeX;
+	int	_playerBeforeY;
 
 	weapon();
 	~weapon();
@@ -50,8 +57,12 @@ public:
 	string getWeaponName() { return _weapon.imageName; }
 	image* getWeaponImage() { return _weapon.img; }
 
+	void setWeaponName(string weaponName) { _weapon.imageName = weaponName; }
+
 	void setPlayerMemoryAddressLink(player* player) { _player = player; }
 	void setUIMMemortAddressLink(UIManager* UIM) { _UIM = UIM; }
+	void setOMMemoryAddressLink(objectManager* om) { _om = om; }
+	void setMGMemoryAddressLink(mapGenerator* map) { _map = map; }
 
 	vector<COLLISION> getVCollision() { return _vCollision; }
 	vector<COLLISION>::iterator getVICollision() { return _viCollision; }
