@@ -29,6 +29,8 @@ HRESULT minotaurAndDragon::init(int playerIndexX, int playerIndexY)
 
 void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 {
+	_playerindex = playerIndexX;
+	_playerindey = playerIndexY;
 	_astar->endmove(playerIndexX, playerIndexY);
 	if (isAction) 
 	{
@@ -44,7 +46,7 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 				isTime = true;
 			}
 		}
-		//_astar->endmove(playerIndexX, playerIndexY);
+	
 		_astar->clear();
 		if (_dir != NONE) minotaurActionMove(isTime);
 	}
@@ -62,8 +64,6 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 				isTime = true;
 			}
 		}
-		isMove = true;
-		moveMotion(isTime);
 		if (!isFind) {
 			for (int y = _tiley - 4; y <= _tiley + 4; y++)
 			{
@@ -130,7 +130,6 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 			}
 			else if (_astar->getStart())
 			{
-				isMove = true;
 				minotaurAndDragonMove(isTime);
 			}
 			isTime = false;
@@ -194,19 +193,24 @@ void minotaurAndDragon::render()
 
 void minotaurAndDragon::minotaurAndDragonMove(bool Time)
 {
+	isMove = true;
+	moveMotion(isTime);
 	if (Time) {
 		int pastX = _tilex;
 		int pastY = _tiley;
 		if (_astar->getCloseListsize() != 0)
 		{
-			if (_map->getTileObject(_astar->getClosebackX(), _astar->getClosebackY()) != WALL_DOOR &&
-				!_map->getIsEnemy(_astar->getClosebackX(), _astar->getClosebackY()))
+			if (!_map->getIsEnemy(_astar->getClosebackX(), _astar->getClosebackY()))
 			{
 				_map->setIsEnemy(_tilex, _tiley, false);
 				_tilex = _astar->getClosebackX();
 				_tiley = _astar->getClosebackY();
+				if (_map->getTileObject(_tilex, _tiley) != OBJ_NONE)
+				{
+					_map->setTileObject(_tilex, _tiley, OBJ_NONE);
+				}
 				_rc = _map->getRect(_tilex, _tiley);
-				moveMotion(isTime);
+
 				_astar->move(_tilex, _tiley);
 				_map->setIsEnemy(_tilex, _tiley, true);
 			}
@@ -235,58 +239,82 @@ void minotaurAndDragon::minotaurAndDragonMove(bool Time)
 		{
 			_dir = NONE;
 		}
-		isMove = true;
 	}
 }
 
 void minotaurAndDragon::minotaurActionMove(bool Time)
 {
+	isMove = true;
+	moveMotion(isTime);
 	if (Time) {
 		int pastx = _tilex;
 		int pasty = _tiley;
-		switch (_dir)
-		{
-		case LEFT:
-			_tilex -= 1;
-			break;
-		case RIGHT:
-			_tilex += 1;
-			break;
-		case UP:
-			_tiley -= 1;
-			break;
-		case DOWN:
-			_tiley += 1;
-			break;
-		}
-		if (_tilex == _playerindex && _tiley == _playerindey )
+		if ((_dir == DOWN && _tilex == _playerindex && _tiley+1 == _playerindey) ||
+			(_dir == UP &&_tilex == _playerindex && _tiley-1 == _playerindey) ||
+			(_dir == LEFT &&_tilex-1 == _playerindex && _tiley == _playerindey)||
+			(_dir == RIGHT &&_tilex+1 == _playerindex&& _tiley == _playerindey))
 		{
 			_astar->enemyAttack();
 			if (_astar->getDamage())
 			{
- 				_tilex = pastx;
-				_tiley = pasty;
+				_rc = _map->getRect(_tilex, _tiley);
 				_dir = NONE;
 				_index = 5;
 			}
 		}
-		else if (_map->getTileObject(_tilex, _tiley) == WALL_BASIC ||
-			_map->getTileObject(_tilex, _tiley) == WALL_GOLD ||
-			_map->getTileObject(_tilex, _tiley) == WALL_STONE)
+		else if ((_dir == LEFT && (_map->getTileObject(_tilex-1 , _tiley) == WALL_BASIC || _map->getTileObject(_tilex - 1, _tiley) == WALL_GOLD || _map->getTileObject(_tilex-1, _tiley) == WALL_STONE|| _map->getTileObject(_tilex - 1, _tiley) == WALL_DOOR || _map->getTileObject(_tilex - 1, _tiley) == WALL_END)) ||
+				(_dir == RIGHT && (_map->getTileObject(_tilex + 1, _tiley) == WALL_BASIC || _map->getTileObject(_tilex + 1, _tiley) == WALL_GOLD || _map->getTileObject(_tilex + 1, _tiley) == WALL_STONE || _map->getTileObject(_tilex + 1, _tiley) == WALL_DOOR || _map->getTileObject(_tilex + 1, _tiley) == WALL_END)) ||
+				(_dir == UP && (_map->getTileObject(_tilex, _tiley-1) == WALL_BASIC || _map->getTileObject(_tilex, _tiley - 1) == WALL_GOLD || _map->getTileObject(_tilex, _tiley - 1) == WALL_STONE || _map->getTileObject(_tilex, _tiley-1) == WALL_DOOR || _map->getTileObject(_tilex , _tiley-1) == WALL_END)) ||
+				(_dir == DOWN && (_map->getTileObject(_tilex , _tiley+1) == WALL_BASIC || _map->getTileObject(_tilex, _tiley + 1) == WALL_GOLD || _map->getTileObject(_tilex, _tiley + 1) == WALL_STONE || _map->getTileObject(_tilex, _tiley+1) == WALL_DOOR || _map->getTileObject(_tilex , _tiley+1) == WALL_END)))
 		{
-			_map->setTileObject(_tilex, _tiley, OBJ_NONE);
+			switch (_dir)
+			{
+			case LEFT:
+				_tilex -= 1;
+				break;
+			case RIGHT:
+				_tilex += 1;
+				break;
+			case UP:
+				_tiley -= 1;
+				break;
+			case DOWN:
+				_tiley += 1;
+				break;
+			}
+			if (_map->getTileObject(_tilex, _tiley + 1) != WALL_END) {
+				_map->setTileObject(_tilex, _tiley, OBJ_NONE);
+			}
 			_tilex = pastx;
 			_tiley = pasty;
+			_rc = _map->getRect(_tilex, _tiley);
 			_dir = NONE;
 			_index = 5;
 		}
-		else if(!_map->getIsEnemy(_tilex, _tiley))
+		else if ((_dir == LEFT && !_map->getIsEnemy(_tilex-1, _tiley))||
+				(_dir==RIGHT && !_map->getIsEnemy(_tilex +1, _tiley))||
+				(_dir==UP && !_map->getIsEnemy(_tilex , _tiley-1))||
+				(_dir==DOWN&& !_map->getIsEnemy(_tilex, _tiley+1)))
 		{
+			switch (_dir)
+			{
+			case LEFT:
+				_tilex -= 1;
+				break;
+			case RIGHT:
+				_tilex += 1;
+				break;
+			case UP:
+				_tiley -= 1;
+				break;
+			case DOWN:
+				_tiley += 1;
+				break;
+			}
 			_map->setIsEnemy(pastx, pasty, false);
 			_rc = _map->getRect(_tilex, _tiley);
 			_map->setIsEnemy(_tilex, _tiley, true);
 			_astar->actionMove(_tilex, _tiley);
-			isMove = true;
 		}
 	}
 }
@@ -297,6 +325,16 @@ void minotaurAndDragon::moveMotion(bool Time)
 	{
 		switch (_dir)
 		{
+		case NONE:
+			_gravity += 0.965f;
+			_y += -sinf(7 * PI / 9) * 9 + _gravity;
+			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
+			{
+				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+				isMove = false;
+				_gravity = 0;
+			}
+			break;
 		case LEFT:
 			_gravity += 0.965f;
 			_x += cosf(7 * PI / 9) * 9;

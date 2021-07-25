@@ -36,6 +36,7 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 		{
 			_index = 0;
 			isAction = false;
+			_astar->callPathFinder();
 		}
 	}
 	if (!isAction&&isFind)
@@ -47,16 +48,13 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 			if (_tiley > playerIndexY)
 			{
 				isAction = true;
-				_playerindex = playerIndexX;
-				_playerindey = playerIndexY;
 				_index == 4;
 				_dir = UP;
 			}
 			else if (_tiley < playerIndexY)
 			{
 				isAction = true;
-				_playerindex = playerIndexX;
-				_playerindey = playerIndexY;
+			
 				_index == 4;
 				_dir = DOWN;
 			}
@@ -66,16 +64,12 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 			if (_tilex > playerIndexX)
 			{
 				isAction = true;
-				_playerindex = playerIndexX;
-				_playerindey = playerIndexY;
 				_index == 4;
 				_dir = LEFT;
 			}
 			else if (_tilex < playerIndexX)
 			{
 				isAction = true;
-				_playerindex = playerIndexX;
-				_playerindey = playerIndexY;
 				_index == 4;
 				_dir = RIGHT;
 			}
@@ -100,6 +94,11 @@ void minotaur::release()
 void minotaur::render()
 {
 	minotaurAndDragon::render();
-	Rectangle(getMemDC(), _rc);
+	//Rectangle(getMemDC(), _rc);
 	_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+	char str[128];
+	sprintf_s(str, "%d , %d", _tilex, _tiley);
+	TextOut(getMemDC(), _rc.left - 10, _rc.top + 10,str,strlen(str));
+	sprintf_s(str, "%d, %d", _playerindex, _playerindey);
+	TextOut(getMemDC(), _rc.left - 10, _rc.top + 40, str, strlen(str));
 }

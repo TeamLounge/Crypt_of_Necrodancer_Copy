@@ -687,24 +687,24 @@ void aStarTest::enemyAttack()
 		{
 			//hp´Þ°ÔÇÒ²¨¾ç
 			damage = true;
-			_dir = DOWN;
+			_dir = UP;
 
 		}
 	}
-	else if (_startTile->getIdY() == _endTile->getIdY() && (_startTile->getIdX() + 1 || _startTile->getIdX() - 1))
+	else if (_startTile->getIdY() == _endTile->getIdY())
 	{
 		if (_endTile->getIdX() == _startTile->getIdX() + 1)
 		{
 			//hp´Þ°ÔÇÒ²¨¾ç
 			damage = true;
-			_dir = DOWN;
+			_dir = RIGHT;
 
 		}
 		else if (_endTile->getIdX() == _startTile->getIdX() - 1)
 		{
 			//hp´Þ°ÔÇÒ²¨¾ç
 			damage = true;
-			_dir = DOWN;
+			_dir = LEFT;
 
 		}
 	}
