@@ -175,8 +175,9 @@ void ghostAndMinic::GhostAndMimicMove(bool Time)
 				_map->setIsEnemy(_tilex, _tiley, false);
 				_tilex = _astar->getClosebackX();
 				_tiley = _astar->getClosebackY();
-				_astar->move(_tilex, _tiley);
 				_map->setIsEnemy(_tilex, _tiley, true);
+				_astar->move(_tilex, _tiley);
+
 			}
 		}
 		else if (_astar->getCloseListsize() == 0)
