@@ -16,15 +16,27 @@ void mimic::update(int playerIndexX, int playerIndexY)
 	ghostAndMinic::update(playerIndexX, playerIndexY);
 
 
-	_count++;
-	
-	if (_count % 5 == 0)
+	if (isFind) 
 	{
-		_index++;
-		if (_index > 4) _index = 0;
-		_count = 0;
+		_count++;
+
+		if (_count % 5 == 0)
+		{
+			_index++;
+			if (_index > 4) _index = 0;
+			_count = 0;
+		}
 	}
-	
+	else
+	{
+		_count++;
+		if (_count % 5 == 0)
+		{
+			_index++;
+			if (_index > 2) _index = 0;
+			_count = 0;
+		}
+	}
 	if (isMove)
 	{
 		switch (_dir)

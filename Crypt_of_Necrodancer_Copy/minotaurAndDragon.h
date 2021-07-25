@@ -35,7 +35,7 @@ public:
 
 	virtual void minotaurAndDragonMove(bool Time);
 	virtual void minotaurActionMove(bool Time);
-	virtual void moveMotion(bool Time);
+	virtual void moveMotion();
 	virtual image* getImage() { return _img; }
 	virtual int getX() { return _tilex; }
 	virtual int getY() { return _tiley; }
