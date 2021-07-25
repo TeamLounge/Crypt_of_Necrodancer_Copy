@@ -195,6 +195,7 @@
     <ClInclude Include="randomMap.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sceneManager.h" />
+    <ClInclude Include="shopkeeper.h" />
     <ClInclude Include="shovel.h" />
     <ClInclude Include="shovelBasic.h" />
     <ClInclude Include="shovelTitanium.h" />
@@ -275,6 +276,7 @@
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="randomMap.cpp" />
     <ClCompile Include="sceneManager.cpp" />
+    <ClCompile Include="shopkeeper.cpp" />
     <ClCompile Include="shovel.cpp" />
     <ClCompile Include="shovelBasic.cpp" />
     <ClCompile Include="shovelTitanium.cpp" />

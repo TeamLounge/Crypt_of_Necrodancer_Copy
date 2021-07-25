@@ -53,6 +53,10 @@ HRESULT playerTestScene::init()
 	_player->setWeaponMemoryAddressLink(_weapon);
 	_shovel->setPlayerMemoryAddressLink(_player);
 	_player->setShovelMemoryAddressLink(_shovel);
+
+	_shopkeeper = new shopkeeper;
+	_shopkeeper->init("zone1-1_shopkeeper", _map->getShopKeeperXY());
+	_shopkeeper->setShopkeeperPlayerMemoryAddressLink(_player);
 	return S_OK;
 }
 
@@ -71,6 +75,8 @@ void playerTestScene::update()
 	_weapon->update();
 	_UIM->updateItemHUD();
 	_shovel->update();
+
+	_shopkeeper->update();
 
 	_UIM->plusItemHUD(BOMB);
 

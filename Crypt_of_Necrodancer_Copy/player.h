@@ -71,7 +71,6 @@ public:
 	void setEmMemoryAddressLink(enemyManager* em) { _em = em; }
 	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
 	void setupPlayerRect();
-	void shopkeeperSound();
 
 	int getTileX() { return _tileX; }
 	int getTileY() { return _tileY; }

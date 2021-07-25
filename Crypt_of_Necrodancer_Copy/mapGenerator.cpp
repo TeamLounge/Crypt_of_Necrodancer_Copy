@@ -15,6 +15,7 @@ HRESULT mapGenerator::init(int width, int height)
 
 	_shopKeeper.x = 0;
 	_shopKeeper.y = 0;
+
 	return S_OK;
 }
 
@@ -363,10 +364,11 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 		case SHOPKEEPER:
 			IMAGEMANAGER->frameRender("shopkeeper", getMemDC(),
 				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("shopkeeper")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("shopkeeper")->getFrameHeight() / 2 - 50, 0, 0);
-			IMAGEMANAGER->alphaFrameRender("shopkeeper", getMemDC(),
-				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("shopkeeper")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("shopkeeper")->getFrameHeight() / 2 - 50, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("shopkeeper")->getFrameHeight() / 2 - 50);
+			IMAGEMANAGER->alphaFrameRender("shopkeeper_dark", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("shopkeeper_dark")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("shopkeeper_dark")->getFrameHeight() / 2 - 50, 255 - _tiles[tileY][tileX].alpha);
+			break;
 		}
 
 		if (_tiles[tileY][tileX].isHaveTorch)

@@ -287,7 +287,6 @@ void player::update()
 
 	_bomb->update();
 
-	shopkeeperSound();
 }
 
 void player::render()
@@ -370,27 +369,3 @@ void player::setupPlayerRect()
 	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 }
 
-void player::shopkeeperSound()
-{
-	_shopkeeperDistance = getDistance(_map->getShopKeeperXY().x, _map->getShopKeeperXY().y, _tileX, _tileY);
-	if (_shopkeeperDistance <= 3.0f)
-	{
-		SOUNDMANAGER->setVolume("zone1-1_shopkeeper", 0.2f);
-	}
-	else if (_shopkeeperDistance <= 6.0f)
-	{
-		SOUNDMANAGER->setVolume("zone1-1_shopkeeper", 0.15f);
-	}
-	else if (_shopkeeperDistance <= 9.0f)
-	{
-		SOUNDMANAGER->setVolume("zone1-1_shopkeeper", 0.1f);
-	}
-	else if (_shopkeeperDistance <= 12.0f)
-	{
-		SOUNDMANAGER->setVolume("zone1-1_shopkeeper", 0.05f);
-	}
-	else
-	{
-		SOUNDMANAGER->setVolume("zone1-1_shopkeeper", 0.0f);
-	}
-}

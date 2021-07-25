@@ -357,6 +357,15 @@
     <ClInclude Include="dragon.h">
       <Filter>playGround\enemy\minotaur</Filter>
     </ClInclude>
+    <ClInclude Include="UIUIManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="shopkeeper.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -583,6 +592,15 @@
     </ClCompile>
     <ClCompile Include="minotaurAndDragon.cpp">
       <Filter>playGround\enemy\minotaur</Filter>
+    </ClCompile>
+    <ClCompile Include="UIUIManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="shopkeeper.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -183,5 +183,6 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("coin10", "image/item/coin/coin10.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 
 	//shopkeeper
-	IMAGEMANAGER->addFrameImage("shopkeeper", "image/object/shopkeeper.bmp", 1128, 228, 8, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("shopkeeper", "image/object/shopkeeper.bmp", 1128, 114, 8, 1, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("shopkeeper_dark", "image/object/shopkeeper_dark.bmp", 1128, 114, 8, 1, true, RGB(255, 0, 255), true);
 }
