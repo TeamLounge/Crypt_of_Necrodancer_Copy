@@ -366,6 +366,9 @@
     <ClInclude Include="shopkeeper.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="bossScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -600,6 +603,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="shopkeeper.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="bossScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

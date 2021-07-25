@@ -153,6 +153,7 @@
     <ClInclude Include="beatHeart.h" />
     <ClInclude Include="blackSkeleton.h" />
     <ClInclude Include="bomb.h" />
+    <ClInclude Include="bossScene.h" />
     <ClInclude Include="broadSword.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="cameraManager.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="beatHeart.cpp" />
     <ClCompile Include="blackSkeleton.cpp" />
     <ClCompile Include="bomb.cpp" />
+    <ClCompile Include="bossScene.cpp" />
     <ClCompile Include="broadSword.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="cameraManager.cpp" />

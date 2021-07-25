@@ -918,6 +918,212 @@ void mapGenerator::generate(int maxFeatures)
 	MINIMAP->setupMiniMap(_width, _height);
 }
 
+void mapGenerator::generateBossMap()
+{
+	_tiles.clear();
+	vector<vector<tagTile>>().swap(_tiles);
+	//처음 타일 초기화
+	for (int i = 0; i < BOSSMAPY; ++i)
+	{
+		vector<tagTile> vTile;
+		for (int j = 0; j < BOSSMAPX; ++j)
+		{
+			tagTile tile;
+			tile.rc = RectMake(j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
+			tile.itemRect = RectMake(j * TILESIZE, i * TILESIZE + MARGIN - (TILESIZE / 2), TILESIZE, TILESIZE);
+			tile.terrain = EMPTY;
+			tile.obj = OBJ_NONE;
+			tile.item = MAP_ITEM_NONE;
+			tile.itemDirection = NONE;
+			tile.terrainFrameX = 0;
+			tile.terrainFrameY = 0;
+			tile.objectFrameX = 0;
+			tile.objectFrameY = 0;
+			tile.isHaveTorch = false;
+			tile.alpha = 0;
+			tile.isSeen = false;
+			tile.isBombFired = false;
+			vTile.push_back(tile);
+		}
+		_tiles.push_back(vTile);
+	}
+
+	//맵 타일 깔기
+	for (int i = 0; i < BOSSMAPY; ++i)
+	{
+		if ((i >= 0 && i <= 4) || i >= 18 && i < BOSSMAPY)
+		{
+			for (int j = 3; j <= 9; ++j)
+			{
+				_tiles[i][j].terrain = BOSS;
+			}
+		}
+		else if (i >= 5 && i <= 15)
+		{
+			for (int j = 0; j < BOSSMAPX; ++j)
+			{
+				_tiles[i][j].terrain = BOSS;
+			}
+		}
+		else
+		{
+			for (int j = 4; j <= 8; ++j)
+			{
+				_tiles[i][j].terrain = BOSS;
+			}
+		}
+	}
+
+	//벽 치기
+	for (int i = 0; i < BOSSMAPY; ++i)
+	{
+		if (i == 0 || i == BOSSMAPY - 1)
+		{
+			for (int j = 3; j <= 9; ++j)
+			{
+				_tiles[i][j].obj = WALL_END;
+				_tiles[i][j].objectFrameY = 3;
+				_tiles[i][j].objectFrameX = RND->getFromIntTo(1, 6);
+			}
+		}
+		else if ((i >= 1 && i <= 4) || (i >= 18 && i <= BOSSMAPY - 2))
+		{
+			if (i == 18)
+			{
+				_tiles[i][4].obj = WALL_END;
+				_tiles[i][4].objectFrameY = 3;
+				_tiles[i][4].objectFrameX = RND->getFromIntTo(1, 6);
+
+				_tiles[i][8].obj = WALL_END;
+				_tiles[i][8].objectFrameY = 3;
+				_tiles[i][8].objectFrameX = RND->getFromIntTo(1, 6);
+			}
+			_tiles[i][3].obj = WALL_END;
+			_tiles[i][3].objectFrameY = 3;
+			_tiles[i][3].objectFrameX = RND->getFromIntTo(1, 6);
+
+			_tiles[i][9].obj = WALL_END;
+			_tiles[i][9].objectFrameY = 3;
+			_tiles[i][9].objectFrameX = RND->getFromIntTo(1, 6);
+		}
+		else if (i == 5) //여기가 보스 죽이면 벽 뚫려야 할 곳
+		{
+			for (int j = 0; j < BOSSMAPX; j++)
+			{
+				_tiles[i][j].obj = WALL_END;
+				_tiles[i][j].objectFrameY = 3;
+				_tiles[i][j].objectFrameX = RND->getFromIntTo(1, 6);
+			}
+			/*
+			for (int j = 0; j <= 3; j++)
+			{
+				_tiles[i][j].obj = WALL_END;
+				_tiles[i][j].objectFrameY = 3;
+				_tiles[i][j].objectFrameX = RND->getFromIntTo(1, 6);
+			}
+			for (int j = BOSSMAPX - 1; j >= 9; --j)
+			{
+				_tiles[i][j].obj = WALL_END;
+				_tiles[i][j].objectFrameY = 3;
+				_tiles[i][j].objectFrameX = RND->getFromIntTo(1, 6);
+			}
+			*/
+		}
+		else if (i >= 6 && i <= 14)
+		{
+			_tiles[i][0].obj = WALL_END;
+			_tiles[i][0].objectFrameY = 3;
+			_tiles[i][0].objectFrameX = RND->getFromIntTo(1, 6);
+
+			_tiles[i][BOSSMAPX - 1].obj = WALL_END;
+			_tiles[i][BOSSMAPX - 1].objectFrameY = 3;
+			_tiles[i][BOSSMAPX - 1].objectFrameX = RND->getFromIntTo(1, 6);
+		}
+		else if (i == 15)
+		{
+			for (int j = 0; j < BOSSMAPX; j++)
+			{
+				if (j >= 0 && j <= 4)
+				{
+					_tiles[i][j].obj = WALL_END;
+					_tiles[i][j].objectFrameY = 3;
+					_tiles[i][j].objectFrameX = RND->getFromIntTo(1, 6);
+					if (j == 4)
+					{
+						_tiles[i][j].isHaveTorch = true;
+					}
+				}
+				else if (j >= 8 && j < BOSSMAPX)
+				{
+					_tiles[i][j].obj = WALL_END;
+					_tiles[i][j].objectFrameY = 3;
+					_tiles[i][j].objectFrameX = RND->getFromIntTo(1, 6);
+					if (j == 8)
+					{
+						_tiles[i][j].isHaveTorch = true;
+					}
+				}
+				else
+				{
+					_tiles[i][j].obj = WALL_DOOR;
+					_tiles[i][j].objectFrameY = 2;
+					_tiles[i][j].objectFrameX = 4;
+				}
+			}
+		}
+		else if (i >= 16 && i <= 17)
+		{
+			_tiles[i][4].obj = WALL_END;
+			_tiles[i][4].objectFrameY = 3;
+			_tiles[i][4].objectFrameX = RND->getFromIntTo(1, 6);
+
+			_tiles[i][8].obj = WALL_END;
+			_tiles[i][8].objectFrameY = 3;
+			_tiles[i][8].objectFrameX = RND->getFromIntTo(1, 6);
+		}
+
+		//횃불 있는 중간 벽 설치
+		if (i == 2 || i == 4 || i == 20 || i == 22)
+		{
+			_tiles[i][5].obj = WALL_END;
+			_tiles[i][5].objectFrameY = 3;
+			_tiles[i][5].objectFrameX = RND->getFromIntTo(1, 6);
+			_tiles[i][5].isHaveTorch = true;
+
+			_tiles[i][7].obj = WALL_END;
+			_tiles[i][7].objectFrameY = 3;
+			_tiles[i][7].objectFrameX = RND->getFromIntTo(1, 6);
+			_tiles[i][7].isHaveTorch = true;
+		}
+
+		if (i == 3)
+		{
+			_tiles[i][6].terrain = STAIR_NONE;
+		}
+
+	}
+
+	//함정 설치
+
+
+	tagRoom room;
+	room.width = 5;
+	room.height = 5;
+	room.x = 4;
+	room.y = 19;
+	_rooms.push_back(room);
+	_startRoomIndex = 0;
+
+	room.width = 11;
+	room.height = 9;
+	room.x = 1;
+	room.y = 6;
+	_rooms.push_back(room);
+	_bossRoomIndex = 1;
+
+	MINIMAP->setupMiniMap(_width, _height);
+}
+
 bool mapGenerator::makeRoom(int x, int y, ROOM_DIRECTION dir, bool firstRoom, int index)
 {
 	int minRoomSize = 5;

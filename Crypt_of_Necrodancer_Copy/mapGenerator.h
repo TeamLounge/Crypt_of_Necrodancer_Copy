@@ -1,6 +1,8 @@
 #pragma once
 #include "gameNode.h"
 #include "tileMap.h"
+#define BOSSMAPX 13
+#define BOSSMAPY 25
 
 enum ROOM_DIRECTION
 {
@@ -58,8 +60,13 @@ public:
 	virtual void release();
 	virtual void update(int tileX, int tileY);
 	virtual void render(int tileX, int tileY, bool isTile);
-
+	
+	//맵 생성
 	void generate(int maxFeatures);
+
+	//보스 맵 생성
+	void generateBossMap();
+
 	//방 만들기
 	bool makeRoom(int x, int y, ROOM_DIRECTION dir, bool firstRoom = false, int index = NULL);
 	//통로 만들기
