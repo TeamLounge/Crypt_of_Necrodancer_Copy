@@ -23,6 +23,8 @@
 
 #include "zombie.h"
 
+#include "redDragon.h"
+
 
 
 class player;	//상호 참조 위한 전방 선언
@@ -127,6 +129,15 @@ private:
 
 	vZombie					_vZombie;
 	viZombie				_viZombie;
+
+	//////////////////////////////
+	//			레드 드래곤		//
+	//////////////////////////////
+	typedef vector<redDragon*>					vRedDragon;
+	typedef vector<redDragon*>::iterator		viRedDragon;
+
+	vRedDragon					_vRedDragon;
+	viRedDragon				_viRedDragon;
 	
 
 
@@ -192,6 +203,13 @@ public:
 	void updateZombie();
 	void renderZombie();
 
+	void setRedDragon();
+	void updateRedDragon();
+	void renderRedDragon();
+
+	//에너미 삭제 할 때
+	//_em->delete(_tileX, _tileY); 이런 
+
 
 	//ㄹㅇ 수만은 겟터들
 
@@ -230,5 +248,8 @@ public:
 
 	vZombie getVZombie() { return _vZombie; }
 	viZombie getVIZombie() { return _viZombie; }
+
+	vRedDragon getVRedDragon() { return _vRedDragon; }
+	viRedDragon getVIRedDragon() { return _viRedDragon; }
 
 };

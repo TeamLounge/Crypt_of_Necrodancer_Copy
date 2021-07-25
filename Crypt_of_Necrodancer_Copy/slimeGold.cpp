@@ -81,13 +81,44 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 	if (TIMEMANAGER->getWorldTime() - _movingTime >= 0.5f)	//1¹ÚÀÚ
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
+
+		//Áö³ª¿Â Å¸ÀÏÀÇ isEnemy¿¡ °üÇÑ ºÒ °ªÀ» false·Î
+		_pastX = _tileX;
+		_pastY = _tileY;
+
+		if (_pastY == _tileY && _tileX - _pastX == -1)
+		{
+			//_direction = LEFT;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+		else if (_pastY == _tileY && _tileX - _pastX == 1)
+		{
+			//_direction = RIGHT;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+		else if (_pastX == _tileX && _tileY - _pastY == -1)
+		{
+			//_direction = UP;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+		else if (_pastX == _tileX && _tileY - _pastY == 1)
+		{
+			//_direction = DOWN;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+		else if (_tileX == _pastX && _tileY == _pastY)
+		{
+			//_direction = NONE;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+
 		if (!_isMove)
 		{
 			if (_direction == UP)
 			{
 				OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE )
+					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
 				{
 					_direction = DOWN;
 					_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
@@ -106,7 +137,7 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 			{
 				OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE )
+					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
 				{
 					_direction = UP;
 					_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
@@ -125,7 +156,7 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 			{
 				OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE )
+					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
 				{
 					_direction = RIGHT;
 					_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
@@ -144,7 +175,7 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 			{
 				OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE )
+					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
 				{
 					_direction = LEFT;
 					_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
@@ -155,49 +186,16 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 					_tileX += 1;
 					_isMove = true;
 				}
+				/*if (true)
+				{
+
+				}*/
 
 				_rc = _map->getRect(_tileX, _tileY);
 				_map->setIsEnemy(_tileX, _tileY, true);
 			}
+			
 		}
-
-		/*if (!_isMove)
-		{
-			switch (_direction)
-			{
-			case LEFT:
-				_isMove = true;
-				_tileX -= 1;
-
-				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
-				break;
-
-			case RIGHT:
-				_isMove = true;
-				_tileX += 1;
-
-				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
-				break;
-
-			case UP:
-				_isMove = true;
-				_tileY -= 1;
-
-				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
-				break;
-
-			case DOWN:
-				_isMove = true;
-				_tileY += 1;
-
-				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
-				break;
-			}
-		}*/
 	}
 	//Àå¾Ö¹°ÀÌ³ª ¿¡³Ê¹Ì ÀÖÀ¸¸é ¿òÁ÷ÀÌÁö ¾Ê°í Á¦ÀÚ¸® ¶Ù±â ¸¸µé¾î¾ßÇÔ
 	/////////////////////////////////////////////////////

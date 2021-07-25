@@ -69,6 +69,36 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
 
+		//지나온 타일의 isEnemy에 관한 불 값을 false로
+		_pastX = _tileX;
+		_pastY = _tileY;
+
+		if (_pastY == _tileY && _tileX - _pastX == -1)
+		{
+			//_direction = LEFT;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+		else if (_pastY == _tileY && _tileX - _pastX == 1)
+		{
+			//_direction = RIGHT;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+		else if (_pastX == _tileX && _tileY - _pastY == -1)
+		{
+			//_direction = UP;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+		else if (_pastX == _tileX && _tileY - _pastY == 1)
+		{
+			//_direction = DOWN;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+		else if (_tileX == _pastX && _tileY == _pastY)
+		{
+			//_direction = NONE;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+
 		if (!_isMove)
 		{
 			if (_direction == UP)
@@ -127,6 +157,7 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 				_direction = DOWN;
 				_gravity = 0;
 			}
+
 			break;
 
 		case DOWN:

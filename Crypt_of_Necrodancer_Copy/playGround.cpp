@@ -171,6 +171,11 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("zombie", "image/enemy/zombie.bmp", 600, 300, 8, 4, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("zombie_dark", "image/enemy/zombie_dark.bmp", 600, 300, 8, 4, true, RGB(255, 0, 255), true);
 
+	IMAGEMANAGER->addFrameImage("dragonRed", "image/enemy/dragonRed.bmp", 1281, 306, 7, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("dragonRed_dark", "image/enemy/dragonRed_dark.bmp", 1281, 306, 7, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("dragonRedFire", "image/enemy/dragonRedFire.bmp", 420, 60, 7, 1, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("dragonRedFireStarting", "image/enemy/dragonRedFireStarting.bmp", 420, 120, 7, 1, true, RGB(255, 0, 255), true);
+
 	//player
 	IMAGEMANAGER->addFrameImage("player_head", "image/player/playerHead.bmp", 216, 72, 4, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("player_body_basic", "image/player/playerArmor_basic.bmp", 216, 90, 4, 2, true, RGB(255, 0, 255), true);	//alpha 값 꼭 챙겨주자!!!

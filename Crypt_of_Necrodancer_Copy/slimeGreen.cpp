@@ -40,6 +40,36 @@ void slimeGreen::setSlimeFrame()
 		_worldTime = TIMEMANAGER->getWorldTime();
 	}
 
+	//지나온 타일의 isEnemy에 관한 불 값을 false로
+	_pastX = _tileX;
+	_pastY = _tileY;
+
+	if (_pastY == _tileY && _tileX - _pastX == -1)
+	{
+		//_direction = LEFT;
+		_map->setIsEnemy(_tileX, _tileY, false);
+	}
+	else if (_pastY == _tileY && _tileX - _pastX == 1)
+	{
+		//_direction = RIGHT;
+		_map->setIsEnemy(_tileX, _tileY, false);
+	}
+	else if (_pastX == _tileX && _tileY - _pastY == -1)
+	{
+		//_direction = UP;
+		_map->setIsEnemy(_tileX, _tileY, false);
+	}
+	else if (_pastX == _tileX && _tileY - _pastY == 1)
+	{
+		//_direction = DOWN;
+		_map->setIsEnemy(_tileX, _tileY, false);
+	}
+	else if (_tileX == _pastX && _tileY == _pastY)
+	{
+		//_direction = NONE;
+		_map->setIsEnemy(_tileX, _tileY, false);
+	}
+
 	_frameCount++;
 	if (_frameCount % 8 == 0)
 	{
@@ -52,19 +82,7 @@ void slimeGreen::setSlimeFrame()
 		{
 			_currentFrameX++;
 		}
-		//좌우 랜덤 생성 어떻게 할까
-		/*if (RND->getFromIntTo(0, 1) == 1)
-		{
-			_currentFrameY = 1;
-		}
-		else if (RND->getFromIntTo(0, 1) == 0)
-		{
-			_currentFrameY = 0;
-		}*/
 	}
-
-	
-
 }
 
 void slimeGreen::moveSlimeGreen()
