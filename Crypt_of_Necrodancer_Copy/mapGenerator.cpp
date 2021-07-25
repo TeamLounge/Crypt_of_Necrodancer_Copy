@@ -13,6 +13,8 @@ HRESULT mapGenerator::init(int width, int height)
 	_elapsedSec = 0;
 	_isEvenLight = false;
 
+	_shopKeeper.x = 0;
+	_shopKeeper.y = 0;
 	return S_OK;
 }
 
@@ -358,6 +360,13 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameWidth() / 2,
 				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameHeight() / 2, 1, 0, 255 - _tiles[tileY][tileX].alpha);
 			break;
+		case SHOPKEEPER:
+			IMAGEMANAGER->frameRender("shopkeeper", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("shopkeeper")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("shopkeeper")->getFrameHeight() / 2 - 50, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("shopkeeper", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("shopkeeper")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("shopkeeper")->getFrameHeight() / 2 - 50, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 		}
 
 		if (_tiles[tileY][tileX].isHaveTorch)
@@ -883,6 +892,25 @@ void mapGenerator::generate(int maxFeatures)
 	_width = _tiles[0].size();
 	_height = _tiles.size();
 
+	for (int i = _rooms.size() - 1; i >= 0 ; i--)
+	{
+		if (_rooms[i].roomState == ROOM_SHOP)
+		{
+			for (int j = _rooms[i].y; j < _rooms[i].y + _rooms[i].height; j++)
+			{
+				for (int k = _rooms[i].x; k < _rooms[i].x + _rooms[i].width; k++)
+				{
+					if (_tiles[j][k].obj == SHOPKEEPER)
+					{
+						_shopKeeper.x = k;
+						_shopKeeper.y = j;
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	testObject();
 	
 	MINIMAP->setupMiniMap(_width, _height);
@@ -1359,22 +1387,27 @@ bool mapGenerator::placeTile(const tagRoom & room, OBJECT obj, int objectFrameX,
 			}
 		}
 
+
 		switch (dir)
 		{
 		case NORTH:
 			_tiles[room.y + 3][room.x + 2].terrain = SHOP;
+			_tiles[room.y + 3][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 4].terrain = SHOP;
 			break;
 		case SOUTH:
 			_tiles[room.y + 2][room.x + 2].terrain = SHOP;
+			_tiles[room.y + 2][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 2][room.x + 4].terrain = SHOP;
 			break;
 		case WEST:
 			_tiles[room.y + 3][room.x + 2].terrain = SHOP;
+			_tiles[room.y + 3][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 4].terrain = SHOP;
 			break;
 		case EAST:
 			_tiles[room.y + 3][room.x + 1].terrain = SHOP;
+			_tiles[room.y + 3][room.x + 2].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 3].terrain = SHOP;
 			break;
 		case DIRECTIONCOUNT:
@@ -1910,23 +1943,4 @@ void mapGenerator::testObject()
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].item = MAP_BROADSWORD;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].itemDirection = UP;
 
-}
-
-void mapGenerator::seeItemRect(int tileX, int tileY)
-{
-	if (KEYMANAGER->isToggleKey(VK_TAB))
-	{
-		for (int i = tileY - VISIONY / 2; i <= tileY + VISIONY / 2; ++i)
-		{
-			if (i < 0) continue;
-			if (i >= _height) break;
-			for (int j = tileX - VISIONX / 2; j <= tileX + VISIONX / 2; ++j)
-			{
-				if (j < 0) continue;
-				if (j >= _width) break;
-				//Rectangle(getMemDC(), _tiles[i][j].rc);
-				Rectangle(getMemDC(), _tiles[i][j].itemRect);
-			}
-		}
-	}
 }

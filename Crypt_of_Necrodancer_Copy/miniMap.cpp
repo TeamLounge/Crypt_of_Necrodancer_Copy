@@ -93,7 +93,8 @@ void miniMap::drawMiniMap(int tileX, int tileY, TERRAIN terrain, OBJECT obj, MAP
 		break;
 	case BARREL:
 		break;
-	
+	case SHOPKEEPER:
+		IMAGEMANAGER->findImage("minimap_shopkeeper")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
 	default:
 		break;
 	}

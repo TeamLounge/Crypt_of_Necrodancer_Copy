@@ -51,6 +51,8 @@ private:
 
 	float _elapsedSec;
 
+	POINT _shopKeeper;
+
 public:
 	virtual HRESULT init(int width, int height);
 	virtual void release();
@@ -151,8 +153,6 @@ public:
 
 	MAP_ITEM getTileItem(int tileX, int tileY) { return _tiles[tileY][tileX].item; }
 	
-
-	//아이템 렉트 보기 위한 것
-	void seeItemRect(int tileX, int tileY);
+	POINT getShopKeeperXY() { return _shopKeeper; }
 };
 

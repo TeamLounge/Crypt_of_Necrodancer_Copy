@@ -120,5 +120,4 @@ void playerTestScene::render()
 	_objectManager->render();
 	_player->getBomb()->render();
 
-	_map->seeItemRect(_player->getTileX(), _player->getTileY());
 }

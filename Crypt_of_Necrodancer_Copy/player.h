@@ -53,6 +53,8 @@ private:
 
 	bomb* _bomb;
 
+	float _shopkeeperDistance;
+
 public:
 	enemyManager* _em; //에너미 정보 가져오기
 
