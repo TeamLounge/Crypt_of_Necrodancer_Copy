@@ -1,8 +1,14 @@
 #include "stdafx.h"
 #include "weapon.h"
 #include "dagger.h"
+#include "rapier.h"
+#include "spear.h"
+#include "broadSword.h"
+#include "longSword.h"
 #include "player.h"
 #include "UIManager.h"
+#include "mapGenerator.h"
+#include "objectManager.h"
 
 weapon::weapon()
 {
@@ -42,6 +48,9 @@ HRESULT weapon::init()
 {
 	_weapon.imageName = "broadSword";
 
+	_playerBeforeX = 0;
+	_playerBeforeY = 0;
+
 	_weaponType = new dagger();
 	_weaponType->enter(this);
 
@@ -61,6 +70,12 @@ void weapon::update()
 {
 	InputHandle();
 	_weaponType->update(this);
+
+	if (_player->getTileX() != _playerBeforeX || _player->getTileY() != _playerBeforeY)
+	{
+		_playerBeforeX = _player->getTileX();
+		_playerBeforeY = _player->getTileY();
+	}
 
 	_weapon.rc = RectMake(_player->getTileRect().left, _player->getTileRect().top,
 		TILESIZE, TILESIZE);

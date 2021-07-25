@@ -10,6 +10,8 @@
 #include "itemHUD.h"
 #include <vector>
 
+class objectManager;
+
 class UIManager : public gameNode
 {
 private: 
@@ -39,6 +41,8 @@ private:
 	diamond* _diamond;
 	X* _moneyX;
 	X* _diaX;
+
+	objectManager* _om;
 
 	int _heartNum;
 	float _elapsedSec;
@@ -158,5 +162,7 @@ public:
 
 	vector<UI*> getVItemHUD() { return _vItemHUD; }
 	vector<UI*>::iterator getVIItemHUD() { return _viItemHUD; }
+
+	void setOMMemoryAddressLink(objectManager* om) { _om = om; }
 };
 

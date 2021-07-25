@@ -1,5 +1,13 @@
 #include "stdafx.h"
 #include "objectManager.h"
+#include "UIManager.h"
+#include "weapon.h"
+#include "shovel.h"
+#include "dagger.h"
+#include "broadSword.h"
+#include "longSword.h"
+#include "spear.h"
+#include "rapier.h"
 
 HRESULT objectManager::init()
 {
@@ -12,9 +20,11 @@ HRESULT objectManager::init()
 
 	bodyName = "bodyarmor_basic";
 	torchName = "torch_basic_none";
+	foodName = "food_none";
 
 	UIMANAGER->addUI("body", bodyName.c_str(), 0, 0);
 	UIMANAGER->addUI("torch", torchName.c_str(), 0, 0);
+	UIMANAGER->addUI("food", foodName.c_str(), 0, 0);
 
 	return S_OK;
 }
@@ -44,6 +54,36 @@ void objectManager::update()
 	{
 		_playerBeforeX = _player->getTileX();
 		_playerBeforeY = _player->getTileY();
+	}
+
+	if (bodyName == "bodyarmor_basic")
+	{
+		_UIM->minusItemHUD(BODY);
+	}
+
+	else
+	{
+		_UIM->plusItemHUD(BODY);
+	}
+
+	if (torchName == "torch_basic_none")
+	{
+		_UIM->minusItemHUD(TORCH);
+	}
+
+	else
+	{
+		_UIM->plusItemHUD(TORCH);
+	}
+
+	if (foodName == "food_none")
+	{
+		_UIM->minusItemHUD(ITEM);
+	}
+
+	else
+	{
+		_UIM->plusItemHUD(ITEM);
 	}
 }
 
@@ -196,6 +236,17 @@ void objectManager::playerItemCollision()
 		torchName = "torch_plus_2";
 		break;
 	case MAP_TITANUM_SHOVEL:
+		if (_shovel->getShovelName() == "shovelBasic")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		}
+
+		else if (_shovel->getShovelName() == "shovelTitanium")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_TITANUM_SHOVEL);
+		}
+
+		_map->setTileItem(playerTileX, playerTileY, MAP_TITANUM_SHOVEL);
 		break;
 	case MAP_LEATHER_ARMOR:
 		if (_player->getBodyImageName() == "player_body_basic")
@@ -236,11 +287,12 @@ void objectManager::playerItemCollision()
 		bodyName = "chain_armor";
 		break;
 	case MAP_DAGGER:
-		
+
 		break;
 	case MAP_BROADSWORD:
-		
+
 		break;
+
 	case MAP_RAPIER:
 		
 		break;
@@ -248,16 +300,52 @@ void objectManager::playerItemCollision()
 		
 		break;
 	case MAP_SPEAR:
-		
+
 		break;
 	case MAP_BOMB:
 
 		break;
 	case MAP_APPLE:
-		
+		if (foodName == "food_none")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+			foodName = "food_none";
+		}
+
+		else if (foodName == "apple")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_APPLE);
+			foodName = "apple";
+		}
+
+		else if(foodName == "cheese")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_CHEESE);
+			foodName = "cheese";
+		}
+
+		foodName = "apple";
 		break;
 	case MAP_CHEESE:
-		
+		if (foodName == "food_none")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+			foodName = "food_none";
+		}
+
+		else if (foodName == "apple")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_APPLE);
+			foodName = "apple";
+		}
+
+		else if (foodName == "cheese")
+		{
+			_map->setTileItem(playerTileX, playerTileY, MAP_CHEESE);
+			foodName = "cheese";
+		}
+
+		foodName = "cheese";
 		break;
 	case MAP_COIN10:
 		

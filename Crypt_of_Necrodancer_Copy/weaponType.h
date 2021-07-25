@@ -7,6 +7,7 @@ class weaponType
 {
 protected:
 
+
 public:
 	virtual weaponType* inputHandle(weapon* weapon) = 0;
 	virtual void update(weapon* weapon) = 0;

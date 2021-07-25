@@ -1,13 +1,13 @@
 #include "stdafx.h"
+#include "rapier.h"
 #include "spear.h"
-#include "longSword.h"
 #include "broadSword.h"
+#include "longSword.h"
 #include "dagger.h"
 #include "weapon.h"
 #include "player.h"
-#include "rapier.h"
 
-weaponType * longSword::inputHandle(weapon * weapon)
+weaponType * rapier::inputHandle(weapon * weapon)
 {
 	if (weapon->_player->getTileX() == weapon->_playerBeforeX && weapon->_player->getTileY() == weapon->_playerBeforeY) return nullptr;
 
@@ -17,22 +17,22 @@ weaponType * longSword::inputHandle(weapon * weapon)
 		return nullptr;
 		break;
 	case MAP_SPEAR:
-		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_LONGSWORD);
+		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_RAPIER);
 		return new spear();
 		break;
 	case MAP_BROADSWORD:
-		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_LONGSWORD);
+		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_RAPIER);
 		return new broadSword();
 		break;
 	case MAP_DAGGER:
-		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_LONGSWORD);
+		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_RAPIER);
 		return new dagger();
 		break;
 	case MAP_LONGSWORD:
+		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_RAPIER);
 		return new longSword();
 		break;
 	case MAP_RAPIER:
-		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_LONGSWORD);
 		return new rapier();
 		break;
 	}
@@ -40,7 +40,7 @@ weaponType * longSword::inputHandle(weapon * weapon)
 	return nullptr;
 }
 
-void longSword::update(weapon * weapon)
+void rapier::update(weapon * weapon)
 {
 	if (weapon->_player->getDirection() == LEFT)
 	{
@@ -99,17 +99,17 @@ void longSword::update(weapon * weapon)
 	}
 }
 
-void longSword::enter(weapon * weapon)
+void rapier::enter(weapon * weapon)
 {
 	for (int i = 0; i < 2; ++i)
 	{
 		weapon->_vCollision.push_back(weapon->_collision);
 	}
 
-	weapon->_weapon.imageName = "longSword";
-	weapon->_weapon.img = IMAGEMANAGER->findImage("longSword");
+	weapon->_weapon.imageName = "rapier";
+	weapon->_weapon.img = IMAGEMANAGER->findImage("rapier");
 }
 
-void longSword::exit(weapon * weapon)
+void rapier::exit(weapon * weapon)
 {
 }

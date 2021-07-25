@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "UIManager.h"
+#include "objectManager.h"
 
 UIManager::UIManager()
 {
@@ -1564,6 +1565,11 @@ void UIManager::renderItemHUD()
 		if ((*(_vItemHUD.begin() + i))->getItemType() == TORCH)
 		{
 			UIMANAGER->render("torch", getMemDC(), (*(_vItemHUD.begin() + i))->getRect().left + 10, (*(_vItemHUD.begin() + i))->getRect().top + 20, 0, 0);
+		}
+
+		if ((*(_vItemHUD.begin() + i))->getItemType() == ITEM)
+		{
+			UIMANAGER->render("food", getMemDC(), (*(_vItemHUD.begin() + i))->getRect().left + 10, (*(_vItemHUD.begin() + i))->getRect().top + 20, 0, 0);
 		}
 	}
 }

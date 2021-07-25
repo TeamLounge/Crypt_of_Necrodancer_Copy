@@ -2,6 +2,7 @@
 #include "shovel.h"
 #include "shovelBasic.h"
 #include "player.h"
+#include "objectManager.h"
 
 shovel::shovel()
 {

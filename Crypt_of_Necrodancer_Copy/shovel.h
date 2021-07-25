@@ -4,6 +4,7 @@
 #include <vector>
 
 class player;
+class objectManager;
 
 struct SHOVELS
 {
@@ -29,6 +30,7 @@ public:
 	vector<SHOVELCOLLISION>::iterator	_viCollision;
 
 	player* _player;
+	objectManager* _om;
 
 	shovel();
 	~shovel();
@@ -46,5 +48,6 @@ public:
 	image* getShovelImage() { return _shovel.img; }
 
 	void setPlayerMemoryAddressLink(player* player) { _player = player; }
+	void setOMMemoryAddressLink(objectManager* om) { _om = om; }
 };
 

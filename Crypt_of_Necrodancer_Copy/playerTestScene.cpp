@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "playerTestScene.h"
 
-
 HRESULT playerTestScene::init()
 {
 	SOUNDMANAGER->addSound("zone1-1", "music/zone1_1.ogg", true, false);
@@ -57,6 +56,15 @@ HRESULT playerTestScene::init()
 	_shopkeeper = new shopkeeper;
 	_shopkeeper->init("zone1-1_shopkeeper", _map->getShopKeeperXY());
 	_shopkeeper->setShopkeeperPlayerMemoryAddressLink(_player);
+
+	_objectManager->setUIMMemoryAddressLink(_UIM);
+	_UIM->setOMMemoryAddressLink(_objectManager);
+	_shovel->setOMMemoryAddressLink(_objectManager);
+	_weapon->setOMMemoryAddressLink(_objectManager);
+	_objectManager->setWeaponMemoryAddressLink(_weapon);
+	_objectManager->setShovelMemoryAddressLink(_shovel);
+	_weapon->setMGMemoryAddressLink(_map);
+
 	return S_OK;
 }
 
@@ -73,32 +81,12 @@ void playerTestScene::update()
 	_UIM->updaetHeartBeat(3.0f);
 	_objectManager->update();
 	_weapon->update();
-	_UIM->updateItemHUD();
 	_shovel->update();
 
 	_shopkeeper->update();
 
 	_UIM->plusItemHUD(BOMB);
-
-	if (_objectManager->getBodyName() == "bodyarmor_basic")
-	{
-		_UIM->minusItemHUD(BODY);
-	}
-
-	else
-	{
-		_UIM->plusItemHUD(BODY);
-	}
-
-	if (_objectManager->getTorchName() == "torch_basic_none")
-	{
-		_UIM->minusItemHUD(TORCH);
-	}
-
-	else
-	{
-		_UIM->plusItemHUD(TORCH);
-	}
+	_UIM->updateItemHUD();
 }
 
 void playerTestScene::render()
@@ -114,15 +102,17 @@ void playerTestScene::render()
 			if (j >= _map->getXSize()) break;
 			_map->render(j, i, false);
 			_player->render(j, i);
-			//_objectManager->render(j, i);
+			_objectManager->render(j, i);
 		}
 	}
 	_em->render();
-	//_UIM->renderHeartBeat();
-	//_weapon->render();
-	//_UIM->renderItemHUD();
-	//_shovel->render();
 
-	//_objectManager->render();
-	//_player->getBomb()->render();
+	_UIM->renderHeartBeat();
+	_weapon->render();
+	_shovel->render();
+
+	_objectManager->render();
+	_player->getBomb()->render();
+
+	_UIM->renderItemHUD();
 }

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "rapier.h"
 #include "spear.h"
 #include "broadSword.h"
 #include "longSword.h"
@@ -8,14 +9,32 @@
 
 weaponType * broadSword::inputHandle(weapon * weapon)
 {
-	if (KEYMANAGER->isOnceKeyDown('Q'))
-	{
-		return new dagger();
-	}
+	if (weapon->_player->getTileX() == weapon->_playerBeforeX && weapon->_player->getTileY() == weapon->_playerBeforeY) return nullptr;
 
-	if (KEYMANAGER->isOnceKeyDown('W'))
+	switch (weapon->_map->getTileItem(weapon->_player->getTileX(), weapon->_player->getTileY()))
 	{
-		return new longSword;
+	case MAP_ITEM_NONE:
+		return nullptr;
+		break;
+	case MAP_SPEAR:
+		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_BROADSWORD);
+		return new spear();
+		break;
+	case MAP_BROADSWORD:
+		return new broadSword();
+		break;
+	case MAP_DAGGER:
+		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_BROADSWORD);
+		return new dagger();
+		break;
+	case MAP_LONGSWORD:
+		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_BROADSWORD);
+		return new longSword();
+		break;
+	case MAP_RAPIER:
+		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_BROADSWORD);
+		return new rapier();
+		break;
 	}
 
 	return nullptr;
