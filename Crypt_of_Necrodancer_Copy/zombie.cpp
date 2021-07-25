@@ -116,6 +116,36 @@ void zombie::moveZombie()
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
 
+		//지나온 타일의 isEnemy에 관한 불 값을 false로
+		_pastX = _tileX;
+		_pastY = _tileY;
+
+		if (_pastY == _tileY && _tileX - _pastX == -1)
+		{
+			//_direction = LEFT;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+		else if (_pastY == _tileY && _tileX - _pastX == 1)
+		{
+			//_direction = RIGHT;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+		else if (_pastX == _tileX && _tileY - _pastY == -1)
+		{
+			//_direction = UP;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+		else if (_pastX == _tileX && _tileY - _pastY == 1)
+		{
+			//_direction = DOWN;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+		else if (_tileX == _pastX && _tileY == _pastY)
+		{
+			//_direction = NONE;
+			_map->setIsEnemy(_tileX, _tileY, false);
+		}
+
 		//점프 아닌 상태 => 방향은 이 때 바꿈
 		if (!_isMove)
 		{
@@ -123,14 +153,14 @@ void zombie::moveZombie()
 			{
 				OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE /*|| _map->getIsEnemy(_tileX, _tileY)*/)	//pastX, pastY가 에너미가 아님(false)을 알려줘야함
+					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))	//pastX, pastY가 에너미가 아님(false)을 알려줘야함
 				{
 					_direction = DOWN;
-					_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
 					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 				else
 				{
+					_map->setIsEnemy(_tileX, _tileY, false);	
 					_tileY -= 1;
 					_isMove = true;
 				}
@@ -142,14 +172,14 @@ void zombie::moveZombie()
 			{
 				OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE /*|| _map->getIsEnemy(_tileX, _tileY)*/)
+					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
 				{
 					_direction = UP;
-					_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
 					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 				else
 				{
+					_map->setIsEnemy(_tileX, _tileY, false);
 					_tileY += 1;
 					_isMove = true;
 				}
@@ -161,14 +191,14 @@ void zombie::moveZombie()
 			{
 				OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE /*|| _map->getIsEnemy(_tileX, _tileY)*/)
+					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
 				{
 					_direction = RIGHT;
-					_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
 					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 				else
 				{
+					_map->setIsEnemy(_tileX, _tileY, false);
 					_tileX -= 1;
 					_isMove = true;
 				}
@@ -180,14 +210,14 @@ void zombie::moveZombie()
 			{
 				OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE /*_map->getIsEnemy(_tileX, _tileY)*/)
+					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
 				{
 					_direction = LEFT;
-					_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
 					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 				else
 				{
+					_map->setIsEnemy(_tileX, _tileY, false);
 					_tileX += 1;
 					_isMove = true;
 				}
@@ -263,4 +293,7 @@ void zombie::moveZombie()
 			break;
 		}
 	}
+
+	
+	
 }

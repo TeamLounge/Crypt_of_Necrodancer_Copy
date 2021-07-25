@@ -159,7 +159,7 @@
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="dagger.h" />
     <ClInclude Include="diamond.h" />
-    <ClInclude Include="dragon.h" />
+    <ClInclude Include="redDragon.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="enemyManager.h" />
@@ -241,7 +241,7 @@
     <ClCompile Include="cameraManager.cpp" />
     <ClCompile Include="dagger.cpp" />
     <ClCompile Include="diamond.cpp" />
-    <ClCompile Include="dragon.cpp" />
+    <ClCompile Include="redDragon.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="enemyManager.cpp" />

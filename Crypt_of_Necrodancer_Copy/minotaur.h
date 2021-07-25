@@ -1,4 +1,4 @@
-#pragma 
+#pragma once
 #include "minotaurAndDragon.h"
 class minotaur : public minotaurAndDragon
 {

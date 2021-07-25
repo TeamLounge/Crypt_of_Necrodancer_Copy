@@ -24,6 +24,8 @@ HRESULT enemyManager::init()
 
 	setZombie();
 
+	setRedDragon();
+
 	return S_OK;
 }
 
@@ -52,6 +54,8 @@ void enemyManager::update()
 	
 	updateZombie();
 
+	updateRedDragon();
+
 }
 
 void enemyManager::render()
@@ -75,6 +79,8 @@ void enemyManager::render()
 	//renderMinotaur();
 
 	renderZombie();
+
+	renderRedDragon();
 }
 
 void enemyManager::setWhiteSkeleton()
@@ -379,5 +385,32 @@ void enemyManager::renderZombie()
 	for (_viZombie = _vZombie.begin(); _viZombie != _vZombie.end(); ++_viZombie)
 	{
 		(*_viZombie)->render();
+	}
+}
+
+void enemyManager::setRedDragon()
+{
+	for (int i = 0; i < 1; i++)
+	{
+		redDragon* _redDragon = new redDragon;
+		_redDragon->setTileMapLinK(_map);
+		_redDragon->init(_player->getTileX(), _player->getTileY());
+		_vRedDragon.push_back(_redDragon);
+	}
+}
+
+void enemyManager::updateRedDragon()
+{
+	for (_viRedDragon = _vRedDragon.begin(); _viRedDragon != _vRedDragon.end(); ++_viRedDragon)
+	{
+		(*_viRedDragon)->update(_player->getTileX(), _player->getTileY());
+	}
+}
+
+void enemyManager::renderRedDragon()
+{
+	for (_viRedDragon = _vRedDragon.begin(); _viRedDragon != _vRedDragon.end(); ++_viRedDragon)
+	{
+		(*_viRedDragon)->render();
 	}
 }
