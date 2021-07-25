@@ -22,6 +22,7 @@ HRESULT player::init()
 
 	_bomb = new bomb;
 	_bomb->init();
+	_shopkeeperDistance = 0;
 
 	setupPlayerRect();
 
@@ -299,7 +300,7 @@ void player::render()
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		char str[128];
-		sprintf_s(str, "x: %d, y: %d", _tileX, _tileY);
+		sprintf_s(str, "x: %d, y: %d shopkeeper XY : %d, %d", _tileX, _tileY, _map->getShopKeeperXY().x, _map->getShopKeeperXY().y);
 		DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
 	}
 	//_vision->render();
@@ -316,12 +317,22 @@ void player::render(int tileX, int tileY)
 		IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
 		IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
 
+		char str[128];
+		sprintf_s(str, "distance: %f", _shopkeeperDistance);
+		DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+	
+		sprintf_s(str, "shopkeeper: %d, %d", _map->getShopKeeperXY().x, _map->getShopKeeperXY().y);
+		TextOut(getMemDC(), CAMERAMANAGER->getCameraLEFT() + 100, CAMERAMANAGER->getCameraTOP() + 200, str, strlen(str));
+		sprintf_s(str, "player: %d, %d", _tileX, _tileY);
+		TextOut(getMemDC(), CAMERAMANAGER->getCameraLEFT() + 100, CAMERAMANAGER->getCameraTOP() + 300, str, strlen(str));
+		/*
 		if (KEYMANAGER->isToggleKey(VK_TAB))
 		{
 			char str[128];
 			sprintf_s(str, "x: %d, y: %d", _tileX, _tileY);
 			DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
 		}
+		*/
 		//_vision->render();
 	}
 	_bomb->render(tileX, tileY);
@@ -358,7 +369,3 @@ void player::setupPlayerRect()
 	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 }
 
-void player::shopkeeperSound()
-{
-	
-}

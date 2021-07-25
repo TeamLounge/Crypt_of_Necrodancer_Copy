@@ -3,6 +3,7 @@
 #include "mapTool.h"
 #include "mapGenerator.h"
 #include "playerTestScene.h"
+#include "bossScene.h"
 #include "player.h"
 
 

@@ -1,6 +1,8 @@
 #pragma once
 #include "gameNode.h"
 #include "tileMap.h"
+#define BOSSMAPX 13
+#define BOSSMAPY 25
 
 enum ROOM_DIRECTION
 {
@@ -51,13 +53,20 @@ private:
 
 	float _elapsedSec;
 
+	POINT _shopKeeper;
+
 public:
 	virtual HRESULT init(int width, int height);
 	virtual void release();
 	virtual void update(int tileX, int tileY);
 	virtual void render(int tileX, int tileY, bool isTile);
-
+	
+	//맵 생성
 	void generate(int maxFeatures);
+
+	//보스 맵 생성
+	void generateBossMap();
+
 	//방 만들기
 	bool makeRoom(int x, int y, ROOM_DIRECTION dir, bool firstRoom = false, int index = NULL);
 	//통로 만들기
@@ -151,8 +160,6 @@ public:
 
 	MAP_ITEM getTileItem(int tileX, int tileY) { return _tiles[tileY][tileX].item; }
 	
-
-	//아이템 렉트 보기 위한 것
-	void seeItemRect(int tileX, int tileY);
+	POINT getShopKeeperXY() { return _shopKeeper; }
 };
 

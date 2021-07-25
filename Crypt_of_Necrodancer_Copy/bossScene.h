@@ -7,9 +7,7 @@
 #include "objectManager.h"
 #include "weapon.h"
 #include "shovel.h"
-#include "shopkeeper.h"
-
-class playerTestScene : public gameNode
+class bossScene : public gameNode
 {
 private:
 	mapGenerator* _map;
@@ -19,8 +17,6 @@ private:
 	objectManager* _objectManager;
 	weapon* _weapon;
 	shovel* _shovel;
-
-	shopkeeper* _shopkeeper;
 
 public:
 	virtual HRESULT init();

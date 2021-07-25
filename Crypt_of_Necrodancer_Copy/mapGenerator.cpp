@@ -13,6 +13,9 @@ HRESULT mapGenerator::init(int width, int height)
 	_elapsedSec = 0;
 	_isEvenLight = false;
 
+	_shopKeeper.x = 0;
+	_shopKeeper.y = 0;
+
 	return S_OK;
 }
 
@@ -357,6 +360,14 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 			IMAGEMANAGER->alphaFrameRender("black_item_box", getMemDC(),
 				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameWidth() / 2,
 				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("black_item_box")->getFrameHeight() / 2, 1, 0, 255 - _tiles[tileY][tileX].alpha);
+			break;
+		case SHOPKEEPER:
+			IMAGEMANAGER->frameRender("shopkeeper", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("shopkeeper")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("shopkeeper")->getFrameHeight() / 2 - 50);
+			IMAGEMANAGER->alphaFrameRender("shopkeeper_dark", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("shopkeeper_dark")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("shopkeeper_dark")->getFrameHeight() / 2 - 50, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		}
 
@@ -883,8 +894,248 @@ void mapGenerator::generate(int maxFeatures)
 	_width = _tiles[0].size();
 	_height = _tiles.size();
 
+	for (int i = _rooms.size() - 1; i >= 0 ; i--)
+	{
+		if (_rooms[i].roomState == ROOM_SHOP)
+		{
+			for (int j = _rooms[i].y; j < _rooms[i].y + _rooms[i].height; j++)
+			{
+				for (int k = _rooms[i].x; k < _rooms[i].x + _rooms[i].width; k++)
+				{
+					if (_tiles[j][k].obj == SHOPKEEPER)
+					{
+						_shopKeeper.x = k;
+						_shopKeeper.y = j;
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	testObject();
 	
+	MINIMAP->setupMiniMap(_width, _height);
+}
+
+void mapGenerator::generateBossMap()
+{
+	_tiles.clear();
+	vector<vector<tagTile>>().swap(_tiles);
+	//처음 타일 초기화
+	for (int i = 0; i < BOSSMAPY; ++i)
+	{
+		vector<tagTile> vTile;
+		for (int j = 0; j < BOSSMAPX; ++j)
+		{
+			tagTile tile;
+			tile.rc = RectMake(j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
+			tile.itemRect = RectMake(j * TILESIZE, i * TILESIZE + MARGIN - (TILESIZE / 2), TILESIZE, TILESIZE);
+			tile.terrain = EMPTY;
+			tile.obj = OBJ_NONE;
+			tile.item = MAP_ITEM_NONE;
+			tile.itemDirection = NONE;
+			tile.terrainFrameX = 0;
+			tile.terrainFrameY = 0;
+			tile.objectFrameX = 0;
+			tile.objectFrameY = 0;
+			tile.isHaveTorch = false;
+			tile.alpha = 0;
+			tile.isSeen = false;
+			tile.isBombFired = false;
+			vTile.push_back(tile);
+		}
+		_tiles.push_back(vTile);
+	}
+
+	//맵 타일 깔기
+	for (int i = 0; i < BOSSMAPY; ++i)
+	{
+		if ((i >= 0 && i <= 4) || i >= 18 && i < BOSSMAPY)
+		{
+			for (int j = 3; j <= 9; ++j)
+			{
+				_tiles[i][j].terrain = BOSS;
+			}
+		}
+		else if (i >= 5 && i <= 15)
+		{
+			for (int j = 0; j < BOSSMAPX; ++j)
+			{
+				_tiles[i][j].terrain = BOSS;
+			}
+		}
+		else
+		{
+			for (int j = 4; j <= 8; ++j)
+			{
+				_tiles[i][j].terrain = BOSS;
+			}
+		}
+	}
+
+	//벽 치기
+	for (int i = 0; i < BOSSMAPY; ++i)
+	{
+		if (i == 0 || i == BOSSMAPY - 1)
+		{
+			for (int j = 3; j <= 9; ++j)
+			{
+				_tiles[i][j].obj = WALL_END;
+				_tiles[i][j].objectFrameY = 3;
+				_tiles[i][j].objectFrameX = RND->getFromIntTo(1, 6);
+			}
+		}
+		else if ((i >= 1 && i <= 4) || (i >= 18 && i <= BOSSMAPY - 2))
+		{
+			if (i == 18)
+			{
+				_tiles[i][4].obj = WALL_END;
+				_tiles[i][4].objectFrameY = 3;
+				_tiles[i][4].objectFrameX = RND->getFromIntTo(1, 6);
+
+				_tiles[i][8].obj = WALL_END;
+				_tiles[i][8].objectFrameY = 3;
+				_tiles[i][8].objectFrameX = RND->getFromIntTo(1, 6);
+			}
+			_tiles[i][3].obj = WALL_END;
+			_tiles[i][3].objectFrameY = 3;
+			_tiles[i][3].objectFrameX = RND->getFromIntTo(1, 6);
+
+			_tiles[i][9].obj = WALL_END;
+			_tiles[i][9].objectFrameY = 3;
+			_tiles[i][9].objectFrameX = RND->getFromIntTo(1, 6);
+		}
+		else if (i == 5) //여기가 보스 죽이면 벽 뚫려야 할 곳
+		{
+			for (int j = 0; j < BOSSMAPX; j++)
+			{
+				_tiles[i][j].obj = WALL_END;
+				_tiles[i][j].objectFrameY = 3;
+				_tiles[i][j].objectFrameX = RND->getFromIntTo(1, 6);
+			}
+			/*
+			for (int j = 0; j <= 3; j++)
+			{
+				_tiles[i][j].obj = WALL_END;
+				_tiles[i][j].objectFrameY = 3;
+				_tiles[i][j].objectFrameX = RND->getFromIntTo(1, 6);
+			}
+			for (int j = BOSSMAPX - 1; j >= 9; --j)
+			{
+				_tiles[i][j].obj = WALL_END;
+				_tiles[i][j].objectFrameY = 3;
+				_tiles[i][j].objectFrameX = RND->getFromIntTo(1, 6);
+			}
+			*/
+		}
+		else if (i >= 6 && i <= 14)
+		{
+			_tiles[i][0].obj = WALL_END;
+			_tiles[i][0].objectFrameY = 3;
+			_tiles[i][0].objectFrameX = RND->getFromIntTo(1, 6);
+
+			_tiles[i][BOSSMAPX - 1].obj = WALL_END;
+			_tiles[i][BOSSMAPX - 1].objectFrameY = 3;
+			_tiles[i][BOSSMAPX - 1].objectFrameX = RND->getFromIntTo(1, 6);
+		}
+		else if (i == 15)
+		{
+			for (int j = 0; j < BOSSMAPX; j++)
+			{
+				if (j >= 0 && j <= 4)
+				{
+					_tiles[i][j].obj = WALL_END;
+					_tiles[i][j].objectFrameY = 3;
+					_tiles[i][j].objectFrameX = RND->getFromIntTo(1, 6);
+					if (j == 4)
+					{
+						_tiles[i][j].isHaveTorch = true;
+					}
+				}
+				else if (j >= 8 && j < BOSSMAPX)
+				{
+					_tiles[i][j].obj = WALL_END;
+					_tiles[i][j].objectFrameY = 3;
+					_tiles[i][j].objectFrameX = RND->getFromIntTo(1, 6);
+					if (j == 8)
+					{
+						_tiles[i][j].isHaveTorch = true;
+					}
+				}
+				else
+				{
+					_tiles[i][j].obj = WALL_DOOR;
+					_tiles[i][j].objectFrameY = 2;
+					_tiles[i][j].objectFrameX = 4;
+				}
+			}
+		}
+		else if (i >= 16 && i <= 17)
+		{
+			_tiles[i][4].obj = WALL_END;
+			_tiles[i][4].objectFrameY = 3;
+			_tiles[i][4].objectFrameX = RND->getFromIntTo(1, 6);
+
+			_tiles[i][8].obj = WALL_END;
+			_tiles[i][8].objectFrameY = 3;
+			_tiles[i][8].objectFrameX = RND->getFromIntTo(1, 6);
+		}
+
+		//횃불 있는 중간 벽 설치
+		if (i == 2 || i == 4 || i == 20 || i == 22)
+		{
+			_tiles[i][5].obj = WALL_END;
+			_tiles[i][5].objectFrameY = 3;
+			_tiles[i][5].objectFrameX = RND->getFromIntTo(1, 6);
+			_tiles[i][5].isHaveTorch = true;
+
+			_tiles[i][7].obj = WALL_END;
+			_tiles[i][7].objectFrameY = 3;
+			_tiles[i][7].objectFrameX = RND->getFromIntTo(1, 6);
+			_tiles[i][7].isHaveTorch = true;
+		}
+
+		if (i == 3)
+		{
+			//계단 설치
+			_tiles[i][6].terrain = STAIR_NONE;
+		}
+		else if (i == 7)
+		{
+			//함정 설치
+			_tiles[i][2].obj = TR_JUMP;
+
+			_tiles[i][6].obj = TR_JUMP;
+
+			_tiles[i][10].obj = TR_JUMP;
+		}
+		else if (i == 10 || i == 13)
+		{
+			//함정 설치
+			_tiles[i][2].obj = TR_JUMP;
+
+			_tiles[i][10].obj = TR_JUMP;
+		}
+	}
+
+	
+
+	tagRoom room;
+	room.width = 5;
+	room.height = 5;
+	room.x = 4;
+	room.y = 19;
+	_rooms.push_back(room);
+	_startRoomIndex = 0;
+
+	room.width = 11;
+	room.height = 9;
+	room.x = 1;
+	room.y = 6;
+	_rooms.push_back(room);
+	_bossRoomIndex = 1;
+
 	MINIMAP->setupMiniMap(_width, _height);
 }
 
@@ -1359,22 +1610,27 @@ bool mapGenerator::placeTile(const tagRoom & room, OBJECT obj, int objectFrameX,
 			}
 		}
 
+
 		switch (dir)
 		{
 		case NORTH:
 			_tiles[room.y + 3][room.x + 2].terrain = SHOP;
+			_tiles[room.y + 3][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 4].terrain = SHOP;
 			break;
 		case SOUTH:
 			_tiles[room.y + 2][room.x + 2].terrain = SHOP;
+			_tiles[room.y + 2][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 2][room.x + 4].terrain = SHOP;
 			break;
 		case WEST:
 			_tiles[room.y + 3][room.x + 2].terrain = SHOP;
+			_tiles[room.y + 3][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 4].terrain = SHOP;
 			break;
 		case EAST:
 			_tiles[room.y + 3][room.x + 1].terrain = SHOP;
+			_tiles[room.y + 3][room.x + 2].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 3].terrain = SHOP;
 			break;
 		case DIRECTIONCOUNT:
@@ -1910,23 +2166,4 @@ void mapGenerator::testObject()
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].item = MAP_BROADSWORD;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].itemDirection = UP;
 
-}
-
-void mapGenerator::seeItemRect(int tileX, int tileY)
-{
-	if (KEYMANAGER->isToggleKey(VK_TAB))
-	{
-		for (int i = tileY - VISIONY / 2; i <= tileY + VISIONY / 2; ++i)
-		{
-			if (i < 0) continue;
-			if (i >= _height) break;
-			for (int j = tileX - VISIONX / 2; j <= tileX + VISIONX / 2; ++j)
-			{
-				if (j < 0) continue;
-				if (j >= _width) break;
-				//Rectangle(getMemDC(), _tiles[i][j].rc);
-				Rectangle(getMemDC(), _tiles[i][j].itemRect);
-			}
-		}
-	}
 }

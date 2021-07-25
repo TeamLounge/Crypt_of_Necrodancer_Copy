@@ -53,6 +53,8 @@ private:
 
 	bomb* _bomb;
 
+	float _shopkeeperDistance;
+
 public:
 	enemyManager* _em; //에너미 정보 가져오기
 
@@ -69,7 +71,6 @@ public:
 	void setEmMemoryAddressLink(enemyManager* em) { _em = em; }
 	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
 	void setupPlayerRect();
-	void shopkeeperSound();
 
 	int getTileX() { return _tileX; }
 	int getTileY() { return _tileY; }
