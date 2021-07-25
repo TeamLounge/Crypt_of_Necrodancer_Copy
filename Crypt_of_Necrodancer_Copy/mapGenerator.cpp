@@ -1098,13 +1098,28 @@ void mapGenerator::generateBossMap()
 
 		if (i == 3)
 		{
+			//계단 설치
 			_tiles[i][6].terrain = STAIR_NONE;
 		}
+		else if (i == 7)
+		{
+			//함정 설치
+			_tiles[i][2].obj = TR_JUMP;
 
+			_tiles[i][6].obj = TR_JUMP;
+
+			_tiles[i][10].obj = TR_JUMP;
+		}
+		else if (i == 10 || i == 13)
+		{
+			//함정 설치
+			_tiles[i][2].obj = TR_JUMP;
+
+			_tiles[i][10].obj = TR_JUMP;
+		}
 	}
 
-	//함정 설치
-
+	
 
 	tagRoom room;
 	room.width = 5;
