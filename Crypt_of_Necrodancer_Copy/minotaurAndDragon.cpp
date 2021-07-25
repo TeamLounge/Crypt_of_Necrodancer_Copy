@@ -10,12 +10,17 @@ HRESULT minotaurAndDragon::init(int playerIndexX, int playerIndexY)
 	isAction = damageRender = false;
 	while (true) //랜덤배치
 	{
+		int bossRoom = 0;
 		int random = RND->getInt(_map->getRoom().size());//랜덤방에 배치
-		if (_map->getRoom()[random].roomState == ROOM_START ||
-			_map->getRoom()[random].roomState == ROOM_SHOP)
-			continue;// 그 방이 플레이어방이거나 상점이면 컨티뉴  
-		_tilex = RND->getFromIntTo(_map->getRoom()[random].x, _map->getRoom()[random].x + _map->getRoom()[random].width);
-		_tiley = RND->getFromIntTo(_map->getRoom()[random].y, _map->getRoom()[random].y + _map->getRoom()[random].height);
+		for (int i = 0; i < _map->getRoom().size(); ++i)
+		{
+			if (_map->getRoom()[i].roomState == ROOM_BOSS)
+			{
+				bossRoom = i;
+			}
+		}
+		_tilex = RND->getFromIntTo(_map->getRoom()[bossRoom].x, _map->getRoom()[bossRoom].x + _map->getRoom()[bossRoom].width);
+		_tiley = RND->getFromIntTo(_map->getRoom()[bossRoom].y, _map->getRoom()[bossRoom].y + _map->getRoom()[bossRoom].height);
 		if (_map->getTileObject(_tilex, _tiley) != OBJ_NONE || _map->getTileTerrain(_tilex, _tiley) != DIRT1 || _map->getIsEnemy(_tilex, _tiley))
 			continue; //랜덤하게 찍은 방안의 좌표 중 벽이있어도 컨티뉴
 		break;//// 모든 컨티뉴 지옥에서 벗어낫다면 빠져나오기
@@ -159,6 +164,10 @@ void minotaurAndDragon::minotaurAndDragonMove(bool Time)
 				{
 					_map->setTileObject(_tilex, _tiley, OBJ_NONE);
 				}
+				if (_map->getIsHaveTorch(_tilex, _tiley))
+				{
+					_map->setIsHaveTorch(_tilex, _tiley, false);
+				}
 				_rc = _map->getRect(_tilex, _tiley);
 
 				_astar->move(_tilex, _tiley);
@@ -237,8 +246,13 @@ void minotaurAndDragon::minotaurActionMove(bool Time)
 					break;
 				}
 
-				if (_map->getTileObject(_tilex, _tiley + 1) != WALL_END) {
+				if (_map->getTileObject(_tilex, _tiley) != WALL_END) 
+				{
 					_map->setTileObject(_tilex, _tiley, OBJ_NONE);
+				}
+				if (_map->getIsHaveTorch(_tilex, _tiley))
+				{
+					_map->setIsHaveTorch(_tilex, _tiley, false);
 				}
 				_tilex = pastx;
 				_tiley = pasty;

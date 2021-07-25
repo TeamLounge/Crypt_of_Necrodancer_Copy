@@ -17,14 +17,14 @@ HRESULT enemyManager::init()
 
 	//setMimic();
 
-	//setMonkeyBasic();
+	setMonkeyBasic();
 	//setMonkeyWhite();
 
-	setMinotaur();
+	//setMinotaur();
 
 	//setZombie();
 
-	setRedDragon();
+	//setRedDragon();
 
 	return S_OK;
 }
@@ -47,14 +47,14 @@ void enemyManager::update()
 	//updateSlimeGold();
 	//updateSlimeBlue();
 
-	//updateMonkeyBasic();
+	updateMonkeyBasic();
 	//updateMonkeyWhite();
 
-	updateMinotaur();
+	//updateMinotaur();
 	
 	//updateZombie();
 
-	updateRedDragon();
+	//updateRedDragon();
 
 }
 
@@ -73,14 +73,13 @@ void enemyManager::render()
 	//renderSlimeGold();
 	//renderSlimeBlue();
 
-	//renderMonkeyBasic();
+	renderMonkeyBasic();
 	//renderMonkeyWhite();
 
-	renderMinotaur();
+	//renderMinotaur();
+	//renderZombie();
 
-	renderZombie();
-
-	renderRedDragon();
+	//renderRedDragon();
 }
 
 void enemyManager::setWhiteSkeleton()

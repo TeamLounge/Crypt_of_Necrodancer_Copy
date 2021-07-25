@@ -24,6 +24,7 @@ HRESULT monkey::init(int playerIndexX, int playerIndexY)
 	_map->setIsEnemy(_tilex, _tiley, true);
 	_x = _rc.left;
 	_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+	_hp = 1;
 	_astar->setLinkrandomMap(_map);
 	_astar->init(_tilex, _tiley, playerIndexX, playerIndexY);
 	return S_OK;
@@ -45,7 +46,8 @@ void monkey::update(int playerIndexX, int playerIndexY)
 		}
 
 	}
-	if (!isFind) {
+	if (!iscatch && !isFind) {
+		_astar->endmove(playerIndexX , playerIndexY);
 		for (int y = _tiley - 4; y <= _tiley + 4; y++)
 		{
 			for (int x = _tilex - 4; x <= _tilex + 4; x++)
@@ -57,7 +59,7 @@ void monkey::update(int playerIndexX, int playerIndexY)
 			}
 		}
 	}
-	else
+	else if (!iscatch && isFind)
 	{
 		_astar->endmove(playerIndexX, playerIndexY);
 		_astar->update();
@@ -110,28 +112,41 @@ void monkey::update(int playerIndexX, int playerIndexY)
 		{
 			monkeyMove(isTime);
 		}
-
+		if (_astar->getDamage())
+		{
+			_dir = _astar->getDirection();
+			damageRender = true;
+			_astar->setDamage(false);
+		}
 		isTime = false;
-	}
-	if (_astar->getDamage())
-	{
-		damageRender = true;
-		_astar->setDamage(false);
 	}
 
 	if (damageRender)
 	{
-		_damageRenderCount++;
-		if (_damageRenderCount % 3 == 0)
+		_map->setIsEnemy(_tilex, _tiley, false);
+		switch (_dir)
 		{
-			_damageindex++;
+		case LEFT:
+			_tilex -= 1;
+			break;
+		case RIGHT:
+			_tilex += 1;
+			break;
+		case UP:
+			_tiley -= 1;
+			break;
+		case DOWN:
+			_tiley += 1;
+			break;
 		}
-		if (_damageindex > 4)
-		{
-			_damageindex = 0;
-			damageRender = false;
-		}
+		_rc = _map->getRect(_tilex, _tiley);
+		_map->setIsEnemy(_tilex, _tiley, true);
+		_index = 4;
+		iscatch = true;
+		delete _astar;
+		damageRender = false;
 	}
+
 }
 
 void monkey::release()
@@ -140,33 +155,19 @@ void monkey::release()
 
 void monkey::render()
 {
-
-	if (KEYMANAGER->isToggleKey(VK_TAB))
-	{
-		_astar->render();
-	}
-	if (damageRender)
-	{
-		switch (_astar->getDirection())
+	if (!iscatch) {
+		if (KEYMANAGER->isToggleKey(VK_TAB))
 		{
-		case LEFT:
-			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
-				_map->getRect(_tilex, _tiley).left + (_map->getRect(_tilex, _tiley).left - _map->getRect(_tilex, _tiley).right) / 2, _map->getRect(_tilex, _tiley).top, _damageindex, 1);
-			break;
-		case RIGHT:
-			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
-				(_map->getRect(_tilex, _tiley).left + _map->getRect(_tilex, _tiley).right) / 2, _map->getRect(_tilex, _tiley).top, _damageindex, 0);
-			break;
-		case UP:
-			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
-				_map->getRect(_tilex, _tiley).left, _map->getRect(_tilex, _tiley).top + (_map->getRect(_tilex, _tiley).top - _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
-			break;
-		case DOWN:
-			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
-				_map->getRect(_tilex, _tiley).left, (_map->getRect(_tilex, _tiley).top + _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
-			break;
+			_astar->render();
 		}
 	}
+	if (iscatch)
+	{
+		char str[20];
+		sprintf_s(str, "hp:%d", _hp);
+		TextOut(getMemDC(), _rc.left, _rc.top, str, strlen(str));
+	}
+	
 }
 
 void monkey::monkeyMove(bool Time)

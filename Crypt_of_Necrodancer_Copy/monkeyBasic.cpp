@@ -4,7 +4,6 @@
 HRESULT monkeyBasic::init(int playerIndexX, int playerIndexY)
 {
 	monkey::init(playerIndexX, playerIndexY);
-	_hp = 4;
 	_img = IMAGEMANAGER->findImage("monkeyBasic");
 	_img->setFrameY(0);
 	return S_OK;
@@ -14,19 +13,24 @@ void monkeyBasic::update(int playerIndexX, int playerIndexY)
 {
 	monkey::update(playerIndexX, playerIndexY);
 
-	_count++;
-	if (_count % 10 == 0)
+	if (_index <= 3)
 	{
-		_index++;
-		if (_index > 3) _index =0;
-		_count = 0;
-	}
-	if (iscatch&&_index == 4)
-	{
+		_count++;
 		if (_count % 10 == 0)
 		{
 			_index++;
-			
+			if (_index > 3) _index = 0;
+			_count = 0;
+		}
+	}
+	if (iscatch&&_index == 4)
+	{
+		_hp = 4;
+		_count++;
+		if (_count % 10 == 0)
+		{
+			_index++;
+			_count = 0;
 		}
 	}
 	if (isMove)
