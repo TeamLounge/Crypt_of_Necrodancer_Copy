@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "bossScene.h"
 
+
 HRESULT bossScene::init()
 {
 	SOUNDMANAGER->addSound("boss", "music/boss_2.ogg", true, false);
