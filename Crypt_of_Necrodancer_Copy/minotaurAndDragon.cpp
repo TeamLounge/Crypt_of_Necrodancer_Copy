@@ -79,56 +79,7 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 		else
 		{
 			_astar->update();
-
-			if (_map->getTileObject(_tilex, _tiley) == TR_LEFT)
-			{
-				_dir = LEFT;
-				_map->setIsEnemy(_tilex, _tiley, false);
-				_tilex -= 1;
-				_rc = _map->getRect(_tilex, _tiley);
-				moveMotion();
-				_astar->move(_tilex, _tiley);
-				_map->setIsEnemy(_tilex, _tiley, true);
-				//_astar->callPathFinder();
-				isMove = true;
-			}
-			else if (_map->getTileObject(_tilex, _tiley) == TR_RIGHT)
-			{
-				_dir = RIGHT;
-				_map->setIsEnemy(_tilex, _tiley, false);
-				_tilex += 1;
-				_rc = _map->getRect(_tilex, _tiley);
-				moveMotion();
-				_astar->move(_tilex, _tiley);
-				_map->setIsEnemy(_tilex, _tiley, true);
-				//_astar->callPathFinder();
-				isMove = true;
-			}
-			else if (_map->getTileObject(_tilex, _tiley) == TR_UP)
-			{
-				_dir = UP;
-				_map->setIsEnemy(_tilex, _tiley, false);
-				_tiley -= 1;
-				_rc = _map->getRect(_tilex, _tiley);
-				moveMotion();
-				_astar->move(_tilex, _tiley);
-				_map->setIsEnemy(_tilex, _tiley, true);
-				//_astar->callPathFinder();
-				isMove = true;
-			}
-			else if (_map->getTileObject(_tilex, _tiley) == TR_DOWN)
-			{
-				_dir = DOWN;
-				_map->setIsEnemy(_tilex, _tiley, false);
-				_tilex += 1;
-				_rc = _map->getRect(_tilex, _tiley);
-				moveMotion();
-				_astar->move(_tilex, _tiley);
-				_map->setIsEnemy(_tilex, _tiley, true);
-				//_astar->callPathFinder();
-				isMove = true;
-			}
-			else if (_astar->getStart())
+			if (_astar->getStart())
 			{
 				minotaurAndDragonMove(isTime);
 			}
@@ -239,7 +190,7 @@ void minotaurAndDragon::minotaurAndDragonMove(bool Time)
 			_dir = NONE;
 		}
 	}
-	isMove = true;
+	if (!isMove)isMove = true;
 }
 
 void minotaurAndDragon::minotaurActionMove(bool Time)
@@ -268,59 +219,66 @@ void minotaurAndDragon::minotaurActionMove(bool Time)
 				(_dir == UP && (_map->getTileObject(_tilex, _tiley-1) == WALL_BASIC || _map->getTileObject(_tilex, _tiley - 1) == WALL_GOLD || _map->getTileObject(_tilex, _tiley - 1) == WALL_STONE || _map->getTileObject(_tilex, _tiley-1) == WALL_DOOR || _map->getTileObject(_tilex , _tiley-1) == WALL_END)) ||
 				(_dir == DOWN && (_map->getTileObject(_tilex , _tiley+1) == WALL_BASIC || _map->getTileObject(_tilex, _tiley + 1) == WALL_GOLD || _map->getTileObject(_tilex, _tiley + 1) == WALL_STONE || _map->getTileObject(_tilex, _tiley+1) == WALL_DOOR || _map->getTileObject(_tilex , _tiley+1) == WALL_END)))
 		{
-			switch (_dir)
-			{
-			case LEFT:
-				_tilex -= 1;
-				break;
-			case RIGHT:
-				_tilex += 1;
-				break;
-			case UP:
-				_tiley -= 1;
-				break;
-			case DOWN:
-				_tiley += 1;
-				break;
+			if (!isMove) {
+				isMove = true;
+				switch (_dir)
+				{
+				case LEFT:
+					_tilex -= 1;
+					break;
+				case RIGHT:
+					_tilex += 1;
+					break;
+				case UP:
+					_tiley -= 1;
+					break;
+				case DOWN:
+					_tiley += 1;
+					break;
+				}
+
+				if (_map->getTileObject(_tilex, _tiley + 1) != WALL_END) {
+					_map->setTileObject(_tilex, _tiley, OBJ_NONE);
+				}
+				_tilex = pastx;
+				_tiley = pasty;
+				_rc = _map->getRect(_tilex, _tiley);
+				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
+				_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
+				_dir = NONE;
+				_index = 5;
 			}
-			if (_map->getTileObject(_tilex, _tiley + 1) != WALL_END) {
-				_map->setTileObject(_tilex, _tiley, OBJ_NONE);
-			}
-			_tilex = pastx;
-			_tiley = pasty;
-			_rc = _map->getRect(_tilex, _tiley);
-			_x= (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
-			_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
-			_dir = NONE;
-			_index = 5;
 		}
 		else if ((_dir == LEFT && !_map->getIsEnemy(_tilex-1, _tiley))||
 				(_dir==RIGHT && !_map->getIsEnemy(_tilex +1, _tiley))||
 				(_dir==UP && !_map->getIsEnemy(_tilex , _tiley-1))||
 				(_dir==DOWN&& !_map->getIsEnemy(_tilex, _tiley+1)))
 		{
-			switch (_dir)
-			{
-			case LEFT:
-				_tilex -= 1;
-				break;
-			case RIGHT:
-				_tilex += 1;
-				break;
-			case UP:
-				_tiley -= 1;
-				break;
-			case DOWN:
-				_tiley += 1;
-				break;
+			if (!isMove) {
+				isMove = true;
+				switch (_dir)
+				{
+				case LEFT:
+					_tilex -= 1;
+					break;
+				case RIGHT:
+					_tilex += 1;
+					break;
+				case UP:
+					_tiley -= 1;
+					break;
+				case DOWN:
+					_tiley += 1;
+					break;
+				}
+				_map->setIsEnemy(pastx, pasty, false);
+				_rc = _map->getRect(_tilex, _tiley);
+				_map->setIsEnemy(_tilex, _tiley, true);
+				_astar->actionMove(_tilex, _tiley);
 			}
-			_map->setIsEnemy(pastx, pasty, false);
-			_rc = _map->getRect(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			_astar->actionMove(_tilex, _tiley);
 		}
 	}
-	isMove = true;
+
 }
 
 void minotaurAndDragon::moveMotion()
@@ -340,11 +298,11 @@ void minotaurAndDragon::moveMotion()
 			{
 				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
 				isMove = false;
-				//_gravity = 0;
-				if (_y >= (_rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2)))
+				_gravity = 0;
+				if (_y >= _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2))
 				{
-					_gravity = 0;
 					_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
+					//_gravity = 0;
 				}
 				
 			}
@@ -358,10 +316,11 @@ void minotaurAndDragon::moveMotion()
 			{
 				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
 				isMove = false;
-				if (_y >= (_rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2)))
+				//_gravity = 0;
+				if (_y >= _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2))
 				{
-					_gravity = 0;
 					_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
+					_gravity = 0;
 				}
 				
 			}
@@ -371,7 +330,7 @@ void minotaurAndDragon::moveMotion()
 			_gravity += 0.2f;
 			_y += -sinf(PI / 2) * 9 + _gravity;
 			
-			if (_y <= (_rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2)))
+			if (_y <= _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2))
 			{
 				_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
 				isMove = false;
@@ -382,7 +341,7 @@ void minotaurAndDragon::moveMotion()
 			_gravity += 1.2f;
 			_y += -sinf(PI / 2) + _gravity;
 		
-			if (_y >= (_rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2)))
+			if (_y >= _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2))
 			{
 				_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
 				isMove = false;

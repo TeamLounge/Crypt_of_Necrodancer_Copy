@@ -9,6 +9,7 @@ HRESULT minotaur::init(int playerIndexX, int playerIndexY)
 	_img->setFrameY(0);
 	_x = (_rc.left+_rc.right)/2 - (_img->getFrameWidth()/2);
 	_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
+	_gravity = 0;
 	return S_OK;
 }
 
