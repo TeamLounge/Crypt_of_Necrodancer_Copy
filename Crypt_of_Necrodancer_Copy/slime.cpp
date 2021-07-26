@@ -13,6 +13,7 @@ HRESULT slime::init()
 	_isTime = false;
 
 	_gravity = 0;
+	_beatSpeed = 1.0f;
 
 	_worldTime = TIMEMANAGER->getWorldTime();
 

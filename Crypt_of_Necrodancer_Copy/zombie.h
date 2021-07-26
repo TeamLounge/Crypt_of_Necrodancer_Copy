@@ -29,6 +29,7 @@ private:
 	float _worldTime, _movingTime, _renderTime;
 
 	float _gravity;
+	float _beatSpeed;
 
 	bool _isMove;	//¿òÁ÷¿©?
 
@@ -36,7 +37,7 @@ private:
 	bool _toRender, _damageRender;
 
 public:
-	virtual HRESULT init();
+	virtual HRESULT init(/*int playerIndexX, int playerIndexY*/);
 	virtual void release();
 	virtual void update();
 	virtual void render();
@@ -58,6 +59,8 @@ public:
 	virtual int getCurrentFrameX() { return _currentFrameX; }
 	virtual int getCurrentFrameY() { return _currentFrameY; }
 
+	virtual float getBeatSpeed() { return _beatSpeed; }
+
 
 	//set
 	///////////////////////////////////////////////
@@ -70,6 +73,8 @@ public:
 
 	virtual void setCurrentFrameX(int currentX) { _currentFrameX = currentX; }
 	virtual void setCurrentFrameY(int currentY) { _currentFrameY = currentY; }
+
+	virtual void setBeatSpeed(float speed) { _beatSpeed = speed; }
 
 };
 

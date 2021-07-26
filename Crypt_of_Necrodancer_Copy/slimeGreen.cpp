@@ -35,7 +35,7 @@ void slimeGreen::render()
 
 void slimeGreen::setSlimeFrame()
 {
-	if (TIMEMANAGER->getWorldTime() - _worldTime > 0.5f)
+	if (TIMEMANAGER->getWorldTime() - _worldTime > _beatSpeed / 2)
 	{
 		_worldTime = TIMEMANAGER->getWorldTime();
 	}
@@ -59,7 +59,7 @@ void slimeGreen::moveSlimeGreen()
 {
 	
 
-	if (TIMEMANAGER->getWorldTime() - _movingTime >= 0.5f)	//2¹ÚÀÚ
+	if (TIMEMANAGER->getWorldTime() - _movingTime >= _beatSpeed / 2)
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
 		if (_isTime)

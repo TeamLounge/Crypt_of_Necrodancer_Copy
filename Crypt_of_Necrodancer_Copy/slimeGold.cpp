@@ -11,8 +11,6 @@ HRESULT slimeGold::init()
 	_img = IMAGEMANAGER->findImage("slimeGold");
 	_map->setIsEnemy(_tileX, _tileY, true);	//에너미 타일 속성 ON
 
-	_direction = RIGHT;
-
 	return S_OK;
 }
 
@@ -39,7 +37,7 @@ void slimeGold::render()
 
 void slimeGold::setSlimeFrame()
 {
-	if (TIMEMANAGER->getWorldTime() - _worldTime > 0.5f)
+	if (TIMEMANAGER->getWorldTime() - _worldTime > _beatSpeed / 2)
 	{
 		_worldTime = TIMEMANAGER->getWorldTime();
 	}
@@ -78,121 +76,111 @@ void slimeGold::setSlimeFrame()
 
 void slimeGold::moveSlimeGold()		//1박자 우, 아래, 좌, 위 .. 길 막으면 반박자마다 때림
 {
-	if (TIMEMANAGER->getWorldTime() - _movingTime >= 0.5f)	//1박자
+	if (TIMEMANAGER->getWorldTime() - _movingTime >= _beatSpeed / 2)	//1박자
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
 
-		//지나온 타일의 isEnemy에 관한 불 값을 false로
-		_pastX = _tileX;
-		_pastY = _tileY;
-
-		if (_pastY == _tileY && _tileX - _pastX == -1)
-		{
-			//_direction = LEFT;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-		else if (_pastY == _tileY && _tileX - _pastX == 1)
-		{
-			//_direction = RIGHT;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-		else if (_pastX == _tileX && _tileY - _pastY == -1)
-		{
-			//_direction = UP;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-		else if (_pastX == _tileX && _tileY - _pastY == 1)
-		{
-			//_direction = DOWN;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-		else if (_tileX == _pastX && _tileY == _pastY)
-		{
-			//_direction = NONE;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-
 		if (!_isMove)
 		{
+			if (_direction == NONE)
+			{
+				_direction = _pastDirection;
+			}
 			if (_direction == UP)
 			{
 				OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
+					|| obj == WALL_GOLD || obj == WALL_STONE)
 				{
 					_direction = DOWN;
-					_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
-					_map->setIsEnemy(_tileX, _tileY, true);
+				}
+				else if (_map->getIsEnemy(_tileX, _tileY - 1))
+				{
+					_pastDirection = _direction;	//_past에 이전 값을 일단 저장해주자.
+					_direction = NONE;
 				}
 				else
 				{
+					_map->setIsEnemy(_tileX, _tileY, false);
 					_tileY -= 1;
 					_isMove = true;
+					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 
 				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
 			}
 			else if (_direction == DOWN)
 			{
 				OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
+					|| obj == WALL_GOLD || obj == WALL_STONE)
 				{
 					_direction = UP;
-					_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
-					_map->setIsEnemy(_tileX, _tileY, true);
+				}
+				else if (_map->getIsEnemy(_tileX, _tileY + 1))
+				{
+					_pastDirection = _direction;
+					_direction = NONE;
 				}
 				else
 				{
+					_map->setIsEnemy(_tileX, _tileY, false);
 					_tileY += 1;
 					_isMove = true;
+					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 
 				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
 			}
 			else if (_direction == LEFT)
 			{
 				OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
+					|| obj == WALL_GOLD || obj == WALL_STONE)
 				{
 					_direction = RIGHT;
 					_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
 					_map->setIsEnemy(_tileX, _tileY, true);
 				}
+				else if (_map->getIsEnemy(_tileX - 1, _tileY))
+				{
+					_pastDirection = _direction;
+					_direction = NONE;
+				}
 				else
 				{
+					_map->setIsEnemy(_tileX, _tileY, false);
 					_tileX -= 1;
 					_isMove = true;
+					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 
 				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
 			}
 			else if (_direction == RIGHT)
 			{
 				OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
+					|| obj == WALL_GOLD || obj == WALL_STONE)
 				{
 					_direction = LEFT;
-					_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
-					_map->setIsEnemy(_tileX, _tileY, true);
+				}
+				else if (_map->getIsEnemy(_tileX + 1, _tileY))		
+				{
+					_pastDirection = _direction;
+					_direction = NONE;	//제자리 점프							
+
 				}
 				else
 				{
+					_map->setIsEnemy(_tileX, _tileY, false);
+					_direction = RIGHT;
 					_tileX += 1;
 					_isMove = true;
+					_map->setIsEnemy(_tileX, _tileY, true);
 				}
-				/*if (true)
-				{
-
-				}*/
 
 				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
 			}
 			
 		}
@@ -200,7 +188,7 @@ void slimeGold::moveSlimeGold()		//1박자 우, 아래, 좌, 위 .. 길 막으면 반박자마�
 	//장애물이나 에너미 있으면 움직이지 않고 제자리 뛰기 만들어야함
 	/////////////////////////////////////////////////////
 
-	if (TIMEMANAGER->getWorldTime() - _renderTime >= 0.5f)	//1박자
+	if (TIMEMANAGER->getWorldTime() - _renderTime >= _beatSpeed / 2)	//1박자
 	{
 		_renderTime = TIMEMANAGER->getWorldTime();
 		if (_toRender)

@@ -263,10 +263,4 @@ public:
 
 	vRedDragon getVRedDragon() { return _vRedDragon; }
 	viRedDragon getVIRedDragon() { return _viRedDragon; }
-
-
-
-	/////////////////////////////////
-	//속도 값 통일해서 변수로 만들어두기
-	/////////////////////////////////
 };
