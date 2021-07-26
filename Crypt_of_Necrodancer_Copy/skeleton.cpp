@@ -159,7 +159,7 @@ void skeleton::render()
 {
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
-		_astar->render();
+		_astar->render();	//맵 전체 렉트 
 	}
 	if (damageRender)
 	{

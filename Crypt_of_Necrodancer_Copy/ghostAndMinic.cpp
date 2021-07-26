@@ -113,7 +113,7 @@ void ghostAndMinic::update(int playerIndexX, int playerIndexY)
 		damageRender = true;
 		_astar->setDamage(false);
 		//여기가 에너미가 플레이어한데 어택!
-		if (!attack) attack = true;
+		//if (!attack) attack = true;
 	}
 
 	if (damageRender)

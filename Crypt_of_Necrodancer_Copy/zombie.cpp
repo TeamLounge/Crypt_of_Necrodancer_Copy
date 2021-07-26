@@ -6,11 +6,14 @@ HRESULT zombie::init()
 	//상속 init
 	_toRender = _damageRender = false;
 	_direction = (PLAYER_ENEMY_DIRECTION)RND->getFromIntTo(1, 4); //사방 랜덤
+	_pastDirection = NONE;
 	_frameCount = 0;
 	_frameIndex = 0;
 
 	_isMove = false;		//시작하자마자 움직여
 	_isTime = false;
+
+	
 
 	_gravity = 0;
 
@@ -116,118 +119,140 @@ void zombie::moveZombie()
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
 
-		//지나온 타일의 isEnemy에 관한 불 값을 false로
-		_pastX = _tileX;
-		_pastY = _tileY;
-
-		if (_pastY == _tileY && _tileX - _pastX == -1)
-		{
-			//_direction = LEFT;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-		else if (_pastY == _tileY && _tileX - _pastX == 1)
-		{
-			//_direction = RIGHT;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-		else if (_pastX == _tileX && _tileY - _pastY == -1)
-		{
-			//_direction = UP;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-		else if (_pastX == _tileX && _tileY - _pastY == 1)
-		{
-			//_direction = DOWN;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-		else if (_tileX == _pastX && _tileY == _pastY)
-		{
-			//_direction = NONE;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-
 		//점프 아닌 상태 => 방향은 이 때 바꿈
 		if (!_isMove)
 		{
+			if (_direction == NONE)
+			{
+				//여기서 방향설정
+				_direction = _pastDirection;	//이전에 담고 있던 방향을 NONE으로 제자리 뛰고 있을 때 다시 불러와
+				
+			}
 			if (_direction == UP)
 			{
 				OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))	//pastX, pastY가 에너미가 아님(false)을 알려줘야함
+					|| obj == WALL_GOLD || obj == WALL_STONE)
 				{
 					_direction = DOWN;
-					_map->setIsEnemy(_tileX, _tileY, true);
+				}
+				else if (_map->getIsEnemy(_tileX, _tileY - 1))		//다음 타일이 enemy면 제자리 점프
+				{
+					_pastDirection = _direction;	//_past에 이전 값을 일단 저장해주자.
+					_direction = NONE;
 				}
 				else
 				{
-					_map->setIsEnemy(_tileX, _tileY, false);	
-					_tileY -= 1;
+					_map->setIsEnemy(_tileX, _tileY, false);
+					_tileY -= 1;							//여길 들어와서 이동하면서 위에 setIsEnemy의 현재 타일은 이전 타일이 된다.
 					_isMove = true;
+					_map->setIsEnemy(_tileX, _tileY, true);	//그리고 여기가 현재 타일이 되고, enemy가 되니까 true
 				}
 
 				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
 			}
 			else if (_direction == DOWN)
 			{
 				OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
+					|| obj == WALL_GOLD || obj == WALL_STONE)
 				{
 					_direction = UP;
-					_map->setIsEnemy(_tileX, _tileY, true);
 				}
+				else if (_map->getIsEnemy(_tileX, _tileY + 1))
+				{
+					_pastDirection = _direction;
+					_direction = NONE;
+				}
+				
 				else
 				{
 					_map->setIsEnemy(_tileX, _tileY, false);
 					_tileY += 1;
 					_isMove = true;
+					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 
 				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
 			}
 			else if (_direction == LEFT)
 			{
 				OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
+					|| obj == WALL_GOLD || obj == WALL_STONE)
 				{
 					_direction = RIGHT;
-					_map->setIsEnemy(_tileX, _tileY, true);
+				}
+				else if (_map->getIsEnemy(_tileX - 1, _tileY))
+				{
+					_pastDirection = _direction;
+					_direction = NONE;
 				}
 				else
 				{
 					_map->setIsEnemy(_tileX, _tileY, false);
 					_tileX -= 1;
 					_isMove = true;
+					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 
 				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
 			}
 			else if (_direction == RIGHT)
 			{
 				OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
-					|| obj == WALL_GOLD || obj == WALL_STONE || _map->getIsEnemy(_tileX, _tileY))
+					|| obj == WALL_GOLD || obj == WALL_STONE)
 				{
 					_direction = LEFT;
-					_map->setIsEnemy(_tileX, _tileY, true);
 				}
+				else if (_map->getIsEnemy(_tileX + 1, _tileY))		//다음 타일이 적이면
+				{
+					_pastDirection = _direction;
+					_direction = NONE;	//제자리 점프			//이 때, 현재 타일과 다음 타일의 에너미는 true					
+					
+				}
+				//제자리 점프하다가 다시 다음 타일이 적이 아니면
+				//다시 이동..
 				else
 				{
 					_map->setIsEnemy(_tileX, _tileY, false);
+					_direction = RIGHT;
 					_tileX += 1;
 					_isMove = true;
+					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 
 				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
 			}
 		}
 	}
+	////지나온 타일의 isEnemy에 관한 불 값을 false로
+	//_pastX = _tileX;		//지나온 타일이 아니다!!!!
+	//_pastY = _tileY;									//현재 있는 타일을 _past에 저장해두는데
 
+	//if (_pastY == _tileY && _tileX - _pastX == -1)		//
+	//{
+	//	_direction = LEFT;
+	//}
+	//else if (_pastY == _tileY && _tileX - _pastX == 1)
+	//{
+	//	_direction = RIGHT;
+	//}
+	//else if (_pastX == _tileX && _tileY - _pastY == -1)
+	//{
+	//	_direction = UP;
+	//}
+	//else if (_pastX == _tileX && _tileY - _pastY == 1)
+	//{
+	//	_direction = DOWN;
+	//}
+	//else if (_tileX == _pastX && _tileY == _pastY)
+	//{
+	//	_direction = NONE;
+	//}
+
+	//점프 동작들
 	//일직선으로 끝까지 달려가기
 	if (_isMove)	//_isMove면 점프
 	{
@@ -291,9 +316,20 @@ void zombie::moveZombie()
 				_gravity = 0;
 			}
 			break;
+		case NONE:
+			_gravity += 0.965f;
+			_y += -sinf(7 * PI / 9) * 9 + _gravity;
+
+			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
+			{
+				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+				_isMove = false;
+				_gravity = 0;
+			}
 		}
 	}
 
-	
-	
+
+
+
 }

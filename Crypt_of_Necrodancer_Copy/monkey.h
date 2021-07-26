@@ -50,7 +50,7 @@ public:
 	virtual void setShadowY(int y) { _shadowY = y; }
 	virtual void setTileMapLinK(mapGenerator* tileMap) { _map = tileMap; }
 	virtual void setHp(int hp) { _hp = hp; }
-	virtual bool setIsCatch(bool b) { iscatch = b; }
+	virtual void setIsCatch(bool b) { iscatch = b; }
 	virtual void setBeatSpeed(float speed) { _beatspeed = speed; }
 };
 

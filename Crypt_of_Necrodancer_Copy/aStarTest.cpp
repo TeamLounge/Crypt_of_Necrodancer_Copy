@@ -700,7 +700,7 @@ void aStarTest::enemyAttack()
 			//hp´Þ°ÔÇÒ²¨¾ç
 			damage = true;
 			_dir = LEFT;
-
+			
 		}
 	}
 }
