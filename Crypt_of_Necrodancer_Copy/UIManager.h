@@ -61,6 +61,9 @@ private:
 	int _moneyOne;       //1의 자리
 	bool _isMoneyPlus;	//머니 합산했는지여부
 
+	int _leftWidthCnt;  //왼쪽 가로 허드 갯수
+	int _leftHeightCnt; //왼쪽 세로 허드 갯수
+	int _rightHeightCnt; //오른쪽 세로 허드 갯수
 
 	int _diaNum;
 	int _diaHundred;   //100의 자리

@@ -71,8 +71,8 @@ void UI::frameMove()
 
 void UI::move(float speed)
 {
-	//float elapsedTime = TIMEMANAGER->getElapsedTime();
 	float moveSpeed = TIMEMANAGER->getElapsedTime() * speed;
+
 	_centerX += moveSpeed;
 
 	_cameraCenterX = (abs)((WINSIZEX / 2) - _centerX);

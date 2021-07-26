@@ -34,6 +34,8 @@ HRESULT UIManager::init(float speed)
 
 	_isIntersectJudge = false;
 	_beatSpeed = speed;
+	_leftWidthCnt = _leftHeightCnt = _rightHeightCnt = 0;
+
 	return S_OK;
 }
 
@@ -443,1064 +445,865 @@ void UIManager::updateItemHUD()
 {
 	for (int i = 0; i < _vItemHUD.size(); ++i)
 	{
+		if ((*(_vItemHUD.begin() + i))->getItemType() == NONE_TYPE) continue;
+		_leftWidthCnt = 0;
+		_leftHeightCnt = 0;
+		_rightHeightCnt = 0;
+
 		for (int j = 0; j < _vItemHUD.size(); ++j)
 		{
-			if ((*(_vItemHUD.begin() + i))->getItemType() == NONE_TYPE) continue;
-			if ((*(_vItemHUD.begin() + j))->getItemType() == NONE_TYPE) continue;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == SHOVEL) _leftWidthCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == ATTACK) _leftWidthCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == BODY) _leftWidthCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == HEAD) _leftWidthCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == FEET) _leftWidthCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == TORCH) _leftWidthCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == RING) _leftWidthCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == KEY) _leftWidthCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == ITEM) _leftHeightCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == PACK) _leftHeightCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == PACK2) _leftHeightCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == BOMB) _leftHeightCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == ONOFF) _leftHeightCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == RELOAD) _leftHeightCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == THROW) _leftHeightCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == PRESS) _leftHeightCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == HOLSTER) _leftHeightCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == HOLSTER2) _leftHeightCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == SPELL) _rightHeightCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == SPELL2) _rightHeightCnt++;
+			if ((*(_vItemHUD.begin() + j))->getItemType() == SPELL3) _rightHeightCnt++;
+		}
+			
+		switch ((*(_vItemHUD.begin() + i))->getItemType())
+		{
+			case SHOVEL:
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(0);
+				(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+					CAMERAMANAGER->getCameraLEFT() + 70,
+					CAMERAMANAGER->getCameraTOP() + 70,
+					(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+					(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+			break;
+			case ATTACK:
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(1);
+				(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+					CAMERAMANAGER->getCameraLEFT() + 160,
+					CAMERAMANAGER->getCameraTOP() + 70,
+					(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+					(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+			break;
+			case BODY:
+				_isBody = true;
 
-			switch ((*(_vItemHUD.begin() + i))->getItemType())
-			{
-				case SHOVEL:
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(0);
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(2);
+				(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+					CAMERAMANAGER->getCameraLEFT() + 250,
+					CAMERAMANAGER->getCameraTOP() + 70,
+					(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+					(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+			break;
+			case HEAD:
+				_isHead = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(3);
+
+				if (_leftWidthCnt >= 4)
+				{
 					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraLEFT() + 340,
 						CAMERAMANAGER->getCameraTOP() + 70,
 						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
 						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-				break;
-				case ATTACK:
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(1);
-					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-						CAMERAMANAGER->getCameraLEFT() + 160,
-						CAMERAMANAGER->getCameraTOP() + 70,
-						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-				break;
-				case BODY:
-					_isBody = true;
-
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(2);
+				}
+				
+				else if (_leftWidthCnt < 4)
+				{
 					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
 						CAMERAMANAGER->getCameraLEFT() + 250,
 						CAMERAMANAGER->getCameraTOP() + 70,
 						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
 						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-				break;
-				case HEAD:
-					_isHead = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(3);
+				}
+			break;
+			case FEET:
+				_isFeet = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(4);
 
-					if (_isBody)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == BODY)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
-				
-					else
-					{
-						(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-							CAMERAMANAGER->getCameraLEFT() + 250,
-							CAMERAMANAGER->getCameraTOP() + 70,
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-					}
-				break;
-				case FEET:
-					_isFeet = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(4);
+				if (_leftWidthCnt == 4)
+				{
 
-					if (_isBody && !_isHead)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == BODY)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 340,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isHead)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == HEAD)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftWidthCnt >= 5)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 430,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else
-					{
-						(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-							CAMERAMANAGER->getCameraLEFT() + 250,
-							CAMERAMANAGER->getCameraTOP() + 70,
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-					}
-				break;
-				case TORCH:
-					_isTorch = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(5);
+				else if (_leftWidthCnt < 4)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 250,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
+			break;
+			case TORCH:
+				_isTorch = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(5);
 
-					if (_isBody && !_isHead && !_isFeet)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == BODY)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				if (_leftWidthCnt == 4)
+				{
 
-					else if (_isHead && !_isFeet)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == HEAD)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 340,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isFeet)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == FEET)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftWidthCnt == 5)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 430,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else
-					{
-						(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-							CAMERAMANAGER->getCameraLEFT() + 250,
-							CAMERAMANAGER->getCameraTOP() + 70,
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-					}
-				break;
-				case RING:
-					_isRing = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(6);
+				else if (_leftWidthCnt >= 6)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 520,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					if (_isBody && !_isHead && !_isFeet && !_isTorch)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == BODY)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftWidthCnt < 4)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 250,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+			break;
+			case RING:
+				_isRing = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(6);
 
-					else if (_isHead && !_isFeet && !_isTorch)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == HEAD)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				if (_leftWidthCnt == 4)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 340,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isFeet && !_isTorch)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == FEET)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftWidthCnt == 5)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 430,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isTorch)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == TORCH)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftWidthCnt == 6)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 520,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else
-					{
-						(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-							CAMERAMANAGER->getCameraLEFT() + 250,
-							CAMERAMANAGER->getCameraTOP() + 70,
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-					}
-				break;
-				case KEY:
-					_isKey = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(7);
+				else if (_leftWidthCnt >= 7)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 610,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					if (_isBody && !_isHead && !_isFeet && !_isTorch && !_isRing)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == BODY)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftWidthCnt < 4)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 250,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+			break;
+			case KEY:
+				_isKey = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(7);
 
-					else if (_isHead && !_isFeet && !_isTorch && !_isRing)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == HEAD)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				if (_leftWidthCnt == 4)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 340,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isFeet && !_isTorch && !_isRing)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == FEET)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftWidthCnt == 5)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 430,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isTorch && !_isRing)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == TORCH)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftWidthCnt == 6)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 520,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isRing)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == RING)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								(((*(_vItemHUD.begin() + j))->getRect().left + (*(_vItemHUD.begin() + j))->getRect().right) / 2) + 90,
-								CAMERAMANAGER->getCameraTOP() + 70,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftWidthCnt == 7)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 610,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else
-					{
-						(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-							CAMERAMANAGER->getCameraLEFT() + 250,
-							CAMERAMANAGER->getCameraTOP() + 70,
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-					}
-				break;
-				case ITEM:
-					_isItem = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(8);
+				else if (_leftWidthCnt >= 8)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 700,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					if ((*(_vItemHUD.begin() + j))->getItemType() == SHOVEL)
-					{
-						(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-							CAMERAMANAGER->getCameraLEFT() + 70,
-							(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-					}
-				break;
-				case PACK:
-					_isPack = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(9);
+				else if (_leftWidthCnt < 4)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 250,
+						CAMERAMANAGER->getCameraTOP() + 70,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+			break;
+			case ITEM:
+				_isItem = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(8);
 
-					if (_isItem)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ITEM)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+					CAMERAMANAGER->getCameraLEFT() + 70,
+					CAMERAMANAGER->getCameraTOP() + 196,
+					(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+					(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
 
-					else
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == SHOVEL)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
-				break;
-				case PACK2:
-					_isPack2 = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(10);
+			break;
+			case PACK:
+				_isPack = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(9);
 
-					if (_isItem && !_isPack)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ITEM)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				if (_leftHeightCnt > 1)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 196 + 1 * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 1)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 196,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == SHOVEL)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
-				break;
-				case BOMB:
-					_isBomb = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(11);
+			break;
+			case PACK2:
+				_isPack2 = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(10);
 
-					if (_isItem && !_isPack && !_isPack2)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ITEM)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				if (_leftHeightCnt == 2)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 196 + (_leftHeightCnt - 1) * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack && !_isPack2)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt > 2)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 196 + 2 * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack2)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK2)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 1)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 196,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+			break;
+			case BOMB:
+				_isBomb = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(11);
 
-					else
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == SHOVEL)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
-				break;
-				case ONOFF:
-					_isOnOff = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(12);
+				if (_leftHeightCnt == 2)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 196 + (_leftHeightCnt - 1) * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					if (_isItem && !_isPack && !_isPack2 && !_isBomb)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ITEM)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 3)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 196 + (_leftHeightCnt - 1) * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack && !_isPack2 && !_isBomb)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt > 3)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 196 + 3 * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack2 && !_isBomb)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK2)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 1)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 196,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isBomb)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == BOMB)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 60,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 84,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+			break;
+			case ONOFF:
+				_isOnOff = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(12);
 
-					else
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == SHOVEL)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
-				break;
-				case RELOAD:
-					_isReload = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(13);
+				if (_leftHeightCnt == 1)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					if (_isItem && !_isPack && !_isPack2 && !_isBomb && !_isOnOff)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ITEM)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 2)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack && !_isPack2 && !_isBomb && !_isOnOff)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 3)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack2 && !_isBomb && !_isOnOff)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK2)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt >= 4)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + 4 * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isBomb && !_isOnOff)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == BOMB)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 0)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 252,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+			break;
+			case RELOAD:
+				_isReload = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(13);
 
-					else if (_isOnOff)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ONOFF)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				if (_leftHeightCnt == 1)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == SHOVEL)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
-				break;
-				case SPELL:
-					_isSpell = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(14);
+				else if (_leftHeightCnt == 2)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
+				else if (_leftHeightCnt == 3)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+
+				else if (_leftHeightCnt == 4)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+
+				else if (_leftHeightCnt >= 5)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + 5 * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+
+				else if (_leftHeightCnt == 0)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 252,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+			break;
+			case SPELL:
+				_isSpell = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(14);
+
+				(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+					CAMERAMANAGER->getCameraRIGHT() - 70,
+					CAMERAMANAGER->getCameraTOP() + 200,
+					(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+					(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+			break;
+			case SPELL2:
+				_isSpell2 = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(15);
+
+				if (_rightHeightCnt == 1)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraRIGHT() - 70,
+						CAMERAMANAGER->getCameraTOP() + 200 + _rightHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+
+				else if (_rightHeightCnt == 0)
+				{
 					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
 						CAMERAMANAGER->getCameraRIGHT() - 70,
 						CAMERAMANAGER->getCameraTOP() + 200,
 						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
 						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-				break;
-				case SPELL2:
-					_isSpell2 = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(15);
+				}
+			break;
+			case SPELL3:
+				_isSpell3 = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(16);
 
-					if (_isSpell)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == SPELL)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraRIGHT() - 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				if (_rightHeightCnt == 1)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraRIGHT() - 70,
+						CAMERAMANAGER->getCameraTOP() + 200 + _rightHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else
-					{
-						(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-							CAMERAMANAGER->getCameraRIGHT() - 70,
-							CAMERAMANAGER->getCameraTOP() + 200,
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-					}
-				break;
-				case SPELL3:
-					_isSpell3 = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(16);
+				else if (_rightHeightCnt == 2)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraRIGHT() - 70,
+						CAMERAMANAGER->getCameraTOP() + 200 + _rightHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					if (_isSpell && !_isSpell2)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == SPELL)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraRIGHT() - 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_rightHeightCnt == 0)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraRIGHT() - 70,
+						CAMERAMANAGER->getCameraTOP() + 200,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+			break;
+			case THROW:
+				_isThrow = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(17);
 
-					else if (_isSpell2)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == SPELL2)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraRIGHT() - 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				if (_leftHeightCnt == 1)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else
-					{
-						(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-							CAMERAMANAGER->getCameraRIGHT() - 70,
-							CAMERAMANAGER->getCameraTOP() + 200,
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-							(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-					}
-				break;
-				case THROW:
-					_isThrow = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(17);
+				else if (_leftHeightCnt == 2)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					if (_isItem && !_isPack && !_isPack2 && !_isBomb && !_isOnOff && !_isReload)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ITEM)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 3)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack && !_isPack2 && !_isBomb && !_isOnOff && !_isReload)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 4)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack2 && !_isBomb && !_isOnOff && !_isReload)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK2)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 5)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isBomb && !_isOnOff && !_isReload)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == BOMB)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt >= 6)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + 6 * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isOnOff && !_isReload)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ONOFF)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 0)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 252,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+			break;
+			case PRESS:
+				_isPress = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(18);
 
-					else if (_isReload)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == RELOAD)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				if (_leftHeightCnt == 1)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == SHOVEL)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
-				break;
-				case PRESS:
-					_isPress = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(18);
+				else if (_leftHeightCnt == 2)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					if (_isItem && !_isPack && !_isPack2 &&
-						!_isBomb && !_isOnOff && !_isReload && !_isThrow)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ITEM)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 3)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack && !_isPack2 && !_isBomb &&
-						!_isOnOff && !_isReload && !_isThrow)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 4)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack2 && !_isBomb && !_isOnOff && !_isReload && !_isThrow)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK2)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 5)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isBomb && !_isOnOff && !_isReload && !_isThrow)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == BOMB)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 6)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isOnOff && !_isReload && !_isThrow)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ONOFF)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt >= 7)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + 7 * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isReload && !_isThrow)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == RELOAD)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 0)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 252,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+			break;
+			case HOLSTER:
+				_isHolster = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(19);
 
-					else if (_isThrow)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == THROW)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				if (_leftHeightCnt == 1)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == SHOVEL)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
-				break;
-				case HOLSTER:
-					_isHolster = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(19);
+				else if (_leftHeightCnt == 2)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					if (_isItem && !_isPack && !_isPack2 &&
-						!_isBomb && !_isOnOff && !_isReload && !_isThrow && !_isPress)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ITEM)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 3)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack && !_isPack2 && !_isBomb &&
-						!_isOnOff && !_isReload && !_isThrow && !_isPress)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 4)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack2 && !_isBomb && !_isOnOff &&
-						!_isReload && !_isThrow && !_isPress)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK2)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 5)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isBomb && !_isOnOff && !_isReload && !_isThrow)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == BOMB)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 6)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isOnOff && !_isReload && !_isThrow && !_isPress)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ONOFF)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 7)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isReload && !_isThrow && !_isPress)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == RELOAD)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt >= 8)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + 8 * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isThrow && !_isPress)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == THROW)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 0)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 252,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+			break;
+			case HOLSTER2:
+				_isHolster2 = true;
+				(*(_vItemHUD.begin() + i))->setCurrentFrameX(20);
 
-					else if (_isPress)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PRESS)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				if (_leftHeightCnt == 1)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == SHOVEL)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
-				break;
-				case HOLSTER2:
-					_isHolster2 = true;
-					(*(_vItemHUD.begin() + i))->setCurrentFrameX(20);
+				else if (_leftHeightCnt == 2)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					if (_isItem && !_isPack && !_isPack2 &&
-						!_isBomb && !_isOnOff && !_isReload && !_isThrow && !_isPress &&
-						!_isHolster)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ITEM)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 3)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack && !_isPack2 && !_isBomb &&
-						!_isOnOff && !_isReload && !_isThrow && !_isPress && !_isHolster)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 4)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPack2 && !_isBomb && !_isOnOff &&
-						!_isReload && !_isThrow && !_isPress && !_isHolster)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PACK2)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 5)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isBomb && !_isOnOff && !_isReload && !_isThrow && !_isHolster)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == BOMB)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 6)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isOnOff && !_isReload && !_isThrow && !_isPress && !_isHolster)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == ONOFF)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 7)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isReload && !_isThrow && !_isPress && !_isHolster)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == RELOAD)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt == 8)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + _leftHeightCnt * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isThrow && !_isPress && !_isHolster)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == THROW)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
+				else if (_leftHeightCnt >= 9)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 126 + 9 * 126,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
 
-					else if (_isPress && !_isHolster)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == PRESS)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
-
-					else if (_isHolster)
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == HOLSTER)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
-
-					else
-					{
-						if ((*(_vItemHUD.begin() + j))->getItemType() == SHOVEL)
-						{
-							(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
-								CAMERAMANAGER->getCameraLEFT() + 70,
-								(((*(_vItemHUD.begin() + j))->getRect().top + (*(_vItemHUD.begin() + j))->getRect().bottom) / 2) + 126,
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
-								(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
-						}
-					}
-				break;
-			}
+				else if (_leftHeightCnt == 0)
+				{
+					(*(_vItemHUD.begin() + i))->setRect(RectMakeCenter(
+						CAMERAMANAGER->getCameraLEFT() + 70,
+						CAMERAMANAGER->getCameraTOP() + 252,
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameWidth(),
+						(*(_vItemHUD.begin() + i))->getImg()->getFrameHeight()));
+				}
+			break;
 		}
 	}
 }

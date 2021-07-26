@@ -80,17 +80,18 @@ void playerTestScene::update()
 {
 	_map->update(_player->getTileX(), _player->getTileY());
 	_player->update();
+	_UIM->updateItemHUD();
 	//RENDERMANAGER->update();
 	_em->update();
 	_UIM->updateHeartBeat();
+	_UIM->plusItemHUD(BOMB);
+
 	_objectManager->update();
 	_weapon->update();
 	_shovel->update();
 
 	_shopkeeper->update();
 
-	_UIM->plusItemHUD(BOMB);
-	_UIM->updateItemHUD();
 }
 
 void playerTestScene::render()
@@ -110,6 +111,7 @@ void playerTestScene::render()
 		}
 	}
 	_em->render();
+	_UIM->renderItemHUD();
 
 	_UIM->renderHeartBeat();
 	_weapon->render();
@@ -117,6 +119,4 @@ void playerTestScene::render()
 
 	_objectManager->render();
 	_player->getBomb()->render();
-
-	_UIM->renderItemHUD();
 }
