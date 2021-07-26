@@ -3,6 +3,7 @@
 #include "slime.h"
 #include "mapGenerator.h"
 #include "player.h"
+#include "weapon.h"
 #include <vector>
 
 #include "slimeGreen.h"
@@ -25,6 +26,8 @@
 
 #include "redDragon.h"
 
+#include "deathMetal.h"
+
 
 
 class player;	//상호 참조 위한 전방 선언
@@ -34,6 +37,7 @@ class enemyManager :public gameNode
 {
 private:
 	player* _player;
+	weapon* _weapon;
 	mapGenerator* _map;
 
 	//////////////////////////////
@@ -80,7 +84,7 @@ private:
 	viBlackSkeleton _viBlackSkeleton;
 
 	//////////////////////////////
-	//	     고스트&미믹 			//
+	//	     고스트&미믹 		//
 	//////////////////////////////
 	typedef vector<ghost*>  vGhost;
 	typedef vector<ghost*>::iterator viGhost;
@@ -95,9 +99,9 @@ private:
 	vMimic  _vMimic;
 	viMimic _viMimic;
 	
-	////////////////////////////////
-	////			 망키	 	  //
-	////////////////////////////////
+	//////////////////////////////
+	//			 망키	 		//
+	//////////////////////////////
 	
 	typedef vector<monkeyBasic*>  vMonkeyBasic;
 	typedef vector<monkeyBasic*>::iterator viMonkeyBasic;
@@ -112,7 +116,7 @@ private:
 	viMonkeyWhite _viMonkeyWhite;
 	
 	//////////////////////////////
-	//	     미노타우르스 			//
+	//	     미노타우르스 		//
 	//////////////////////////////
 	
 	typedef vector<minotaur*>  vMinotaur;
@@ -136,9 +140,14 @@ private:
 	typedef vector<redDragon*>					vRedDragon;
 	typedef vector<redDragon*>::iterator		viRedDragon;
 
-	vRedDragon					_vRedDragon;
+	vRedDragon				_vRedDragon;
 	viRedDragon				_viRedDragon;
 	
+	//////////////////////////////
+	//		   데스메탈			//
+	//////////////////////////////
+
+	deathMetal* _deathMetal;
 
 
 public:
@@ -152,6 +161,9 @@ public:
 
 	void setMapGeneratorMemoryAddressLink(mapGenerator* map) { _map = map; }
 	void setPlayerMemoryAddressLink(player* player) { _player = player; }
+	void setWeaponMemoryAddressLink(weapon* weapon) { _weapon = weapon; }
+	void bosspatten();
+
 
 	//ㄹㅇ 수만은 셋터들
 	void setSlimeGreen();

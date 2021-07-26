@@ -15,6 +15,14 @@ HRESULT bossScene::init()
 	_player->setPlayerMapMemoryAddressLink(_map);
 	_player->init();
 
+	_weapon = new weapon;
+	_weapon->init();
+
+
+	_weapon->setPlayerMemoryAddressLink(_player);
+	_player->setWeaponMemoryAddressLink(_weapon);
+
+	_weapon->setMGMemoryAddressLink(_map);
 	//오브젝트
 	//_objectManager = new objectManager;
 	//_objectManager->init();

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "enemyManager.h"
-#include "player.h"
+
 
 HRESULT enemyManager::init()
 {
@@ -156,6 +156,11 @@ void enemyManager::renderBlackSkeleton()
 	{
 		(*_viBlackSkeleton)->render();
 	}
+}
+
+void enemyManager::bosspatten()
+{
+	_deathMetal->update(_player->getTileX(),_player->getTileX());
 }
 
 void enemyManager::setSlimeGreen()

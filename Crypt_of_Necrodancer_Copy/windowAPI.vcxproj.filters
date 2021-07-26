@@ -133,6 +133,9 @@
     <Filter Include="playGround\scene\boss">
       <UniqueIdentifier>{aa9b81b7-0ec5-44c4-bd05-6046c7bf9891}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\enemy\deathMetal">
+      <UniqueIdentifier>{362748d6-d59a-4bc8-847b-750a43fcc368}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -405,6 +408,9 @@
     <ClInclude Include="bossScene.h">
       <Filter>playGround\scene\boss</Filter>
     </ClInclude>
+    <ClInclude Include="deathMetal.h">
+      <Filter>playGround\enemy\deathMetal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -664,6 +670,9 @@
     </ClCompile>
     <ClCompile Include="bossScene.cpp">
       <Filter>playGround\scene\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="deathMetal.cpp">
+      <Filter>playGround\enemy\deathMetal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

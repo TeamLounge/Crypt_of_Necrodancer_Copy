@@ -8,6 +8,7 @@ HRESULT monkey::init(int playerIndexX, int playerIndexY)
 	isTime = isMove = false;
 	_count = _damageRenderCount = _damageindex = _index = _indey = 0;
 	iscatch = damageRender = false;
+	_beatspeed = 1.0f;
 	while (true) //·£´ý¹èÄ¡
 	{
 		int random = RND->getInt(_map->getRoom().size());//·£´ý¹æ¿¡ ¹èÄ¡
@@ -33,7 +34,7 @@ HRESULT monkey::init(int playerIndexX, int playerIndexY)
 void monkey::update(int playerIndexX, int playerIndexY)
 {
 	
-	if (TIMEMANAGER->getWorldTime() - _movingTime >= 0.5f)
+	if (TIMEMANAGER->getWorldTime() - _movingTime >= _beatspeed/2)
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
 		if (isTime)

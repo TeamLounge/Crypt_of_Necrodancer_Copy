@@ -19,6 +19,7 @@ HRESULT player::init()
 	_vision->init(_tileX, _tileY, BASICVISION);
 
 	_isMove = false;
+	_attack = false;
 
 	_bomb = new bomb;
 	_bomb->init();
@@ -104,6 +105,7 @@ void player::update()
 							{
 								_tileX += 1;
 								_isMove = false;
+								_attack = true;
 							}
 						}
 					}
@@ -147,6 +149,7 @@ void player::update()
 						{
 							_tileX -= 1;
 							_isMove = false;
+							_attack = true;
 						}
 					}
 				}
@@ -174,6 +177,7 @@ void player::update()
 			{
 				_tileY -= 1;
 				_isMove = true;
+
 			}
 
 			//웨폰과 에너미의 충돌처리
@@ -187,6 +191,7 @@ void player::update()
 						{
 							_tileY += 1;
 							_isMove = false;
+							_attack = true;
 						}
 					}
 				}
@@ -221,6 +226,7 @@ void player::update()
 					_tileY += 1;
 					_tileRenderY = _tileY;
 					_isMove = true;
+
 				}
 				//웨폰과 에너미의 충돌처리
 				if (_weapon->getVCollision().size() != 0)
@@ -233,6 +239,7 @@ void player::update()
 							{
 								_tileY -= 1;
 								_isMove = false;
+								_attack = true;
 							}
 						}
 					}

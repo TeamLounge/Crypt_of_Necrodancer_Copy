@@ -39,11 +39,6 @@ void aStarTest::update()
 		pathFinder(_startTile);
 	}
 	
-	//if (_start)
-	//{
-	//	if (istime)
-	//		start();
-	//}
 }
 
 void aStarTest::render()

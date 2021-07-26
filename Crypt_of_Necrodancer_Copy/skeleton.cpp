@@ -9,6 +9,7 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 	isTime = isMove = false;
 	_count = _damageRenderCount =_damageindex =_index = _indey = 0;
 	toRender = damageRender = false;
+	_beatspeed = 1.0f;
 	while (true) //랜덤배치
 	{
 		int random = RND->getInt(_map->getRoom().size());//랜덤방에 배치
@@ -32,7 +33,7 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 
 void skeleton::update(int playerIndexX , int playerIndexY)
 {	
-	if (TIMEMANAGER->getWorldTime() - _movingTime >= 1.0f)
+	if (TIMEMANAGER->getWorldTime() - _movingTime >= _beatspeed)
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
 		if (isTime)
@@ -45,7 +46,7 @@ void skeleton::update(int playerIndexX , int playerIndexY)
 		}
 
 	}
-	if (TIMEMANAGER->getWorldTime() - _renderTime >= 0.5f)
+	if (TIMEMANAGER->getWorldTime() - _renderTime >= _beatspeed/2)
 	{
 		_renderTime = TIMEMANAGER->getWorldTime();
 		if (toRender)
@@ -130,6 +131,8 @@ void skeleton::update(int playerIndexX , int playerIndexY)
 	{
 		damageRender = true;
 		_astar->setDamage(false);
+		//여기가 에너미가 플레이어한데 어택!
+		if(!attack) attack = true;
 	}
 
 	if (damageRender)

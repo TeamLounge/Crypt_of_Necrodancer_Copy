@@ -23,7 +23,7 @@ protected:
 
 
 	float _movingTime, _renderTime;
-
+	float _beatspeed;
 	bool isFind;
 	bool isTime, isMove;
 	bool isAction ,damageRender;
@@ -43,7 +43,7 @@ public:
 	virtual int getShadowX() { return _shadowX; }
 	virtual int getShadowY() { return _shadowY; }
 	virtual int getHp() { return _hp; }
-
+	virtual float getBeatSpeed() { return _beatspeed; }
 
 	virtual void setImage(image* image) { _img = image; }
 	virtual void setX(int x) { _tilex = x; }
@@ -52,5 +52,6 @@ public:
 	virtual void setShadowY(int y) { _shadowY = y; }
 	virtual void setTileMapLinK(mapGenerator* tileMap) { _map = tileMap; }
 	virtual void setHp(int hp) { _hp = hp; }
+	virtual void setBeatSpeed(float speed) { _beatspeed = speed; }
 };
 

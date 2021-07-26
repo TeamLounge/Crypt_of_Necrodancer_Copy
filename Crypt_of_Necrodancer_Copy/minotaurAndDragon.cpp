@@ -6,8 +6,9 @@ HRESULT minotaurAndDragon::init(int playerIndexX, int playerIndexY)
 	_astar = new aStarTest;
 	isFind = false;
 	isTime = isMove = false;
-	_count = _damageRenderCount = _damageindex = _index = _indey = 0;
+	 _count = _damageRenderCount = _damageindex = _index = _indey = 0;
 	isAction = damageRender = false;
+	_beatspeed = 1.0f;
 	while (true) //랜덤배치
 	{
 		int bossRoom = 0;
@@ -39,7 +40,7 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 	_astar->endmove(playerIndexX, playerIndexY);
 	if (isAction) 
 	{
-		if (TIMEMANAGER->getWorldTime() - _movingTime >= 0.5f)
+		if (TIMEMANAGER->getWorldTime() - _movingTime >= _beatspeed/2)
 		{
 			_movingTime = TIMEMANAGER->getWorldTime();
 			if (isTime)
@@ -57,7 +58,7 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 	}
 	else
 	{
-		if (TIMEMANAGER->getWorldTime() - _movingTime >= 1.0f)
+		if (TIMEMANAGER->getWorldTime() - _movingTime >= _beatspeed)
 		{
 			_movingTime = TIMEMANAGER->getWorldTime();
 			if (isTime)
@@ -95,6 +96,8 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 	{
 		damageRender = true;
 		_astar->setDamage(false);
+		//여기가 에너미가 플레이어한데 어택!
+		//if (!attack) attack = true;
 	}
 
 	if (damageRender)

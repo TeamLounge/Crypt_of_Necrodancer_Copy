@@ -39,7 +39,7 @@ private:
 
 	float _elapsedSec; //프레임 움직임 위해서
 	bool _isMove;
-
+	bool _attack;
 	PLAYER_ENEMY_DIRECTION _playerDirection;
 
 	//zOrder용
@@ -100,5 +100,8 @@ public:
 	void setBodyImageName(string s) { _bodyImageName = s; }
 
 	vision* getVision() { return _vision; }
+	
+	bool getAttack() { return _attack; }
+	void setAttack(bool attack) { _attack = attack; }
 };
 

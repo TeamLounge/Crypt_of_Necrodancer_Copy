@@ -161,6 +161,7 @@
     <ClInclude Include="cheese.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="dagger.h" />
+    <ClInclude Include="deathMetal.h" />
     <ClInclude Include="diamond.h" />
     <ClInclude Include="redDragon.h" />
     <ClInclude Include="effect.h" />
@@ -250,6 +251,7 @@
     <ClCompile Include="cameraManager.cpp" />
     <ClCompile Include="cheese.cpp" />
     <ClCompile Include="dagger.cpp" />
+    <ClCompile Include="deathMetal.cpp" />
     <ClCompile Include="diamond.cpp" />
     <ClCompile Include="redDragon.cpp" />
     <ClCompile Include="effect.cpp" />
