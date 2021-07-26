@@ -8,12 +8,13 @@ HRESULT deathMetal::init(int playerIndexX, int playerIndexY)
 	isTime = isMove = false;
 	_responeCount = _count = _damageRenderCount = _damageindex = _index = _indey = _phase = 0;
 	toRender = damageRender = false;
-	_tilex =6; 
-	_tiley =10;
+	_img = IMAGEMANAGER->findImage("deathMetal");
+	_tilex = 6;
+	_tiley = 10;
 	_rc = _map->getRect(_tilex, _tiley);		//_tileX, _tileY는 움직임을 위한 첫번째 타일맵의 좌표
 	_map->setIsEnemy(_tilex, _tiley, true);
 	_x = _rc.left;								//_x, _y는 이미지를 움직이기 위한 _rc를 토대로 가져온 실제 좌표(정보 가져오기 위함)
-	_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+	_y = (_rc.top - (_rc.bottom - _rc.top) / 2);
 	_astar->setLinkrandomMap(_map);
 	_astar->init(_tilex, _tiley, playerIndexX, playerIndexY);
 	_playerindex = playerIndexX;
@@ -37,7 +38,6 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 		{
 			isTime = true;
 		}
-
 	}
 	if (!isFind) {
 		for (int y = _tiley - 4; y <= _tiley + 4; y++)
@@ -126,12 +126,90 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 			damageRender = false;
 		}
 	}
+	if (isMove)
+	{
+		switch (_dir)
+		{
+		case NONE:
+			_gravity += 0.965f;
+			_y += -sinf(7 * PI / 9) * 9 + _gravity;
+			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
+			{
+				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+				isMove = false;
+				_gravity = 0;
+			}
+			break;
+		case LEFT:
+			_gravity += 0.965f;
+			_x += cosf(7 * PI / 9) * 9;
+			_y += -sinf(7 * PI / 9) * 9 + _gravity;
 
+			if (_x <= _rc.left)
+			{
+				_x = _rc.left;
+				isMove = false;
+				_gravity = 0;
+				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
+				{
+					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+				}
+			}
+
+			break;
+		case RIGHT:
+			_gravity += 0.965f;
+			_x -= cosf(7 * PI / 9) * 9;
+			_y += -sinf(7 * PI / 9) * 9 + _gravity;
+			if (_x >= _rc.left)
+			{
+				_x = _rc.left;
+				isMove = false;
+				_gravity = 0;
+				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
+				{
+
+					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+				}
+
+			}
+
+			break;
+		case UP:
+			_gravity += 0.2f;
+			_y += -sinf(PI / 2) * 9 + _gravity;
+
+			if (_y <= _rc.top - (_rc.bottom - _rc.top) / 2)
+			{
+				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+				isMove = false;
+				_gravity = 0;
+
+			}
+
+			break;
+		case DOWN:
+
+			_gravity += 1.2f;
+			_y += -sinf(PI / 2) + _gravity;
+
+			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
+			{
+				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+				isMove = false;
+				_gravity = 0;
+
+			}
+			break;
+		}
+	}
 	if (_hp >= 7)
 	{
 		switch (_dir)
 		{
 		case LEFT:
+			_index = 0;
+			_indey = 1;
 		case RIGHT:
 			_index = 0;
 			break;
@@ -157,10 +235,6 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 		_indey = 1;
 	}
 
-	moveMotion();
-
-
-
 
 
 }
@@ -172,7 +246,7 @@ void deathMetal::release()
 
 void deathMetal::render()
 {
-
+	_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 }
 
 void deathMetal::phaseOneMove(bool Time)
@@ -502,4 +576,8 @@ void deathMetal::moveMotion()
 			break;
 		}
 	}
+}
+
+void deathMetal::fire()
+{
 }

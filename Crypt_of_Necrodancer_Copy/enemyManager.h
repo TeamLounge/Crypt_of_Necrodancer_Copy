@@ -40,6 +40,11 @@ private:
 	weapon* _weapon;
 	mapGenerator* _map;
 
+	bool _isboos;
+	bool _isWhite;
+	bool _isgreen;
+
+
 	//////////////////////////////
 	//			슬라임			//
 	//////////////////////////////
@@ -70,7 +75,7 @@ private:
 
 	typedef vector<greenSkeleton*>			 vGreenSkeleton;
 	typedef vector<greenSkeleton*>::iterator viGreenSkeleton;
-	
+
 	typedef vector<blackSkeleton*>			 vBlackSkeleton;
 	typedef vector<blackSkeleton*>::iterator viBlackSkeleton;
 
@@ -88,40 +93,40 @@ private:
 	//////////////////////////////
 	typedef vector<ghost*>  vGhost;
 	typedef vector<ghost*>::iterator viGhost;
-	
+
 	typedef vector<mimic*>  vMimic;
 	typedef vector<mimic*>::iterator viMimic;
-	
-	
+
+
 	vGhost _vGhost;
 	viGhost _viGhost;
-	
+
 	vMimic  _vMimic;
 	viMimic _viMimic;
-	
+
 	//////////////////////////////
 	//			 망키	 		//
 	//////////////////////////////
-	
+
 	typedef vector<monkeyBasic*>  vMonkeyBasic;
 	typedef vector<monkeyBasic*>::iterator viMonkeyBasic;
-	
+
 	vMonkeyBasic _vMonkeyBasic;
 	viMonkeyBasic _viMonkeyBasic;
-	
+
 	typedef vector<monkeyWhite*>  vMonkeyWhite;
 	typedef vector<monkeyWhite*>::iterator viMonkeyWhite;
 
 	vMonkeyWhite _vMonkeyWhite;
 	viMonkeyWhite _viMonkeyWhite;
-	
+
 	//////////////////////////////
 	//	     미노타우르스 		//
 	//////////////////////////////
-	
+
 	typedef vector<minotaur*>  vMinotaur;
 	typedef vector<minotaur*>::iterator viMinotaur;
-	
+
 	vMinotaur _vMinotaur;
 	viMinotaur _viMinotaur;
 
@@ -142,7 +147,7 @@ private:
 
 	vRedDragon				_vRedDragon;
 	viRedDragon				_viRedDragon;
-	
+
 	//////////////////////////////
 	//		   데스메탈			//
 	//////////////////////////////
@@ -163,6 +168,12 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render();
+
+	virtual HRESULT bossRoomInit();
+	virtual void bossRoomRelease();
+	virtual void bossRoomUpdate();
+	virtual void bossRoomRender();
+
 
 	void setMapGeneratorMemoryAddressLink(mapGenerator* map) { _map = map; }
 	void setPlayerMemoryAddressLink(player* player) { _player = player; }
@@ -211,7 +222,7 @@ public:
 	void setMonkeyWhite();
 	void updateMonkeyWhite();
 	void renderMonkeyWhite();
-	
+
 	void setMinotaur();
 	void updateMinotaur();
 	void renderMinotaur();
@@ -223,6 +234,15 @@ public:
 	void setRedDragon();
 	void updateRedDragon();
 	void renderRedDragon();
+
+	//보스방용
+	void setDeathMetal();
+	void updateDeathMetal();
+	void renderDeathMetal();
+
+	void setGhostBossRoom();
+	void setWhiteSkeletonBossRoom();
+	void setGreenSkeletonBossRoom();
 
 	//에너미 삭제 할 때
 	//_em->delete(_tileX, _tileY); 이런 
@@ -250,13 +270,13 @@ public:
 
 	vGhost getVGhost() { return _vGhost; }
 	viGhost getVIGhost() { return _viGhost; }
-	
+
 	vMimic getVMimic() { return _vMimic; }
 	viMimic getVIMimic() { return _viMimic; }
-	
+
 	vMonkeyBasic getVMonkeyBasic() { return _vMonkeyBasic; }
 	viMonkeyBasic getVIMonkeyBasic() { return _viMonkeyBasic; }
-	
+
 	vMonkeyWhite getVMonkeyWhite() { return _vMonkeyWhite; }
 	viMonkeyWhite getVIMonkeyWhite() { return _viMonkeyWhite; }
 
@@ -268,4 +288,10 @@ public:
 
 	vRedDragon getVRedDragon() { return _vRedDragon; }
 	viRedDragon getVIRedDragon() { return _viRedDragon; }
+
+
+
+	/////////////////////////////////
+	//속도 값 통일해서 변수로 만들어두기
+	/////////////////////////////////
 };

@@ -28,6 +28,7 @@ protected:
 	bool toRender, damageRender;
 public:
 	virtual HRESULT init(int playerIndexX, int playerIndexY);
+	virtual HRESULT bossInit(int playerIndexX, int playerIndexY, int x, int y);
 	virtual void update(int playerIndexX, int playerIndexY);
 	virtual void release();
 	virtual void render();
@@ -53,4 +54,3 @@ public:
 	virtual void setHp(int hp) { _hp = hp; }
 	virtual void setBeatSpeed(float speed) { _beatspeed = speed; }
 };
-

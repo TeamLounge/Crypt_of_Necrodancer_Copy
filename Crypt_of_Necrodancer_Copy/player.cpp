@@ -375,7 +375,7 @@ void player::update()
 	_vision->update(_tileX, _tileY);
 
 	_bomb->update();
-	damaged();
+	//damaged();
 }
 
 void player::render()

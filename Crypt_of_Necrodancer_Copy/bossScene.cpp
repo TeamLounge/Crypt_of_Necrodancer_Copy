@@ -16,10 +16,10 @@ HRESULT bossScene::init()
 	_player->init();
 
 	//에너미
-	/*_em = new enemyManager;
+	_em = new enemyManager;
 	_em->setMapGeneratorMemoryAddressLink(_map);
 	_em->setPlayerMemoryAddressLink(_player);
-	_em->init();*/
+	_em->bossRoomInit();
 
 	//오브젝트
 	_objectManager = new objectManager;
@@ -53,7 +53,7 @@ HRESULT bossScene::init()
 	_objectManager->setWeaponMemoryAddressLink(_weapon);
 	_objectManager->setShovelMemoryAddressLink(_shovel);
 	_weapon->setMGMemoryAddressLink(_map);
-
+	_player->setPlayerUIMemoryAddressLink(_UIM);
 	SOUNDMANAGER->play("boss", 0.2f);
 
 	return S_OK;
@@ -68,7 +68,7 @@ void bossScene::update()
 	_map->update(_player->getTileX(), _player->getTileY());
 	_player->update();
 
-	//_em->update();
+	_em->bossRoomUpdate();
 	_UIM->updateHeartBeat();
 	_objectManager->update();
 	_weapon->update();
@@ -94,6 +94,7 @@ void bossScene::render()
 			_objectManager->render(j, i);
 		}
 	}
+	_em->bossRoomRender();
 	_UIM->renderHeartBeat();
 	_weapon->render();
 	_shovel->render();
@@ -102,4 +103,7 @@ void bossScene::render()
 	_player->getBomb()->render();
 
 	_UIM->renderItemHUD();
+	char str[124];
+	sprintf_s(str, "%d, %d", _player->getTileX(), _player->getTileY());
+	TextOut(getMemDC(), _player->getTileRect().left, _player->getTileRect().top, str, strlen(str));
 }
