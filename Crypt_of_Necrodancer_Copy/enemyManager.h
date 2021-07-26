@@ -149,6 +149,8 @@ private:
 
 	deathMetal* _deathMetal;
 
+	vector<COLLISION>			_vCollision;
+	vector<COLLISION>::iterator _viCollision;
 
 public:
 	enemyManager() {};

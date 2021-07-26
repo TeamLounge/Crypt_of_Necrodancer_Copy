@@ -6,8 +6,8 @@ HRESULT enemyManager::init()
 {
 
 	setWhiteSkeleton();
-	setGreenSkeleton();
-	setBlackSkeleton();
+	//setGreenSkeleton();
+	//setBlackSkeleton();
 	
 	//setSlimeGreen();
 	//setSlimeGold();
@@ -17,12 +17,12 @@ HRESULT enemyManager::init()
 
 	//setMimic();
 
-	setMonkeyBasic();
+	//setMonkeyBasic();
 	//setMonkeyWhite();
 
 	//setMinotaur();
 
-	setZombie();
+	//setZombie();
 
 	//setRedDragon();
 
@@ -35,9 +35,13 @@ void enemyManager::release()
 
 void enemyManager::update()
 {
+	_vCollision = _weapon->getVCollision();
+	_viCollision = _weapon->getVICollision();
+
+
 	updateWhiteSkeleton();
-	updateGreenSkeleton();
-	updateBlackSkeleton();
+	//updateGreenSkeleton();
+	//updateBlackSkeleton();
 
 	//updateMimic();
 
@@ -47,23 +51,23 @@ void enemyManager::update()
 	//updateSlimeGold();
 	//updateSlimeBlue();
 
-	updateMonkeyBasic();
+	//updateMonkeyBasic();
 	//updateMonkeyWhite();
 
 	//updateMinotaur();
 	
-	updateZombie();
+	//updateZombie();
 
 	//updateRedDragon();
-
+	_player->setAttack(false);
 }
 
 void enemyManager::render()
 {
 
 	renderWhiteSkeleton();
-	renderGreenSkeleton();
-	renderBlackSkeleton();
+	//renderGreenSkeleton();
+	//renderBlackSkeleton();
 
 	//renderMimic();
 
@@ -73,12 +77,12 @@ void enemyManager::render()
 	//renderSlimeGold();
 	//renderSlimeBlue();
 
-	renderMonkeyBasic();
+	//renderMonkeyBasic();
 	//renderMonkeyWhite();
 
 	//renderMinotaur();
 
-	renderZombie();
+	//renderZombie();
 
 	//renderRedDragon();
 }
@@ -97,6 +101,16 @@ void enemyManager::updateWhiteSkeleton()
 {
 	for (_viWitheSkeleton = _vWitheSkeleton.begin(); _viWitheSkeleton != _vWitheSkeleton.end(); ++_viWitheSkeleton)
 	{
+		if (_player->getAttack()) {
+			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+			{
+				RECT rc;
+				if(IntersectRect(&rc, &(*_viWitheSkeleton)->getRect(), &_viCollision->rc))
+				{
+					(*_viWitheSkeleton)->setHp((*_viWitheSkeleton)->getHp() - 1);
+				}
+			}
+		}
 		(*_viWitheSkeleton)->update(_player->getTileX(), _player->getTileY());
 	}
 }
