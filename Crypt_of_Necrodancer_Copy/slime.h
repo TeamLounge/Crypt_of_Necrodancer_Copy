@@ -47,8 +47,8 @@ public:
 
 	//get
 	///////////////////////////////////////////////
-	virtual float getX() { return _x; }
-	virtual float getY() { return _y; }
+	virtual float getX() { return _tileX; }
+	virtual float getY() { return _tileY; }
 	virtual float getShadowX() { return _shadowX; }
 	virtual float getShadowY() { return _shadowY; }
 	virtual image * getImage() { return _img; }
@@ -60,8 +60,8 @@ public:
 
 	//set
 	///////////////////////////////////////////////
-	virtual void setX(float x) { _x = x; }
-	virtual void setY(float y) { _y = y; }
+	virtual void setX(float x) { _tileX = x; }
+	virtual void setY(float y) { _tileY = y; }
 	virtual void setShadowX(float shadowX) { _shadowX = shadowX; }
 	virtual void setShadowY(float shadowY) { _shadowY = shadowY; }
 	virtual void setImage(image * image) { _img = image; }

@@ -9,20 +9,20 @@ HRESULT enemyManager::init()
 	setGreenSkeleton();
 	setBlackSkeleton();
 	
-	//setSlimeGreen();
-	//setSlimeGold();
-	//setSlimeBlue();
+	setSlimeGreen();
+	setSlimeGold();
+	setSlimeBlue();
 	
-	//setGhost();
+	setGhost();
 
-	//setMimic();
+	setMimic();
 
-	//setMonkeyBasic();
+	setMonkeyBasic();
 	//setMonkeyWhite();
 
-	//setMinotaur();
+	setMinotaur();
 
-	//setZombie();
+	setZombie();
 
 	//setRedDragon();
 	attackoff = false;
@@ -44,20 +44,20 @@ void enemyManager::update()
 	updateGreenSkeleton();
 	updateBlackSkeleton();
 
-	//updateMimic();
+	updateMimic();
 
-	//updateGhost();
+	updateGhost();
 
-	//updateSlimeGreen();
-	//updateSlimeGold();
-	//updateSlimeBlue();
+	updateSlimeGreen();
+	updateSlimeGold();
+	updateSlimeBlue();
 
-	//updateMonkeyBasic();
+	updateMonkeyBasic();
 	//updateMonkeyWhite();
 
-	//updateMinotaur();
+	updateMinotaur();
 	
-	//updateZombie();
+	updateZombie();
 
 	//updateRedDragon();
 	_player->setAttack(false);
@@ -70,20 +70,20 @@ void enemyManager::render()
 	renderGreenSkeleton();
 	renderBlackSkeleton();
 
-	//renderMimic();
+	renderMimic();
 
-	//renderGhost();
+	renderGhost();
 
-	//renderSlimeGreen();
-	//renderSlimeGold();
-	//renderSlimeBlue();
+	renderSlimeGreen();
+	renderSlimeGold();
+	renderSlimeBlue();
 
-	//renderMonkeyBasic();
+	renderMonkeyBasic();
 	//renderMonkeyWhite();
 
-	//renderMinotaur();
+	renderMinotaur();
 
-	//renderZombie();
+	renderZombie();
 
 	//renderRedDragon();
 }
@@ -337,7 +337,7 @@ void enemyManager::updateSlimeGreen()
 		if ((*_viSlimeGreen)->getHp() == 0)
 		{
 			//에너미 map에 없애주고
-			_map->setIsEnemy((*_viBlackSkeleton)->getX(), (*_viBlackSkeleton)->getY(), false);
+			_map->setIsEnemy((*_viSlimeGreen)->getX(), (*_viSlimeGreen)->getY(), false);
 			//이거 삭제!
 			_viSlimeGreen = _vSlimeGreen.erase(_viSlimeGreen);
 		}
@@ -466,7 +466,7 @@ void enemyManager::updateSlimeBlue()
 				}
 			}
 		}//만약에 해당에너미가 hp=0이라면?
-		if ((*_viSlimeGold)->getHp() == 0)
+		if ((*_viSlimeBlue)->getHp() == 0)
 		{
 			//에너미 map에 없애주고
 			_map->setIsEnemy((*_viSlimeBlue)->getX(), (*_viSlimeBlue)->getY(), false);
@@ -760,7 +760,7 @@ void enemyManager::updateMinotaur()
 				RECT rc;
 				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
 				{
-					if (IntersectRect(&rc, &(*_viMonkeyWhite)->getRect(), &_viCollision->rc))
+					if (IntersectRect(&rc, &(*_viMinotaur)->getRect(), &_viCollision->rc))
 					{
 						(*_viMinotaur)->setHp((*_viMinotaur)->getHp() - 1);
 						_player->setAttack(false);
@@ -809,10 +809,42 @@ void enemyManager::setZombie()
 
 void enemyManager::updateZombie()
 {
-	for (_viZombie = _vZombie.begin(); _viZombie != _vZombie.end(); ++_viZombie)
+	for (_viZombie = _vZombie.begin(); _viZombie != _vZombie.end();)
 	{
-		(*_viZombie)->update();
+		if (_player->getAttack()) {
+
+			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+			{
+				RECT rc;
+				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+				{
+					if (IntersectRect(&rc, &(*_viZombie)->getRect(), &_viCollision->rc))
+					{
+						(*_viZombie)->setHp((*_viZombie)->getHp() - 1);
+						_player->setAttack(false);
+					}
+				}
+				else
+				{
+					if (IntersectRect(&rc, &(*_viZombie)->getRect(), &_viCollision->rc))
+					{
+						(*_viZombie)->setHp((*_viZombie)->getHp() - 1);
+					}
+				}
+			}
+		}
+		if ((*_viZombie)->getHp() == 0)
+		{
+			_map->setIsEnemy((*_viZombie)->getX(), (*_viZombie)->getY(), false);
+			_viZombie = _vZombie.erase(_viZombie);
+		}
+		else
+		{
+			(*_viZombie)->update();
+			++_viZombie;
+		}
 	}
+	
 }
 
 void enemyManager::renderZombie()

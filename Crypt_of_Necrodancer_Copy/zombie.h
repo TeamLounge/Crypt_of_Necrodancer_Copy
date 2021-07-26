@@ -48,25 +48,25 @@ public:
 
 	//get
 	///////////////////////////////////////////////
-	virtual float getX() { return _x; }
-	virtual float getY() { return _y; }
+	virtual float getX() { return _tileX; }
+	virtual float getY() { return _tileY; }
 	virtual float getShadowX() { return _shadowX; }
 	virtual float getShadowY() { return _shadowY; }
 	virtual image * getImage() { return _img; }
 	inline RECT getRect() { return _rc; }
-
 	virtual int getCurrentFrameX() { return _currentFrameX; }
 	virtual int getCurrentFrameY() { return _currentFrameY; }
-
+	virtual int getHp() { return _hp; }
 
 	//set
 	///////////////////////////////////////////////
-	virtual void setX(float x) { _x = x; }
-	virtual void setY(float y) { _y = y; }
+	virtual void setX(float x) { _tileX = x; }
+	virtual void setY(float y) { _tileY = y; }
 	virtual void setShadowX(float shadowX) { _shadowX = shadowX; }
 	virtual void setShadowY(float shadowY) { _shadowY = shadowY; }
 	virtual void setImage(image * image) { _img = image; }
 	virtual void setTileMapLink(mapGenerator* tileMap) { _map = tileMap; }
+	virtual void setHp(int hp) { _hp = hp; }
 
 	virtual void setCurrentFrameX(int currentX) { _currentFrameX = currentX; }
 	virtual void setCurrentFrameY(int currentY) { _currentFrameY = currentY; }
