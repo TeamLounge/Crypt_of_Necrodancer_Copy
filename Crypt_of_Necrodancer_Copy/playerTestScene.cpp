@@ -29,6 +29,8 @@ HRESULT playerTestScene::init()
 	_UIM->init(200.0f);
 	_UIM->setHeart(5);
 	_UIM->setItemHUD();
+	_UIM->setMoney();
+	_UIM->setMoneyNumber();
 
 	//오브젝트
 	_objectManager = new objectManager;
@@ -94,6 +96,12 @@ void playerTestScene::update()
 	_shovel->update();
 
 	_shopkeeper->update();
+	_UIM->updateMoney();
+
+	if (KEYMANAGER->isOnceKeyDown('Q'))
+	{
+		_UIM->updateMoneyNumber(10, false);
+	}
 }
 
 void playerTestScene::render()
@@ -122,4 +130,6 @@ void playerTestScene::render()
 
 	_objectManager->render();
 	_player->getBomb()->render();
+	_UIM->renderMoney();
+	_UIM->renderMoneyNumber();
 }

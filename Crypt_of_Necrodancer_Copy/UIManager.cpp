@@ -378,6 +378,8 @@ void UIManager::updateMoneyNumber(int moneyNum, bool reset)
 
 		_moneyX->setRect(RectMakeCenter(CAMERAMANAGER->getCameraRIGHT() - 95, CAMERAMANAGER->getCameraTOP() + 58,
 			_moneyX->getImg()->getWidth(), _moneyX->getImg()->getHeight()));
+
+		_isMoneyPlus = false;
 	}
 }
 
