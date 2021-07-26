@@ -80,7 +80,7 @@ void playerTestScene::update()
 	_player->update();
 	//RENDERMANAGER->update();
 	_em->update();
-	_UIM->updaetHeartBeat(3.5f);
+	_UIM->updaetHeartBeat(200.0f);
 	_objectManager->update();
 	_weapon->update();
 	_shovel->update();

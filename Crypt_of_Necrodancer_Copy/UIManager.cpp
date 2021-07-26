@@ -135,7 +135,7 @@ void UIManager::updaetHeartBeat(float speed)
 	_beatHeart->setCurrentFrameX(0);
 
 	_beatJudgement = RectMakeCenter(CAMERAMANAGER->getCameraCenterX(), CAMERAMANAGER->getCameraBOTTOM() - 100,
-		_beatHeart->getImg()->getFrameWidth(),
+		_beatHeart->getImg()->getFrameWidth() + 10,
 		_beatHeart->getImg()->getFrameHeight());
 
 	for (_viHeartBeatLeft = _vHeartBeatLeft.begin(); _viHeartBeatLeft != _vHeartBeatLeft.end(); ++_viHeartBeatLeft)
@@ -211,6 +211,10 @@ void UIManager::updaetHeartBeat(float speed)
 
 void UIManager::renderHeartBeat()
 {
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		Rectangle(getMemDC(), _beatJudgement);
+	}
 	for (_viHeartBeatLeft = _vHeartBeatLeft.begin(); _viHeartBeatLeft != _vHeartBeatLeft.end(); ++_viHeartBeatLeft)
 	{
 		(*_viHeartBeatLeft)->render();
