@@ -48,6 +48,10 @@ private:
 	float _elapsedSec;
 	int _heartCnt;
 	int _count;
+	int _damagedTotalCnt;	// 총 데미지 누적
+	int _heartTotalCnt;		// 총 체력
+	int _plusHealNum;		// 체력 보충 숫자
+	int _damagedNum;		// 데미지 숫자
 
 	int _heartBeatNum;
 	float _HBElapsedSec;
@@ -111,6 +115,8 @@ public:
 	//////////////////////////////////
 	void setHeart(int heartNum);
 	void updateHeart();
+	void minusHeart(int damagedNum);
+	void plusHeart(int plusHealNum);
 	void renderHeart();
 
 	//////////////////////////////////

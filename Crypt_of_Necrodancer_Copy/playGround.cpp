@@ -111,7 +111,7 @@ void playGround::addImage()
 	IMAGEMANAGER->findImage("wall_torch")->setFrameY(0);
 
 	//play HUD
-	IMAGEMANAGER->addFrameImage("heart", "image/UI/heart.bmp", 100, 50, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("heart", "image/UI/heart.bmp", 100, 150, 2, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("heartBeat", "image/UI/beat_marker.bmp", 24, 64, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("beatHeart", "image/UI/beat_heart.bmp", 246, 156, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("money", "image/UI/money.bmp", 48, 48, true, RGB(255, 0, 255));
@@ -123,7 +123,7 @@ void playGround::addImage()
 	//item HUD
 	IMAGEMANAGER->addFrameImage("dagger", "image/item/dagger.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("broadSword", "image/item/broadsword.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addFrameImage("rapier", "image/item/rapier.bmp", 78, 162, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("rapier", "image/item/rapier.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("longSword", "image/item/longsword.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("spear", "image/item/rapier.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("shovelBasic", "image/item/shovel_basic.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
