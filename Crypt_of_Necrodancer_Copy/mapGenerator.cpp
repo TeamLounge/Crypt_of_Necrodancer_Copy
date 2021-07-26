@@ -276,10 +276,10 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 		case TR_UP:
 			IMAGEMANAGER->frameRender("up_trap", getMemDC(),
 				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameHeight() / 2, _tiles[tileY][tileX].objectFrameX, 1);
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameHeight() / 2, _tiles[tileY][tileX].objectFrameX, 0);
 			IMAGEMANAGER->alphaFrameRender("up_trap", getMemDC(),
 				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameHeight() / 2, _tiles[tileY][tileX].objectFrameX, 0, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameHeight() / 2, _tiles[tileY][tileX].objectFrameX, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case TR_DOWN:
 			IMAGEMANAGER->frameRender("down_trap", getMemDC(),
@@ -408,6 +408,12 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_TITANUM_SHOVEL:
+			IMAGEMANAGER->frameRender("shovelTitanium", getMemDC(),
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("shovelTitanium")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("shovelTitanium")->getFrameHeight() / 2, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("shovelTitanium", getMemDC(),
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("shovelTitanium")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("shovelTitanium")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_LEATHER_ARMOR:
 			IMAGEMANAGER->frameRender("leather_armor", getMemDC(),
@@ -465,9 +471,6 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
 				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
-		case MAP_BOMB:
-
-			break;
 		case MAP_APPLE:
 			IMAGEMANAGER->frameRender("apple", getMemDC(),
 				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
@@ -491,6 +494,8 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 			IMAGEMANAGER->alphaFrameRender("coin10", getMemDC(),
 				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
 				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+		case MAP_BOMB:
+			break;
 		default:
 			break;
 		}
@@ -885,11 +890,13 @@ void mapGenerator::generate(int maxFeatures)
 		setEndEdge();
 		moveMap();
 		setEndBlock();
-		setStone();
-		setBossRoom();
-		setTorch();
 		deleteEmptyTiles();
 	}
+	setBossRoom();
+	setStone();
+	setTorch();
+	settingTraps();
+	settingItemBox();
 
 	_width = _tiles[0].size();
 	_height = _tiles.size();
@@ -2182,4 +2189,57 @@ void mapGenerator::testObject()
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].item = MAP_BROADSWORD;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].itemDirection = UP;
 
+}
+
+void mapGenerator::settingTraps()
+{
+	for (int i = 0; i < _rooms.size(); i++)
+	{
+		if (_rooms[i].roomState == ROOM_START || _rooms[i].roomState == ROOM_SHOP) continue;
+		int trapNum = RND->getInt(3);
+		int count = 0;
+		while (1)
+		{
+			if (count == trapNum) break;
+			int x = RND->getFromIntTo(_rooms[i].x - 1, _rooms[i].x + _rooms[i].width + 1);
+			int y = RND->getFromIntTo(_rooms[i].y - 1, _rooms[i].y + _rooms[i].height + 1);
+			if (_tiles[y][x].obj == OBJ_NONE)
+			{
+				_tiles[y][x].obj = (OBJECT)RND->getFromIntTo(7, 17);
+				count++;
+			}
+		}
+	}
+}
+
+void mapGenerator::settingItemBox()
+{
+	int itemBoxNum = 2;
+	int count = 0;
+	int roomNum = 0;
+	int _redBoxRoomNum = -1;
+	while (1)
+	{
+		if (count == itemBoxNum) break;
+		while (1)
+		{
+			roomNum = RND->getInt(_rooms.size());
+			if (_rooms[roomNum].roomState != ROOM_SHOP && _rooms[roomNum].roomState != ROOM_START && roomNum != _redBoxRoomNum)
+				break;
+		}
+		int x = RND->getFromIntTo(_rooms[roomNum].x - 1, _rooms[roomNum].x + _rooms[roomNum].width + 1);
+		int y = RND->getFromIntTo(_rooms[roomNum].y - 1, _rooms[roomNum].y + _rooms[roomNum].height + 1);
+		if (_tiles[y][x].obj == OBJ_NONE)
+		{
+			_tiles[y][x].obj = (OBJECT)(17+count);
+			if (17 + count == 17)
+			{
+				_redBoxRoomNum = roomNum;
+			}
+			count++;
+		}
+	}
+	
+	
+	
 }

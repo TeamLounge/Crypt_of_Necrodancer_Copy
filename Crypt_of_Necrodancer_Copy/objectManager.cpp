@@ -163,8 +163,51 @@ void objectManager::playerObjectCollison()
 	case TR_SPIKE:
 		break;
 	case RED_ITEM_BOX:
+		_map->setTileObject(_player->getTileX(), _player->getTileY(), OBJ_NONE);
+
+		//위부터 비었는지 조사
+		if (_map->getTileObject(_player->getTileX(), _player->getTileY() - 1) == OBJ_NONE && _map->getTileItem(_player->getTileX(), _player->getTileY() - 1) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX(), _player->getTileY() - 1, (MAP_ITEM)RND->getFromIntTo(1, 13));
+		}
+		//아래
+		else if (_map->getTileObject(_player->getTileX(), _player->getTileY() + 1) == OBJ_NONE && _map->getTileItem(_player->getTileX(), _player->getTileY() + 1) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX(), _player->getTileY() + 1, (MAP_ITEM)RND->getFromIntTo(1, 13));
+		}
+		//좌
+		else if (_map->getTileObject(_player->getTileX() - 1, _player->getTileY()) == OBJ_NONE && _map->getTileItem(_player->getTileX() - 1, _player->getTileY()) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX() - 1, _player->getTileY(), (MAP_ITEM)RND->getFromIntTo(1, 13));
+		}
+		//우
+		else if (_map->getTileObject(_player->getTileX() + 1, _player->getTileY()) == OBJ_NONE && _map->getTileItem(_player->getTileX() + 1, _player->getTileY()) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX() + 1, _player->getTileY(), (MAP_ITEM)RND->getFromIntTo(1, 13));
+		}
 		break;
 	case BLACK_ITEM_BOX:
+		_map->setTileObject(_player->getTileX(), _player->getTileY(), OBJ_NONE);
+		//위부터 비었는지 조사
+		if (_map->getTileObject(_player->getTileX(), _player->getTileY() - 1) == OBJ_NONE && _map->getTileItem(_player->getTileX(), _player->getTileY() - 1) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX(), _player->getTileY() - 1, (MAP_ITEM)RND->getFromIntTo(7, 11));
+		}
+		//아래
+		else if (_map->getTileObject(_player->getTileX(), _player->getTileY() + 1) == OBJ_NONE && _map->getTileItem(_player->getTileX(), _player->getTileY() + 1) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX(), _player->getTileY() + 1, (MAP_ITEM)RND->getFromIntTo(7, 11));
+		}
+		//좌
+		else if (_map->getTileObject(_player->getTileX() - 1, _player->getTileY()) == OBJ_NONE && _map->getTileItem(_player->getTileX() - 1, _player->getTileY()) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX() - 1, _player->getTileY(), (MAP_ITEM)RND->getFromIntTo(7, 11));
+		}
+		//우
+		else if (_map->getTileObject(_player->getTileX() + 1, _player->getTileY()) == OBJ_NONE && _map->getTileItem(_player->getTileX() + 1, _player->getTileY()) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX() + 1, _player->getTileY(), (MAP_ITEM)RND->getFromIntTo(7, 11));
+		}
 		break;
 	case BOX:
 		break;
