@@ -65,144 +65,62 @@ void player::update()
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 		{
-			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+			if (_uiManager->getIsIntersectJudge())
 			{
-				_bomb->fire(_tileX, _tileY, _map->getRect(_tileX, _tileY));
-			}
-			else
-			{
-				_playerDirection = LEFT;
-				_weapon->update();
-				OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
-				if (obj == WALL_CRACK || obj == WALL_END
-					|| obj == WALL_STONE
-					|| obj == WALL_GOLD)
+				if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 				{
-
+					_bomb->fire(_tileX, _tileY, _map->getRect(_tileX, _tileY));
 				}
-				else if (obj == WALL_DOOR || obj == WALL_BASIC)
-				{
-					_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
-					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-					_map->setIsHaveTorch(_tileX - 1, _tileY, false);
-				}
-
 				else
 				{
-					_tileX -= 1;
-					_isMove = true;
-				}
-
-				//웨폰과 에너미의 충돌처리
-				if (_weapon->getVCollision().size() != 0)
-				{
-					for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+					_playerDirection = LEFT;
+					_weapon->update();
+					OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
+					if (obj == WALL_CRACK || obj == WALL_END
+						|| obj == WALL_STONE
+						|| obj == WALL_GOLD)
 					{
-						if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
+
+					}
+					else if (obj == WALL_DOOR || obj == WALL_BASIC)
+					{
+						_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
+						CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+						_map->setIsHaveTorch(_tileX - 1, _tileY, false);
+					}
+
+					else
+					{
+						_tileX -= 1;
+						_isMove = true;
+					}
+
+					//웨폰과 에너미의 충돌처리
+					if (_weapon->getVCollision().size() != 0)
+					{
+						for (int i = 0; i < _weapon->getVCollision().size(); ++i)
 						{
-							if (_isMove)
+							if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
 							{
-								_tileX += 1;
-								_isMove = false;
+								if (_isMove)
+								{
+									_tileX += 1;
+									_isMove = false;
+								}
 							}
 						}
 					}
 				}
-
 			}
+			
 		}
 		else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 		{
-			_playerDirection = RIGHT;
-			_weapon->update();
-			OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
-			if (obj == WALL_CRACK || obj == WALL_END
-				|| obj == WALL_GOLD
-				|| obj == WALL_STONE)
+			if (_uiManager->getIsIntersectJudge())
 			{
-
-			}
-			else if (obj == WALL_DOOR || obj == WALL_BASIC)
-			{
-				_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
-				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-				_map->setIsHaveTorch(_tileX + 1, _tileY, false);
-			}
-
-			else
-			{
-				_tileX += 1;
-				_tileRenderX = _tileX;
-				_isMove = true;
-			}
-
-			//웨폰과 에너미의 충돌처리
-			if (_weapon->getVCollision().size() != 0)
-			{
-				for (int i = 0; i < _weapon->getVCollision().size(); ++i)
-				{
-					if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
-					{
-						if (_isMove)
-						{
-							_tileX -= 1;
-							_isMove = false;
-						}
-					}
-				}
-			}
-		}
-		else if (KEYMANAGER->isOnceKeyDown(VK_UP))
-		{
-			_playerDirection = UP;
-			_weapon->update();
-			OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
-			if (obj == WALL_CRACK || obj == WALL_END
-				|| obj == WALL_GOLD 
-				|| obj == WALL_STONE)
-			{
-
-			}
-			else if (obj == WALL_DOOR || obj == WALL_BASIC)
-			{
-				_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
-				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-				_map->setIsHaveTorch(_tileX, _tileY - 1, false);
-			}
-
-			else
-			{
-				_tileY -= 1;
-				_isMove = true;
-			}
-
-			//웨폰과 에너미의 충돌처리
-			if (_weapon->getVCollision().size() != 0)
-			{
-				for (int i = 0; i < _weapon->getVCollision().size(); ++i)
-				{
-					if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
-					{
-						if (_isMove)
-						{
-							_tileY += 1;
-							_isMove = false;
-						}
-					}
-				}
-			}
-		}
-		else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-		{
-			if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-			{
-				_bomb->fire(_tileX, _tileY, _map->getRect(_tileX, _tileY));
-			}
-			else
-			{
-				_playerDirection = DOWN;
+				_playerDirection = RIGHT;
 				_weapon->update();
-				OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
+				OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
 				if (obj == WALL_CRACK || obj == WALL_END
 					|| obj == WALL_GOLD
 					|| obj == WALL_STONE)
@@ -211,17 +129,18 @@ void player::update()
 				}
 				else if (obj == WALL_DOOR || obj == WALL_BASIC)
 				{
-					_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
+					_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
 					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-					_map->setIsHaveTorch(_tileX, _tileY + 1, false);
+					_map->setIsHaveTorch(_tileX + 1, _tileY, false);
 				}
 
 				else
 				{
-					_tileY += 1;
-					_tileRenderY = _tileY;
+					_tileX += 1;
+					_tileRenderX = _tileX;
 					_isMove = true;
 				}
+
 				//웨폰과 에너미의 충돌처리
 				if (_weapon->getVCollision().size() != 0)
 				{
@@ -231,8 +150,101 @@ void player::update()
 						{
 							if (_isMove)
 							{
-								_tileY -= 1;
+								_tileX -= 1;
 								_isMove = false;
+							}
+						}
+					}
+				}
+			}
+		}
+		else if (KEYMANAGER->isOnceKeyDown(VK_UP))
+		{
+			if (_uiManager->getIsIntersectJudge())
+			{
+				_playerDirection = UP;
+				_weapon->update();
+				OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
+				if (obj == WALL_CRACK || obj == WALL_END
+					|| obj == WALL_GOLD
+					|| obj == WALL_STONE)
+				{
+
+				}
+				else if (obj == WALL_DOOR || obj == WALL_BASIC)
+				{
+					_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
+					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+					_map->setIsHaveTorch(_tileX, _tileY - 1, false);
+				}
+
+				else
+				{
+					_tileY -= 1;
+					_isMove = true;
+				}
+
+				//웨폰과 에너미의 충돌처리
+				if (_weapon->getVCollision().size() != 0)
+				{
+					for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+					{
+						if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
+						{
+							if (_isMove)
+							{
+								_tileY += 1;
+								_isMove = false;
+							}
+						}
+					}
+				}
+			}
+		}
+		else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+		{
+			if (_uiManager->getIsIntersectJudge())
+			{
+				if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+				{
+					_bomb->fire(_tileX, _tileY, _map->getRect(_tileX, _tileY));
+				}
+				else
+				{
+					_playerDirection = DOWN;
+					_weapon->update();
+					OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
+					if (obj == WALL_CRACK || obj == WALL_END
+						|| obj == WALL_GOLD
+						|| obj == WALL_STONE)
+					{
+
+					}
+					else if (obj == WALL_DOOR || obj == WALL_BASIC)
+					{
+						_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
+						CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+						_map->setIsHaveTorch(_tileX, _tileY + 1, false);
+					}
+
+					else
+					{
+						_tileY += 1;
+						_tileRenderY = _tileY;
+						_isMove = true;
+					}
+					//웨폰과 에너미의 충돌처리
+					if (_weapon->getVCollision().size() != 0)
+					{
+						for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+						{
+							if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
+							{
+								if (_isMove)
+								{
+									_tileY -= 1;
+									_isMove = false;
+								}
 							}
 						}
 					}
@@ -381,14 +393,15 @@ void player::render(int tileX, int tileY)
 		IMAGEMANAGER->alphaRender("shadow_standard_2", getMemDC(), _shadow.left, _shadow.top, 125);
 		IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
 		IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
-		/*
+
+		char str[128];
+		sprintf_s(str, "bool : %d", _uiManager->getIsIntersectJudge());
+		DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
 		if (KEYMANAGER->isToggleKey(VK_TAB))
 		{
-			char str[128];
-			sprintf_s(str, "x: %d, y: %d", _tileX, _tileY);
-			DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+			
 		}
-		*/
+
 		//_vision->render();
 	}
 	_bomb->render(tileX, tileY);

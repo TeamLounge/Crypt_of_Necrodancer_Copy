@@ -22,8 +22,8 @@ HRESULT playGround::init()
 
 	SCENEMANAGER->addScene("player_test", new playerTestScene);
 	SCENEMANAGER->changeScene("player_test");
-	SCENEMANAGER->addScene("bossScene", new bossScene);
-	SCENEMANAGER->changeScene("bossScene");
+	//SCENEMANAGER->addScene("bossScene", new bossScene);
+	//SCENEMANAGER->changeScene("bossScene");
 
 
 	return S_OK;
@@ -113,7 +113,7 @@ void playGround::addImage()
 	//play HUD
 	IMAGEMANAGER->addFrameImage("heart", "image/UI/heart.bmp", 100, 50, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("heartBeat", "image/UI/beat_marker.bmp", 24, 64, 2, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("beatHeart", "image/UI/beat_heart.bmp", 164, 104, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("beatHeart", "image/UI/beat_heart.bmp", 246, 156, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("money", "image/UI/money.bmp", 48, 48, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("diamond", "image/UI/diamond.bmp", 50, 48, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("X", "image/UI/X.bmp", 14, 18, true, RGB(255, 0, 255));

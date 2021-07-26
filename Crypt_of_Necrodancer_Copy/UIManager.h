@@ -87,6 +87,9 @@ private:
 	bool _isSpell;
 	bool _isSpell2;
 	bool _isSpell3;
+
+	bool _isIntersectJudge;
+	RECT _beatJudgement;
 public:
 	UIManager();
 	~UIManager();
@@ -164,5 +167,7 @@ public:
 	vector<UI*>::iterator getVIItemHUD() { return _viItemHUD; }
 
 	void setOMMemoryAddressLink(objectManager* om) { _om = om; }
+
+	bool getIsIntersectJudge() { return _isIntersectJudge; }
 };
 

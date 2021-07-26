@@ -65,6 +65,8 @@ HRESULT playerTestScene::init()
 	_objectManager->setShovelMemoryAddressLink(_shovel);
 	_weapon->setMGMemoryAddressLink(_map);
 
+	_player->setPlayerUIMemoryAddressLink(_UIM);
+
 	return S_OK;
 }
 
@@ -78,7 +80,7 @@ void playerTestScene::update()
 	_player->update();
 	//RENDERMANAGER->update();
 	_em->update();
-	_UIM->updaetHeartBeat(3.0f);
+	_UIM->updaetHeartBeat(3.5f);
 	_objectManager->update();
 	_weapon->update();
 	_shovel->update();
