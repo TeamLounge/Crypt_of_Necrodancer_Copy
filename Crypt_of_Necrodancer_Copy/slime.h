@@ -7,6 +7,7 @@ class slime : public gameNode
 protected:
 	mapGenerator * _map;
 	PLAYER_ENEMY_DIRECTION _direction;
+	PLAYER_ENEMY_DIRECTION _pastDirection;
 
 	image * _img;
 	RECT _rc;
@@ -14,8 +15,8 @@ protected:
 	float _x, _y;	//중점 좌표로 //플레이어 몸통 중심 좌표
 	int _tileX; //현재 있는 타일 x인덱스
 	int _tileY; //현재 있는 타일 y인덱스
-	int _pastX;	//에너미가 지나온 타일 x인덱스
-	int _pastY; //에너미가 지나온 타일 y인덱스	//이게 있어야 지나온 곳을 에너미로 인식하지 않음
+	//int _pastX;	//에너미가 지나온 타일 x인덱스
+	//int _pastY; //에너미가 지나온 타일 y인덱스	//이게 있어야 지나온 곳을 에너미로 인식하지 않음
 	int _tileRenderX;	//이전 함정 값 가져와서 렌더하기 위함(이전꺼 저장해둬.. 그러지 않으면 함정 밟아도 함정이 플레이어보다 위에 렌더될 것)
 	int _tileRenderY;
 	float _shadowX, _shadowY;
@@ -29,6 +30,7 @@ protected:
 	float _worldTime, _movingTime, _renderTime;
 
 	float _gravity;
+	float _beatSpeed;
 
 	bool _isMove;	//움직여?
 
@@ -58,6 +60,9 @@ public:
 	virtual int getCurrentFrameY() { return _currentFrameY; }
 	virtual bool getHp() { return _hp; }
 
+	virtual float getBeatSpeed() { return _beatSpeed; }
+
+
 	//set
 	///////////////////////////////////////////////
 	virtual void setX(float x) { _tileX = x; }
@@ -71,5 +76,7 @@ public:
 	virtual void setCurrentFrameY(int currentY) { _currentFrameY = currentY; }
 	virtual void setHp(int hp) { _hp = hp; }
 	//virtual void setRect(RECT rc) { _rc = rc; }
+
+	virtual void setBeatSpeed(float speed) { _beatSpeed = speed; }
 };
 

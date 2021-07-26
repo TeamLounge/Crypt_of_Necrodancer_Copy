@@ -35,7 +35,7 @@ void slimeBlue::render()
 
 void slimeBlue::setSlimeFrame()
 {
-	if (TIMEMANAGER->getWorldTime() - _worldTime > 0.5f)
+	if (TIMEMANAGER->getWorldTime() - _worldTime > _beatSpeed / 2)
 	{
 		_worldTime = TIMEMANAGER->getWorldTime();
 	}
@@ -65,42 +65,16 @@ void slimeBlue::setSlimeFrame()
 
 void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박자에 때림
 {
-	if (TIMEMANAGER->getWorldTime() - _movingTime >= 1.0f)	//2박자
+	if (TIMEMANAGER->getWorldTime() - _movingTime >= _beatSpeed)	//2박자
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
 
-		//지나온 타일의 isEnemy에 관한 불 값을 false로
-		_pastX = _tileX;
-		_pastY = _tileY;
-
-		if (_pastY == _tileY && _tileX - _pastX == -1)
-		{
-			//_direction = LEFT;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-		else if (_pastY == _tileY && _tileX - _pastX == 1)
-		{
-			//_direction = RIGHT;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-		else if (_pastX == _tileX && _tileY - _pastY == -1)
-		{
-			//_direction = UP;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-		else if (_pastX == _tileX && _tileY - _pastY == 1)
-		{
-			//_direction = DOWN;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-		else if (_tileX == _pastX && _tileY == _pastY)
-		{
-			//_direction = NONE;
-			_map->setIsEnemy(_tileX, _tileY, false);
-		}
-
 		if (!_isMove)
 		{
+			if (_direction == NONE)
+			{
+				_direction = _pastDirection;
+			}
 			if (_direction == UP)
 			{
 				OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
@@ -108,17 +82,21 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 					|| obj == WALL_GOLD || obj == WALL_STONE )
 				{
 					_direction = DOWN;
-					_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
-					_map->setIsEnemy(_tileX, _tileY, true);
+				}
+				else if (_map->getIsEnemy(_tileX, _tileY - 1))		//다음 타일이 enemy면 제자리 점프
+				{
+					_pastDirection = _direction;	//_past에 이전 값을 일단 저장해주자.
+					_direction = NONE;
 				}
 				else
 				{
+					_map->setIsEnemy(_tileX, _tileY, false);
 					_tileY -= 1;
 					_isMove = true;
+					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 
 				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
 			}
 			else if (_direction == DOWN)
 			{
@@ -127,17 +105,21 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 					|| obj == WALL_GOLD || obj == WALL_STONE )
 				{
 					_direction = UP;
-					_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
-					_map->setIsEnemy(_tileX, _tileY, true);
+				}
+				else if (_map->getIsEnemy(_tileX, _tileY + 1))
+				{
+					_pastDirection = _direction;
+					_direction = NONE;
 				}
 				else
 				{
+					_map->setIsEnemy(_tileX, _tileY, false);
 					_tileY += 1;
 					_isMove = true;
+					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 
 				_rc = _map->getRect(_tileX, _tileY);
-				_map->setIsEnemy(_tileX, _tileY, true);
 			}
 		}
 	}
@@ -173,38 +155,6 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 			break;
 		}
 	}
-
-	////이건 다 점프하고 방향 잡아주는건데..
-	//if (time) {
-	//	int pastX = _tileX;
-	//	int pastY = _tileY;
-	//	_map->setIsEnemy(_tileX, _tileY, false);
-	//	
-	//	_rc = _map->getRect(_tileX, _tileY);
-
-	//	if (pastY == _tileY && _tileX - pastX == -1)
-	//	{
-	//		_direction = LEFT;
-	//	}
-	//	else if (pastY == _tileY && _tileX - pastX == 1)
-	//	{
-	//		_direction = RIGHT;
-	//	}
-	//	else if (pastX == _tileX && _tileY - pastY == -1)
-	//	{
-	//		_direction = UP;
-	//	}
-	//	else if (pastX == _tileX && _tileY - pastY == 1)
-	//	{
-	//		_direction = DOWN;
-	//	}
-	//	else if (_tileX == pastX && _tileY == pastY)
-	//	{
-	//		_direction = NONE;
-	//	}
-	//	_map->setIsEnemy(_tileX, _tileY, true);
-	//	_isMove = true;
-	//}
 
 	////트랩 밟으면 그 방향으로 이동
 	//if (_map->getTileObject(_tileX, _tileY) == TR_LEFT)

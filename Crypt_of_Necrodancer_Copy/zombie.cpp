@@ -15,6 +15,8 @@ HRESULT zombie::init()
 
 	
 	_hp = 1;
+	_beatSpeed = 1.0f;
+
 	_gravity = 0;
 
 	_worldTime = TIMEMANAGER->getWorldTime();
@@ -76,7 +78,7 @@ void zombie::setArrangement()
 
 void zombie::setZombieFrame()
 {
-	if (TIMEMANAGER->getWorldTime() - _worldTime > 0.5f)
+	if (TIMEMANAGER->getWorldTime() - _worldTime > _beatSpeed / 2)
 	{
 		_worldTime = TIMEMANAGER->getWorldTime();
 	}
@@ -115,7 +117,7 @@ void zombie::setZombieFrame()
 
 void zombie::moveZombie()
 {
-	if (TIMEMANAGER->getWorldTime() - _movingTime >= 1.0f)	//2박자
+	if (TIMEMANAGER->getWorldTime() - _movingTime >= _beatSpeed)	//2박자		//_beatSpeed = 1.0f
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
 
@@ -128,19 +130,32 @@ void zombie::moveZombie()
 				_direction = _pastDirection;	//이전에 담고 있던 방향을 NONE으로 제자리 뛰고 있을 때 다시 불러와
 				
 			}
+
 			if (_direction == UP)
 			{
 				OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
+				//WALL 판단
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
 					|| obj == WALL_GOLD || obj == WALL_STONE)
 				{
 					_direction = DOWN;
 				}
+				//ENEMY 판단
 				else if (_map->getIsEnemy(_tileX, _tileY - 1))		//다음 타일이 enemy면 제자리 점프
 				{
 					_pastDirection = _direction;	//_past에 이전 값을 일단 저장해주자.
 					_direction = NONE;
 				}
+				//PLAYER 판단
+				//else if ()
+				//{
+				//
+				//}
+				////TRAP 판단
+				//else if ()
+				//{
+				//
+				//}
 				else
 				{
 					_map->setIsEnemy(_tileX, _tileY, false);
@@ -227,30 +242,6 @@ void zombie::moveZombie()
 			}
 		}
 	}
-	////지나온 타일의 isEnemy에 관한 불 값을 false로
-	//_pastX = _tileX;		//지나온 타일이 아니다!!!!
-	//_pastY = _tileY;									//현재 있는 타일을 _past에 저장해두는데
-
-	//if (_pastY == _tileY && _tileX - _pastX == -1)		//
-	//{
-	//	_direction = LEFT;
-	//}
-	//else if (_pastY == _tileY && _tileX - _pastX == 1)
-	//{
-	//	_direction = RIGHT;
-	//}
-	//else if (_pastX == _tileX && _tileY - _pastY == -1)
-	//{
-	//	_direction = UP;
-	//}
-	//else if (_pastX == _tileX && _tileY - _pastY == 1)
-	//{
-	//	_direction = DOWN;
-	//}
-	//else if (_tileX == _pastX && _tileY == _pastY)
-	//{
-	//	_direction = NONE;
-	//}
 
 	//점프 동작들
 	//일직선으로 끝까지 달려가기

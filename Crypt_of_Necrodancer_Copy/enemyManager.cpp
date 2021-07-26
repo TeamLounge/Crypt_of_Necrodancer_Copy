@@ -5,8 +5,8 @@
 HRESULT enemyManager::init()
 {
 
-	setWhiteSkeleton();
-	setGreenSkeleton();
+	//setWhiteSkeleton();
+	//setGreenSkeleton();
 	setBlackSkeleton();
 	
 	setSlimeGreen();
@@ -17,7 +17,7 @@ HRESULT enemyManager::init()
 
 	setMimic();
 
-	setMonkeyBasic();
+	//setMonkeyBasic();
 	//setMonkeyWhite();
 
 	setMinotaur();
@@ -42,6 +42,7 @@ void enemyManager::update()
 
 	updateWhiteSkeleton();
 	updateGreenSkeleton();
+
 	updateBlackSkeleton();
 
 	updateMimic();
@@ -52,7 +53,7 @@ void enemyManager::update()
 	updateSlimeGold();
 	updateSlimeBlue();
 
-	updateMonkeyBasic();
+	//updateMonkeyBasic();
 	//updateMonkeyWhite();
 
 	updateMinotaur();
@@ -66,8 +67,8 @@ void enemyManager::update()
 void enemyManager::render()
 {
 
-	renderWhiteSkeleton();
-	renderGreenSkeleton();
+	//renderWhiteSkeleton();
+	//renderGreenSkeleton();
 	renderBlackSkeleton();
 
 	renderMimic();
@@ -78,7 +79,7 @@ void enemyManager::render()
 	renderSlimeGold();
 	renderSlimeBlue();
 
-	renderMonkeyBasic();
+	//renderMonkeyBasic();
 	//renderMonkeyWhite();
 
 	renderMinotaur();
