@@ -276,10 +276,10 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 		case TR_UP:
 			IMAGEMANAGER->frameRender("up_trap", getMemDC(),
 				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameHeight() / 2, _tiles[tileY][tileX].objectFrameX, 1);
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameHeight() / 2, _tiles[tileY][tileX].objectFrameX, 0);
 			IMAGEMANAGER->alphaFrameRender("up_trap", getMemDC(),
 				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameHeight() / 2, _tiles[tileY][tileX].objectFrameX, 0, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("up_trap")->getFrameHeight() / 2, _tiles[tileY][tileX].objectFrameX, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case TR_DOWN:
 			IMAGEMANAGER->frameRender("down_trap", getMemDC(),
@@ -381,7 +381,7 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 				_tiles[tileY][tileX].rc.top - (TILESIZE * 5) / 8 - TILESIZE / 3, 255 - _tiles[tileY][tileX].alpha);
 		}
 
-		if (_tiles[tileY][tileX].item != MAP_ITEM_NONE)
+		if (_tiles[tileY][tileX].item != MAP_ITEM_NONE && _tiles[tileY][tileX].item != MAP_COIN10)
 		{
 			IMAGEMANAGER->alphaRender("shadow_standard_1", getMemDC(), _tiles[tileY][tileX].rc.left, _tiles[tileY][tileX].rc.top - TILESIZE/2 + 5, 125);
 			IMAGEMANAGER->alphaRender("shadow_standard_2", getMemDC(), _tiles[tileY][tileX].rc.left, _tiles[tileY][tileX].rc.top + TILESIZE / 2 + 5, 125);
@@ -401,96 +401,107 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 			break;
 		case MAP_TORCH_PLUS_2:
 			IMAGEMANAGER->frameRender("torch_plus_2", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 0);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_2")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_2")->getFrameHeight() / 2, 0, 0);
 			IMAGEMANAGER->alphaFrameRender("torch_plus_2", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_2")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_2")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_TITANUM_SHOVEL:
+			IMAGEMANAGER->frameRender("shovelTitanium", getMemDC(),
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("shovelTitanium")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("shovelTitanium")->getFrameHeight() / 2, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("shovelTitanium", getMemDC(),
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("shovelTitanium")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("shovelTitanium")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_LEATHER_ARMOR:
 			IMAGEMANAGER->frameRender("leather_armor", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 0);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("leather_armor")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("leather_armor")->getFrameHeight() / 2, 0, 0);
 			IMAGEMANAGER->alphaFrameRender("leather_armor", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("leather_armor")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("leather_armor")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_CHAIN_ARMOR:
 			IMAGEMANAGER->frameRender("chain_armor", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 0);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("chain_armor")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("chain_armor")->getFrameHeight() / 2, 0, 0);
 			IMAGEMANAGER->alphaFrameRender("chain_armor", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("chain_armor")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("chain_armor")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_DAGGER:
 			IMAGEMANAGER->frameRender("dagger", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 0);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("dagger")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("dagger")->getFrameHeight() / 2, 0, 0);
 			IMAGEMANAGER->alphaFrameRender("dagger", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("dagger")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("dagger")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_BROADSWORD:
 			IMAGEMANAGER->frameRender("broadSword", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 0);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("broadSword")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("broadSword")->getFrameHeight() / 2, 0, 0);
 			IMAGEMANAGER->alphaFrameRender("broadSword", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("broadSword")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("broadSword")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_RAPIER:
 			IMAGEMANAGER->frameRender("rapier", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 0);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("rapier")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("rapier")->getFrameHeight() / 2, 0, 0);
 			IMAGEMANAGER->alphaFrameRender("rapier", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("rapier")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("rapier")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_LONGSWORD:
 			IMAGEMANAGER->frameRender("longSword", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 0);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("longSword")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("longSword")->getFrameHeight() / 2, 0, 0);
 			IMAGEMANAGER->alphaFrameRender("longSword", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("longSword")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("longSword")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_SPEAR:
 			IMAGEMANAGER->frameRender("spear", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 0);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("spear")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("spear")->getFrameHeight() / 2, 0, 0);
 			IMAGEMANAGER->alphaFrameRender("spear", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
-			break;
-		case MAP_BOMB:
-
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("spear")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("spear")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_APPLE:
 			IMAGEMANAGER->frameRender("apple", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 0);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("apple")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("apple")->getFrameHeight() / 2, 0, 0);
 			IMAGEMANAGER->alphaFrameRender("apple", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("apple")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("apple")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_CHEESE:
 			IMAGEMANAGER->frameRender("cheese", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 0);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("cheese")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("cheese")->getFrameHeight() / 2, 0, 0);
 			IMAGEMANAGER->alphaFrameRender("cheese", getMemDC(),
-				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("cheese")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("cheese")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
 		case MAP_COIN10:
 			IMAGEMANAGER->frameRender("coin10", getMemDC(),
-				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 0);
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin10")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin10")->getFrameHeight() / 2, 0, 0);
 			IMAGEMANAGER->alphaFrameRender("coin10", getMemDC(),
-				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameWidth() / 2,
-				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("torch_plus_1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin10")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin10")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+		case MAP_BOMB:
+			IMAGEMANAGER->frameRender("bombX3", getMemDC(),
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("bombX3")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("bombX3")->getFrameHeight() / 2, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("bombX3", getMemDC(),
+				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("bombX3")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("bombX3")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+			break;
 		default:
 			break;
 		}
@@ -885,11 +896,13 @@ void mapGenerator::generate(int maxFeatures)
 		setEndEdge();
 		moveMap();
 		setEndBlock();
-		setStone();
-		setBossRoom();
-		setTorch();
 		deleteEmptyTiles();
 	}
+	setBossRoom();
+	setStone();
+	setTorch();
+	settingTraps();
+	settingItemBox();
 
 	_width = _tiles[0].size();
 	_height = _tiles.size();
@@ -1617,21 +1630,37 @@ bool mapGenerator::placeTile(const tagRoom & room, OBJECT obj, int objectFrameX,
 			_tiles[room.y + 3][room.x + 2].terrain = SHOP;
 			_tiles[room.y + 3][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 4].terrain = SHOP;
+
+			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 5][room.x + 4].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
 			break;
 		case SOUTH:
 			_tiles[room.y + 2][room.x + 2].terrain = SHOP;
 			_tiles[room.y + 2][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 2][room.x + 4].terrain = SHOP;
+
+			_tiles[room.y + 4][room.x + 2].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 4][room.x + 3].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 4][room.x + 4].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
 			break;
 		case WEST:
 			_tiles[room.y + 3][room.x + 2].terrain = SHOP;
 			_tiles[room.y + 3][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 4].terrain = SHOP;
+
+			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 5][room.x + 4].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
 			break;
 		case EAST:
 			_tiles[room.y + 3][room.x + 1].terrain = SHOP;
 			_tiles[room.y + 3][room.x + 2].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 3].terrain = SHOP;
+
+			_tiles[room.y + 5][room.x + 1].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
 			break;
 		case DIRECTIONCOUNT:
 			break;
@@ -2124,8 +2153,8 @@ void mapGenerator::setTorch()
 
 void mapGenerator::testObject()
 {
-	/*
-	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].obj = TR_BOMB;
+	
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].obj = TR_SLOW;
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].objectFrameX = 0;
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].objectFrameY = 0;
 
@@ -2140,9 +2169,9 @@ void mapGenerator::testObject()
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].obj = TR_RIGHT;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].objectFrameX = 0;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].objectFrameY = 0;
-	*/
+	
 
-	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].item = MAP_TORCH_PLUS_1;
+	/*_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].item = MAP_BOMB;
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].itemDirection = UP;
 
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 2].item = MAP_CHEESE;
@@ -2164,6 +2193,56 @@ void mapGenerator::testObject()
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 2].itemDirection = UP;
 									   
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].item = MAP_BROADSWORD;
-	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].itemDirection = UP;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].itemDirection = UP;*/
 
+}
+
+void mapGenerator::settingTraps()
+{
+	for (int i = 0; i < _rooms.size(); i++)
+	{
+		if (_rooms[i].roomState == ROOM_START || _rooms[i].roomState == ROOM_SHOP) continue;
+		int trapNum = RND->getInt(3);
+		int count = 0;
+		while (1)
+		{
+			if (count == trapNum) break;
+			int x = RND->getFromIntTo(_rooms[i].x - 1, _rooms[i].x + _rooms[i].width + 1);
+			int y = RND->getFromIntTo(_rooms[i].y - 1, _rooms[i].y + _rooms[i].height + 1);
+			if (_tiles[y][x].obj == OBJ_NONE)
+			{
+				_tiles[y][x].obj = (OBJECT)RND->getFromIntTo(7, 17);
+				count++;
+			}
+		}
+	}
+}
+
+void mapGenerator::settingItemBox()
+{
+	int itemBoxNum = 2;
+	int count = 0;
+	int roomNum = 0;
+	int _redBoxRoomNum = -1;
+	while (1)
+	{
+		if (count == itemBoxNum) break;
+		while (1)
+		{
+			roomNum = RND->getInt(_rooms.size());
+			if (_rooms[roomNum].roomState != ROOM_SHOP && _rooms[roomNum].roomState != ROOM_START && roomNum != _redBoxRoomNum)
+				break;
+		}
+		int x = RND->getFromIntTo(_rooms[roomNum].x - 1, _rooms[roomNum].x + _rooms[roomNum].width + 1);
+		int y = RND->getFromIntTo(_rooms[roomNum].y - 1, _rooms[roomNum].y + _rooms[roomNum].height + 1);
+		if (_tiles[y][x].obj == OBJ_NONE)
+		{
+			_tiles[y][x].obj = (OBJECT)(17+count);
+			if (17 + count == 17)
+			{
+				_redBoxRoomNum = roomNum;
+			}
+			count++;
+		}
+	}
 }

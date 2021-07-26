@@ -61,10 +61,10 @@ void player::update()
 		}
 	}
 
-	//점프모션 하는 중이 아닐때만 방향키 입력 받음
-	if (!_isMove)
+	//심장박동에 맞춘 경우만 행동
+	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
-		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+		if (_uiManager->getIsIntersectJudge() && !_isMove)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 			{
@@ -110,10 +110,13 @@ void player::update()
 						}
 					}
 				}
-
 			}
 		}
-		else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+
+	}
+	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+	{
+		if (_uiManager->getIsIntersectJudge() && !_isMove)
 		{
 			_playerDirection = RIGHT;
 			_weapon->update();
@@ -155,13 +158,16 @@ void player::update()
 				}
 			}
 		}
-		else if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	}
+	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+		if (_uiManager->getIsIntersectJudge() && !_isMove)
 		{
 			_playerDirection = UP;
 			_weapon->update();
 			OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
 			if (obj == WALL_CRACK || obj == WALL_END
-				|| obj == WALL_GOLD 
+				|| obj == WALL_GOLD
 				|| obj == WALL_STONE)
 			{
 
@@ -197,7 +203,10 @@ void player::update()
 				}
 			}
 		}
-		else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	}
+	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	{
+		if (_uiManager->getIsIntersectJudge() && !_isMove)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 			{
@@ -388,14 +397,15 @@ void player::render(int tileX, int tileY)
 		IMAGEMANAGER->alphaRender("shadow_standard_2", getMemDC(), _shadow.left, _shadow.top, 125);
 		IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
 		IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
-		/*
+
+		char str[128];
+		sprintf_s(str, "bool : %d", _uiManager->getIsIntersectJudge());
+		DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
 		if (KEYMANAGER->isToggleKey(VK_TAB))
 		{
-			char str[128];
-			sprintf_s(str, "x: %d, y: %d", _tileX, _tileY);
-			DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+			
 		}
-		*/
+
 		//_vision->render();
 	}
 	_bomb->render(tileX, tileY);

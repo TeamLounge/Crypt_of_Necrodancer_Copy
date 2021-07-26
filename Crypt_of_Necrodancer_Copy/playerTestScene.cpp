@@ -24,7 +24,7 @@ HRESULT playerTestScene::init()
 
 	//UI
 	_UIM = new UIManager;
-	_UIM->init();
+	_UIM->init(200.0f);
 	CAMERAMANAGER->setCamera(0, 0);
 	_UIM->setHeartBeat(7);
 	_UIM->setItemHUD();
@@ -64,7 +64,11 @@ HRESULT playerTestScene::init()
 	_objectManager->setWeaponMemoryAddressLink(_weapon);
 	_objectManager->setShovelMemoryAddressLink(_shovel);
 	_weapon->setMGMemoryAddressLink(_map);
+
 	_em->setWeaponMemoryAddressLink(_weapon);
+
+	_player->setPlayerUIMemoryAddressLink(_UIM);
+
 	return S_OK;
 }
 
@@ -78,7 +82,7 @@ void playerTestScene::update()
 	_player->update();
 	//RENDERMANAGER->update();
 	_em->update();
-	_UIM->updaetHeartBeat(3.0f);
+	_UIM->updateHeartBeat();
 	_objectManager->update();
 	_weapon->update();
 	_shovel->update();

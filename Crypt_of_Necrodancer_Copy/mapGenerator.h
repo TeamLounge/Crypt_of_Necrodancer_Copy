@@ -101,6 +101,10 @@ public:
 
 	void testObject(); //함정 테스트 용
 
+	void settingTraps();
+
+	void settingItemBox();
+
 	//이거 쓰면 벡터가 큰데 그게 복사되서 프레임 떨어짐
 	//vector<vector<tagTile>> getTiles() { return _tiles; }
 

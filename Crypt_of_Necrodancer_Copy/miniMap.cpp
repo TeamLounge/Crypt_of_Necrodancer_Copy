@@ -86,8 +86,8 @@ void miniMap::drawMiniMap(int tileX, int tileY, TERRAIN terrain, OBJECT obj, MAP
 		IMAGEMANAGER->findImage("minimap_trap")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
 		break;
 	case RED_ITEM_BOX:
-		break;
 	case BLACK_ITEM_BOX:
+		IMAGEMANAGER->findImage("minimap_item")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
 		break;
 	case BOX:
 		break;

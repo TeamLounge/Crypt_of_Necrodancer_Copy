@@ -10,7 +10,7 @@ UIManager::~UIManager()
 {
 }
 
-HRESULT UIManager::init()
+HRESULT UIManager::init(float speed)
 {
 	_heartNum = 0;
 	_elapsedSec = 0;
@@ -31,6 +31,9 @@ HRESULT UIManager::init()
 		_isOnOff = _isReload = _isThrow =
 		_isPress = _isHolster = _isHolster2 = false;
 	_isSpell = _isSpell2 = _isSpell3 = false;
+
+	_isIntersectJudge = false;
+	_beatSpeed = speed;
 	return S_OK;
 }
 
@@ -98,7 +101,7 @@ void UIManager::renderHeart()
 void UIManager::setHeartBeat(int heartBeatNum)
 {
 	_beatHeart = new beatHeart;
-	_beatHeart->init("beatHeart", PointMake(CAMERAMANAGER->getCameraCenterX(), CAMERAMANAGER->getCameraBOTTOM() - 50));
+	_beatHeart->init("beatHeart", PointMake(CAMERAMANAGER->getCameraCenterX(), CAMERAMANAGER->getCameraBOTTOM() - 100));
 	_heartBeatInterval = (int)((WINSIZEX / 2) / heartBeatNum);
 
 	for (int i = 0; i < heartBeatNum; ++i)
@@ -106,7 +109,7 @@ void UIManager::setHeartBeat(int heartBeatNum)
 		UI* _heartBeatRight;
 		_heartBeatRight = new heartBeat;
 		_heartBeatRight->init("heartBeat", PointMake(CAMERAMANAGER->getCameraRIGHT() - i * _heartBeatInterval,
-			CAMERAMANAGER->getCameraBOTTOM() - 50));
+			CAMERAMANAGER->getCameraBOTTOM() - 100));
 
 		_vHeartBeatRight.push_back(_heartBeatRight);
 	}
@@ -116,30 +119,36 @@ void UIManager::setHeartBeat(int heartBeatNum)
 		UI* _heartBeatLeft;
 		_heartBeatLeft = new heartBeat;
 		_heartBeatLeft->init("heartBeat", PointMake(CAMERAMANAGER->getCameraLEFT() + i * _heartBeatInterval,
-			CAMERAMANAGER->getCameraBOTTOM() - 50));
+			CAMERAMANAGER->getCameraBOTTOM() - 100));
 
 		_vHeartBeatLeft.push_back(_heartBeatLeft);
 	}
 }
 
-void UIManager::updaetHeartBeat(float speed)
+void UIManager::updateHeartBeat()
 {
-	_beatHeart->setRect(RectMakeCenter(CAMERAMANAGER->getCameraCenterX(), CAMERAMANAGER->getCameraBOTTOM() - 50,
+	_isIntersectJudge = false;
+
+	_beatHeart->setRect(RectMakeCenter(CAMERAMANAGER->getCameraCenterX(), CAMERAMANAGER->getCameraBOTTOM() - 100,
 		_beatHeart->getImg()->getFrameWidth(),
 		_beatHeart->getImg()->getFrameHeight()));
 
 	_beatHeart->setCurrentFrameX(0);
 
+	_beatJudgement = RectMakeCenter(CAMERAMANAGER->getCameraCenterX(), CAMERAMANAGER->getCameraBOTTOM() - 100,
+		_beatHeart->getImg()->getFrameWidth() + 10,
+		_beatHeart->getImg()->getFrameHeight());
+
 	for (_viHeartBeatLeft = _vHeartBeatLeft.begin(); _viHeartBeatLeft != _vHeartBeatLeft.end(); ++_viHeartBeatLeft)
 	{		
 		if ((*_viHeartBeatLeft)->getCenterX() < WINSIZEX / 2)
 		{
-			(*_viHeartBeatLeft)->move(speed);
+			(*_viHeartBeatLeft)->move(_beatSpeed);
 		}
 
 		(*_viHeartBeatLeft)->setRect(RectMakeCenter(
 			CAMERAMANAGER->getCameraCenterX() - (*_viHeartBeatLeft)->getCameraCenterX(),
-			CAMERAMANAGER->getCameraBOTTOM() - 50,
+			CAMERAMANAGER->getCameraBOTTOM() - 100,
 			(*_viHeartBeatLeft)->getImg()->getFrameWidth(),
 			(*_viHeartBeatLeft)->getImg()->getFrameHeight()));
 
@@ -154,12 +163,12 @@ void UIManager::updaetHeartBeat(float speed)
 	{
 		if ((*_viHeartBeatRight)->getCenterX() > WINSIZEX / 2)
 		{
-			(*_viHeartBeatRight)->move(-speed);
+			(*_viHeartBeatRight)->move(-_beatSpeed);
 		}
 
 		(*_viHeartBeatRight)->setRect(RectMakeCenter(
 			CAMERAMANAGER->getCameraCenterX() + (*_viHeartBeatRight)->getCameraCenterX(),
-			CAMERAMANAGER->getCameraBOTTOM() - 50,
+			CAMERAMANAGER->getCameraBOTTOM() - 100,
 			(*_viHeartBeatRight)->getImg()->getFrameWidth(),
 			(*_viHeartBeatRight)->getImg()->getFrameHeight()));
 
@@ -167,6 +176,16 @@ void UIManager::updaetHeartBeat(float speed)
 		if (IntersectRect(&temp, &(*_viHeartBeatRight)->getRect(), &_beatHeart->getRect()))
 		{
 			_beatHeart->setCurrentFrameX(1);
+		}
+	}
+
+	for (_viHeartBeatRight = _vHeartBeatRight.begin(); _viHeartBeatRight != _vHeartBeatRight.end(); ++_viHeartBeatRight)
+	{
+		RECT temp;
+		if (IntersectRect(&temp, &(*_viHeartBeatRight)->getRect(), &_beatJudgement))
+		{
+			_isIntersectJudge = true;
+			break;
 		}
 	}
 
@@ -193,6 +212,10 @@ void UIManager::updaetHeartBeat(float speed)
 
 void UIManager::renderHeartBeat()
 {
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		Rectangle(getMemDC(), _beatJudgement);
+	}
 	for (_viHeartBeatLeft = _vHeartBeatLeft.begin(); _viHeartBeatLeft != _vHeartBeatLeft.end(); ++_viHeartBeatLeft)
 	{
 		(*_viHeartBeatLeft)->render();

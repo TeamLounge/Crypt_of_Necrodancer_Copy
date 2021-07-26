@@ -4,6 +4,7 @@
 #include "vision.h"
 #include "randomMap.h"
 #include "enemyManager.h"
+#include "UIManager.h"
 #include "bomb.h"
 
 #define SHADOWMARGIN 30
@@ -54,6 +55,8 @@ private:
 	bomb* _bomb;
 
 	float _shopkeeperDistance;
+	
+	UIManager* _uiManager;
 
 public:
 	enemyManager* _em; //에너미 정보 가져오기
@@ -70,6 +73,7 @@ public:
 
 	void setEmMemoryAddressLink(enemyManager* em) { _em = em; }
 	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
+	void setPlayerUIMemoryAddressLink(UIManager* ui) { _uiManager = ui; };
 	void setupPlayerRect();
 
 	int getTileX() { return _tileX; }

@@ -87,11 +87,16 @@ private:
 	bool _isSpell;
 	bool _isSpell2;
 	bool _isSpell3;
+
+	bool _isIntersectJudge;
+	RECT _beatJudgement;
+
+	float _beatSpeed; //하트 비트 스피드
 public:
 	UIManager();
 	~UIManager();
 
-	HRESULT init();
+	HRESULT init(float speed);
 	void release();
 	void update();
 	void render();
@@ -107,7 +112,7 @@ public:
 	//  #### 하트비트 UI 영역 ######
 	//////////////////////////////////
 	void setHeartBeat(int heartBeatNum);
-	void updaetHeartBeat(float speed);
+	void updateHeartBeat();
 	void renderHeartBeat();
 
 	/////////////////////////////////
@@ -164,5 +169,9 @@ public:
 	vector<UI*>::iterator getVIItemHUD() { return _viItemHUD; }
 
 	void setOMMemoryAddressLink(objectManager* om) { _om = om; }
+
+	bool getIsIntersectJudge() { return _isIntersectJudge; }
+
+	void setBeatSpeed(float speed) { _beatSpeed = speed; }
 };
 

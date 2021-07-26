@@ -46,6 +46,7 @@ void objectManager::update()
 			SOUNDMANAGER->setPitch();
 			_isMusicSpeedChanged = false;
 			_map->setTileObjectFrameX(_music.tileX, _music.tileY, 0);
+			_UIM->setBeatSpeed(200.0f);
 		}
 	}
 	_bomb->update();
@@ -163,8 +164,51 @@ void objectManager::playerObjectCollison()
 	case TR_SPIKE:
 		break;
 	case RED_ITEM_BOX:
+		_map->setTileObject(_player->getTileX(), _player->getTileY(), OBJ_NONE);
+
+		//위부터 비었는지 조사
+		if (_map->getTileObject(_player->getTileX(), _player->getTileY() - 1) == OBJ_NONE && _map->getTileItem(_player->getTileX(), _player->getTileY() - 1) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX(), _player->getTileY() - 1, (MAP_ITEM)RND->getFromIntTo(1, 13));
+		}
+		//아래
+		else if (_map->getTileObject(_player->getTileX(), _player->getTileY() + 1) == OBJ_NONE && _map->getTileItem(_player->getTileX(), _player->getTileY() + 1) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX(), _player->getTileY() + 1, (MAP_ITEM)RND->getFromIntTo(1, 13));
+		}
+		//좌
+		else if (_map->getTileObject(_player->getTileX() - 1, _player->getTileY()) == OBJ_NONE && _map->getTileItem(_player->getTileX() - 1, _player->getTileY()) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX() - 1, _player->getTileY(), (MAP_ITEM)RND->getFromIntTo(1, 13));
+		}
+		//우
+		else if (_map->getTileObject(_player->getTileX() + 1, _player->getTileY()) == OBJ_NONE && _map->getTileItem(_player->getTileX() + 1, _player->getTileY()) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX() + 1, _player->getTileY(), (MAP_ITEM)RND->getFromIntTo(1, 13));
+		}
 		break;
 	case BLACK_ITEM_BOX:
+		_map->setTileObject(_player->getTileX(), _player->getTileY(), OBJ_NONE);
+		//위부터 비었는지 조사
+		if (_map->getTileObject(_player->getTileX(), _player->getTileY() - 1) == OBJ_NONE && _map->getTileItem(_player->getTileX(), _player->getTileY() - 1) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX(), _player->getTileY() - 1, (MAP_ITEM)RND->getFromIntTo(7, 11));
+		}
+		//아래
+		else if (_map->getTileObject(_player->getTileX(), _player->getTileY() + 1) == OBJ_NONE && _map->getTileItem(_player->getTileX(), _player->getTileY() + 1) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX(), _player->getTileY() + 1, (MAP_ITEM)RND->getFromIntTo(7, 11));
+		}
+		//좌
+		else if (_map->getTileObject(_player->getTileX() - 1, _player->getTileY()) == OBJ_NONE && _map->getTileItem(_player->getTileX() - 1, _player->getTileY()) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX() - 1, _player->getTileY(), (MAP_ITEM)RND->getFromIntTo(7, 11));
+		}
+		//우
+		else if (_map->getTileObject(_player->getTileX() + 1, _player->getTileY()) == OBJ_NONE && _map->getTileItem(_player->getTileX() + 1, _player->getTileY()) == MAP_ITEM_NONE)
+		{
+			_map->setTileItem(_player->getTileX() + 1, _player->getTileY(), (MAP_ITEM)RND->getFromIntTo(7, 11));
+		}
 		break;
 	case BOX:
 		break;
@@ -385,5 +429,13 @@ void objectManager::changeMusicSpeed(float speed)
 		_map->setTileObjectFrameX(_player->getTileX(), _player->getTileY(), 1);
 		_music.tileX = _player->getTileX();
 		_music.tileY = _player->getTileY();
+		if (speed == 1.2f)
+		{
+			_UIM->setBeatSpeed(240.0f);
+		}
+		else if (speed == 0.8f)
+		{
+			_UIM->setBeatSpeed(160.0f);
+		}
 	}
 }

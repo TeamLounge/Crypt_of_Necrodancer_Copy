@@ -15,20 +15,44 @@ HRESULT bossScene::init()
 	_player->setPlayerMapMemoryAddressLink(_map);
 	_player->init();
 
+	//에너미
+	/*_em = new enemyManager;
+	_em->setMapGeneratorMemoryAddressLink(_map);
+	_em->setPlayerMemoryAddressLink(_player);
+	_em->init();*/
+
+	//오브젝트
+	_objectManager = new objectManager;
+	_objectManager->init();
+	_objectManager->setObjectMapMemoryAddressLink(_map);
+	_objectManager->setObjectPlayerMemoryAddressLink(_player);
+	_objectManager->getBomb()->setBombMapMemoryAddressLink(_map);
+
 	_weapon = new weapon;
 	_weapon->init();
 
+	_shovel = new shovel;
+	_shovel->init();
+
+	//UI
+	_UIM = new UIManager;
+	_UIM->init(200.0f);
+	CAMERAMANAGER->setCamera(0, 0);
+	_UIM->setHeartBeat(7);
+	_UIM->setItemHUD();
 
 	_weapon->setPlayerMemoryAddressLink(_player);
 	_player->setWeaponMemoryAddressLink(_weapon);
+	_shovel->setPlayerMemoryAddressLink(_player);
+	_player->setShovelMemoryAddressLink(_shovel);
 
+	_objectManager->setUIMMemoryAddressLink(_UIM);
+	_UIM->setOMMemoryAddressLink(_objectManager);
+	_shovel->setOMMemoryAddressLink(_objectManager);
+	_weapon->setOMMemoryAddressLink(_objectManager);
+	_objectManager->setWeaponMemoryAddressLink(_weapon);
+	_objectManager->setShovelMemoryAddressLink(_shovel);
 	_weapon->setMGMemoryAddressLink(_map);
-	//오브젝트
-	//_objectManager = new objectManager;
-	//_objectManager->init();
-	//_objectManager->setObjectMapMemoryAddressLink(_map);
-	//_objectManager->setObjectPlayerMemoryAddressLink(_player);
-	//_objectManager->getBomb()->setBombMapMemoryAddressLink(_map);
 
 	SOUNDMANAGER->play("boss", 0.2f);
 
@@ -43,7 +67,15 @@ void bossScene::update()
 {
 	_map->update(_player->getTileX(), _player->getTileY());
 	_player->update();
-	//_objectManager->update();
+
+	//_em->update();
+	_UIM->updateHeartBeat();
+	_objectManager->update();
+	_weapon->update();
+	_shovel->update();
+
+	_UIM->plusItemHUD(BOMB);
+	_UIM->updateItemHUD();
 }
 
 void bossScene::render()
@@ -59,7 +91,15 @@ void bossScene::render()
 			if (j >= _map->getXSize()) break;
 			_map->render(j, i, false);
 			_player->render(j, i);
-			//_objectManager->render(j, i);
+			_objectManager->render(j, i);
 		}
 	}
+	_UIM->renderHeartBeat();
+	_weapon->render();
+	_shovel->render();
+
+	_objectManager->render();
+	_player->getBomb()->render();
+
+	_UIM->renderItemHUD();
 }
