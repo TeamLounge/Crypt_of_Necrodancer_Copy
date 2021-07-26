@@ -36,7 +36,7 @@ HRESULT bossScene::init()
 
 	//UI
 	_UIM = new UIManager;
-	_UIM->init(200.0f);
+	_UIM->init("boss", 200.0f);
 	CAMERAMANAGER->setCamera(0, 0);
 	_UIM->setHeartBeat(7);
 	_UIM->setItemHUD();
