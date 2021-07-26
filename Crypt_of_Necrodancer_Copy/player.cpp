@@ -4,6 +4,7 @@
 #include "shovel.h"
 #include "enemyManager.h"
 
+
 HRESULT player::init()
 {	
 	_headImageName = "player_head";
