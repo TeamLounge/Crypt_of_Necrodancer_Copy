@@ -49,10 +49,16 @@ public:
 	//À½¾Ç º¼·ý Á¶Àý
 	void setVolume(string keyName, float volume = 1.0f);
 
+	void setGroup(string keyName);
+
+	unsigned int getLength(string keyName);
+
+	unsigned int getPosition(string keyName);
+
 	//È£¿Á½ÃÀÌ ¾µ±îºÁ ¸¸µé¾îµÒ
 	bool isPlaySound(string keyName);
 	bool isPauseSound(string keyName);
 
-	void setGroup(string keyName);
+	
 };
 

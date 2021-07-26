@@ -10,7 +10,7 @@ UIManager::~UIManager()
 {
 }
 
-HRESULT UIManager::init(float speed)
+HRESULT UIManager::init(string songName, float speed)
 {
 	_heartNum = 0;
 	_elapsedSec = 0;
@@ -35,6 +35,8 @@ HRESULT UIManager::init(float speed)
 	_isIntersectJudge = false;
 	_beatSpeed = speed;
 	_leftWidthCnt = _leftHeightCnt = _rightHeightCnt = 0;
+
+	_songName = songName;
 
 	return S_OK;
 }
@@ -207,6 +209,12 @@ void UIManager::updateHeartBeat()
 
 				(*(_vHeartBeatLeft.begin() + i))->setCenterX((*(_vHeartBeatLeft.begin() + _nextI))->getCenterX() - _heartBeatInterval);
 				(*(_vHeartBeatRight.begin() + j))->setCenterX((*(_vHeartBeatRight.begin() + _nextJ))->getCenterX() + _heartBeatInterval);
+
+				if (SOUNDMANAGER->getLength(_songName) - SOUNDMANAGER->getPosition(_songName) <= 30000)
+				{
+					(*(_vHeartBeatLeft.begin() + i))->setCurrentFrameX(1);
+					(*(_vHeartBeatRight.begin() + j))->setCurrentFrameX(1);
+				}
 			}
 		}
 	}

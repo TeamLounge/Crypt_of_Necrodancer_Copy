@@ -95,11 +95,13 @@ private:
 	RECT _beatJudgement;
 
 	float _beatSpeed; //하트 비트 스피드
+
+	string _songName;
 public:
 	UIManager();
 	~UIManager();
 
-	HRESULT init(float speed);
+	HRESULT init(string songName, float speed);
 	void release();
 	void update();
 	void render();

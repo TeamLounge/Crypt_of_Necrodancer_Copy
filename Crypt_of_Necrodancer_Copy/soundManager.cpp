@@ -216,3 +216,38 @@ void soundManager::setGroup(string keyName)
 		}
 	}
 }
+
+unsigned int soundManager::getLength(string keyName)
+{
+	arrSoundsIter iter = _mTotalSounds.begin();
+
+	unsigned int length;
+	for (iter; iter != _mTotalSounds.end(); ++iter)
+	{
+		if (keyName == iter->first)
+		{
+			(*iter->second)->getLength(&length, FMOD_TIMEUNIT_MS);
+			break;
+		}
+	}
+	return length;
+}
+
+unsigned int soundManager::getPosition(string keyName)
+{
+	arrSoundsIter iter = _mTotalSounds.begin();
+
+	int count = 0;
+	unsigned int position = 0;
+
+	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	{
+		if (keyName == iter->first)
+		{
+			_channel[count]->getPosition(&position, FMOD_TIMEUNIT_MS);
+			break;
+		}
+	}
+
+	return position;
+}
