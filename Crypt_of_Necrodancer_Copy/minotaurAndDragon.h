@@ -26,6 +26,7 @@ protected:
 	float _beatspeed;
 	bool isFind;
 	bool isTime, isMove;
+	bool attack;
 	bool isAction ,damageRender;
 public:
 	virtual HRESULT init(int playerIndexX, int playerIndexY);

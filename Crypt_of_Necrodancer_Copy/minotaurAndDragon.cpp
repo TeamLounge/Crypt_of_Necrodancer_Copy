@@ -8,6 +8,7 @@ HRESULT minotaurAndDragon::init(int playerIndexX, int playerIndexY)
 	isTime = isMove = false;
 	 _count = _damageRenderCount = _damageindex = _index = _indey = 0;
 	isAction = damageRender = false;
+	attack = false;
 	_beatspeed = 1.0f;
 	while (true) //·£´ý¹èÄ¡
 	{

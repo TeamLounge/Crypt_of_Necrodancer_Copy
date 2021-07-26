@@ -8,6 +8,7 @@ HRESULT ghostAndMinic::init(int playerIndexX, int playerIndexY)
 	isTime = isMove = false;
 	_count = _damageRenderCount = _damageindex = _index = _indey = 0;
 	damageRender = false;
+	attack = false;
 	_beatspeed = 1.0f;
 	while (true) //랜덤배치
 	{
@@ -113,7 +114,7 @@ void ghostAndMinic::update(int playerIndexX, int playerIndexY)
 		damageRender = true;
 		_astar->setDamage(false);
 		//여기가 에너미가 플레이어한데 어택!
-		//if (!attack) attack = true;
+		if (!attack) attack = true;
 	}
 
 	if (damageRender)
