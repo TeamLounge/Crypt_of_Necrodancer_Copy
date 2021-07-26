@@ -67,6 +67,8 @@ public:
 	virtual void render();
 	virtual void render(int tileX, int tileY);
 
+	void damaged();
+
 	PLAYER_ENEMY_DIRECTION getDirection() { return _playerDirection; }
 	void setDirection(PLAYER_ENEMY_DIRECTION dir) { _playerDirection = dir; }
 

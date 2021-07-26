@@ -2,6 +2,7 @@
 #include "player.h"
 #include "weapon.h"
 #include "shovel.h"
+#include "enemyManager.h"
 
 HRESULT player::init()
 {	
@@ -374,7 +375,7 @@ void player::update()
 	_vision->update(_tileX, _tileY);
 
 	_bomb->update();
-
+	damaged();
 }
 
 void player::render()
@@ -409,6 +410,19 @@ void player::render(int tileX, int tileY)
 		//_vision->render();
 	}
 	_bomb->render(tileX, tileY);
+}
+
+void player::damaged()
+{
+	for (int i = 0; i < _em->getVBlackSkeleton().size(); ++i)
+	{
+		if ((*(_em->getVBlackSkeleton().begin() + i))->getAttck())
+		{
+			_uiManager->minusHeart(1);
+			(*(_em->getVBlackSkeleton().begin() + i))->setAttck(false);
+			break;
+		}
+	}
 }
 
 void player::setupPlayerRect()

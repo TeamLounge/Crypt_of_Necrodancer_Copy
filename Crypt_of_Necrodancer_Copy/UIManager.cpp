@@ -15,8 +15,6 @@ HRESULT UIManager::init(float speed)
 {
 	_heartNum = 0;
 	_elapsedSec = 0;
-	_heartCnt = _vHeart.size() - 1;
-	_count = _vHeart.size() - 1;
 	_nextI = _nextJ = 0;
 	_moneyNum = 0;
 	_diaNum = 0;
@@ -65,6 +63,9 @@ void UIManager::setHeart(int heartNum)
 
 		_vHeart.push_back(heart);
 	}
+
+	_heartCnt = _vHeart.size() - 1;
+	_count = _vHeart.size() - 1;
 }
 
 void UIManager::updateHeart()
@@ -79,9 +80,9 @@ void UIManager::updateHeart()
 
 	_elapsedSec += TIMEMANAGER->getElapsedTime();
 
-	if (_elapsedSec >= 0.24f)
+	if (_elapsedSec >= 0.26f)
 	{
-		_elapsedSec -= 0.24f;
+		_elapsedSec -= 0.26f;
 		if ((*(_vHeart.begin() + _heartCnt))->getCurrentFrameX() == (*(_vHeart.begin() + _heartCnt))->getImg()->getMaxFrameX())
 		{
 			(*(_vHeart.begin() + _heartCnt))->setCurrentFrameX(0);
@@ -90,6 +91,56 @@ void UIManager::updateHeart()
 		}
 
 		else (*(_vHeart.begin() + _heartCnt))->setCurrentFrameX((*(_vHeart.begin() + _heartCnt))->getCurrentFrameX() + 1);
+	}
+}
+
+void UIManager::minusHeart(int damagedNum)
+{
+	if ((*(_vHeart.begin() + (_vHeart.size() - 1)))->getCurrentFrameY() ==
+		(*(_vHeart.begin() + (_vHeart.size() - 1)))->getImg()->getMaxFrameY()) return;
+
+	_damagedNum = damagedNum;
+
+	while (_damagedNum != 0)
+	{
+		for (_viHeart = _vHeart.begin(); _viHeart != _vHeart.end(); ++_viHeart)
+		{
+			if ((*_viHeart)->getCurrentFrameY() == (*_viHeart)->getImg()->getMaxFrameY()) continue;
+
+			if ((*_viHeart)->getCurrentFrameY() != (*_viHeart)->getImg()->getMaxFrameY())
+			{
+				(*_viHeart)->setCurrentFrameY((*_viHeart)->getCurrentFrameY() + 1);
+				_damagedNum--;
+				break;
+			}
+			break;
+		}
+
+		if ((*(_vHeart.begin() + (_vHeart.size() - 1)))->getCurrentFrameY() ==
+			(*(_vHeart.begin() + (_vHeart.size() - 1)))->getImg()->getMaxFrameY()) break;
+	}
+}
+
+void UIManager::plusHeart(int plusHealNum)
+{
+	_plusHealNum = plusHealNum;
+
+	while (_plusHealNum > 0)
+	{
+		for (int i = _vHeart.size() - 1; i > -1; --i)
+		{
+			if ((*(_vHeart.begin() + i))->getCurrentFrameY() == 0) continue;
+
+			if ((*(_vHeart.begin() + i))->getCurrentFrameY() != 0)
+			{
+				(*(_vHeart.begin() + i))->setCurrentFrameY((*(_vHeart.begin() + i))->getCurrentFrameY() - 1);
+				_plusHealNum--;
+				break;
+			}
+			break;
+		}
+
+		if ((*(_vHeart.begin() + 0))->getCurrentFrameY() == 0) break;
 	}
 }
 

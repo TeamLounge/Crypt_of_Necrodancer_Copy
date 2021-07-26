@@ -60,6 +60,9 @@ public:
 	void setCurrentFrameX(int currentFrameX) { _currentFrameX = currentFrameX; }
 	int getCurrentFrameX() { return _currentFrameX; }
 
+	void setCurrentFrameY(int currentFrameY) { _currentFrameY = currentFrameY; }
+	int getCurrentFrameY() { return _currentFrameY; }
+
 	void setRectX(float rectX) { _rectX = rectX; }
 	void setCameraLeftX(float cameraLeftX) { _cameraLeftX = cameraLeftX; }
 	void setCameraCenterX(float cameraCenterX) { _cameraCenterX = cameraCenterX; }

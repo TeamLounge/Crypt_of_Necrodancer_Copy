@@ -22,11 +22,12 @@ HRESULT playerTestScene::init()
 	_em->setPlayerMemoryAddressLink(_player);
 	_em->init();
 
+	CAMERAMANAGER->setCamera(0, 0);
 	//UI
 	_UIM = new UIManager;
-	_UIM->init(200.0f);
-	CAMERAMANAGER->setCamera(0, 0);
 	_UIM->setHeartBeat(7);
+	_UIM->init(200.0f);
+	_UIM->setHeart(5);
 	_UIM->setItemHUD();
 
 	//오브젝트
@@ -68,6 +69,7 @@ HRESULT playerTestScene::init()
 	_em->setWeaponMemoryAddressLink(_weapon);
 
 	_player->setPlayerUIMemoryAddressLink(_UIM);
+	_player->setEmMemoryAddressLink(_em);
 
 	return S_OK;
 }
@@ -85,13 +87,13 @@ void playerTestScene::update()
 	_em->update();
 	_UIM->updateHeartBeat();
 	_UIM->plusItemHUD(BOMB);
+	_UIM->updateHeart();
 
 	_objectManager->update();
 	_weapon->update();
 	_shovel->update();
 
 	_shopkeeper->update();
-
 }
 
 void playerTestScene::render()
@@ -114,6 +116,7 @@ void playerTestScene::render()
 	_UIM->renderItemHUD();
 
 	_UIM->renderHeartBeat();
+	_UIM->renderHeart();
 	_weapon->render();
 	_shovel->render();
 
