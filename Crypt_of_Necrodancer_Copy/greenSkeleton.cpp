@@ -175,4 +175,7 @@ void greenSkeleton::render()
 {
 	skeleton::render();
 	_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+	char str[128];
+	sprintf_s(str, "hp = %d", _hp);
+	TextOut(getMemDC(), _rc.left, _rc.top, str, strlen(str));
 }

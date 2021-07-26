@@ -56,7 +56,7 @@ public:
 
 	virtual int getCurrentFrameX() { return _currentFrameX; }
 	virtual int getCurrentFrameY() { return _currentFrameY; }
-
+	virtual bool getHp() { return _hp; }
 
 	//set
 	///////////////////////////////////////////////
@@ -69,7 +69,7 @@ public:
 
 	virtual void setCurrentFrameX(int currentX) { _currentFrameX = currentX; }
 	virtual void setCurrentFrameY(int currentY) { _currentFrameY = currentY; }
-
+	virtual void setHp(int hp) { _hp = hp; }
 	//virtual void setRect(RECT rc) { _rc = rc; }
 };
 

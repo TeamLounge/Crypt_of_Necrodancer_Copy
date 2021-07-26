@@ -43,9 +43,9 @@ void aStarTest::update()
 
 void aStarTest::render()
 {
-	for (int i = 0; i < _vTotalList.size(); ++i)
+	for (int i = 0; i < _vCloseList.size(); ++i)
 	{
-		_vTotalList[i]->render();
+		_vCloseList[i]->render();
 	}
 	if (damage)
 	{

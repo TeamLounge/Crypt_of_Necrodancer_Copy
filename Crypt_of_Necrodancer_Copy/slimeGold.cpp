@@ -10,7 +10,7 @@ HRESULT slimeGold::init()
 
 	_img = IMAGEMANAGER->findImage("slimeGold");
 	_map->setIsEnemy(_tileX, _tileY, true);	//에너미 타일 속성 ON
-
+	_hp = 1;
 	_direction = RIGHT;
 
 	return S_OK;

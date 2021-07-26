@@ -149,6 +149,9 @@ private:
 
 	deathMetal* _deathMetal;
 
+	//무기정보
+	string _weaponName;
+	bool attackoff;
 	vector<COLLISION>			_vCollision;
 	vector<COLLISION>::iterator _viCollision;
 

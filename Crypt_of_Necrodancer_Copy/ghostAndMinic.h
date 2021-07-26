@@ -42,6 +42,7 @@ public:
 	virtual int getShadowY() { return _shadowY; }
 	virtual int getHp() { return _hp; }
 	virtual float getBeatSpeed() { return _beatspeed; }
+	virtual bool getIsFind() { return isFind; }
 
 	virtual void setImage(image* image) { _img = image; }
 	virtual void setX(int x) { _tilex = x; }

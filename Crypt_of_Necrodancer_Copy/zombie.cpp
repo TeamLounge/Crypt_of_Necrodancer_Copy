@@ -14,7 +14,7 @@ HRESULT zombie::init()
 	_isTime = false;
 
 	
-
+	_hp = 1;
 	_gravity = 0;
 
 	_worldTime = TIMEMANAGER->getWorldTime();
