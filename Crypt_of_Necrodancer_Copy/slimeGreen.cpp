@@ -6,7 +6,7 @@ HRESULT slimeGreen::init()
 	slime::init();	//상속
 
 	_img = IMAGEMANAGER->findImage("slimeGreen");	//protected!!
-	_map->setIsEnemy(_tileX, _tileY, true);	//에너미 타일 속성 ON		//에너미끼리 안 겹치게
+	_map->setIsEnemy(_tileX, _tileY, true);	//에너미 타일 속성 ON		//에너미끼리 안 겹치게		//지나온 타일이 없으니까 이렇게 초기화만 해주고 말아도 됨.
 	_indexSwitch = false;
 
 	return S_OK;
@@ -38,36 +38,6 @@ void slimeGreen::setSlimeFrame()
 	if (TIMEMANAGER->getWorldTime() - _worldTime > 0.5f)
 	{
 		_worldTime = TIMEMANAGER->getWorldTime();
-	}
-
-	//지나온 타일의 isEnemy에 관한 불 값을 false로
-	_pastX = _tileX;
-	_pastY = _tileY;
-
-	if (_pastY == _tileY && _tileX - _pastX == -1)
-	{
-		//_direction = LEFT;
-		_map->setIsEnemy(_tileX, _tileY, false);
-	}
-	else if (_pastY == _tileY && _tileX - _pastX == 1)
-	{
-		//_direction = RIGHT;
-		_map->setIsEnemy(_tileX, _tileY, false);
-	}
-	else if (_pastX == _tileX && _tileY - _pastY == -1)
-	{
-		//_direction = UP;
-		_map->setIsEnemy(_tileX, _tileY, false);
-	}
-	else if (_pastX == _tileX && _tileY - _pastY == 1)
-	{
-		//_direction = DOWN;
-		_map->setIsEnemy(_tileX, _tileY, false);
-	}
-	else if (_tileX == _pastX && _tileY == _pastY)
-	{
-		//_direction = NONE;
-		_map->setIsEnemy(_tileX, _tileY, false);
 	}
 
 	_frameCount++;
@@ -107,6 +77,7 @@ void slimeGreen::moveSlimeGreen()
 	//점프
 	if (_isMove)
 	{
+		
 		_gravity += 0.965f;
 		_y += -sinf(7 * PI / 9) * 9 + _gravity;
 

@@ -7,6 +7,7 @@ class zombie : public gameNode
 private:
 	mapGenerator * _map;
 	PLAYER_ENEMY_DIRECTION _direction;
+	PLAYER_ENEMY_DIRECTION _pastDirection;
 
 	image * _img;
 	RECT _rc;

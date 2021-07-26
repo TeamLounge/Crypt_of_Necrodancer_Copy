@@ -5,14 +5,14 @@
 HRESULT enemyManager::init()
 {
 
-	//setWhiteSkeleton();
-	//setGreenSkeleton();
-	//setBlackSkeleton();
+	setWhiteSkeleton();
+	setGreenSkeleton();
+	setBlackSkeleton();
 	
 	//setSlimeGreen();
 	//setSlimeGold();
 	//setSlimeBlue();
-
+	
 	//setGhost();
 
 	//setMimic();
@@ -20,11 +20,11 @@ HRESULT enemyManager::init()
 	//setMonkeyBasic();
 	//setMonkeyWhite();
 
-	setMinotaur();
+	//setMinotaur();
 
-	//setZombie();
+	setZombie();
 
-	setRedDragon();
+	//setRedDragon();
 
 	return S_OK;
 }
@@ -35,9 +35,9 @@ void enemyManager::release()
 
 void enemyManager::update()
 {
-	//updateWhiteSkeleton();
-	//updateGreenSkeleton();
-	//updateBlackSkeleton();
+	updateWhiteSkeleton();
+	updateGreenSkeleton();
+	updateBlackSkeleton();
 
 	//updateMimic();
 
@@ -50,20 +50,20 @@ void enemyManager::update()
 	//updateMonkeyBasic();
 	//updateMonkeyWhite();
 
-	updateMinotaur();
+	//updateMinotaur();
 	
-	//updateZombie();
+	updateZombie();
 
-	updateRedDragon();
+	//updateRedDragon();
 
 }
 
 void enemyManager::render()
 {
 
-	//renderWhiteSkeleton();
-	//renderGreenSkeleton();
-	//renderBlackSkeleton();
+	renderWhiteSkeleton();
+	renderGreenSkeleton();
+	renderBlackSkeleton();
 
 	//renderMimic();
 
@@ -76,16 +76,16 @@ void enemyManager::render()
 	//renderMonkeyBasic();
 	//renderMonkeyWhite();
 
-	renderMinotaur();
+	//renderMinotaur();
 
 	renderZombie();
 
-	renderRedDragon();
+	//renderRedDragon();
 }
 
 void enemyManager::setWhiteSkeleton()
 {
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		whiteSkeleton* _skeleton = new whiteSkeleton;
 		_skeleton->setTileMapLinK(_map);
@@ -363,7 +363,7 @@ void enemyManager::renderMinotaur()
 
 void enemyManager::setZombie()
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		zombie* _zombie = new zombie;
 		_zombie->setTileMapLink(_map);
