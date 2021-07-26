@@ -10,7 +10,7 @@ UIManager::~UIManager()
 {
 }
 
-HRESULT UIManager::init()
+HRESULT UIManager::init(float speed)
 {
 	_heartNum = 0;
 	_elapsedSec = 0;
@@ -33,6 +33,7 @@ HRESULT UIManager::init()
 	_isSpell = _isSpell2 = _isSpell3 = false;
 
 	_isIntersectJudge = false;
+	_beatSpeed = speed;
 	return S_OK;
 }
 
@@ -124,7 +125,7 @@ void UIManager::setHeartBeat(int heartBeatNum)
 	}
 }
 
-void UIManager::updaetHeartBeat(float speed)
+void UIManager::updateHeartBeat()
 {
 	_isIntersectJudge = false;
 
@@ -142,7 +143,7 @@ void UIManager::updaetHeartBeat(float speed)
 	{		
 		if ((*_viHeartBeatLeft)->getCenterX() < WINSIZEX / 2)
 		{
-			(*_viHeartBeatLeft)->move(speed);
+			(*_viHeartBeatLeft)->move(_beatSpeed);
 		}
 
 		(*_viHeartBeatLeft)->setRect(RectMakeCenter(
@@ -162,7 +163,7 @@ void UIManager::updaetHeartBeat(float speed)
 	{
 		if ((*_viHeartBeatRight)->getCenterX() > WINSIZEX / 2)
 		{
-			(*_viHeartBeatRight)->move(-speed);
+			(*_viHeartBeatRight)->move(-_beatSpeed);
 		}
 
 		(*_viHeartBeatRight)->setRect(RectMakeCenter(

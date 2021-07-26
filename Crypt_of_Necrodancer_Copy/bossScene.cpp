@@ -36,7 +36,7 @@ HRESULT bossScene::init()
 
 	//UI
 	_UIM = new UIManager;
-	_UIM->init();
+	_UIM->init(200.0f);
 	CAMERAMANAGER->setCamera(0, 0);
 	_UIM->setHeartBeat(7);
 	_UIM->setItemHUD();
@@ -69,7 +69,7 @@ void bossScene::update()
 	_player->update();
 
 	//_em->update();
-	_UIM->updaetHeartBeat(3.0f);
+	_UIM->updateHeartBeat();
 	_objectManager->update();
 	_weapon->update();
 	_shovel->update();
@@ -94,5 +94,12 @@ void bossScene::render()
 			_objectManager->render(j, i);
 		}
 	}
+	_UIM->renderHeartBeat();
+	_weapon->render();
+	_shovel->render();
+
+	_objectManager->render();
 	_player->getBomb()->render();
+
+	_UIM->renderItemHUD();
 }

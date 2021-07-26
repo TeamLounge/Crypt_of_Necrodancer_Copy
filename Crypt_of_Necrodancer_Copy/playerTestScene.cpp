@@ -24,7 +24,7 @@ HRESULT playerTestScene::init()
 
 	//UI
 	_UIM = new UIManager;
-	_UIM->init();
+	_UIM->init(200.0f);
 	CAMERAMANAGER->setCamera(0, 0);
 	_UIM->setHeartBeat(7);
 	_UIM->setItemHUD();
@@ -80,7 +80,7 @@ void playerTestScene::update()
 	_player->update();
 	//RENDERMANAGER->update();
 	_em->update();
-	_UIM->updaetHeartBeat(200.0f);
+	_UIM->updateHeartBeat();
 	_objectManager->update();
 	_weapon->update();
 	_shovel->update();
