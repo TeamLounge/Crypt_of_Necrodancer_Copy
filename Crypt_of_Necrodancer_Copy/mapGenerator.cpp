@@ -943,8 +943,8 @@ void mapGenerator::generateBossMap()
 		for (int j = 0; j < BOSSMAPX; ++j)
 		{
 			tagTile tile;
-			tile.rc = RectMake(j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
-			tile.itemRect = RectMake(j * TILESIZE, i * TILESIZE + MARGIN - (TILESIZE / 2), TILESIZE, TILESIZE);
+			tile.rc = RectMake(200 + j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
+			tile.itemRect = RectMake(200 + j * TILESIZE, i * TILESIZE + MARGIN - (TILESIZE / 2), TILESIZE, TILESIZE);
 			tile.terrain = EMPTY;
 			tile.obj = OBJ_NONE;
 			tile.item = MAP_ITEM_NONE;
