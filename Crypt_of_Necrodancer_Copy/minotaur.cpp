@@ -36,7 +36,7 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 		{
 			_index = 0;
 			isAction = false;
-			_astar->callPathFinder();
+			_astar->callPathFinder(_tilex,_tiley);
 		}
 	}
 	if (!isAction&&isFind)
@@ -103,10 +103,15 @@ void minotaur::render()
 {
 	minotaurAndDragon::render();
 	//Rectangle(getMemDC(), _rc);
-	_img->frameRender(getMemDC(), _x, _y, _index, _indey);
-	char str[128];
-	sprintf_s(str, "%f , %f", _x, _y);
-	TextOut(getMemDC(), _rc.left - 10, _rc.top + 10,str,strlen(str));
-	sprintf_s(str, "%d, %d", (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2), _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2));
-	TextOut(getMemDC(), _rc.left - 10, _rc.top + 40, str, strlen(str));
+
+	if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
+		_img = IMAGEMANAGER->findImage("minotaur");
+		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+	}
+	else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
+	{
+		_img = IMAGEMANAGER->findImage("minotaur_dark");
+		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+	}
+	//_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 }

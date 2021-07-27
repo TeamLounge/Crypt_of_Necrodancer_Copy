@@ -661,10 +661,11 @@ void aStarTest::actionMove(int X, int Y)
 	_vTotalList.insert(_vTotalList.begin() + (Y*_TotaltileX + X), _startTile);
 }
 
-void aStarTest::callPathFinder()
+void aStarTest::callPathFinder(int x,int y)
 {
 	_vCloseList.clear();
 	_vOpenList.clear();
+	actionMove(x, y);
 	pathFinder(_startTile);
 }
 

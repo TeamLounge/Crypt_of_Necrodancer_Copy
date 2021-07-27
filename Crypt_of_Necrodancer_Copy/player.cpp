@@ -402,10 +402,6 @@ void player::render(int tileX, int tileY)
 		char str[128];
 		sprintf_s(str, "bool : %d", _uiManager->getIsIntersectJudge());
 		DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
-		if (KEYMANAGER->isToggleKey(VK_TAB))
-		{
-			
-		}
 
 		//_vision->render();
 	}

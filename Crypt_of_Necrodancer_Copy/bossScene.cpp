@@ -54,6 +54,7 @@ HRESULT bossScene::init()
 	_objectManager->setShovelMemoryAddressLink(_shovel);
 	_weapon->setMGMemoryAddressLink(_map);
 	_player->setPlayerUIMemoryAddressLink(_UIM);
+	_em->setWeaponMemoryAddressLink(_weapon);
 	SOUNDMANAGER->play("boss", 0.2f);
 
 	return S_OK;
@@ -106,4 +107,8 @@ void bossScene::render()
 	char str[124];
 	sprintf_s(str, "%d, %d", _player->getTileX(), _player->getTileY());
 	TextOut(getMemDC(), _player->getTileRect().left, _player->getTileRect().top, str, strlen(str));
+
+	sprintf_s(str, "dir : %d", _player->getDirection());
+	TextOut(getMemDC(), _player->getTileRect().left, _player->getTileRect().top, str, strlen(str));
+
 }

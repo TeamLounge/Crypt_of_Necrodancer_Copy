@@ -30,7 +30,15 @@ void slimeGreen::render()
 	{
 		Rectangle(getMemDC(), _rc);
 	}
-	_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
+	if (_map->getAlpha(_tileX, _tileY) <= 255 && _map->getAlpha(_tileX, _tileY) > 150) {
+		_img = IMAGEMANAGER->findImage("slimeGreen");
+		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
+	}
+	else if (_map->getAlpha(_tileX, _tileY) <= 150 && _map->getAlpha(_tileX, _tileY) > 0)
+	{
+		_img = IMAGEMANAGER->findImage("slimeGreen_dark");
+		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
+	}
 }
 
 void slimeGreen::setSlimeFrame()

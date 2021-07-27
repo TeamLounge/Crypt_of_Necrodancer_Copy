@@ -13,8 +13,8 @@ HRESULT deathMetal::init(int playerIndexX, int playerIndexY)
 	_tiley = 10;
 	_rc = _map->getRect(_tilex, _tiley);		//_tileX, _tileY는 움직임을 위한 첫번째 타일맵의 좌표
 	_map->setIsEnemy(_tilex, _tiley, true);
-	_x = _rc.left;								//_x, _y는 이미지를 움직이기 위한 _rc를 토대로 가져온 실제 좌표(정보 가져오기 위함)
-	_y = (_rc.top - (_rc.bottom - _rc.top) / 2);
+	_x = _rc.right -_img->getFrameWidth()/2;								//_x, _y는 이미지를 움직이기 위한 _rc를 토대로 가져온 실제 좌표(정보 가져오기 위함)
+	_y = _rc.bottom - _img->getFrameHeight();
 	_astar->setLinkrandomMap(_map);
 	_astar->init(_tilex, _tiley, playerIndexX, playerIndexY);
 	_playerindex = playerIndexX;
@@ -53,58 +53,34 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 	}
 	else
 	{
-		_astar->endmove(playerIndexX, playerIndexY);
-		_astar->update();
+		if (_hp >= 7) {
+			_astar->endmove(playerIndexX, playerIndexY);
+			_astar->update();
 
-		if (_map->getTileObject(_tilex, _tiley) == TR_LEFT)
-		{
-			_dir = LEFT;
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_tilex -= 1;
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			//_astar->callPathFinder();
-			isMove = true;
+			TrapMove();
+			if (!isMove&&_astar->getStart())
+			{
+				phaseOneMove(isTime);
+			}
 		}
-		else if (_map->getTileObject(_tilex, _tiley) == TR_RIGHT)
+		else if (_hp < 7 && _hp >= 5)
 		{
-			_dir = RIGHT;
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_tilex += 1;
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			//_astar->callPathFinder();
-			isMove = true;
+			TrapMove();
 		}
-		else if (_map->getTileObject(_tilex, _tiley) == TR_UP)
+		else if (_hp < 5 && _hp >= 3)
 		{
-			_dir = UP;
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_tiley -= 1;
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			//_astar->callPathFinder();
-			isMove = true;
+			TrapMove();
 		}
-		else if (_map->getTileObject(_tilex, _tiley) == TR_DOWN)
+		else if (_hp <= 2 && _hp > 0)
 		{
-			_dir = DOWN;
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_tilex += 1;
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			//_astar->callPathFinder();
-			isMove = true;
+			_astar->endmove(playerIndexX, playerIndexY);
+			_astar->update();
+			TrapMove();
+			if (!isMove && _astar->getStart())
+			{
+				phaseOneMove(isTime);
+			}
 		}
-		else if (_astar->getStart())
-		{
-			phaseOneMove(isTime);
-		}
-
 		isTime = false;
 	}
 	if (_astar->getDamage())
@@ -131,73 +107,95 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 		switch (_dir)
 		{
 		case NONE:
-			_gravity += 0.965f;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
+			if (_y >= _rc.bottom - _img->getFrameHeight())
 			{
-				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+				_y = _rc.bottom - _img->getFrameHeight();
 				isMove = false;
 				_gravity = 0;
 			}
+			else
+			{
+				_gravity += 0.965f;
+				_y += -sinf(7 * PI / 9) * 9 + _gravity;
+			}
 			break;
 		case LEFT:
-			_gravity += 0.965f;
-			_x += cosf(7 * PI / 9) * 9;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-
-			if (_x <= _rc.left)
+			
+			if (_x <= _rc.right - _img->getFrameWidth() / 2 - 18)
 			{
-				_x = _rc.left;
+				_x = _rc.right - _img->getFrameWidth() / 2 - 18;
+				isMove = false;
+			
+			}
+			else
+			{
+				_x += cosf(7 * PI / 9) * 9;
+			}
+			if (_y >= _rc.bottom - _img->getFrameHeight())
+			{
+
+				_y = _rc.bottom - _img->getFrameHeight();
 				isMove = false;
 				_gravity = 0;
-				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
-				{
-					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				}
+			}
+			else
+			{
+				_gravity += 0.965f;
+				_y += -sinf(7 * PI / 9) * 9 + _gravity;
 			}
 
 			break;
 		case RIGHT:
-			_gravity += 0.965f;
-			_x -= cosf(7 * PI / 9) * 9;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-			if (_x >= _rc.left)
+	
+			if (_x >= _rc.right - _img->getFrameWidth() / 2)
 			{
-				_x = _rc.left;
+				_x = _rc.right - _img->getFrameWidth() / 2;
+				isMove = false;
+			}
+			else
+			{
+				_x -= cosf(7 * PI / 9) * 9;
+			}
+			if (_y >= _rc.bottom - _img->getFrameHeight())
+			{
+				_y = _rc.bottom - _img->getFrameHeight();
 				isMove = false;
 				_gravity = 0;
-				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
-				{
-
-					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				}
-
+			}
+			else
+			{
+				_gravity += 0.965f;
+				_y += -sinf(7 * PI / 9) * 9 + _gravity;
 			}
 
 			break;
 		case UP:
-			_gravity += 0.2f;
-			_y += -sinf(PI / 2) * 9 + _gravity;
-
-			if (_y <= _rc.top - (_rc.bottom - _rc.top) / 2)
+			if (_y <= _rc.bottom - _img->getFrameHeight())
 			{
-				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+				_y = _rc.bottom - _img->getFrameHeight();
 				isMove = false;
 				_gravity = 0;
 
 			}
-
+			else
+			{
+				_gravity += 0.2f;
+				_y += -sinf(PI / 2) * 9 + _gravity;
+			}
 			break;
 		case DOWN:
 
-			_gravity += 1.2f;
-			_y += -sinf(PI / 2) + _gravity;
-
-			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
+			if (_y >= _rc.bottom - _img->getFrameHeight())
 			{
-				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+				_y = _rc.bottom - _img->getFrameHeight();
 				isMove = false;
 				_gravity = 0;
+
+			}
+			else
+			{
+				_gravity += 1.2f;
+				_y += -sinf(PI / 2) + _gravity;
 
 			}
 			break;
@@ -224,7 +222,7 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 	}
 	if (_hp < 7)
 	{
-
+		_index = 8;
 	}
 	if (playerIndexX < _tilex)
 	{
@@ -246,7 +244,40 @@ void deathMetal::release()
 
 void deathMetal::render()
 {
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		_astar->render();
+	}
+
+	if (damageRender)
+	{
+		switch (_astar->getDirection())
+		{
+		case LEFT:
+			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
+				_map->getRect(_tilex, _tiley).left + (_map->getRect(_tilex, _tiley).left - _map->getRect(_tilex, _tiley).right) / 2, _map->getRect(_tilex, _tiley).top, _damageindex, 1);
+			break;
+		case RIGHT:
+			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
+				(_map->getRect(_tilex, _tiley).left + _map->getRect(_tilex, _tiley).right) / 2, _map->getRect(_tilex, _tiley).top, _damageindex, 0);
+			break;
+		case UP:
+			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
+				_map->getRect(_tilex, _tiley).left, _map->getRect(_tilex, _tiley).top + (_map->getRect(_tilex, _tiley).top - _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
+			break;
+		case DOWN:
+			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
+				_map->getRect(_tilex, _tiley).left, (_map->getRect(_tilex, _tiley).top + _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
+			break;
+		}
+	}
+
 	_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+	char str[128];
+	sprintf_s(str, "hp : %d", _hp);
+	TextOut(getMemDC(), _rc.left, _rc.top, str, strlen(str));
+	sprintf_s(str, "dir : %d", _judgmentdir);
+	TextOut(getMemDC(), _rc.left, _rc.bottom, str, strlen(str));
 }
 
 void deathMetal::phaseOneMove(bool Time)
@@ -262,14 +293,6 @@ void deathMetal::phaseOneMove(bool Time)
 				_map->setIsEnemy(_tilex, _tiley, false);
 				_tilex = _astar->getClosebackX();
 				_tiley = _astar->getClosebackY();
-				if (_map->getTileObject(_tilex, _tiley) != OBJ_NONE)
-				{
-					_map->setTileObject(_tilex, _tiley, OBJ_NONE);
-				}
-				if (_map->getIsHaveTorch(_tilex, _tiley))
-				{
-					_map->setIsHaveTorch(_tilex, _tiley, false);
-				}
 				_rc = _map->getRect(_tilex, _tiley);
 
 				_astar->move(_tilex, _tiley);
@@ -282,22 +305,31 @@ void deathMetal::phaseOneMove(bool Time)
 		}
 		if (pastY == _tiley && _tilex - pastX == -1)
 		{
+			_y += -sinf(7 * PI / 9) * 9;
 			_dir = LEFT;
+			_judgmentdir = _dir;
 		}
 		else if (pastY == _tiley && _tilex - pastX == 1)
 		{
+			_y += -sinf(7 * PI / 9) * 9;
 			_dir = RIGHT;
+			_judgmentdir = _dir;
 		}
 		else if (pastX == _tilex && _tiley - pastY == -1)
 		{
+			_y += -sinf(PI / 2) * 9;
 			_dir = UP;
+			_judgmentdir = _dir;
 		}
 		else if (pastX == _tilex && _tiley - pastY == 1)
 		{
+			_y += -sinf(PI / 2);
 			_dir = DOWN;
+			_judgmentdir = _dir;
 		}
 		else if (_tilex == pastX && _tiley == pastY)
 		{
+			_y += -sinf(7 * PI / 9) * 9;
 			_dir = NONE;
 		}
 	}
@@ -337,7 +369,6 @@ void deathMetal::phaseTwoMove(bool Time)
 		{
 			_map->setIsEnemy(_tilex, _tiley, false);
 			_rc = _map->getRect(_tilex, _tiley);
-
 			_astar->move(_tilex, _tiley);
 			_map->setIsEnemy(_tilex, _tiley, true);
 		}
@@ -497,84 +528,29 @@ void deathMetal::phasefourMove(bool Time)
 	if (!isMove)isMove = true;
 }
 
-void deathMetal::moveMotion()
+void deathMetal::TrapMove()
 {
-	if (isMove)
+	if (_map->getTileObject(_tilex, _tiley) == TR_JUMP)
 	{
+		_map->setIsEnemy(_tilex, _tiley, false);
 		switch (_dir)
 		{
-		case NONE:
-			_gravity += 0.965f;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
-			{
-				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				isMove = false;
-				_gravity = 0;
-			}
-			break;
 		case LEFT:
-			_gravity += 0.965f;
-			_x += cosf(7 * PI / 9) * 9;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-
-			if (_x <= _rc.left)
-			{
-				_x = _rc.left;
-				isMove = false;
-				_gravity = 0;
-				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
-				{
-					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				}
-			}
-
+			_tilex -= 1;
 			break;
 		case RIGHT:
-			_gravity += 0.965f;
-			_x -= cosf(7 * PI / 9) * 9;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-			if (_x >= _rc.left)
-			{
-				_x = _rc.left;
-				isMove = false;
-				_gravity = 0;
-				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
-				{
-
-					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				}
-
-			}
-
+			_tilex += 1;
 			break;
 		case UP:
-			_gravity += 0.2f;
-			_y += -sinf(PI / 2) * 9 + _gravity;
-
-			if (_y <= _rc.top - (_rc.bottom - _rc.top) / 2)
-			{
-				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				isMove = false;
-				_gravity = 0;
-
-			}
-
+			_tiley -= 1;
 			break;
 		case DOWN:
-
-			_gravity += 1.2f;
-			_y += -sinf(PI / 2) + _gravity;
-
-			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
-			{
-				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				isMove = false;
-				_gravity = 0;
-
-			}
+			_tiley += 1;
 			break;
 		}
+		_astar->callPathFinder(_tilex, _tiley);
+		_rc = _map->getRect(_tilex, _tiley);
+		if (!isMove)isMove = true;
 	}
 }
 

@@ -29,8 +29,18 @@ void slimeBlue::render()
 	{
 		Rectangle(getMemDC(), _rc);
 	}
-
-	_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
+	if (_map->getAlpha(_tileX, _tileY) <= 255 && _map->getAlpha(_tileX, _tileY) > 100) {
+		_img = IMAGEMANAGER->findImage("slimeBlue");
+		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
+	}
+	else if (_map->getAlpha(_tileX, _tileY) <= 100 && _map->getAlpha(_tileX, _tileY) > 0)
+	{
+		_img = IMAGEMANAGER->findImage("slimeBlue_dark");
+		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
+	}
+	char str[126];
+	sprintf_s(str, "hp:%d", _hp);
+	TextOut(getMemDC(), _rc.left, _rc.top, str, strlen(str));
 }
 
 void slimeBlue::setSlimeFrame()

@@ -19,10 +19,10 @@ HRESULT playGround::init()
 	addImage();
 
 
-	//SCENEMANAGER->addScene("player_test", new playerTestScene);
-	//SCENEMANAGER->changeScene("player_test");
-	SCENEMANAGER->addScene("bossScene", new bossScene);
-	SCENEMANAGER->changeScene("bossScene");
+	SCENEMANAGER->addScene("player_test", new playerTestScene);
+	SCENEMANAGER->changeScene("player_test");
+	//SCENEMANAGER->addScene("bossScene", new bossScene);
+	//SCENEMANAGER->changeScene("bossScene");
 
 
 	return S_OK;
@@ -156,7 +156,7 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("skeleton_dark", "image/enemy/skeletonBasic_dark.bmp", 576, 177, 8, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("ghost_dark", "image/enemy/ghost_dark.bmp", 144, 144, 2, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("mimic_dark", "image/enemy/mimic_dark.bmp", 375, 75, 5, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("minotaur_dark", "image/enemy/minotaur_dark.bmp", 1350, 294, 8, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("minotaur_dark", "image/enemy/minotaur_dark.bmp", 1350, 294, 9, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("monkeyBasic_dark", "image/enemy/monkeyBasic_dark.bmp", 450, 150, 6, 2, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addFrameImage("enemyAttackX", "image/enemy/enemyAttack.bmp", 360, 138, 5, 2, true, RGB(255, 0, 255));

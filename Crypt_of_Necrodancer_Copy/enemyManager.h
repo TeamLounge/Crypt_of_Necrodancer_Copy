@@ -40,7 +40,7 @@ private:
 	weapon* _weapon;
 	mapGenerator* _map;
 
-	bool _isboos;
+	bool _isboss;
 	bool _isWhite;
 	bool _isgreen;
 

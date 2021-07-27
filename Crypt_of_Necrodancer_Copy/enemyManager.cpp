@@ -92,6 +92,7 @@ void enemyManager::render()
 HRESULT enemyManager::bossRoomInit()
 {
 	setDeathMetal();
+	_isboss = true;
 	return S_OK;
 }
 
@@ -102,12 +103,34 @@ void enemyManager::bossRoomRelease()
 
 void enemyManager::bossRoomUpdate()
 {
-	updateDeathMetal();
+	//여기는 무기공격판정렉트 계속 받는곳
+	_vCollision = _weapon->getVCollision();
+	_viCollision = _weapon->getVICollision();
+	_weaponName = _weapon->getWeaponName();
+
+	if(_isboss)
+		updateDeathMetal();
+	if (!_vGhost.empty())
+	{
+
+	}
+	if (!_vWitheSkeleton.empty())
+	{
+
+	}
+	if (!_vGreenSkeleton.empty())
+	{
+
+	}
+	_player->setAttack(false);
 }
 
 void enemyManager::bossRoomRender()
 {
-	renderDeathMetal();
+	if (_isboss) 
+	{
+		renderDeathMetal();
+	}
 }
 
 void enemyManager::setWhiteSkeleton()
@@ -944,7 +967,71 @@ void enemyManager::setDeathMetal()
 
 void enemyManager::updateDeathMetal()
 {
-	_deathMetal->update(_player->getTileX(), _player->getTileY());
+
+	if (_player->getAttack()) {
+
+		for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+		{
+			RECT rc;
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{
+				if (IntersectRect(&rc, &_deathMetal->getRect(), &_viCollision->rc))
+				{
+					if (_deathMetal->getHp() >= 7)
+					{
+						if (!((_player->getDirection() == LEFT && _deathMetal->getJudgMundetDirection() == RIGHT) ||
+							(_player->getDirection() == RIGHT && _deathMetal->getJudgMundetDirection() == LEFT) ||
+							(_player->getDirection() == UP && _deathMetal->getJudgMundetDirection() == DOWN) ||
+							(_player->getDirection() == DOWN && _deathMetal->getJudgMundetDirection() == UP)))
+						{
+							_deathMetal->setHp(_deathMetal->getHp() - 1);
+							_player->setAttack(false);
+						}
+					}
+					else
+					{
+						_deathMetal->setHp(_deathMetal->getHp() - 1);
+						_player->setAttack(false);
+					}
+
+				}
+			}
+			else
+			{
+				if (IntersectRect(&rc, &_deathMetal->getRect(), &_viCollision->rc))
+				{
+					if (_deathMetal->getHp() >= 7)
+					{
+						if (!((_player->getDirection() == LEFT && _deathMetal->getJudgMundetDirection() == RIGHT) ||
+							(_player->getDirection() == RIGHT && _deathMetal->getJudgMundetDirection() == LEFT) ||
+							(_player->getDirection() == UP && _deathMetal->getJudgMundetDirection() == DOWN) ||
+							(_player->getDirection() == DOWN && _deathMetal->getJudgMundetDirection() == UP)))
+						{
+							_deathMetal->setHp(_deathMetal->getHp() - 1);
+							_player->setAttack(false);
+						}
+					}
+					else
+					{
+						_deathMetal->setHp(_deathMetal->getHp() - 1);
+						_player->setAttack(false);
+					}
+
+				}
+			}
+		}
+	}
+	if (_deathMetal->getHp() == 0)
+	{
+		_map->setIsEnemy(_deathMetal->getX(), _deathMetal->getY(), false);
+		delete _deathMetal;
+		_isboss = false;
+	}
+	else
+	{
+		_deathMetal->update(_player->getTileX(), _player->getTileY());
+	}
+
 }
 
 void enemyManager::renderDeathMetal()
@@ -954,7 +1041,7 @@ void enemyManager::renderDeathMetal()
 
 void enemyManager::setGhostBossRoom()
 {
-
+	
 }
 
 void enemyManager::setWhiteSkeletonBossRoom()

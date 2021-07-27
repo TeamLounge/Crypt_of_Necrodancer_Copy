@@ -43,7 +43,7 @@ public:
 	virtual int getShadowX() { return _shadowX; }
 	virtual int getShadowY() { return _shadowY; }
 	virtual int getHp() { return _hp; }
-	virtual int getAttck() { return attack; }
+	virtual bool getAttck() { return attack; }
 	virtual float getBeatSpeed() { return _beatspeed; }
 
 	virtual void setImage(image* image) { _img = image; }
