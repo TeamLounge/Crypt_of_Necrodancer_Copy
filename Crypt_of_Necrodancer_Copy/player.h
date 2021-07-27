@@ -58,13 +58,17 @@ private:
 	
 	UIManager* _uiManager;
 
+	int _alpha;
+	bool _isAttacked;
+	float _attackedElapsedTime;
+	int _alphaCount;
+
 public:
 	enemyManager* _em; //에너미 정보 가져오기
 
 	virtual HRESULT init();
 	virtual void release();
 	virtual void update();
-	virtual void render();
 	virtual void render(int tileX, int tileY);
 
 	void damaged();

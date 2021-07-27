@@ -224,6 +224,8 @@ public:
 	void updateRedDragon();
 	void renderRedDragon();
 
+	void setEnemySpeed(float speed);
+
 	//에너미 삭제 할 때
 	//_em->delete(_tileX, _tileY); 이런 
 

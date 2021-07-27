@@ -913,3 +913,7 @@ void enemyManager::renderRedDragon()
 		(*_viRedDragon)->render();
 	}
 }
+
+void enemyManager::setEnemySpeed(float speed)
+{
+}

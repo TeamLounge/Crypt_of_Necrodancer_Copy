@@ -26,6 +26,12 @@ HRESULT player::init()
 	_bomb->init();
 	_shopkeeperDistance = 0;
 
+	_isAttacked = false;
+	_alpha = 255;
+
+	_attackedElapsedTime = 0;
+	_alphaCount = 0;
+
 	setupPlayerRect();
 
 	return S_OK;
@@ -60,6 +66,35 @@ void player::update()
 		{
 			_currentFrameY = 0;
 		}
+	}
+
+	//공격 받았을 때 알파렌더
+	if (_isAttacked)
+	{
+		_attackedElapsedTime += TIMEMANAGER->getElapsedTime();
+		if (_attackedElapsedTime >= 0.1f)
+		{
+			_attackedElapsedTime -= 0.1f;
+			if (_alpha == 255)
+			{
+				_alpha = 0;
+				_alphaCount++;
+			}
+			else
+			{
+				_alpha = 255;
+				_alphaCount++;
+			}
+		}
+		if (_alphaCount >= 5)
+		{
+			_isAttacked = false;
+			_alphaCount = 0;
+		}
+	}
+	else
+	{
+		_alpha = 255;
 	}
 
 	//심장박동에 맞춘 경우만 행동
@@ -378,16 +413,6 @@ void player::update()
 	damaged();
 }
 
-void player::render()
-{
-	//Rectangle(getMemDC(), _shadow);
-	IMAGEMANAGER->alphaRender("shadow_standard_1", getMemDC(), _shadow.left, _shadow.top, 125);
-	IMAGEMANAGER->alphaRender("shadow_standard_2", getMemDC(), _shadow.left, _shadow.top, 125);
-	IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
-	IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
-
-	//_vision->render();
-}
 
 void player::render(int tileX, int tileY)
 {
@@ -396,8 +421,8 @@ void player::render(int tileX, int tileY)
 		//Rectangle(getMemDC(), _shadow);
 		IMAGEMANAGER->alphaRender("shadow_standard_1", getMemDC(), _shadow.left, _shadow.top, 125);
 		IMAGEMANAGER->alphaRender("shadow_standard_2", getMemDC(), _shadow.left, _shadow.top, 125);
-		IMAGEMANAGER->frameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY);
-		IMAGEMANAGER->frameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY);
+		IMAGEMANAGER->alphaFrameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY, _alpha);
+		IMAGEMANAGER->alphaFrameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY, _alpha);
 
 		char str[128];
 		sprintf_s(str, "bool : %d", _uiManager->getIsIntersectJudge());
@@ -419,6 +444,7 @@ void player::damaged()
 		if ((*(_em->getVBlackSkeleton().begin() + i))->getAttck())
 		{
 			_uiManager->minusHeart(1);
+			_isAttacked = true;
 			(*(_em->getVBlackSkeleton().begin() + i))->setAttck(false);
 			break;
 		}
