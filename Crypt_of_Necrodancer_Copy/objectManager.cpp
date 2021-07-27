@@ -47,6 +47,7 @@ void objectManager::update()
 			_isMusicSpeedChanged = false;
 			_map->setTileObjectFrameX(_music.tileX, _music.tileY, 0);
 			_UIM->setBeatSpeed(200.0f);
+			_em->setEnemySpeed(1.0f);
 		}
 	}
 	_bomb->update();
@@ -432,10 +433,12 @@ void objectManager::changeMusicSpeed(float speed)
 		if (speed == 1.2f)
 		{
 			_UIM->setBeatSpeed(240.0f);
+			_em->setEnemySpeed(0.8f);
 		}
 		else if (speed == 0.8f)
 		{
 			_UIM->setBeatSpeed(160.0f);
+			_em->setEnemySpeed(1.2f);
 		}
 	}
 }

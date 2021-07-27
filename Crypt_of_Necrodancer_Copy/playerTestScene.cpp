@@ -37,6 +37,7 @@ HRESULT playerTestScene::init()
 	_objectManager->init();
 	_objectManager->setObjectMapMemoryAddressLink(_map);
 	_objectManager->setObjectPlayerMemoryAddressLink(_player);
+	_objectManager->setObjectEnemyManagerMemoryAddressLink(_em);
 	_objectManager->getBomb()->setBombMapMemoryAddressLink(_map);
 
 	//사운드 플레이

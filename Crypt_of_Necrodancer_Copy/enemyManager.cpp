@@ -916,4 +916,56 @@ void enemyManager::renderRedDragon()
 
 void enemyManager::setEnemySpeed(float speed)
 {
+	for (_viSlimeGreen = _vSlimeGreen.begin(); _viSlimeGreen != _vSlimeGreen.end(); ++_viSlimeGreen)
+	{
+		(*_viSlimeGreen)->setBeatSpeed(speed);
+	}
+	for (_viSlimeGold = _vSlimeGold.begin(); _viSlimeGold != _vSlimeGold.end(); ++_viSlimeGold)
+	{
+		(*_viSlimeGold)->setBeatSpeed(speed);
+	}
+	for (_viSlimeBlue = _vSlimeBlue.begin(); _viSlimeBlue != _vSlimeBlue.end(); ++_viSlimeBlue)
+	{
+		(*_viSlimeBlue)->setBeatSpeed(speed);
+	}
+	for (_viWitheSkeleton = _vWitheSkeleton.begin(); _viWitheSkeleton != _vWitheSkeleton.end(); ++_viWitheSkeleton)
+	{
+		(*_viWitheSkeleton)->setBeatSpeed(speed);
+	}
+	for (_viGreenSkeleton = _vGreenSkeleton.begin(); _viGreenSkeleton != _vGreenSkeleton.end(); ++_viGreenSkeleton)
+	{
+		(*_viGreenSkeleton)->setBeatSpeed(speed);
+	}
+	for (_viBlackSkeleton = _vBlackSkeleton.begin(); _viBlackSkeleton != _vBlackSkeleton.end(); ++_viBlackSkeleton)
+	{
+		(*_viBlackSkeleton)->setBeatSpeed(speed);
+	}
+	for (_viGhost = _vGhost.begin(); _viGhost != _vGhost.end(); ++_viGhost)
+	{
+		(*_viGhost)->setBeatSpeed(speed);
+	}
+	for (_viMimic = _vMimic.begin(); _viMimic != _vMimic.end(); ++_viMimic)
+	{
+		(*_viMimic)->setBeatSpeed(speed);
+	}
+	for (_viMonkeyBasic = _vMonkeyBasic.begin(); _viMonkeyBasic != _vMonkeyBasic.end(); ++_viMonkeyBasic)
+	{
+		(*_viMonkeyBasic)->setBeatSpeed(speed);
+	}
+	for (_viMonkeyWhite = _vMonkeyWhite.begin(); _viMonkeyWhite != _vMonkeyWhite.end(); ++_viMonkeyWhite)
+	{
+		(*_viMonkeyWhite)->setBeatSpeed(speed);
+	}
+	for (_viMinotaur = _vMinotaur.begin(); _viMinotaur != _vMinotaur.end(); ++_viMinotaur)
+	{
+		(*_viMinotaur)->setBeatSpeed(speed);
+	}
+	for (_viZombie = _vZombie.begin(); _viZombie != _vZombie.end(); ++_viZombie)
+	{
+		(*_viZombie)->setBeatSpeed(speed);
+	}
+	for (_viRedDragon = _vRedDragon.begin(); _viRedDragon != _vRedDragon.end(); ++_viRedDragon)
+	{
+		(*_viRedDragon)->setBeatSpeed(speed);
+	}
 }
