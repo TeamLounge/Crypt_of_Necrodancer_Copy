@@ -32,6 +32,9 @@ HRESULT player::init()
 	_attackedElapsedTime = 0;
 	_alphaCount = 0;
 	_isWall = false;
+	_isTouchWall = false;
+
+	_shovelEffectElapsedTime = 0;
 	setupPlayerRect();
 
 	return S_OK;
@@ -96,6 +99,21 @@ void player::update()
 	{
 		_alpha = 255;
 	}
+
+	if (_isTouchWall)
+	{
+		if (!SOUNDMANAGER->isPlaySound("dig_stone") && !SOUNDMANAGER->isPlaySound("dig_dirt") && !SOUNDMANAGER->isPlaySound("dig_stone"))
+		{
+			_shovelEffectElapsedTime += TIMEMANAGER->getElapsedTime();
+			if (_shovelEffectElapsedTime >= 0.1f)
+			{
+				_shovelEffectElapsedTime -= 0.1f;
+				_isTouchWall = false;
+			}
+			
+		}
+	}
+
 	_isWall = false;
 	//심장박동에 맞춘 경우만 행동
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
@@ -133,6 +151,7 @@ void player::update()
 								_tileX += 1;
 								_isMove = false;
 								_isWall = true;
+								_isTouchWall = true;
 								SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
 							}
 							else if (obj == WALL_STONE)
@@ -142,6 +161,7 @@ void player::update()
 								_tileX += 1;
 								_isMove = false;
 								_isWall = true;
+								_isTouchWall = true;
 								SOUNDMANAGER->play("dig_stone", EFFECTVOLUME);
 							}
 							else if (obj == WALL_DOOR || obj == WALL_BASIC)
@@ -159,6 +179,7 @@ void player::update()
 								else
 								{
 									SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
+									_isTouchWall = true;
 								}
 							}
 							else if (obj == WALL_END || obj == WALL_GOLD)
@@ -166,6 +187,7 @@ void player::update()
 								_tileX += 1;
 								_isMove = false;
 								_isWall = true;
+								_isTouchWall = true;
 								SOUNDMANAGER->play("dig_fail", 0.2f);
 							}
 						}
@@ -186,6 +208,7 @@ void player::update()
 								else
 								{
 									SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
+									_isTouchWall = true;
 								}
 							}
 							else if(obj == WALL_CRACK || obj == WALL_END
@@ -195,6 +218,7 @@ void player::update()
 								_tileX += 1;
 								_isMove = false;
 								_isWall = true;
+								_isTouchWall = true;
 								SOUNDMANAGER->play("dig_fail", EFFECTVOLUME);
 							}
 						}
@@ -254,6 +278,7 @@ void player::update()
 							_tileRenderX = _tileX;
 							_isMove = false;
 							_isWall = true;
+							_isTouchWall = true;
 							SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
 						}
 						else if (obj == WALL_STONE)
@@ -264,6 +289,7 @@ void player::update()
 							_tileRenderX = _tileX;
 							_isMove = false;
 							_isWall = true;
+							_isTouchWall = true;
 							SOUNDMANAGER->play("dig_stone", EFFECTVOLUME);
 						}
 						else if (obj == WALL_DOOR || obj == WALL_BASIC)
@@ -282,6 +308,7 @@ void player::update()
 							else
 							{
 								SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
+								_isTouchWall = true;
 							}
 						}
 						else if(obj == WALL_END || obj == WALL_GOLD)
@@ -290,6 +317,7 @@ void player::update()
 							_tileRenderX = _tileX;
 							_isMove = false;
 							_isWall = true;
+							_isTouchWall = true;
 							SOUNDMANAGER->play("dig_fail", EFFECTVOLUME);
 						}
 					}
@@ -311,6 +339,7 @@ void player::update()
 							else
 							{
 								SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
+								_isTouchWall = true;
 							}
 						}
 						else if (obj == WALL_CRACK || obj == WALL_END
@@ -322,6 +351,7 @@ void player::update()
 							_isMove = false;
 							_isWall = true;
 							SOUNDMANAGER->play("dig_fail", EFFECTVOLUME);
+							_isTouchWall = true;
 						}
 					}
 				}
@@ -375,6 +405,8 @@ void player::update()
 							_map->setIsHaveTorch(sTileX, sTileY, false);
 							_tileY += 1;
 							_isMove = false;
+							_isWall = true;
+							_isTouchWall = true;
 							SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
 						}
 						else if (obj == WALL_STONE)
@@ -383,6 +415,8 @@ void player::update()
 							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
 							_tileY += 1;
 							_isMove = false;
+							_isWall = true;
+							_isTouchWall = true;
 							SOUNDMANAGER->play("dig_stone", EFFECTVOLUME);
 						}
 						else if (obj == WALL_DOOR || obj == WALL_BASIC)
@@ -392,6 +426,7 @@ void player::update()
 							_map->setIsHaveTorch(sTileX, sTileY, false);
 							_tileY += 1;
 							_isMove = false;
+							_isWall = true;
 							if (obj == WALL_DOOR)
 							{
 								SOUNDMANAGER->play("door_open", EFFECTVOLUME);
@@ -399,12 +434,15 @@ void player::update()
 							else
 							{
 								SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
+								_isTouchWall = true;
 							}
 						}
 						else if (obj == WALL_END || obj == WALL_GOLD)
 						{
 							_tileY += 1;
 							_isMove = false;
+							_isWall = true;
+							_isTouchWall = true;
 							SOUNDMANAGER->play("dig_fail", EFFECTVOLUME);
 						}
 					}
@@ -417,6 +455,7 @@ void player::update()
 							_map->setIsHaveTorch(sTileX, sTileY, false);
 							_tileY += 1;
 							_isMove = false;
+							_isWall = true;
 							if (obj == WALL_DOOR)
 							{
 								SOUNDMANAGER->play("door_open", EFFECTVOLUME);
@@ -424,6 +463,7 @@ void player::update()
 							else
 							{
 								SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
+								_isTouchWall = true;
 							}
 						}
 						else if(obj == WALL_CRACK || obj == WALL_END
@@ -432,6 +472,8 @@ void player::update()
 						{
 							_tileY += 1;
 							_isMove = false;
+							_isWall = true;
+							_isTouchWall = true;
 							SOUNDMANAGER->play("dig_fail", 0.3f);
 						}
 					}
@@ -495,6 +537,7 @@ void player::update()
 								_tileRenderY = _tileY;
 								_isMove = false;
 								_isWall = true;
+								_isTouchWall = true;
 								SOUNDMANAGER->play("dig_dirt", 0.3f);
 							}
 							else if (obj == WALL_STONE)
@@ -505,6 +548,7 @@ void player::update()
 								_tileRenderY = _tileY;
 								_isMove = false;
 								_isWall = true;
+								_isTouchWall = true;
 								SOUNDMANAGER->play("dig_stone", 0.3f);
 							}
 							else if (obj == WALL_DOOR || obj == WALL_BASIC)
@@ -523,6 +567,7 @@ void player::update()
 								else
 								{
 									SOUNDMANAGER->play("dig_dirt", 0.3f);
+									_isTouchWall = true;
 								}
 							}
 							else if(obj == WALL_END
@@ -532,6 +577,7 @@ void player::update()
 								_tileRenderY = _tileY;
 								_isMove = false;
 								_isWall = true;
+								_isTouchWall = true;
 								SOUNDMANAGER->play("dig_fail", 0.3f);
 							}
 						}
@@ -553,6 +599,7 @@ void player::update()
 								else
 								{
 									SOUNDMANAGER->play("dig_dirt", 0.3f);
+									_isTouchWall = true;
 								}
 							}
 							else if(obj == WALL_CRACK || obj == WALL_END
@@ -564,6 +611,7 @@ void player::update()
 								_isMove = false;
 								_isWall = true;
 								SOUNDMANAGER->play("dig_fail", 0.3f);
+								_isTouchWall = true;
 							}
 						}
 					}
@@ -772,5 +820,20 @@ void player::setupPlayerRect()
 
 	//카메라 설정
 	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
+}
+
+void player::renderShovelEffect(int tileX, int tileY)
+{
+	if (_isTouchWall && tileX == _shovel->getVCollision()[0].tileX && tileY == _shovel->getVCollision()[0].tileY)
+	{
+		if (_shovel->getShovelName() == "shovelTitanium")
+		{
+			IMAGEMANAGER->findImage("shovelTitanium")->frameRender(getMemDC(), _shovel->getVCollision()[0].rc.left, _shovel->getVCollision()[0].rc.top - (TILESIZE * 5) / 8, 0, 0);
+		}
+		else
+		{
+			IMAGEMANAGER->findImage("shovelBasic")->frameRender(getMemDC(), _shovel->getVCollision()[0].rc.left, _shovel->getVCollision()[0].rc.top - (TILESIZE * 5) / 8, 0, 0);
+		}
+	}
 }
 

@@ -65,6 +65,9 @@ private:
 	int _alphaCount;
 
 	bool _isWall;
+	bool _isTouchWall;
+
+	float _shovelEffectElapsedTime;
 
 public:
 	enemyManager* _em; //에너미 정보 가져오기
@@ -116,5 +119,7 @@ public:
 	
 	bool getAttack() { return _attack; }
 	void setAttack(bool attack) { _attack = attack; }
+
+	void renderShovelEffect(int tileX, int tileY);
 };
 

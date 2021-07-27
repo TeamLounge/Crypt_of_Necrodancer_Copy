@@ -119,10 +119,12 @@ void playerTestScene::render()
 			if (j >= _map->getXSize()) break;
 			_map->render(j, i, false);
 			_player->render(j, i);
+			_player->renderShovelEffect(j, i);
 			_objectManager->render(j, i);
 		}
 	}
 	_em->render();
+
 	_UIM->renderItemHUD();
 
 	_UIM->renderHeartBeat();
@@ -134,4 +136,5 @@ void playerTestScene::render()
 	_player->getBomb()->render();
 	_UIM->renderMoney();
 	_UIM->renderMoneyNumber();
+
 }
