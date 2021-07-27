@@ -17,7 +17,7 @@ struct SHOVELS
 struct SHOVELCOLLISION
 {
 	RECT rc;
-	float x, y;
+	float tileX, tileY;
 };
 
 class shovel : public gameNode
@@ -49,5 +49,8 @@ public:
 
 	void setPlayerMemoryAddressLink(player* player) { _player = player; }
 	void setOMMemoryAddressLink(objectManager* om) { _om = om; }
+
+	vector<SHOVELCOLLISION> getVCollision() { return _vCollision; }
+	vector<SHOVELCOLLISION>::iterator getVICollision() { return _viCollision; }
 };
 

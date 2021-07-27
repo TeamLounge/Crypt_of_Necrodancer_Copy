@@ -22,6 +22,9 @@ void shovelBasic::update(shovel * shovel)
 			shovel->_player->getTileRect().left - TILESIZE,
 			shovel->_player->getTileRect().top,
 			TILESIZE, TILESIZE);
+
+		(shovel->_vCollision.begin() + 0)->tileX = shovel->_player->getTileX() - 1;
+		(shovel->_vCollision.begin() + 0)->tileY = shovel->_player->getTileY();
 	}
 
 	if (shovel->_player->getDirection() == UP)
@@ -30,6 +33,9 @@ void shovelBasic::update(shovel * shovel)
 			shovel->_player->getTileRect().left,
 			shovel->_player->getTileRect().top - TILESIZE,
 			TILESIZE, TILESIZE);
+
+		(shovel->_vCollision.begin() + 0)->tileX = shovel->_player->getTileX();
+		(shovel->_vCollision.begin() + 0)->tileY = shovel->_player->getTileY() - 1;
 	}
 
 	if (shovel->_player->getDirection() == RIGHT)
@@ -38,6 +44,8 @@ void shovelBasic::update(shovel * shovel)
 			shovel->_player->getTileRect().left + TILESIZE,
 			shovel->_player->getTileRect().top,
 			TILESIZE, TILESIZE);
+		(shovel->_vCollision.begin() + 0)->tileX = shovel->_player->getTileX() + 1;
+		(shovel->_vCollision.begin() + 0)->tileY = shovel->_player->getTileY();
 	}
 
 	if (shovel->_player->getDirection() == DOWN)
@@ -46,6 +54,8 @@ void shovelBasic::update(shovel * shovel)
 			shovel->_player->getTileRect().left,
 			shovel->_player->getTileRect().top + TILESIZE,
 			TILESIZE, TILESIZE);
+		(shovel->_vCollision.begin() + 0)->tileX = shovel->_player->getTileX();
+		(shovel->_vCollision.begin() + 0)->tileY = shovel->_player->getTileY() + 1;
 	}
 }
 

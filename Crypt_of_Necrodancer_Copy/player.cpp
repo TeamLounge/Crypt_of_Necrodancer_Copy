@@ -110,25 +110,10 @@ void player::update()
 			{
 				_playerDirection = LEFT;
 				_weapon->update();
-				OBJECT obj = _map->getTileObject(_tileX - 1, _tileY);
-				if (obj == WALL_CRACK || obj == WALL_END
-					|| obj == WALL_STONE
-					|| obj == WALL_GOLD)
-				{
+				_shovel->update();
 
-				}
-				else if (obj == WALL_DOOR || obj == WALL_BASIC)
-				{
-					_map->setTileObject(_tileX - 1, _tileY, OBJ_NONE, 0, 0);
-					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-					_map->setIsHaveTorch(_tileX - 1, _tileY, false);
-				}
-
-				else
-				{
-					_tileX -= 1;
-					_isMove = true;
-				}
+				_tileX -= 1;
+				_isMove = true;
 
 				//웨폰과 에너미의 충돌처리
 				if (_weapon->getVCollision().size() != 0)
@@ -146,6 +131,65 @@ void player::update()
 						}
 					}
 				}
+
+				if (_shovel->getVCollision().size() != 0)
+				{
+					for (int i = 0; i < _shovel->getVCollision().size(); ++i)
+					{
+						int sTileX = (*(_shovel->getVCollision().begin() + i)).tileX;
+						int sTileY = (*(_shovel->getVCollision().begin() + i)).tileY;
+						OBJECT obj = _map->getTileObject(sTileX, sTileY);
+						if (_shovel->getShovelName() == "shovelTitanium")
+						{
+							if (obj == WALL_CRACK)
+							{
+								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+								_map->setIsHaveTorch(sTileX, sTileY, false);
+								_tileX += 1;
+								_isMove = false;
+							}
+							else if (obj == WALL_STONE)
+							{
+								_map->setTileObject(sTileX, sTileY, WALL_CRACK, 2, 1);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+								_tileX += 1;
+								_isMove = false;
+							}
+							else if (obj == WALL_DOOR || obj == WALL_BASIC)
+							{
+								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+								_map->setIsHaveTorch(sTileX, sTileY, false);
+								_tileX += 1;
+								_isMove = false;
+							}
+							else if (obj == WALL_END || obj == WALL_GOLD)
+							{
+								_tileX += 1;
+								_isMove = false;
+							}
+						}
+						else
+						{
+							if (obj == WALL_DOOR || obj == WALL_BASIC)
+							{
+								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+								_map->setIsHaveTorch(sTileX, sTileY, false);
+								_tileX += 1;
+								_isMove = false;
+							}
+							else if(obj == WALL_CRACK || obj == WALL_END
+								|| obj == WALL_GOLD
+								|| obj == WALL_STONE)
+							{
+								_tileX += 1;
+								_isMove = false;
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -156,26 +200,11 @@ void player::update()
 		{
 			_playerDirection = RIGHT;
 			_weapon->update();
-			OBJECT obj = _map->getTileObject(_tileX + 1, _tileY);
-			if (obj == WALL_CRACK || obj == WALL_END
-				|| obj == WALL_GOLD
-				|| obj == WALL_STONE)
-			{
-
-			}
-			else if (obj == WALL_DOOR || obj == WALL_BASIC)
-			{
-				_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
-				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-				_map->setIsHaveTorch(_tileX + 1, _tileY, false);
-			}
-
-			else
-			{
-				_tileX += 1;
-				_tileRenderX = _tileX;
-				_isMove = true;
-			}
+			_shovel->update();
+			
+			_tileX += 1;
+			_tileRenderX = _tileX;
+			_isMove = true;
 
 			//웨폰과 에너미의 충돌처리
 			if (_weapon->getVCollision().size() != 0)
@@ -193,6 +222,71 @@ void player::update()
 					}
 				}
 			}
+
+			if (_shovel->getVCollision().size() != 0)
+			{
+				for (int i = 0; i < _shovel->getVCollision().size(); ++i)
+				{
+					int sTileX = (*(_shovel->getVCollision().begin() + i)).tileX;
+					int sTileY = (*(_shovel->getVCollision().begin() + i)).tileY;
+					OBJECT obj = _map->getTileObject(sTileX, sTileY);
+					if (_shovel->getShovelName() == "shovelTitanium")
+					{
+						if (obj == WALL_CRACK)
+						{
+							_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+							_map->setIsHaveTorch(sTileX, sTileY, false);
+							_tileX -= 1;
+							_tileRenderX = _tileX;
+							_isMove = false;
+						}
+						else if (obj == WALL_STONE)
+						{
+							_map->setTileObject(sTileX, sTileY, WALL_CRACK, 2, 1);
+							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+							_tileX -= 1;
+							_tileRenderX = _tileX;
+							_isMove = false;
+						}
+						else if (obj == WALL_DOOR || obj == WALL_BASIC)
+						{
+							_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+							_map->setIsHaveTorch(sTileX, sTileY, false);
+							_tileX -= 1;
+							_tileRenderX = _tileX;
+							_isMove = false;
+						}
+						else if(obj == WALL_END || obj == WALL_GOLD)
+						{
+							_tileX -= 1;
+							_tileRenderX = _tileX;
+							_isMove = false;
+						}
+					}
+					else
+					{
+						if (obj == WALL_DOOR || obj == WALL_BASIC)
+						{
+							_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+							_map->setIsHaveTorch(sTileX, sTileY, false);
+							_tileX -= 1;
+							_tileRenderX = _tileX;
+							_isMove = false;
+						}
+						else if (obj == WALL_CRACK || obj == WALL_END
+							|| obj == WALL_GOLD
+							|| obj == WALL_STONE)
+						{
+							_tileX -= 1;
+							_tileRenderX = _tileX;
+							_isMove = false;
+						}
+					}
+				}
+			}
 		}
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
@@ -201,26 +295,9 @@ void player::update()
 		{
 			_playerDirection = UP;
 			_weapon->update();
-			OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
-			if (obj == WALL_CRACK || obj == WALL_END
-				|| obj == WALL_GOLD
-				|| obj == WALL_STONE)
-			{
-
-			}
-			else if (obj == WALL_DOOR || obj == WALL_BASIC)
-			{
-				_map->setTileObject(_tileX, _tileY - 1, OBJ_NONE, 0, 0);
-				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-				_map->setIsHaveTorch(_tileX, _tileY - 1, false);
-			}
-
-			else
-			{
-				_tileY -= 1;
-				_isMove = true;
-
-			}
+			_shovel->update();
+			_tileY -= 1;
+			_isMove = true;
 
 			//웨폰과 에너미의 충돌처리
 			if (_weapon->getVCollision().size() != 0)
@@ -234,6 +311,65 @@ void player::update()
 							_tileY += 1;
 							_isMove = false;
 							_attack = true;
+						}
+					}
+				}
+			}
+
+			if (_shovel->getVCollision().size() != 0)
+			{
+				for (int i = 0; i < _shovel->getVCollision().size(); ++i)
+				{
+					int sTileX = (*(_shovel->getVCollision().begin() + i)).tileX;
+					int sTileY = (*(_shovel->getVCollision().begin() + i)).tileY;
+					OBJECT obj = _map->getTileObject(sTileX, sTileY);
+					if (_shovel->getShovelName() == "shovelTitanium")
+					{
+						if (obj == WALL_CRACK)
+						{
+							_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+							_map->setIsHaveTorch(sTileX, sTileY, false);
+							_tileY += 1;
+							_isMove = false;
+						}
+						else if (obj == WALL_STONE)
+						{
+							_map->setTileObject(sTileX, sTileY, WALL_CRACK, 2, 1);
+							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+							_tileY += 1;
+							_isMove = false;
+						}
+						else if (obj == WALL_DOOR || obj == WALL_BASIC)
+						{
+							_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+							_map->setIsHaveTorch(sTileX, sTileY, false);
+							_tileY += 1;
+							_isMove = false;
+						}
+						else if (obj == WALL_END || obj == WALL_GOLD)
+						{
+							_tileY += 1;
+							_isMove = false;
+						}
+					}
+					else
+					{
+						if (obj == WALL_DOOR || obj == WALL_BASIC)
+						{
+							_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+							_map->setIsHaveTorch(sTileX, sTileY, false);
+							_tileY += 1;
+							_isMove = false;
+						}
+						else if(obj == WALL_CRACK || obj == WALL_END
+							|| obj == WALL_GOLD
+							|| obj == WALL_STONE)
+						{
+							_tileY += 1;
+							_isMove = false;
 						}
 					}
 				}
@@ -252,26 +388,76 @@ void player::update()
 			{
 				_playerDirection = DOWN;
 				_weapon->update();
-				OBJECT obj = _map->getTileObject(_tileX, _tileY + 1);
-				if (obj == WALL_CRACK || obj == WALL_END
-					|| obj == WALL_GOLD
-					|| obj == WALL_STONE)
-				{
+				_shovel->update();
 
-				}
-				else if (obj == WALL_DOOR || obj == WALL_BASIC)
-				{
-					_map->setTileObject(_tileX, _tileY + 1, OBJ_NONE, 0, 0);
-					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-					_map->setIsHaveTorch(_tileX, _tileY + 1, false);
-				}
+				_tileY += 1;
+				_tileRenderY = _tileY;
+				_isMove = true;
 
-				else
+				if (_shovel->getVCollision().size() != 0)
 				{
-					_tileY += 1;
-					_tileRenderY = _tileY;
-					_isMove = true;
-
+					for (int i = 0; i < _shovel->getVCollision().size(); ++i)
+					{
+						int sTileX = (*(_shovel->getVCollision().begin() + i)).tileX;
+						int sTileY = (*(_shovel->getVCollision().begin() + i)).tileY;
+						OBJECT obj = _map->getTileObject(sTileX, sTileY);
+						if (_shovel->getShovelName() == "shovelTitanium")
+						{
+							if (obj == WALL_CRACK)
+							{
+								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+								_map->setIsHaveTorch(sTileX, sTileY, false);
+								_tileY -= 1;
+								_tileRenderY = _tileY;
+								_isMove = false;
+							}
+							else if (obj == WALL_STONE)
+							{
+								_map->setTileObject(sTileX, sTileY, WALL_CRACK, 2, 1);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+								_tileY -= 1;
+								_tileRenderY = _tileY;
+								_isMove = false;
+							}
+							else if (obj == WALL_DOOR || obj == WALL_BASIC)
+							{
+								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+								_map->setIsHaveTorch(sTileX, sTileY, false);
+								_tileY -= 1;
+								_tileRenderY = _tileY;
+								_isMove = false;
+							}
+							else if(obj == WALL_END
+								|| obj == WALL_GOLD)
+							{
+								_tileY -= 1;
+								_tileRenderY = _tileY;
+								_isMove = false;
+							}
+						}
+						else
+						{
+							if (obj == WALL_DOOR || obj == WALL_BASIC)
+							{
+								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+								_map->setIsHaveTorch(sTileX, sTileY, false);
+								_tileY -= 1;
+								_tileRenderY = _tileY;
+								_isMove = false;
+							}
+							else if(obj == WALL_CRACK || obj == WALL_END
+								|| obj == WALL_GOLD
+								|| obj == WALL_STONE)
+							{
+								_tileY -= 1;
+								_tileRenderY = _tileY;
+								_isMove = false;
+							}
+						}
+					}
 				}
 				//웨폰과 에너미의 충돌처리
 				if (_weapon->getVCollision().size() != 0)
@@ -391,14 +577,7 @@ void player::update()
 			break;
 		}
 	}
-	//_tileRect = _map->getTiles()[_tileY][_tileX].rc;
-		
-	/*
-	_shadow = RectMakeCenter((_tileRect.left + _tileRect.right) / 2, 
-		(_tileRect.top + _tileRect.bottom) / 2 - 32,
-		IMAGEMANAGER->findImage("player_shadow")->getWidth(),
-		IMAGEMANAGER->findImage("player_shadow")->getHeight());
-		*/
+
 	_body = RectMakeCenter(_x, _y,
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameWidth(),
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight());
