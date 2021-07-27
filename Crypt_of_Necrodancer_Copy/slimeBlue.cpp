@@ -17,8 +17,25 @@ void slimeBlue::update(int playerIndexX, int playerIndexY)
 {
 	_playerIndexX = playerIndexX;
 	_playerIndexY = playerIndexY;
+
 	setSlimeFrame();
 	moveSlimeBlue();
+
+	//다음 타일이 플레이어여서 bool 값이 true 되면
+	if (_isPlayer)
+	{
+		_damageRenderCount++;
+		if (_damageRenderCount % 3 == 0)
+		{
+			_damageIndex++;
+			if (_damageIndex > 2)
+			{
+				_damageIndex = 0;
+				_isPlayer = false;
+			}
+			_damageRenderCount = 0;
+		}
+	}
 }
 
 void slimeBlue::release()
@@ -31,6 +48,8 @@ void slimeBlue::render()
 	{
 		Rectangle(getMemDC(), _rc);
 	}
+
+	//알파 값에 따른 블랙모드
 	if (_map->getAlpha(_tileX, _tileY) <= 255 && _map->getAlpha(_tileX, _tileY) > 100) {
 		_img = IMAGEMANAGER->findImage("slimeBlue");
 		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
@@ -40,15 +59,12 @@ void slimeBlue::render()
 		_img = IMAGEMANAGER->findImage("slimeBlue_dark");
 		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
 	}
+
+	attackPlayerRender();
 }
 
 void slimeBlue::setSlimeFrame()
 {
-	if (TIMEMANAGER->getWorldTime() - _worldTime > _beatSpeed / 2)
-	{
-		_worldTime = TIMEMANAGER->getWorldTime();
-	}
-
 	_frameCount++;
 	if (_frameCount % 8 == 0)
 	{
@@ -82,11 +98,39 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 		{
 			if (_direction == NONE)
 			{
-				_direction = _pastDirection;
+				//UP
+				if (_pastDirection == UP)
+				{
+					if (_tileX == _playerIndexX && _tileY - 1 == _playerIndexY)
+					{
+
+						if (!_isAttack)	_isAttack = true;
+						_isPlayer = true;
+					}
+					else
+					{
+						_direction = _pastDirection;
+					}
+				}
+				//DOWN
+				else if (_pastDirection == DOWN)
+				{
+					if (_tileX == _playerIndexX && _tileY + 1 == _playerIndexY)
+					{
+						if (!_isAttack)	_isAttack = true;
+						_isPlayer = true;
+					}
+					else
+					{
+						_direction = _pastDirection;
+					}
+				}
 			}
+
 			if (_direction == UP)
 			{
 				OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
+
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
 					|| obj == WALL_GOLD || obj == WALL_STONE )
 				{
@@ -103,6 +147,11 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 					_pastDirection = _direction;
 					_direction = NONE;
 				}
+				////TRAP 판단
+				//else if ()
+				//{
+				//
+				//}
 				else
 				{
 					_map->setIsEnemy(_tileX, _tileY, false);
@@ -173,6 +222,17 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 				_gravity = 0;
 			}
 			break;
+
+		case NONE:
+			_gravity += 0.965f;
+			_y += -sinf(7 * PI / 9) * 9 + _gravity;
+
+			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
+			{
+				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
+				_isMove = false;
+				_gravity = 0;
+			}
 		}
 	}
 
@@ -215,4 +275,30 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 	//}
 
 
+}
+
+void slimeBlue::attackPlayerRender()
+{
+	if (_isPlayer)
+	{
+		switch (_pastDirection)
+		{
+		case LEFT:
+			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
+				_map->getRect(_tileX, _tileY).left + (_map->getRect(_tileX, _tileY).left - _map->getRect(_tileX, _tileY).right) / 2, _map->getRect(_tileX, _tileY).top, _damageIndex, 1);
+			break;
+		case RIGHT:
+			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
+				(_map->getRect(_tileX, _tileY).left + _map->getRect(_tileX, _tileY).right) / 2, _map->getRect(_tileX, _tileY).top, _damageIndex, 0);
+			break;
+		case UP:
+			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
+				_map->getRect(_tileX, _tileY).left, _map->getRect(_tileX, _tileY).top + (_map->getRect(_tileX, _tileY).top - _map->getRect(_tileX, _tileY).bottom)* (3 / 2), _damageIndex, 1);
+			break;
+		case DOWN:
+			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
+				_map->getRect(_tileX, _tileY).left, (_map->getRect(_tileX, _tileY).top + _map->getRect(_tileX, _tileY).bottom) / 2, _damageIndex, 1);
+			break;
+		}
+	}
 }

@@ -11,5 +11,6 @@ public:
 
 	virtual void setSlimeFrame();
 	virtual void moveSlimeBlue();
+	virtual void attackPlayerRender();
 };
 

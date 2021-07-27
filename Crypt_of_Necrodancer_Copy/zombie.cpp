@@ -55,17 +55,16 @@ void zombie::update(int playerIndexX, int playerIndexY)
 	if (_isPlayer)
 	{
 		_damageRenderCount++;
-		if (_damageRenderCount % 6 == 0)
+		if (_damageRenderCount % 3 == 0)
 		{
 			_damageIndex++;
-			if (_damageIndex > 4)
+			if (_damageIndex > 2)
 			{
 				_damageIndex = 0;
 				_isPlayer = false;
 			}
 			_damageRenderCount = 0;
 		}
-
 	}
 }
 
@@ -75,6 +74,7 @@ void zombie::render()
 	{
 		Rectangle(getMemDC(), _rc);
 	}
+
 	//알파 값에 따른 블랙모드
 	if (_map->getAlpha(_tileX, _tileY) <= 255 && _map->getAlpha(_tileX, _tileY) > 150) {
 		_img = IMAGEMANAGER->findImage("zombie");
@@ -155,9 +155,6 @@ void zombie::moveZombie()
 		{
 			if (_direction == NONE)
 			{
-				//여기서 방향설정
-				//이전에 담고 있던 방향을 NONE으로 제자리 뛰고 있을 때 다시 불러와
-				
 				//LEFT
 				if (_pastDirection == LEFT)
 				{
@@ -169,6 +166,8 @@ void zombie::moveZombie()
 					else
 					{
 						_direction = _pastDirection;
+						//여기서 방향설정
+						//이전에 담고 있던 방향을 NONE으로 제자리 뛰고 있을 때 다시 불러와
 					}
 				}
 				//RIGHT

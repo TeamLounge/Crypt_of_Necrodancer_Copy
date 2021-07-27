@@ -23,6 +23,8 @@ protected:
 
 
 	int _hp;
+	int _damageIndex;
+	int _damageRenderCount;
 
 	int _frameCount;
 	int _frameIndex;
@@ -33,6 +35,8 @@ protected:
 	float _beatSpeed;
 
 	bool _isMove;	//움직여?
+	bool _isPlayer;	//앞에 플레이어야?
+	bool _isAttack;	//플레이어 만나서 공격
 
 	bool _isTime;
 	bool _toRender, _damageRender;
@@ -61,6 +65,7 @@ public:
 	virtual int getCurrentFrameX() { return _currentFrameX; }
 	virtual int getCurrentFrameY() { return _currentFrameY; }
 	virtual int getHp() { return _hp; }
+	virtual bool getAttack() { return _isAttack; }
 
 	virtual float getBeatSpeed() { return _beatSpeed; }
 
@@ -77,6 +82,7 @@ public:
 	virtual void setCurrentFrameX(int currentX) { _currentFrameX = currentX; }
 	virtual void setCurrentFrameY(int currentY) { _currentFrameY = currentY; }
 	virtual void setHp(int hp) { _hp = hp; }
+	virtual void setAttack(bool isAttack) { _isAttack = isAttack; }
 	//virtual void setRect(RECT rc) { _rc = rc; }
 
 	virtual void setBeatSpeed(float speed) { _beatSpeed = speed; }
