@@ -11,6 +11,13 @@
 #define BODYMARGIN 17
 #define BASICVISION 5
 #define EFFECTVOLUME 0.3f
+#define SKELETONDAMAGE 1
+#define MONKEYDAMAGE 1
+#define SLIMEDAMAGE 1
+#define MIMICDAMAGE 1
+#define ZOMBIEDAMAGE 1
+#define MINODAMAGE 1
+#define DRAGONDAMAGE 1
 
 class weapon;
 class shovel;

@@ -210,3 +210,17 @@ bool UIUIManager::deleteAll()
 
 	return false;
 }
+
+void UIUIManager::moveUI(string strKey, float moveSpeedX, float moveSpeedY, int alpha)
+{
+
+}
+
+void UIUIManager::moveUI(string strKey, float moveSpeedX, float moveSpeedY)
+{
+
+}
+
+void UIUIManager::updateUI(string strkey, float UIX, float UIY)
+{
+}

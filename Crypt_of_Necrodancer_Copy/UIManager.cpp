@@ -37,6 +37,10 @@ HRESULT UIManager::init(string songName, float speed)
 
 	_songName = songName;
 
+	_missMax = 0;
+	_missRange = 0;
+	_missAlpha = 255;
+
 	return S_OK;
 }
 
@@ -164,7 +168,7 @@ void UIManager::setHeartBeat(int heartBeatNum)
 	{
 		UI* _heartBeatRight;
 		_heartBeatRight = new heartBeat;
-		_heartBeatRight->init("heartBeat", PointMake(CAMERAMANAGER->getCameraRIGHT() - i * _heartBeatInterval,
+		_heartBeatRight->init("heartBeat", PointMake(CAMERAMANAGER->getCameraRIGHT() + 800 - i * _heartBeatInterval,
 			CAMERAMANAGER->getCameraBOTTOM() - 100));
 
 		_vHeartBeatRight.push_back(_heartBeatRight);
@@ -174,10 +178,22 @@ void UIManager::setHeartBeat(int heartBeatNum)
 	{
 		UI* _heartBeatLeft;
 		_heartBeatLeft = new heartBeat;
-		_heartBeatLeft->init("heartBeat", PointMake(CAMERAMANAGER->getCameraLEFT() + i * _heartBeatInterval,
+		_heartBeatLeft->init("heartBeat", PointMake(CAMERAMANAGER->getCameraLEFT() - 800 + i * _heartBeatInterval,
 			CAMERAMANAGER->getCameraBOTTOM() - 100));
 
 		_vHeartBeatLeft.push_back(_heartBeatLeft);
+	}
+
+	for (_viHeartBeatLeft = _vHeartBeatLeft.begin(); _viHeartBeatLeft != _vHeartBeatLeft.end(); ++_viHeartBeatLeft)
+	{
+		(*_viHeartBeatLeft)->setCameraCenterX(CAMERAMANAGER->getCameraCenterX() - ((*_viHeartBeatLeft)->getRect().left + (*_viHeartBeatLeft)->getRect().right) / 2);
+		(*_viHeartBeatLeft)->setCameraLeftX((*_viHeartBeatLeft)->getCameraCenterX());
+	}
+
+	for (_viHeartBeatRight = _vHeartBeatRight.begin(); _viHeartBeatRight != _vHeartBeatRight.end(); ++_viHeartBeatRight)
+	{
+		(*_viHeartBeatRight)->setCameraCenterX(((*_viHeartBeatRight)->getRect().left + (*_viHeartBeatRight)->getRect().right) / 2 - CAMERAMANAGER->getCameraCenterX());
+		(*_viHeartBeatRight)->setCameraLeftX((*_viHeartBeatRight)->getCameraCenterX());
 	}
 }
 
@@ -196,17 +212,35 @@ void UIManager::updateHeartBeat()
 		_beatHeart->getImg()->getFrameHeight());
 
 	for (_viHeartBeatLeft = _vHeartBeatLeft.begin(); _viHeartBeatLeft != _vHeartBeatLeft.end(); ++_viHeartBeatLeft)
-	{		
-		if ((*_viHeartBeatLeft)->getCenterX() < WINSIZEX / 2)
-		{
-			(*_viHeartBeatLeft)->move(_beatSpeed);
-		}
+	{
+		//if (((*_viHeartBeatLeft)->getRect().left + (*_viHeartBeatLeft)->getRect().right) / 2 < 
+		//	(_beatHeart->getRect().left + _beatHeart->getRect().right) / 2)
+		//{
+		//	(*_viHeartBeatLeft)->move(_beatSpeed);
+		//}
+
+		//(*_viHeartBeatLeft)->move(_beatSpeed);
+		
+		(*_viHeartBeatLeft)->setMoveSpeed(TIMEMANAGER->getElapsedTime() * _beatSpeed);
+
+		(*_viHeartBeatLeft)->setCameraCenterX((*_viHeartBeatLeft)->getCameraCenterX() - (*_viHeartBeatLeft)->getMoveSpeed());
+
+		(*_viHeartBeatLeft)->setCenterX((CAMERAMANAGER->getCameraCenterX() - (*_viHeartBeatLeft)->getCameraCenterX()));
+
+		//(*_viHeartBeatLeft)->setCameraCenterX((*_viHeartBeatLeft)->getCameraCenterX() - (*_viHeartBeatLeft)->getMoveSpeed());
+
+		//(*_viHeartBeatLeft)->setCenterX((*_viHeartBeatLeft)->getCenterX() + (*_viHeartBeatLeft)->getMoveSpeed());
+
+		//(*_viHeartBeatLeft)->setCameraCenterX(WINSIZEX / 2 - (*_viHeartBeatLeft)->getCenterX());
+
+		//(*_viHeartBeatLeft)->setCenterX((CAMERAMANAGER->getCameraLEFT() + CAMERAMANAGER->getCameraRIGHT()) / 2 - (*_viHeartBeatLeft)->getCameraCenterX());
 
 		(*_viHeartBeatLeft)->setRect(RectMakeCenter(
-			CAMERAMANAGER->getCameraCenterX() - (*_viHeartBeatLeft)->getCameraCenterX(),
+			(*_viHeartBeatLeft)->getCenterX(),
 			CAMERAMANAGER->getCameraBOTTOM() - 100,
 			(*_viHeartBeatLeft)->getImg()->getFrameWidth(),
 			(*_viHeartBeatLeft)->getImg()->getFrameHeight()));
+		
 
 		RECT temp;
 		if (IntersectRect(&temp, &(*_viHeartBeatLeft)->getRect(), &_beatHeart->getRect()))
@@ -217,16 +251,33 @@ void UIManager::updateHeartBeat()
 
 	for (_viHeartBeatRight = _vHeartBeatRight.begin(); _viHeartBeatRight != _vHeartBeatRight.end(); ++_viHeartBeatRight)
 	{
-		if ((*_viHeartBeatRight)->getCenterX() > WINSIZEX / 2)
-		{
-			(*_viHeartBeatRight)->move(-_beatSpeed);
-		}
+
+		//if (((*_viHeartBeatRight)->getRect().left + (*_viHeartBeatRight)->getRect().right) / 2 >
+		//	(_beatHeart->getRect().left + _beatHeart->getRect().right) / 2)
+		//{
+		//	(*_viHeartBeatRight)->move(-_beatSpeed);
+		//}
+
+		//(*_viHeartBeatRight)->move(-_beatSpeed);
+
+		(*_viHeartBeatRight)->setMoveSpeed(TIMEMANAGER->getElapsedTime() * _beatSpeed);
+
+		(*_viHeartBeatRight)->setCameraCenterX((*_viHeartBeatRight)->getCameraCenterX() - (*_viHeartBeatRight)->getMoveSpeed());
+
+		(*_viHeartBeatRight)->setCenterX(CAMERAMANAGER->getCameraCenterX() + (*_viHeartBeatRight)->getCameraCenterX());
+
+		//(*_viHeartBeatRight)->setCameraCenterX((*_viHeartBeatRight)->getCameraCenterX() - (*_viHeartBeatRight)->getMoveSpeed());
+		
+		//(*_viHeartBeatRight)->setCenterX((*_viHeartBeatRight)->getCenterX() - (*_viHeartBeatRight)->getMoveSpeed());
+
+		//(*_viHeartBeatRight)->setCenterX((CAMERAMANAGER->getCameraLEFT() + CAMERAMANAGER->getCameraRIGHT()) / 2 + (*_viHeartBeatRight)->getCameraCenterX());
 
 		(*_viHeartBeatRight)->setRect(RectMakeCenter(
-			CAMERAMANAGER->getCameraCenterX() + (*_viHeartBeatRight)->getCameraCenterX(),
+			(*_viHeartBeatRight)->getCenterX(),
 			CAMERAMANAGER->getCameraBOTTOM() - 100,
 			(*_viHeartBeatRight)->getImg()->getFrameWidth(),
 			(*_viHeartBeatRight)->getImg()->getFrameHeight()));
+		
 
 		RECT temp;
 		if (IntersectRect(&temp, &(*_viHeartBeatRight)->getRect(), &_beatHeart->getRect()))
@@ -259,8 +310,23 @@ void UIManager::updateHeartBeat()
 
 				//(*(_vHeartBeatLeft.begin() + i))->setCurrentFrameX(1);
 
-				(*(_vHeartBeatLeft.begin() + i))->setCenterX((*(_vHeartBeatLeft.begin() + _nextI))->getCenterX() - _heartBeatInterval);
-				(*(_vHeartBeatRight.begin() + j))->setCenterX((*(_vHeartBeatRight.begin() + _nextJ))->getCenterX() + _heartBeatInterval);
+				//(*(_vHeartBeatLeft.begin() + i))->setCenterX((*(_vHeartBeatLeft.begin() + _nextI))->getCenterX() - _heartBeatInterval);
+				//(*(_vHeartBeatRight.begin() + j))->setCenterX((*(_vHeartBeatRight.begin() + _nextJ))->getCenterX() + _heartBeatInterval);
+
+				(*(_vHeartBeatLeft.begin() + i))->setCameraCenterX(CAMERAMANAGER->getCameraCenterX() - CAMERAMANAGER->getCameraLEFT());
+				(*(_vHeartBeatRight.begin() + j))->setCameraCenterX(CAMERAMANAGER->getCameraRIGHT() - CAMERAMANAGER->getCameraCenterX());
+
+				//(*(_vHeartBeatRight.begin() + j))->setRect(RectMakeCenter(
+				//((*(_vHeartBeatRight.begin() + _nextJ))->getRect().left + (*(_vHeartBeatRight.begin() + _nextJ))->getRect().right) / 2 + _heartBeatInterval,
+				//	CAMERAMANAGER->getCameraBOTTOM() - 100,
+				//	(*(_vHeartBeatRight.begin() + j))->getImg()->getFrameWidth(),
+				//	(*(_vHeartBeatRight.begin() + j))->getImg()->getFrameHeight()));
+
+				//(*(_vHeartBeatLeft.begin() + i))->setRect(RectMakeCenter(
+				//	((*(_vHeartBeatLeft.begin() + _nextI))->getRect().left + (*(_vHeartBeatLeft.begin() + _nextI))->getRect().right) / 2 - _heartBeatInterval,
+				//	CAMERAMANAGER->getCameraBOTTOM() - 100,
+				//	(*(_vHeartBeatLeft.begin() + i))->getImg()->getFrameWidth(),
+				//	(*(_vHeartBeatLeft.begin() + i))->getImg()->getFrameHeight()));
 
 				if (SOUNDMANAGER->getLength(_songName) - SOUNDMANAGER->getPosition(_songName) <= 30000)
 				{
@@ -1458,6 +1524,64 @@ void UIManager::renderItemHUD()
 		if ((*(_vItemHUD.begin() + i))->getItemType() == ITEM)
 		{
 			UIMANAGER->render("food", getMemDC(), (*(_vItemHUD.begin() + i))->getRect().left + 10, (*(_vItemHUD.begin() + i))->getRect().top + 20, 0, 0);
+		}
+	}
+}
+
+void UIManager::setMissed()
+{
+	_missMax = 50;
+	_missRange = 100;
+}
+
+void UIManager::updateMissed()
+{
+	if (_vMissed.size() == 0) return;
+
+	moveMissed();
+}
+
+void UIManager::renderMissed()
+{
+	if (_vMissed.size() == 0) return;
+
+	for (_viMissed = _vMissed.begin(); _viMissed != _vMissed.end(); ++_viMissed)
+	{
+		(*_viMissed)->getImg()->alphaRender(getMemDC(), (*_viMissed)->getAlpha());
+	}
+}
+
+void UIManager::fireMissed(float fireX, float fireY)
+{
+	//if (_missMax < _vMissed.size()) return;
+
+	UI* _missed;
+	_missed = new missed;
+	_missed->init("¹þ¾î³²", PointMake(fireX, fireY));
+	_fireX = fireX;
+	_fireY = fireY;
+
+	_vMissed.push_back(_missed);
+
+	for (_viMissed = _vMissed.begin(); _viMissed != _vMissed.end(); ++_viMissed)
+	{
+		(*_viMissed)->setAlpha(255);
+		(*_viMissed)->setRange(_missRange);
+	}
+}
+
+void UIManager::moveMissed()
+{
+	for (_viMissed = _vMissed.begin(); _viMissed != _vMissed.end(); ++_viMissed)
+	{
+		(*_viMissed)->moveY(-50);
+		(*_viMissed)->setAlpha((*_viMissed)->getAlpha() - 30);
+
+		if ((*_viMissed)->getRange() ==
+			getDistance((*_viMissed)->getCenterX(), (*_viMissed)->getCenterY(), _fireX, _fireY))
+		{
+			(*_viMissed)->release();
+			_viMissed = _vMissed.erase(_viMissed);
 		}
 	}
 }

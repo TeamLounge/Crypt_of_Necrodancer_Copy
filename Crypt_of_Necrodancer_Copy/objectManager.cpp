@@ -281,17 +281,7 @@ void objectManager::playerItemCollision()
 		torchName = "torch_plus_2";
 		break;
 	case MAP_TITANUM_SHOVEL:
-		if (_shovel->getShovelName() == "shovelBasic")
-		{
-			_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
-		}
 
-		else if (_shovel->getShovelName() == "shovelTitanium")
-		{
-			_map->setTileItem(playerTileX, playerTileY, MAP_TITANUM_SHOVEL);
-		}
-
-		_map->setTileItem(playerTileX, playerTileY, MAP_TITANUM_SHOVEL);
 		break;
 	case MAP_LEATHER_ARMOR:
 		if (_player->getBodyImageName() == "player_body_basic")

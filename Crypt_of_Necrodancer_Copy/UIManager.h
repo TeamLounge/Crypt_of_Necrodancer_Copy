@@ -8,6 +8,7 @@
 #include "diamond.h"
 #include "X.h"
 #include "itemHUD.h"
+#include "missed.h"
 #include <vector>
 
 class objectManager;
@@ -35,6 +36,9 @@ private:
 
 	vUI _vItemHUD;
 	viUI _viItemHUD;
+
+	vUI _vMissed;
+	viUI _viMissed;
 
 	beatHeart* _beatHeart;
 	money* _money;
@@ -101,6 +105,13 @@ private:
 	float _beatSpeed; //하트 비트 스피드
 
 	string _songName;
+
+	//미스 갯수, 사거리, 
+	int _missMax;		//미스 갯수
+	float _missRange;	//미스 사거리
+	int _missAlpha;		//미스 알파값
+	float _fireX;
+	float _fireY;
 public:
 	UIManager();
 	~UIManager();
@@ -162,6 +173,15 @@ public:
 	void plusItemHUD(ITEMTYPE itemType);
 	void minusItemHUD(ITEMTYPE itemType);
 	void renderItemHUD();
+
+	///////////////////////////////
+	// ### miss 영역 ###
+	///////////////////////////////
+	void setMissed();
+	void updateMissed();
+	void renderMissed();
+	void fireMissed(float fireX, float fireY);
+	void moveMissed();
 
 
 	///////////////////////////////

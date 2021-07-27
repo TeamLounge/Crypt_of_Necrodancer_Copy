@@ -4,6 +4,7 @@
 #include "shovel.h"
 #include "enemyManager.h"
 
+
 HRESULT player::init()
 {	
 	_headImageName = "player_head";
@@ -259,6 +260,11 @@ void player::update()
 			}
 		}
 
+		//판정 벗어났을때
+		else if (!_uiManager->getIsIntersectJudge() && !_isMove)
+		{
+
+		}
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
@@ -684,6 +690,7 @@ void player::update()
 				_shadow.left = _tileRect.left;
 				_shadow.right = _shadow.left + IMAGEMANAGER->findImage("shadow_standard_1")->getWidth();
 			}
+
 			break;
 		case RIGHT:
 			_gravity += 0.965f;
@@ -707,6 +714,7 @@ void player::update()
 				_shadow.left = _tileRect.left;
 				_shadow.right = _shadow.left + IMAGEMANAGER->findImage("shadow_standard_1")->getWidth();
 			}
+
 			break;
 		case UP:
 			_gravity += 0.47f;
@@ -726,6 +734,7 @@ void player::update()
 					_tileRenderY = _tileY;
 				}
 			}
+
 			break;
 		case DOWN:
 			/*
@@ -749,6 +758,7 @@ void player::update()
 					_tileRenderY = _tileY;
 				}
 			}
+
 			break;
 		default:
 			break;
@@ -791,6 +801,9 @@ void player::render(int tileX, int tileY)
 
 void player::damaged()
 {
+	//////////////////////////////////////
+	// #### 스켈레톤 공격력 부여 ###
+	/////////////////////////////////////
 	for (int i = 0; i < _em->getVBlackSkeleton().size(); ++i)
 	{
 		if ((*(_em->getVBlackSkeleton().begin() + i))->getAttck())
@@ -798,10 +811,66 @@ void player::damaged()
 			_uiManager->minusHeart(1);
 			_isAttacked = true;
 			_map->setDirtTileFrameY(0);
+			_uiManager->minusHeart(SKELETONDAMAGE);
 			(*(_em->getVBlackSkeleton().begin() + i))->setAttck(false);
 			break;
 		}
 	}
+
+	for (int i = 0; i < _em->getVWitheSkeleton().size(); ++i)
+	{
+		if ((*(_em->getVWitheSkeleton().begin() + i))->getAttck())
+		{
+			_uiManager->minusHeart(SKELETONDAMAGE);
+			(*(_em->getVWitheSkeleton().begin() + i))->setAttck(false);
+			break;
+		}
+	}
+
+	for (int i = 0; i < _em->getVGreenSkeleton().size(); ++i)
+	{
+		if ((*(_em->getVGreenSkeleton().begin() + i))->getAttck())
+		{
+			_uiManager->minusHeart(SKELETONDAMAGE);
+			(*(_em->getVGreenSkeleton().begin() + i))->setAttck(false);
+			break;
+		}
+	}
+
+	//////////////////////////////////////
+	// #### 몽키 공격력 부여 ###
+	/////////////////////////////////////
+	//for (int i = 0; i < _em->getVMonkeyBasic().size(); ++i)
+	//{
+	//	if ((*(_em->getVMonkeyBasic().begin() + i))->getIsCatch())
+	//	{
+	//		_uiManager->minusHeart(MONKEYDAMAGE);
+	//		(*(_em->getVMonkeyBasic().begin() + i))->setIsCatch(false);
+	//		break;
+	//	}
+	//}
+
+	//////////////////////////////////////
+	// #### 미노타우르스 공격력 부여 ###
+	/////////////////////////////////////  ## 아직 없음
+
+	//////////////////////////////////////
+	// #### 슬라임 공격력 부여 ###
+	///////////////////////////////////// ## 아직 못만듬.. by 정무현
+
+	//////////////////////////////////////
+	// #### 좀비 공격력 부여 ###
+	///////////////////////////////////// ## 아직 못만듬.. by 정무현
+
+
+	//////////////////////////////////////
+	// #### 고스트 공격력 부여 ###
+	///////////////////////////////////// ## 아직 없음
+
+
+	//////////////////////////////////////
+	// #### 미믹 공격력 부여 ###
+	///////////////////////////////////// ## 아직 없음
 }
 
 void player::setupPlayerRect()
@@ -832,7 +901,7 @@ void player::setupPlayerRect()
 	_bomb->setBombMapMemoryAddressLink(_map);
 
 	//카메라 설정
-	CAMERAMANAGER->setCameraCenter((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
+	CAMERAMANAGER->updateCamera((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 }
 
 void player::renderShovelEffect(int tileX, int tileY)
