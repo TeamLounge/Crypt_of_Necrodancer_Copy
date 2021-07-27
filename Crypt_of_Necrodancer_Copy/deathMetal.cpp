@@ -9,6 +9,7 @@ HRESULT deathMetal::init(int playerIndexX, int playerIndexY)
 	attack = isdamaged = false;
 	_responeCount = _count = _damageRenderCount = _damageindex = _index = _indey = _phase = 0;
 	toRender = damageRender = false;
+	actionCount = 0;
 	_beatspeed = 1.0f;
 	_img = IMAGEMANAGER->findImage("deathMetal");
 	_tilex = 6;
@@ -63,20 +64,14 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 			TrapMove();
 			if (!isMove&&_astar->getStart())
 			{
-				phaseOneMove(isTime);
+				phaseOneFourMove(isTime);
 			}
 		}
-		else if (_hp < 7 && _hp >= 5)
+		else if (_hp < 7 && _hp >= 3)
 		{
 			_beatspeed = 1.0f;
 			TrapMove();
-			phaseTwoMove(isTime);
-		}
-		else if (_hp < 5 && _hp >= 3)
-		{
-			_beatspeed = 1.0f;
-			TrapMove();
-			phaseThreeMove(isTime);
+			phaseTwoThreeMove(isTime);
 		}
 		else if (_hp <= 2 && _hp > 0)
 		{
@@ -86,7 +81,7 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 			TrapMove();
 			if (!isMove && _astar->getStart())
 			{
-				phaseOneMove(isTime);
+				phaseOneFourMove(isTime);
 			}
 		}
 		isTime = false;
@@ -289,10 +284,9 @@ void deathMetal::render()
 	TextOut(getMemDC(), _rc.left, _rc.bottom, str, strlen(str));
 }
 
-void deathMetal::phaseOneMove(bool Time)
+void deathMetal::phaseOneFourMove(bool Time)
 {
 	if (Time) {
-		++_responeCount;
 		int pastX = _tilex;
 		int pastY = _tiley;
 		if (_astar->getCloseListsize() != 0)
@@ -344,14 +338,15 @@ void deathMetal::phaseOneMove(bool Time)
 	if (!isMove)isMove = true;
 }
 
-void deathMetal::phaseTwoMove(bool Time)
+void deathMetal::phaseTwoThreeMove(bool Time)
 {
 	if (Time) {
+		++actionCount;
 		int pastX = _tilex;
 		int pastY = _tiley;
 		int x = abs(_tilex - _playerindex);
 		int y = abs(_tiley - _playerindey);
-		if (isdamaged) 
+		if (isdamaged)
 		{
 			if (_tilex > 6)
 			{
@@ -361,6 +356,7 @@ void deathMetal::phaseTwoMove(bool Time)
 			{
 				_tilex = 9;
 			}
+
 			if (_tiley > 10)
 			{
 				_tiley = 8;
@@ -370,8 +366,19 @@ void deathMetal::phaseTwoMove(bool Time)
 				_tiley = 12;
 			}
 			isdamaged = false;
+			_x = _map->getRect(_tilex, _tiley).right - _img->getFrameWidth() / 2;
+			_y = _map->getRect(_tilex, _tiley).bottom - _img->getFrameHeight();
+			if (_map->getIsEnemy(_tilex, _tiley)) {
+				_tilex -= 1;
+				_map->setIsEnemy(pastX, pastY, false);
+				_rc = _map->getRect(_tilex, _tiley);
+				_astar->actionMove(_tilex, _tiley);
+				_map->setIsEnemy(_tilex, _tiley, true);
+			}
+			_y += -sinf(7 * PI / 9) * 9;
+			_dir = NONE;
 		}
-		else 
+		else
 		{
 			if (x > y)
 			{
@@ -434,45 +441,54 @@ void deathMetal::phaseTwoMove(bool Time)
 					_tiley = pastY;
 				}
 			}
+			if (!_map->getIsEnemy(_tilex, _tiley) && _map->getTileObject(_tilex, _tiley) == OBJ_NONE)
+			{
+				_map->setIsEnemy(pastX, pastY, false);
+				_rc = _map->getRect(_tilex, _tiley);
+				_astar->actionMove(_tilex, _tiley);
+				_map->setIsEnemy(_tilex, _tiley, true);
+			}
+			else
+			{
+				_tilex = pastX;
+				_tiley = pastY;
+			}
+
+			if (pastY == _tiley && _tilex - pastX == -1)
+			{
+				_y += -sinf(7 * PI / 9) * 9;
+				_dir = LEFT;
+			}
+			else if (pastY == _tiley && _tilex - pastX == 1)
+			{
+				_y += -sinf(7 * PI / 9) * 9;
+				_dir = RIGHT;
+			}
+			else if (pastX == _tilex && _tiley - pastY == -1)
+			{
+				_y += -sinf(PI / 2) * 9;
+				_dir = UP;
+			}
+			else if (pastX == _tilex && _tiley - pastY == 1)
+			{
+				_y += -sinf(PI / 2);
+				_dir = DOWN;
+			}
+			else if (_tilex == pastX && _tiley == pastY)
+			{
+				_y += -sinf(7 * PI / 9) * 9;
+				_dir = NONE;
+			}
 		}
-		if (!_map->getIsEnemy(_tilex,_tiley) && _map->getTileObject(_tilex, _tiley)==OBJ_NONE)
+		if (actionCount==8)
 		{
-			_map->setIsEnemy(pastX, pastY, false);
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->actionMove(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-		}
-		else
-		{
+			_index = 6;
 			_tilex = pastX;
 			_tiley = pastY;
+			actionCount = 0;
+			isAction = true;
 		}
 
-		if (pastY == _tiley && _tilex - pastX == -1)
-		{
-			_y += -sinf(7 * PI / 9) * 9;
-			_dir = LEFT;
-		}
-		else if (pastY == _tiley && _tilex - pastX == 1)
-		{
-			_y += -sinf(7 * PI / 9) * 9;
-			_dir = RIGHT;
-		}
-		else if (pastX == _tilex && _tiley - pastY == -1)
-		{
-			_y += -sinf(PI / 2) * 9;
-			_dir = UP;
-		}
-		else if (pastX == _tilex && _tiley - pastY == 1)
-		{
-			_y += -sinf(PI / 2);
-			_dir = DOWN;
-		}
-		else if (_tilex == pastX && _tiley == pastY)
-		{
-			_y += -sinf(7 * PI / 9) * 9;
-			_dir = NONE;
-		}
 	}
 	if (!isMove)isMove = true;
 
@@ -544,65 +560,6 @@ void deathMetal::phaseThreeMove(bool Time)
 	if (!isMove)isMove = true;
 }
 
-void deathMetal::phasefourMove(bool Time)
-{
-	if (Time) {
-		int pastX = _tilex;
-		int pastY = _tiley;
-		if (_astar->getCloseListsize() != 0)
-		{
-			if (!_map->getIsEnemy(_astar->getClosebackX(), _astar->getClosebackY()))
-			{
-				_map->setIsEnemy(_tilex, _tiley, false);
-				if (_tilex != _playerindex)
-				{
-					_tilex = _astar->getClosebackX();
-					_tiley = _astar->getClosebackY();
-				}
-				else
-				{
-					if (_tilex > _playerindex)
-					{
-						_tilex += 1;
-					}
-					else
-					{
-						_tilex -= 1;
-					}
-				}
-				_rc = _map->getRect(_tilex, _tiley);
-
-				_astar->move(_tilex, _tiley);
-				_map->setIsEnemy(_tilex, _tiley, true);
-			}
-		}
-		else if (_astar->getCloseListsize() == 0)
-		{
-			_astar->enemyAttack();
-		}
-		if (pastY == _tiley && _tilex - pastX == -1)
-		{
-			_dir = LEFT;
-		}
-		else if (pastY == _tiley && _tilex - pastX == 1)
-		{
-			_dir = RIGHT;
-		}
-		else if (pastX == _tilex && _tiley - pastY == -1)
-		{
-			_dir = UP;
-		}
-		else if (pastX == _tilex && _tiley - pastY == 1)
-		{
-			_dir = DOWN;
-		}
-		else if (_tilex == pastX && _tiley == pastY)
-		{
-			_dir = NONE;
-		}
-	}
-	if (!isMove)isMove = true;
-}
 
 void deathMetal::TrapMove()
 {

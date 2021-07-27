@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "whiteSkeleton.h"
 
-HRESULT whiteSkeleton::init(int playerIndexX, int playerIndexY)
+HRESULT whiteSkeleton::init(int playerIndexX, int playerIndexY , bool boss)
 {
 
-	skeleton::init(playerIndexX, playerIndexY);
+	skeleton::init(playerIndexX, playerIndexY , boss);
 	_renderTime = _movingTime = TIMEMANAGER->getWorldTime();
 	_hp = 1;
 	_img = IMAGEMANAGER->findImage("whiteSkeleton");

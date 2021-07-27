@@ -195,11 +195,11 @@ public:
 	void renderSlimeBlue();
 
 
-	void setWhiteSkeleton();
+	void setWhiteSkeleton(bool boss = false);
 	void updateWhiteSkeleton();
 	void renderWhiteSkeleton();
 
-	void setGreenSkeleton();
+	void setGreenSkeleton(bool boss = false);
 	void updateGreenSkeleton();
 	void renderGreenSkeleton();
 
@@ -208,6 +208,7 @@ public:
 	void renderBlackSkeleton();
 
 	void setGhost();
+	void setGhostBossRoom(int x,int y, bool boss);
 	void updateGhost();
 	void renderGhost();
 

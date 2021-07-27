@@ -29,7 +29,7 @@ protected:
 	bool isTime , isMove;
 	bool toRender, damageRender;
 public:
-	virtual HRESULT init(int playerIndexX, int playerIndexY);
+	virtual HRESULT init(int playerIndexX, int playerIndexY, bool boss);
 	virtual void update(int playerIndexX, int playerIndexY);
 	virtual void release();
 	virtual void render();

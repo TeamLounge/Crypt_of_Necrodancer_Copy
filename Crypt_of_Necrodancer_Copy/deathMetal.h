@@ -18,6 +18,7 @@ protected:
 	float _gravity;
 	int _tilex, _tiley;
 	int _responeCount, _count, _damageRenderCount, _damageindex, _index, _indey;
+	int actionCount;
 	int _hp ,_phase;
 
 	int _playerindex, _playerindey;
@@ -37,10 +38,9 @@ public:
 	virtual void release();
 	virtual void render();
 
-	virtual void phaseOneMove(bool Time);
-	virtual void phaseTwoMove(bool Time);
+	virtual void phaseOneFourMove(bool Time);
+	virtual void phaseTwoThreeMove(bool Time);
 	virtual void phaseThreeMove(bool Time);
-	virtual void phasefourMove(bool Time);
 	virtual void TrapMove();
 	virtual void fire();
 
@@ -53,6 +53,8 @@ public:
 	virtual int getPhase() { return _phase; }
 	virtual bool getAttck() { return attack; }
 	virtual PLAYER_ENEMY_DIRECTION getJudgMundetDirection() { return _judgmentdir; }
+	virtual bool getIsAction() { return isAction; }
+
 
 	virtual void setImage(image* image) { _img = image; }
 	virtual void setX(int x) { _tilex = x; }
@@ -62,6 +64,7 @@ public:
 	virtual void setResponeCount(int count) { _responeCount = count; }
 	virtual void setAttck(bool b) { attack = b; }
 	virtual void setIsDamaged(bool b) { isdamaged = b; }
+	virtual void setIsAction(bool b) { isAction = b; }
 };
 
 

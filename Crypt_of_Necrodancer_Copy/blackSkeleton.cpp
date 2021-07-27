@@ -3,7 +3,7 @@
 
 HRESULT blackSkeleton::init(int playerIndexX, int playerIndexY)
 {
-	skeleton::init(playerIndexX, playerIndexY);
+	skeleton::init(playerIndexX, playerIndexY ,false);
 	_hp = 3;
 	_img = IMAGEMANAGER->findImage("blackSkeleton");
 	_img->setFrameY(0);

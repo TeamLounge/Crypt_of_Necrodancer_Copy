@@ -91,6 +91,10 @@ void enemyManager::render()
 
 HRESULT enemyManager::bossRoomInit()
 {
+	setGhostBossRoom(3, 8,true);
+	setGhostBossRoom(9, 8, true);
+	setGhostBossRoom(3, 12, true);
+	setGhostBossRoom(9, 12, true);
 	setDeathMetal();
 	_isboss = true;
 	return S_OK;
@@ -108,38 +112,89 @@ void enemyManager::bossRoomUpdate()
 	_viCollision = _weapon->getVICollision();
 	_weaponName = _weapon->getWeaponName();
 
-	if(_isboss)
+	if (_isboss)
+	{
 		updateDeathMetal();
-	if (!_vGhost.empty())
-	{
-
-	}
-	if (!_vWitheSkeleton.empty())
-	{
-
-	}
-	if (!_vGreenSkeleton.empty())
-	{
-
+		if (_deathMetal->getHp()<=6 && _deathMetal->getHp()>=3)
+		{
+			if (_deathMetal->getIsAction())
+			{
+				if (_deathMetal->getHp() == 5 || _deathMetal->getHp() == 6)
+				{
+					setWhiteSkeleton(true);
+				}
+				else if (_deathMetal->getHp() == 3 || _deathMetal->getHp() == 4)
+				{
+					setGreenSkeleton(true);
+				}
+				_deathMetal->setIsAction(false);
+			}
+		}
+		if (!_vGhost.empty())
+		{
+			updateGhost();
+		}
+		if (!_vWitheSkeleton.empty())
+		{
+			updateWhiteSkeleton();
+		}
+		if (!_vGreenSkeleton.empty())
+		{
+			updateGreenSkeleton();
+		}
+		if (!_isboss)
+		{
+			delete _deathMetal;
+			
+			for (int i = _map->getRoom()[1].y; i < _map->getRoom()[1].y + _map->getRoom()[1].height; ++i)
+			{
+				for (int j = _map->getRoom()[1].x; j < _map->getRoom()[1].x + _map->getRoom()[1].width; ++j)
+				{
+					_map->setIsEnemy(j, i, false);
+				}
+			}
+			_vWitheSkeleton.clear();
+			_vGreenSkeleton.clear();
+			
+			_map->setTileObject(4, 5, OBJ_NONE);
+			_map->setTileObject(5, 5, OBJ_NONE);
+			_map->setTileObject(6, 5, OBJ_NONE);
+			_map->setTileObject(7, 5, OBJ_NONE);
+			_map->setTileObject(8, 5, OBJ_NONE);
+		}
 	}
 	_player->setAttack(false);
 }
 
 void enemyManager::bossRoomRender()
 {
-	if (_isboss) 
+	if (_isboss)
 	{
 		renderDeathMetal();
+		if (!_vGhost.empty())
+		{
+			renderGhost();
+		}
+		if (!_vWitheSkeleton.empty())
+		{
+			renderWhiteSkeleton();
+		}
+		if (!_vGreenSkeleton.empty())
+		{
+			renderGreenSkeleton();
+		}
 	}
+
+
 }
 
-void enemyManager::setWhiteSkeleton()
+void enemyManager::setWhiteSkeleton(bool boss)
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		whiteSkeleton* _skeleton = new whiteSkeleton;
 		_skeleton->setTileMapLinK(_map);
-		_skeleton->init(_player->getTileX(), _player->getTileY());
+		_skeleton->init(_player->getTileX(), _player->getTileY() , boss);
 		_vWitheSkeleton.emplace_back(_skeleton);
 	}
 }
@@ -199,13 +254,13 @@ void enemyManager::renderWhiteSkeleton()
 	}
 }
 
-void enemyManager::setGreenSkeleton()
+void enemyManager::setGreenSkeleton(bool boss)
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		greenSkeleton* _skeleton = new greenSkeleton;
 		_skeleton->setTileMapLinK(_map);
-		_skeleton->init(_player->getTileX(), _player->getTileY());
+		_skeleton->init(_player->getTileX(), _player->getTileY(), boss);
 		_vGreenSkeleton.emplace_back(_skeleton);
 	}
 
@@ -268,7 +323,7 @@ void enemyManager::renderGreenSkeleton()
 
 void enemyManager::setBlackSkeleton()
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		blackSkeleton* _skeleton = new blackSkeleton;
 		_skeleton->setTileMapLinK(_map);
@@ -548,6 +603,13 @@ void enemyManager::setGhost()
 		_ghost->init(_player->getTileX(), _player->getTileY());
 		_vGhost.emplace_back(_ghost);
 	}
+}
+void enemyManager::setGhostBossRoom(int x, int y, bool boss)
+{
+	ghost* _ghost = new ghost;
+	_ghost->setTileMapLinK(_map);
+	_ghost->init(_player->getTileX(), _player->getTileY(), x, y, boss);
+	_vGhost.emplace_back(_ghost);
 }
 void enemyManager::updateGhost()
 {
@@ -1086,7 +1148,6 @@ void enemyManager::updateDeathMetal()
 	if (_deathMetal->getHp() == 0)
 	{
 		_map->setIsEnemy(_deathMetal->getX(), _deathMetal->getY(), false);
-		delete _deathMetal;
 		_isboss = false;
 	}
 	else

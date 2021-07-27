@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "skeleton.h"
 
-HRESULT skeleton::init(int playerIndexX, int playerIndexY)
+HRESULT skeleton::init(int playerIndexX, int playerIndexY, bool boss)
 {
 
 	_astar = new aStarTest;
@@ -14,7 +14,7 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 
 	while (true) //랜덤배치
 	{
-		if (_map->getRoom().size() != 0) {
+		if (!boss) {
 			int random = RND->getInt(_map->getRoom().size());//랜덤방에 배치
 			if (_map->getRoom()[random].roomState == ROOM_START ||
 				_map->getRoom()[random].roomState == ROOM_SHOP)
@@ -27,27 +27,25 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 		}
 		else
 		{
-			int randomx = RND->getFromIntTo(playerIndexX - 3, playerIndexX + 3);//랜덤방에 배치
-			int randomy = RND->getFromIntTo(playerIndexY - 3, playerIndexY + 3);//랜덤방에 배치
+			int randomx = RND->getFromIntTo(playerIndexX - 4, playerIndexX + 4);//랜덤방에 배치
+			int randomy = RND->getFromIntTo(playerIndexY - 4, playerIndexY + 4);//랜덤방에 배치
+			int frontx = _map->getRoom()[1].x;
+			int fronty = _map->getRoom()[1].y;
+			int endx = _map->getRoom()[1].x + _map->getRoom()[1].width;
+			int endy = _map->getRoom()[1].y + _map->getRoom()[1].height;
+			if (!(frontx < randomx && randomx < endx))
+				continue;
+			if (!(fronty < randomy && randomy < endy))
+				continue;
 			if (_map->getTileObject(randomx, randomy) == OBJ_NONE && !_map->getIsEnemy(randomx, randomy) &&
 				randomx == playerIndexX && randomy == playerIndexY)
 				continue; //랜덤하게 찍은 방안의 좌표 중 이 모든조건에 맞추지 않으면 컨티뉴
+			_tilex = randomx;
+			_tiley = randomy;
 			break;// 모든 컨티뉴 지옥에서 벗어낫다면 빠져나오기
 		}
 	}
 
-	//else
-	//{
-	//	while (true) //랜덤배치
-	//	{
-	//		int randomx = RND->getFromIntTo(playerIndexX -3, playerIndexX+3 );//랜덤방에 배치
-	//		int randomy = RND->getFromIntTo(playerIndexY - 3, playerIndexY + 3);//랜덤방에 배치
-	//		if(_map->getTileObject(randomx,randomy) == OBJ_NONE && !_map->getIsEnemy(randomx,randomy) &&
-	//			randomx == playerIndexX && randomy == playerIndexY)
-	//			continue; //랜덤하게 찍은 방안의 좌표 중 이 모든조건에 맞추지 않으면 컨티뉴
-	//		break;//// 모든 컨티뉴 지옥에서 벗어낫다면 빠져나오기
-	//	}
-	//}
 	_rc = _map->getRect(_tilex, _tiley);		//_tileX, _tileY는 움직임을 위한 첫번째 타일맵의 좌표
 	_map->setIsEnemy(_tilex, _tiley, true);
 	_x = _rc.left;								//_x, _y는 이미지를 움직이기 위한 _rc를 토대로 가져온 실제 좌표(정보 가져오기 위함)
