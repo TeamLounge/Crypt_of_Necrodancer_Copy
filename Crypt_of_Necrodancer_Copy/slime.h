@@ -37,11 +37,13 @@ protected:
 	bool _isTime;
 	bool _toRender, _damageRender;
 
+	int _playerIndexX;
+	int _playerIndexY;
 
 public:
-	virtual HRESULT init();
+	virtual HRESULT init(int playerIndexX, int playerIndexY);
 	virtual void release();
-	virtual void update();
+	virtual void update(int playerIndexX, int playerIndexY);
 	virtual void render();
 
 	virtual void setArrangement();
@@ -49,8 +51,8 @@ public:
 
 	//get
 	///////////////////////////////////////////////
-	virtual float getX() { return _tileX; }
-	virtual float getY() { return _tileY; }
+	virtual float getTileX() { return _tileX; }
+	virtual float getTileY() { return _tileY; }
 	virtual float getShadowX() { return _shadowX; }
 	virtual float getShadowY() { return _shadowY; }
 	virtual image * getImage() { return _img; }
@@ -58,15 +60,15 @@ public:
 
 	virtual int getCurrentFrameX() { return _currentFrameX; }
 	virtual int getCurrentFrameY() { return _currentFrameY; }
-	virtual bool getHp() { return _hp; }
+	virtual int getHp() { return _hp; }
 
 	virtual float getBeatSpeed() { return _beatSpeed; }
 
 
 	//set
 	///////////////////////////////////////////////
-	virtual void setX(float x) { _tileX = x; }
-	virtual void setY(float y) { _tileY = y; }
+	virtual void setTileX(float x) { _tileX = x; }
+	virtual void setTileY(float y) { _tileY = y; }
 	virtual void setShadowX(float shadowX) { _shadowX = shadowX; }
 	virtual void setShadowY(float shadowY) { _shadowY = shadowY; }
 	virtual void setImage(image * image) { _img = image; }

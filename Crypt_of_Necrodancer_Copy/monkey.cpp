@@ -117,7 +117,10 @@ void monkey::update(int playerIndexX, int playerIndexY)
 		{
 			_dir = _astar->getDirection();
 			damageRender = true;
+			iscatch = true;
 			_astar->setDamage(false);
+			delete _astar;
+
 		}
 		isTime = false;
 	}
@@ -143,8 +146,6 @@ void monkey::update(int playerIndexX, int playerIndexY)
 		_rc = _map->getRect(_tilex, _tiley);
 		_map->setIsEnemy(_tilex, _tiley, true);
 		_index = 4;
-		iscatch = true;
-		delete _astar;
 		damageRender = false;
 	}
 

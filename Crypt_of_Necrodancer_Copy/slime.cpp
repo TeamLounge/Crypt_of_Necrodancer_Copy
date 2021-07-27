@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "slime.h"
 
-HRESULT slime::init()
+HRESULT slime::init(int playerIndexX, int playerIndexY)
 {
 
 	_toRender = _damageRender = false;
@@ -36,9 +36,10 @@ void slime::release()
 {
 }
 
-void slime::update()
+void slime::update(int playerIndexX, int playerIndexY)
 {
-	
+	_playerIndexX = playerIndexX;
+	_playerIndexY = playerIndexY;
 }
 
 void slime::render()

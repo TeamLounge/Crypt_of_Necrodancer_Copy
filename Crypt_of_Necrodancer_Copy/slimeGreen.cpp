@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "slimeGreen.h"
 
-HRESULT slimeGreen::init()
+HRESULT slimeGreen::init(int playerIndexX, int playerIndexY)
 {
-	slime::init();	//상속
+	slime::init(playerIndexX, playerIndexY);	//상속
 
 	_img = IMAGEMANAGER->findImage("slimeGreen");	//protected!!
 	_map->setIsEnemy(_tileX, _tileY, true);	//에너미 타일 속성 ON		//에너미끼리 안 겹치게		//지나온 타일이 없으니까 이렇게 초기화만 해주고 말아도 됨.
@@ -12,7 +12,7 @@ HRESULT slimeGreen::init()
 	return S_OK;
 }
 
-void slimeGreen::update()
+void slimeGreen::update(int playerIndexX, int playerIndexY)
 {
 	setSlimeFrame();
 	moveSlimeGreen();	//그린슬라임만의 움직임

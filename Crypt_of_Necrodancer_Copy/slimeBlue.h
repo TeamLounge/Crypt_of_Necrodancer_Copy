@@ -4,8 +4,8 @@
 class slimeBlue :public slime
 {
 public:
-	virtual HRESULT init();
-	virtual void update();
+	virtual HRESULT init(int playerIndexX, int playerIndexY);
+	virtual void update(int playerIndexX, int playerIndexY);
 	virtual void release();
 	virtual void render();
 

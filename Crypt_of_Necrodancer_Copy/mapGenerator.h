@@ -128,6 +128,7 @@ public:
 	void setIsSeen(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isSeen = b; }
 	void setIsHaveTorch(int tileX, int tileY, bool b){ _tiles[tileY][tileX].isHaveTorch = b; }
 	void setIsEnemy(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isEnemy = b; }
+	void setIsPlayer(int tileX, int tileY, bool b) { _tiles[tileY][tileX].isPlayer = b; }
 	void setTileObjectFrameX(int tileX, int tileY, int objectFrameX) { _tiles[tileY][tileX].objectFrameX = objectFrameX; }
 	void setTileObjectFrameY(int tileX, int tileY, int objectFrameY) { _tiles[tileY][tileX].objectFrameY = objectFrameY; }
 
@@ -156,6 +157,7 @@ public:
 
 	bool getIsHaveTorch(int tileX, int tileY) { return _tiles[tileY][tileX].isHaveTorch; }
 	bool getIsEnemy(int tileX, int tileY) { return _tiles[tileY][tileX].isEnemy; }
+	bool getIsPlayer(int tileX, int tileY) { return _tiles[tileY][tileX].isPlayer; }
 	int getAlpha(int tileX, int tileY) { return _tiles[tileY][tileX].alpha; }
 	
 	tagTile* getTile(int tileX, int tileY) { return &_tiles[tileY][tileX]; }

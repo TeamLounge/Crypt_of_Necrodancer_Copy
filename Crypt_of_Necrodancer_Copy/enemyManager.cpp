@@ -343,7 +343,7 @@ void enemyManager::setSlimeGreen()
 	{
 		slimeGreen* _slimeGreen = new slimeGreen;
 		_slimeGreen->setTileMapLink(_map);
-		_slimeGreen->init();
+		_slimeGreen->init(_player->getTileX(), _player->getTileY());
 		_vSlimeGreen.push_back(_slimeGreen);		//emplace_back..?
 	}
 }
@@ -382,14 +382,14 @@ void enemyManager::updateSlimeGreen()
 		if ((*_viSlimeGreen)->getHp() == 0)
 		{
 			//에너미 map에 없애주고
-			_map->setIsEnemy((*_viSlimeGreen)->getX(), (*_viSlimeGreen)->getY(), false);
+			_map->setIsEnemy((*_viSlimeGreen)->getTileX(), (*_viSlimeGreen)->getTileY(), false);
 			//이거 삭제!
 			_viSlimeGreen = _vSlimeGreen.erase(_viSlimeGreen);
 		}
 		else
 		{
 			//만약에 아니면 이거 업데이트해라 
-			(*_viSlimeGreen)->update();
+			(*_viSlimeGreen)->update(_player->getTileX(), _player->getTileY());
 			//다음꺼 오라이
 			++_viSlimeGreen;
 		}
@@ -410,7 +410,7 @@ void enemyManager::setSlimeGold()
 	{
 		slimeGold* _slimeGold = new slimeGold;
 		_slimeGold->setTileMapLink(_map);
-		_slimeGold->init();
+		_slimeGold->init(_player->getTileX(), _player->getTileY());
 		_vSlimeGold.push_back(_slimeGold);
 	}
 }
@@ -448,14 +448,14 @@ void enemyManager::updateSlimeGold()
 		if ((*_viSlimeGold)->getHp() == 0)
 		{
 			//에너미 map에 없애주고
-			_map->setIsEnemy((*_viSlimeGold)->getX(), (*_viSlimeGold)->getY(), false);
+			_map->setIsEnemy((*_viSlimeGold)->getTileX(), (*_viSlimeGold)->getTileY(), false);
 			//이거 삭제!
 			_viSlimeGold = _vSlimeGold.erase(_viSlimeGold);
 		}
 		else
 		{
 			//만약에 아니면 이거 업데이트해라 
-			(*_viSlimeGold)->update();
+			(*_viSlimeGold)->update(_player->getTileX(), _player->getTileY());
 			//다음꺼 오라이
 			++_viSlimeGold;
 		}
@@ -476,7 +476,7 @@ void enemyManager::setSlimeBlue()
 	{
 		slimeBlue* _slimeBlue = new slimeBlue;
 		_slimeBlue->setTileMapLink(_map);
-		_slimeBlue->init();
+		_slimeBlue->init(_player->getTileX(), _player->getTileY());
 		_vSlimeBlue.push_back(_slimeBlue);
 	}
 }
@@ -507,6 +507,7 @@ void enemyManager::updateSlimeBlue()
 					if (IntersectRect(&rc, &(*_viSlimeBlue)->getRect(), &_viCollision->rc))
 					{
 						(*_viSlimeBlue)->setHp((*_viSlimeBlue)->getHp() - 1);
+						
 					}
 				}
 			}
@@ -514,14 +515,14 @@ void enemyManager::updateSlimeBlue()
 		if ((*_viSlimeBlue)->getHp() == 0)
 		{
 			//에너미 map에 없애주고
-			_map->setIsEnemy((*_viSlimeBlue)->getX(), (*_viSlimeBlue)->getY(), false);
+			_map->setIsEnemy((*_viSlimeBlue)->getTileX(), (*_viSlimeBlue)->getTileY(), false);
 			//이거 삭제!
 			_viSlimeBlue = _vSlimeBlue.erase(_viSlimeBlue);
 		}
 		else
 		{
 			//만약에 아니면 이거 업데이트해라 
-			(*_viSlimeBlue)->update();
+			(*_viSlimeBlue)->update(_player->getTileX(), _player->getTileY());
 			//다음꺼 오라이
 			++_viSlimeBlue;
 		}
@@ -575,6 +576,7 @@ void enemyManager::updateGhost()
 					{
 						//까줍니다.
 						(*_viGhost)->setHp((*_viGhost)->getHp() - 1);
+
 					}
 				}
 			}
@@ -847,7 +849,7 @@ void enemyManager::setZombie()
 	{
 		zombie* _zombie = new zombie;
 		_zombie->setTileMapLink(_map);
-		_zombie->init();
+		_zombie->init(_player->getTileX(), _player->getTileY());
 		_vZombie.push_back(_zombie);
 	}
 }
@@ -880,12 +882,12 @@ void enemyManager::updateZombie()
 		}
 		if ((*_viZombie)->getHp() == 0)
 		{
-			_map->setIsEnemy((*_viZombie)->getX(), (*_viZombie)->getY(), false);
+			_map->setIsEnemy((*_viZombie)->getTileX(), (*_viZombie)->getTileY(), false);
 			_viZombie = _vZombie.erase(_viZombie);
 		}
 		else
 		{
-			(*_viZombie)->update();
+			(*_viZombie)->update(_player->getTileX(), _player->getTileY());
 			++_viZombie;
 		}
 	}

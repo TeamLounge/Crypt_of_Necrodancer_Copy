@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "slimeBlue.h"
 
-HRESULT slimeBlue::init()
+HRESULT slimeBlue::init(int playerIndexX, int playerIndexY)
 {
-	slime::init();	//상속
+	slime::init(playerIndexX, playerIndexY);	//상속
 
 	_img = IMAGEMANAGER->findImage("slimeBlue");
 	_map->setIsEnemy(_tileX, _tileY, true);	//에너미 타일 속성 ON
@@ -13,8 +13,10 @@ HRESULT slimeBlue::init()
 	return S_OK;
 }
 
-void slimeBlue::update()
+void slimeBlue::update(int playerIndexX, int playerIndexY)
 {
+	_playerIndexX = playerIndexX;
+	_playerIndexY = playerIndexY;
 	setSlimeFrame();
 	moveSlimeBlue();
 }
@@ -38,9 +40,6 @@ void slimeBlue::render()
 		_img = IMAGEMANAGER->findImage("slimeBlue_dark");
 		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
 	}
-	char str[126];
-	sprintf_s(str, "hp:%d", _hp);
-	TextOut(getMemDC(), _rc.left, _rc.top, str, strlen(str));
 }
 
 void slimeBlue::setSlimeFrame()
@@ -98,6 +97,12 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 					_pastDirection = _direction;	//_past에 이전 값을 일단 저장해주자.
 					_direction = NONE;
 				}
+				//PLAYER 판단
+				else if (_tileX == _playerIndexX && _tileY - 1 == _playerIndexY)
+				{
+					_pastDirection = _direction;
+					_direction = NONE;
+				}
 				else
 				{
 					_map->setIsEnemy(_tileX, _tileY, false);
@@ -117,6 +122,11 @@ void slimeBlue::moveSlimeBlue()		//2박자 아래, 위, 아래, 위	.. 길 막으면 다음 박
 					_direction = UP;
 				}
 				else if (_map->getIsEnemy(_tileX, _tileY + 1))
+				{
+					_pastDirection = _direction;
+					_direction = NONE;
+				}
+				else if (_tileX == _playerIndexX && _tileY + 1 == _playerIndexY)
 				{
 					_pastDirection = _direction;
 					_direction = NONE;
