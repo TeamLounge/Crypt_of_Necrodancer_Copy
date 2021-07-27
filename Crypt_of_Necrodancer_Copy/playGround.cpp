@@ -157,7 +157,7 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("skeleton_dark", "image/enemy/skeletonBasic_dark.bmp", 576, 177, 8, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("ghost_dark", "image/enemy/ghost_dark.bmp", 144, 144, 2, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("mimic_dark", "image/enemy/mimic_dark.bmp", 375, 75, 5, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("minotaur_dark", "image/enemy/minotaur_dark.bmp", 1350, 294, 8, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("minotaur_dark", "image/enemy/minotaur_dark.bmp", 1350, 294, 9, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("monkeyBasic_dark", "image/enemy/monkeyBasic_dark.bmp", 450, 150, 6, 2, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addFrameImage("enemyAttackX", "image/enemy/enemyAttack.bmp", 360, 138, 5, 2, true, RGB(255, 0, 255));
@@ -178,6 +178,8 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("dragonRed_dark", "image/enemy/dragonRed_dark.bmp", 1281, 306, 7, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("dragonRedFire", "image/enemy/dragonRedFire.bmp", 420, 60, 7, 1, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("dragonRedFireStarting", "image/enemy/dragonRedFireStarting.bmp", 420, 120, 7, 1, true, RGB(255, 0, 255), true);
+
+	IMAGEMANAGER->addFrameImage("deathMetal", "image/enemy/deathMetal.bmp", 2100, 318, 10, 2, true, RGB(255, 0, 255), true);
 
 	//player
 	IMAGEMANAGER->addFrameImage("player_head", "image/player/playerHead.bmp", 216, 72, 4, 2, true, RGB(255, 0, 255), true);

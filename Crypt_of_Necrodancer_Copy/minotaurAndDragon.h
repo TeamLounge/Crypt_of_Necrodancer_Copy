@@ -45,6 +45,7 @@ public:
 	virtual int getShadowY() { return _shadowY; }
 	virtual int getHp() { return _hp; }
 	virtual float getBeatSpeed() { return _beatspeed; }
+	virtual bool getAttck() { return attack; }
 
 	virtual void setImage(image* image) { _img = image; }
 	virtual void setX(int x) { _tilex = x; }
@@ -54,5 +55,6 @@ public:
 	virtual void setTileMapLinK(mapGenerator* tileMap) { _map = tileMap; }
 	virtual void setHp(int hp) { _hp = hp; }
 	virtual void setBeatSpeed(float speed) { _beatspeed = speed; }
+	virtual void setAttck(bool b) { attack = b; }
 };
 

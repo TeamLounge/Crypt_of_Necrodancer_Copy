@@ -28,6 +28,7 @@ protected:
 	bool toRender, damageRender;
 public:
 	virtual HRESULT init(int playerIndexX, int playerIndexY);
+	virtual HRESULT bossInit(int playerIndexX, int playerIndexY, int x, int y);
 	virtual void update(int playerIndexX, int playerIndexY);
 	virtual void release();
 	virtual void render();
@@ -43,6 +44,7 @@ public:
 	virtual int getHp() { return _hp; }
 	virtual float getBeatSpeed() { return _beatspeed; }
 	virtual bool getIsFind() { return isFind; }
+	virtual bool getAttck() { return attack; }
 
 	virtual void setImage(image* image) { _img = image; }
 	virtual void setX(int x) { _tilex = x; }
@@ -52,5 +54,5 @@ public:
 	virtual void setTileMapLinK(mapGenerator* tileMap) { _map = tileMap; }
 	virtual void setHp(int hp) { _hp = hp; }
 	virtual void setBeatSpeed(float speed) { _beatspeed = speed; }
+	virtual void setAttck(bool b) { attack = b; }
 };
-

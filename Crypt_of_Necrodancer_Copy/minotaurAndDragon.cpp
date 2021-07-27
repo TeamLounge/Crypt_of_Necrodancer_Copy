@@ -86,7 +86,7 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 		else
 		{
 			_astar->update();
-			if (_astar->getStart())
+			if (isMove &&_astar->getStart())
 			{
 				minotaurAndDragonMove(isTime);
 			}
@@ -164,7 +164,10 @@ void minotaurAndDragon::minotaurAndDragonMove(bool Time)
 				_map->setIsEnemy(_tilex, _tiley, false);
 				_tilex = _astar->getClosebackX();
 				_tiley = _astar->getClosebackY();
-				if (_map->getTileObject(_tilex, _tiley) != OBJ_NONE)
+				if (_map->getTileObject(_tilex, _tiley) == WALL_BASIC ||
+					_map->getTileObject(_tilex, _tiley) == WALL_CRACK ||
+					_map->getTileObject(_tilex, _tiley) == WALL_STONE ||
+					_map->getTileObject(_tilex, _tiley) == WALL_GOLD)
 				{
 					_map->setTileObject(_tilex, _tiley, OBJ_NONE);
 				}
@@ -184,10 +187,12 @@ void minotaurAndDragon::minotaurAndDragonMove(bool Time)
 		}
 		if (pastY == _tiley && _tilex - pastX == -1)
 		{
+			_y += -sinf(7 * PI / 9) * 9;
 			_dir = LEFT;
 		}
 		else if (pastY == _tiley && _tilex - pastX == 1)
 		{
+			_y += -sinf(7 * PI / 9) * 9;
 			_dir = RIGHT;
 		}
 		else if (pastX == _tilex && _tiley - pastY == -1)
@@ -277,9 +282,11 @@ void minotaurAndDragon::minotaurActionMove(bool Time)
 				switch (_dir)
 				{
 				case LEFT:
+					_y += -sinf(7 * PI / 9) * 9;
 					_tilex -= 1;
 					break;
 				case RIGHT:
+					_y += -sinf(7 * PI / 9) * 9;
 					_tilex += 1;
 					break;
 				case UP:
@@ -294,6 +301,7 @@ void minotaurAndDragon::minotaurActionMove(bool Time)
 				_map->setIsEnemy(_tilex, _tiley, true);
 				_astar->actionMove(_tilex, _tiley);
 			}
+
 		}
 	}
 
@@ -309,38 +317,53 @@ void minotaurAndDragon::moveMotion()
 			_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
 			_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
 		case LEFT:
-			_gravity += 0.965f;
-			_x += cosf(7 * PI / 9) * 9;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
+
 			if (_x <= (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2))
 			{
 				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
 				isMove = false;
+		
+			}
+			else
+			{
+				_x += cosf(7 * PI / 9) * 9;
+			}
+
+			if (_y >= _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2))
+			{
+				_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
 				_gravity = 0;
-				if (_y >= _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2))
-				{
-					_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
-					//_gravity = 0;
-				}
-				
+				isMove = false;
+			}
+			else
+			{
+				_gravity += 0.965f;
+				_y += -sinf(7 * PI / 9) * 9 + _gravity;
 			}
 
 			break;
 		case RIGHT:
-			_gravity += 0.965f;
-			_x -= cosf(7 * PI / 9) * 9;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
+		
 			if (_x >= (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2))
 			{
 				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
 				isMove = false;
-				//_gravity = 0;
-				if (_y >= _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2))
-				{
-					_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
-					_gravity = 0;
-				}
 				
+			}
+			else
+			{
+				_x -= cosf(7 * PI / 9) * 9;
+			}
+			if (_y >= _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2))
+			{
+				_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
+				_gravity = 0;
+				isMove = false;
+			}
+			else
+			{
+				_gravity += 0.965f;
+				_y += -sinf(7 * PI / 9) * 9 + _gravity;
 			}
 			
 			break;

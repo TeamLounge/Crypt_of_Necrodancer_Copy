@@ -33,8 +33,16 @@ void slimeGold::render()
 	{
 		Rectangle(getMemDC(), _rc);
 	}
+	if (_map->getAlpha(_tileX, _tileY) <= 255 && _map->getAlpha(_tileX, _tileY) > 150) {
+		_img = IMAGEMANAGER->findImage("slimeGold");
+		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
+	}
+	else if (_map->getAlpha(_tileX, _tileY) <= 150 && _map->getAlpha(_tileX, _tileY) > 0)
+	{
+		_img = IMAGEMANAGER->findImage("slimeGold_dark");
+		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
+	}
 
-	_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
 }
 
 

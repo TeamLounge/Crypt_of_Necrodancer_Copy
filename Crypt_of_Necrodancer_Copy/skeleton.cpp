@@ -7,33 +7,58 @@ HRESULT skeleton::init(int playerIndexX, int playerIndexY)
 	_astar = new aStarTest;
 	isFind = false;
 	isTime = isMove = false;
-	_count = _damageRenderCount =_damageindex =_index = _indey = 0;
+	_count = _damageRenderCount = _damageindex = _index = _indey = 0;
 	toRender = damageRender = false;
 	attack = false;
 	_beatspeed = 1.0f;
+
 	while (true) //랜덤배치
 	{
-		int random = RND->getInt(_map->getRoom().size());//랜덤방에 배치
-		if (_map->getRoom()[random].roomState == ROOM_START ||
-			_map->getRoom()[random].roomState == ROOM_SHOP)
-			continue;// 그 방이 플레이어방이거나 상점이면 컨티뉴  
-		_tilex = RND->getFromIntTo(_map->getRoom()[random].x, _map->getRoom()[random].x + _map->getRoom()[random].width);
-		_tiley = RND->getFromIntTo(_map->getRoom()[random].y, _map->getRoom()[random].y + _map->getRoom()[random].height);
-		if (_map->getTileObject(_tilex, _tiley) != OBJ_NONE || _map->getTileTerrain(_tilex, _tiley) != DIRT1 || _map->getIsEnemy(_tilex, _tiley))
-			continue; //랜덤하게 찍은 방안의 좌표 중 벽이있어도 컨티뉴
-		break;//// 모든 컨티뉴 지옥에서 벗어낫다면 빠져나오기
+		if (_map->getRoom().size() != 0) {
+			int random = RND->getInt(_map->getRoom().size());//랜덤방에 배치
+			if (_map->getRoom()[random].roomState == ROOM_START ||
+				_map->getRoom()[random].roomState == ROOM_SHOP)
+				continue;// 그 방이 플레이어방이거나 상점이면 컨티뉴  
+			_tilex = RND->getFromIntTo(_map->getRoom()[random].x, _map->getRoom()[random].x + _map->getRoom()[random].width);
+			_tiley = RND->getFromIntTo(_map->getRoom()[random].y, _map->getRoom()[random].y + _map->getRoom()[random].height);
+			if (_map->getTileObject(_tilex, _tiley) != OBJ_NONE || _map->getTileTerrain(_tilex, _tiley) != DIRT1 || _map->getIsEnemy(_tilex, _tiley))
+				continue; //랜덤하게 찍은 방안의 좌표 중 벽이있어도 컨티뉴
+			break;//// 모든 컨티뉴 지옥에서 벗어낫다면 빠져나오기
+		}
+		else
+		{
+			int randomx = RND->getFromIntTo(playerIndexX - 3, playerIndexX + 3);//랜덤방에 배치
+			int randomy = RND->getFromIntTo(playerIndexY - 3, playerIndexY + 3);//랜덤방에 배치
+			if (_map->getTileObject(randomx, randomy) == OBJ_NONE && !_map->getIsEnemy(randomx, randomy) &&
+				randomx == playerIndexX && randomy == playerIndexY)
+				continue; //랜덤하게 찍은 방안의 좌표 중 이 모든조건에 맞추지 않으면 컨티뉴
+			break;// 모든 컨티뉴 지옥에서 벗어낫다면 빠져나오기
+		}
 	}
+
+	//else
+	//{
+	//	while (true) //랜덤배치
+	//	{
+	//		int randomx = RND->getFromIntTo(playerIndexX -3, playerIndexX+3 );//랜덤방에 배치
+	//		int randomy = RND->getFromIntTo(playerIndexY - 3, playerIndexY + 3);//랜덤방에 배치
+	//		if(_map->getTileObject(randomx,randomy) == OBJ_NONE && !_map->getIsEnemy(randomx,randomy) &&
+	//			randomx == playerIndexX && randomy == playerIndexY)
+	//			continue; //랜덤하게 찍은 방안의 좌표 중 이 모든조건에 맞추지 않으면 컨티뉴
+	//		break;//// 모든 컨티뉴 지옥에서 벗어낫다면 빠져나오기
+	//	}
+	//}
 	_rc = _map->getRect(_tilex, _tiley);		//_tileX, _tileY는 움직임을 위한 첫번째 타일맵의 좌표
-	_map->setIsEnemy(_tilex, _tiley, true);		
+	_map->setIsEnemy(_tilex, _tiley, true);
 	_x = _rc.left;								//_x, _y는 이미지를 움직이기 위한 _rc를 토대로 가져온 실제 좌표(정보 가져오기 위함)
-	_y = _rc.top-(_rc.bottom - _rc.top)/2;	
+	_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 	_astar->setLinkrandomMap(_map);
 	_astar->init(_tilex, _tiley, playerIndexX, playerIndexY);
 	return S_OK;
 }
 
-void skeleton::update(int playerIndexX , int playerIndexY)
-{	
+void skeleton::update(int playerIndexX, int playerIndexY)
+{
 	if (TIMEMANAGER->getWorldTime() - _movingTime >= _beatspeed)
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
@@ -47,7 +72,7 @@ void skeleton::update(int playerIndexX , int playerIndexY)
 		}
 
 	}
-	if (TIMEMANAGER->getWorldTime() - _renderTime >= _beatspeed/2)
+	if (TIMEMANAGER->getWorldTime() - _renderTime >= _beatspeed / 2)
 	{
 		_renderTime = TIMEMANAGER->getWorldTime();
 		if (toRender)
@@ -86,7 +111,7 @@ void skeleton::update(int playerIndexX , int playerIndexY)
 			_astar->move(_tilex, _tiley);
 			_map->setIsEnemy(_tilex, _tiley, true);
 			//_astar->callPathFinder();
-			isMove =true;
+			isMove = true;
 		}
 		else if (_map->getTileObject(_tilex, _tiley) == TR_RIGHT)
 		{
@@ -119,13 +144,13 @@ void skeleton::update(int playerIndexX , int playerIndexY)
 			_astar->move(_tilex, _tiley);
 			_map->setIsEnemy(_tilex, _tiley, true);
 			//_astar->callPathFinder();
-			isMove =true;
+			isMove = true;
 		}
 		else if (_astar->getStart())
 		{
 			skeletonMove(isTime);
 		}
-		
+
 		isTime = false;
 	}
 	if (_astar->getDamage())
@@ -133,7 +158,7 @@ void skeleton::update(int playerIndexX , int playerIndexY)
 		damageRender = true;
 		_astar->setDamage(false);
 		//여기가 에너미가 플레이어한데 어택!
-		if(!attack) attack = true;
+		if (!attack) attack = true;
 	}
 
 	if (damageRender)
@@ -172,15 +197,15 @@ void skeleton::render()
 			break;
 		case RIGHT:
 			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
-				(_map->getRect(_tilex, _tiley).left+_map->getRect(_tilex, _tiley).right)/2, _map->getRect(_tilex, _tiley).top, _damageindex, 0);
+				(_map->getRect(_tilex, _tiley).left + _map->getRect(_tilex, _tiley).right) / 2, _map->getRect(_tilex, _tiley).top, _damageindex, 0);
 			break;
 		case UP:
 			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
-				_map->getRect(_tilex, _tiley).left, _map->getRect(_tilex, _tiley).top +(_map->getRect(_tilex, _tiley).top - _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
+				_map->getRect(_tilex, _tiley).left, _map->getRect(_tilex, _tiley).top + (_map->getRect(_tilex, _tiley).top - _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
 			break;
 		case DOWN:
 			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
-				_map->getRect(_tilex, _tiley).left, (_map->getRect(_tilex, _tiley).top +_map->getRect(_tilex, _tiley).bottom)/2, _damageindex, 1);
+				_map->getRect(_tilex, _tiley).left, (_map->getRect(_tilex, _tiley).top + _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
 			break;
 		}
 	}
@@ -202,7 +227,7 @@ void skeleton::skeletonMove(bool Time)
 				_tiley = _astar->getClosebackY();
 				_map->setIsEnemy(_tilex, _tiley, true);
 				_astar->move(_tilex, _tiley);
-	
+
 			}
 		}
 		else if (_astar->getCloseListsize() == 0)

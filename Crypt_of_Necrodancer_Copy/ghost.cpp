@@ -96,5 +96,15 @@ void ghost::release()
 void ghost::render()
 {
 	ghostAndMinic::render();
-	_img->alphaFrameRender(getMemDC(), _x, _y, _index, _indey, alpha);
+	if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
+		
+		_img = IMAGEMANAGER->findImage("ghost");
+		_img->alphaFrameRender(getMemDC(), _x, _y, _index, _indey,alpha);
+	}
+	else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
+	{
+		_img = IMAGEMANAGER->findImage("ghost_dark");
+		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+	}
+	//_img->alphaFrameRender(getMemDC(), _x, _y, _index, _indey, alpha);
 }

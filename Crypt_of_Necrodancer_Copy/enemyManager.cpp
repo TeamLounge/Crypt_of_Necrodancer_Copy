@@ -5,19 +5,19 @@
 HRESULT enemyManager::init()
 {
 
-	//setWhiteSkeleton();
-	//setGreenSkeleton();
+	setWhiteSkeleton();
+	setGreenSkeleton();
 	setBlackSkeleton();
-	
+
 	setSlimeGreen();
 	setSlimeGold();
 	setSlimeBlue();
-	
+
 	setGhost();
 
 	setMimic();
 
-	//setMonkeyBasic();
+	setMonkeyBasic();
 	//setMonkeyWhite();
 
 	setMinotaur();
@@ -31,6 +31,7 @@ HRESULT enemyManager::init()
 
 void enemyManager::release()
 {
+
 }
 
 void enemyManager::update()
@@ -42,7 +43,6 @@ void enemyManager::update()
 
 	updateWhiteSkeleton();
 	updateGreenSkeleton();
-
 	updateBlackSkeleton();
 
 	updateMimic();
@@ -53,11 +53,11 @@ void enemyManager::update()
 	updateSlimeGold();
 	updateSlimeBlue();
 
-	//updateMonkeyBasic();
+	updateMonkeyBasic();
 	//updateMonkeyWhite();
 
 	updateMinotaur();
-	
+
 	updateZombie();
 
 	//updateRedDragon();
@@ -67,8 +67,8 @@ void enemyManager::update()
 void enemyManager::render()
 {
 
-	//renderWhiteSkeleton();
-	//renderGreenSkeleton();
+	renderWhiteSkeleton();
+	renderGreenSkeleton();
 	renderBlackSkeleton();
 
 	renderMimic();
@@ -79,7 +79,7 @@ void enemyManager::render()
 	renderSlimeGold();
 	renderSlimeBlue();
 
-	//renderMonkeyBasic();
+	renderMonkeyBasic();
 	//renderMonkeyWhite();
 
 	renderMinotaur();
@@ -87,6 +87,50 @@ void enemyManager::render()
 	renderZombie();
 
 	//renderRedDragon();
+}
+
+HRESULT enemyManager::bossRoomInit()
+{
+	setDeathMetal();
+	_isboss = true;
+	return S_OK;
+}
+
+void enemyManager::bossRoomRelease()
+{
+
+}
+
+void enemyManager::bossRoomUpdate()
+{
+	//여기는 무기공격판정렉트 계속 받는곳
+	_vCollision = _weapon->getVCollision();
+	_viCollision = _weapon->getVICollision();
+	_weaponName = _weapon->getWeaponName();
+
+	if(_isboss)
+		updateDeathMetal();
+	if (!_vGhost.empty())
+	{
+
+	}
+	if (!_vWitheSkeleton.empty())
+	{
+
+	}
+	if (!_vGreenSkeleton.empty())
+	{
+
+	}
+	_player->setAttack(false);
+}
+
+void enemyManager::bossRoomRender()
+{
+	if (_isboss) 
+	{
+		renderDeathMetal();
+	}
 }
 
 void enemyManager::setWhiteSkeleton()
@@ -263,7 +307,7 @@ void enemyManager::updateBlackSkeleton()
 				}
 			}
 		}
-			//만약에 해당에너미가 hp=0이라면?
+		//만약에 해당에너미가 hp=0이라면?
 		if ((*_viBlackSkeleton)->getHp() == 0)
 		{
 			//에너미 map에 없애주고
@@ -290,7 +334,7 @@ void enemyManager::renderBlackSkeleton()
 
 void enemyManager::bosspatten()
 {
-	_deathMetal->update(_player->getTileX(),_player->getTileX());
+	_deathMetal->update(_player->getTileX(), _player->getTileX());
 }
 
 void enemyManager::setSlimeGreen()
@@ -307,7 +351,7 @@ void enemyManager::updateSlimeGreen()
 {
 	for (_viSlimeGreen = _vSlimeGreen.begin(); _viSlimeGreen != _vSlimeGreen.end();)
 	{
-		if (_player->getAttack()) 
+		if (_player->getAttack())
 		{//플레이어 공격!
 			//공격렉트중에
 			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
@@ -374,7 +418,7 @@ void enemyManager::updateSlimeGold()
 {
 	for (_viSlimeGold = _vSlimeGold.begin(); _viSlimeGold != _vSlimeGold.end();)
 	{
-		if (_player->getAttack()) 
+		if (_player->getAttack())
 		{//플레이어 공격!
 			//공격렉트중에
 			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
@@ -416,7 +460,7 @@ void enemyManager::updateSlimeGold()
 			++_viSlimeGold;
 		}
 	}
-	
+
 }
 void enemyManager::renderSlimeGold()
 {
@@ -441,7 +485,7 @@ void enemyManager::updateSlimeBlue()
 
 	for (_viSlimeBlue = _vSlimeBlue.begin(); _viSlimeBlue != _vSlimeBlue.end();)
 	{
-		if (_player->getAttack()) 
+		if (_player->getAttack())
 		{//플레이어 공격!
 			//공격렉트중에
 			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
@@ -508,7 +552,7 @@ void enemyManager::updateGhost()
 {
 	for (_viGhost = _vGhost.begin(); _viGhost != _vGhost.end();)
 	{
-		if (_player->getAttack() && (*_viGhost)->getIsFind()) 
+		if (_player->getAttack() && (*_viGhost)->getIsFind())
 		{//플레이어 공격! && 고스트와 미믹은 기믹이 붙어야 되기 때문에 미믹이 발견 했는지도 추가가 됫어용
 			//공격렉트중에
 			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
@@ -546,7 +590,7 @@ void enemyManager::updateGhost()
 		else
 		{
 			//만약에 아니면 이거 업데이트해라 
-			(*_viGhost)->update(_player->getTileX(),_player->getTileY());
+			(*_viGhost)->update(_player->getTileX(), _player->getTileY());
 			//다음꺼 오라이
 			++_viGhost;
 		}
@@ -575,7 +619,7 @@ void enemyManager::updateMimic()
 
 	for (_viMimic = _vMimic.begin(); _viMimic != _vMimic.end();)
 	{
-		if (_player->getAttack() && (*_viMimic)->getIsFind()) 
+		if (_player->getAttack() && (*_viMimic)->getIsFind())
 		{//플레이어 공격! && 고스트와 미믹은 기믹이 붙어야 되기 때문에 미믹이 발견 했는지도 추가가 됫어용
 			//공격렉트중에
 			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
@@ -674,7 +718,7 @@ void enemyManager::updateMonkeyBasic()
 			++_viMonkeyBasic;
 		}
 	}
-	
+
 }
 void enemyManager::renderMonkeyBasic()
 {
@@ -845,7 +889,7 @@ void enemyManager::updateZombie()
 			++_viZombie;
 		}
 	}
-	
+
 }
 
 void enemyManager::renderZombie()
@@ -969,3 +1013,100 @@ void enemyManager::setEnemySpeed(float speed)
 		(*_viRedDragon)->setBeatSpeed(speed);
 	}
 }
+
+void enemyManager::setDeathMetal()
+{
+	_deathMetal = new deathMetal;
+	_deathMetal->setTileMapLinK(_map);
+	_deathMetal->init(_player->getTileX(), _player->getTileY());
+}
+
+void enemyManager::updateDeathMetal()
+{
+
+	if (_player->getAttack()) {
+
+		for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+		{
+			RECT rc;
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{
+				if (IntersectRect(&rc, &_deathMetal->getRect(), &_viCollision->rc))
+				{
+					if (_deathMetal->getHp() >= 7)
+					{
+						if (!((_player->getDirection() == LEFT && _deathMetal->getJudgMundetDirection() == RIGHT) ||
+							(_player->getDirection() == RIGHT && _deathMetal->getJudgMundetDirection() == LEFT) ||
+							(_player->getDirection() == UP && _deathMetal->getJudgMundetDirection() == DOWN) ||
+							(_player->getDirection() == DOWN && _deathMetal->getJudgMundetDirection() == UP)))
+						{
+							_deathMetal->setHp(_deathMetal->getHp() - 1);
+							_player->setAttack(false);
+						}
+					}
+					else
+					{
+						_deathMetal->setHp(_deathMetal->getHp() - 1);
+						_player->setAttack(false);
+					}
+
+				}
+			}
+			else
+			{
+				if (IntersectRect(&rc, &_deathMetal->getRect(), &_viCollision->rc))
+				{
+					if (_deathMetal->getHp() >= 7)
+					{
+						if (!((_player->getDirection() == LEFT && _deathMetal->getJudgMundetDirection() == RIGHT) ||
+							(_player->getDirection() == RIGHT && _deathMetal->getJudgMundetDirection() == LEFT) ||
+							(_player->getDirection() == UP && _deathMetal->getJudgMundetDirection() == DOWN) ||
+							(_player->getDirection() == DOWN && _deathMetal->getJudgMundetDirection() == UP)))
+						{
+							_deathMetal->setHp(_deathMetal->getHp() - 1);
+							_player->setAttack(false);
+						}
+					}
+					else
+					{
+						_deathMetal->setHp(_deathMetal->getHp() - 1);
+						_player->setAttack(false);
+					}
+
+				}
+			}
+		}
+	}
+	if (_deathMetal->getHp() == 0)
+	{
+		_map->setIsEnemy(_deathMetal->getX(), _deathMetal->getY(), false);
+		delete _deathMetal;
+		_isboss = false;
+	}
+	else
+	{
+		_deathMetal->update(_player->getTileX(), _player->getTileY());
+	}
+
+}
+
+void enemyManager::renderDeathMetal()
+{
+	_deathMetal->render();
+}
+
+void enemyManager::setGhostBossRoom()
+{
+	
+}
+
+void enemyManager::setWhiteSkeletonBossRoom()
+{
+
+}
+
+void enemyManager::setGreenSkeletonBossRoom()
+{
+
+}
+

@@ -53,7 +53,7 @@ public:
 	void start();
 	void move(int X ,int Y);
 	void actionMove(int X, int Y);
-	void callPathFinder();
+	void callPathFinder(int x, int y);
 	void enemyAttack();
 
 	void setLinkrandomMap(mapGenerator* map) { _map = map; }

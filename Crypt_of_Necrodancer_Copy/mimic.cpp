@@ -157,5 +157,14 @@ void mimic::release()
 void mimic::render()
 {
 	ghostAndMinic::render();
-	_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+	if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
+		_img = IMAGEMANAGER->findImage("mimic");
+		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+	}
+	else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
+	{
+		_img = IMAGEMANAGER->findImage("mimic_dark");
+		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+	}
+	//_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 }
