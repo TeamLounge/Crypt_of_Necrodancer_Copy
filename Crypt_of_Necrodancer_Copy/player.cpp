@@ -125,7 +125,6 @@ void player::update()
 			_map->setDirtTileFrameY(0);
 		}
 	}
-
 	_isWall = false;
 	//심장박동에 맞춘 경우만 행동
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
@@ -161,20 +160,9 @@ void player::update()
 							OBJECT obj = _map->getTileObject(sTileX, sTileY);
 							if (_shovel->getShovelName() == "shovelTitanium")
 							{
-								if (obj == WALL_CRACK)
+								if (obj == WALL_STONE)
 								{
 									_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-									_map->setIsHaveTorch(sTileX, sTileY, false);
-									_tileX += 1;
-									_isMove = false;
-									_isWall = true;
-									_isTouchWall = true;
-									SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
-								}
-								else if (obj == WALL_STONE)
-								{
-									_map->setTileObject(sTileX, sTileY, WALL_CRACK, 2, 1);
 									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
 									_tileX += 1;
 									_isMove = false;
@@ -295,21 +283,9 @@ void player::update()
 						OBJECT obj = _map->getTileObject(sTileX, sTileY);
 						if (_shovel->getShovelName() == "shovelTitanium")
 						{
-							if (obj == WALL_CRACK)
+							if (obj == WALL_STONE)
 							{
 								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-								_map->setIsHaveTorch(sTileX, sTileY, false);
-								_tileX -= 1;
-								_tileRenderX = _tileX;
-								_isMove = false;
-								_isWall = true;
-								_isTouchWall = true;
-								SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
-							}
-							else if (obj == WALL_STONE)
-							{
-								_map->setTileObject(sTileX, sTileY, WALL_CRACK, 2, 1);
 								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
 								_tileX -= 1;
 								_tileRenderX = _tileX;
@@ -432,20 +408,9 @@ void player::update()
 						OBJECT obj = _map->getTileObject(sTileX, sTileY);
 						if (_shovel->getShovelName() == "shovelTitanium")
 						{
-							if (obj == WALL_CRACK)
+							if (obj == WALL_STONE)
 							{
 								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-								_map->setIsHaveTorch(sTileX, sTileY, false);
-								_tileY += 1;
-								_isMove = false;
-								_isWall = true;
-								_isTouchWall = true;
-								SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
-							}
-							else if (obj == WALL_STONE)
-							{
-								_map->setTileObject(sTileX, sTileY, WALL_CRACK, 2, 1);
 								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
 								_tileY += 1;
 								_isMove = false;
@@ -571,21 +536,9 @@ void player::update()
 							OBJECT obj = _map->getTileObject(sTileX, sTileY);
 							if (_shovel->getShovelName() == "shovelTitanium")
 							{
-								if (obj == WALL_CRACK)
+								if (obj == WALL_STONE)
 								{
 									_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-									_map->setIsHaveTorch(sTileX, sTileY, false);
-									_tileY -= 1;
-									_tileRenderY = _tileY;
-									_isMove = false;
-									_isWall = true;
-									_isTouchWall = true;
-									SOUNDMANAGER->play("dig_dirt", 0.3f);
-								}
-								else if (obj == WALL_STONE)
-								{
-									_map->setTileObject(sTileX, sTileY, WALL_CRACK, 2, 1);
 									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
 									_tileY -= 1;
 									_tileRenderY = _tileY;

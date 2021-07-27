@@ -10,7 +10,7 @@
 #define SHADOWMARGIN 30
 #define BODYMARGIN 17
 #define BASICVISION 5
-#define EFFECTVOLUME 0.3f
+#define EFFECTVOLUME 0.4f
 
 class weapon;
 class shovel;
