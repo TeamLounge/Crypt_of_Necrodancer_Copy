@@ -35,6 +35,8 @@ HRESULT player::init()
 	_isTouchWall = false;
 
 	_shovelEffectElapsedTime = 0;
+
+	_attackElapsedTime = 0;
 	setupPlayerRect();
 
 	return S_OK;
@@ -111,6 +113,16 @@ void player::update()
 				_isTouchWall = false;
 			}
 			
+		}
+	}
+
+	if (!_attack)
+	{
+		_attackElapsedTime += TIMEMANAGER->getElapsedTime();
+		if (_attackElapsedTime >= 5.0f)
+		{
+			_attackElapsedTime -= 5.0f;
+			_map->setDirtTileFrameY(0);
 		}
 	}
 
@@ -238,6 +250,7 @@ void player::update()
 									_tileX += 1;
 									_isMove = false;
 									_attack = true;
+									_map->setDirtTileFrameY(1);
 								}
 							}
 						}
@@ -370,6 +383,7 @@ void player::update()
 								_tileX -= 1;
 								_isMove = false;
 								_attack = true;
+								_map->setDirtTileFrameY(1);
 							}
 						}
 					}
@@ -493,6 +507,7 @@ void player::update()
 								_tileY += 1;
 								_isMove = false;
 								_attack = true;
+								_map->setDirtTileFrameY(1);
 							}
 						}
 					}
@@ -630,6 +645,7 @@ void player::update()
 									_tileY -= 1;
 									_isMove = false;
 									_attack = true;
+									_map->setDirtTileFrameY(1);
 								}
 							}
 						}
@@ -785,6 +801,7 @@ void player::damaged()
 		{
 			_uiManager->minusHeart(1);
 			_isAttacked = true;
+			_map->setDirtTileFrameY(0);
 			(*(_em->getVBlackSkeleton().begin() + i))->setAttck(false);
 			break;
 		}

@@ -69,6 +69,8 @@ private:
 
 	float _shovelEffectElapsedTime;
 
+	float _attackElapsedTime;
+
 public:
 	enemyManager* _em; //에너미 정보 가져오기
 

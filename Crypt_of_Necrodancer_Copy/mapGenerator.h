@@ -165,5 +165,18 @@ public:
 	MAP_ITEM getTileItem(int tileX, int tileY) { return _tiles[tileY][tileX].item; }
 	
 	POINT getShopKeeperXY() { return _shopKeeper; }
+
+	void setDirtTileFrameY(float frameY) {
+		for (int i = 0; i < _height; i++)
+		{
+			for (int j = 0; j < _width; j++)
+			{
+				if (_tiles[i][j].terrain == DIRT1 || _tiles[i][j].terrain == DIRT2)
+				{
+					_tiles[i][j].terrainFrameY = frameY;
+				}
+			}
+		}
+	}
 };
 
