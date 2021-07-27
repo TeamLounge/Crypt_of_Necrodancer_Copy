@@ -293,7 +293,16 @@ public:
 	vRedDragon getVRedDragon() { return _vRedDragon; }
 	viRedDragon getVIRedDragon() { return _viRedDragon; }
 
-
+	bool getIsCatch() {
+		for (_viMonkeyBasic = _vMonkeyBasic.begin(); _viMonkeyBasic != _vMonkeyBasic.end(); ++_viMonkeyBasic)
+		{
+			if ((*_viMonkeyBasic)->getIsCatch())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/////////////////////////////////
 	//속도 값 통일해서 변수로 만들어두기

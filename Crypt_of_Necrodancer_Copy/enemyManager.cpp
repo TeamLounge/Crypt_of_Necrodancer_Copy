@@ -689,22 +689,30 @@ void enemyManager::updateMonkeyBasic()
 	{
 		if (_player->getAttack()) {
 
-			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+			if ((*_viMonkeyBasic)->getIsCatch())
 			{
-				RECT rc;
-				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+				(*_viMonkeyBasic)->setHp((*_viMonkeyBasic)->getHp() - 1);
+				_player->setAttack(false);
+			}
+			else
+			{
+				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
 				{
-					if (IntersectRect(&rc, &(*_viMonkeyBasic)->getRect(), &_viCollision->rc))
+					RECT rc;
+					if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
 					{
-						(*_viMonkeyBasic)->setHp((*_viMonkeyBasic)->getHp() - 1);
-						_player->setAttack(false);
+						if (IntersectRect(&rc, &(*_viMonkeyBasic)->getRect(), &_viCollision->rc))
+						{
+							(*_viMonkeyBasic)->setHp((*_viMonkeyBasic)->getHp() - 1);
+							_player->setAttack(false);
+						}
 					}
-				}
-				else
-				{
-					if (IntersectRect(&rc, &(*_viMonkeyBasic)->getRect(), &_viCollision->rc))
+					else
 					{
-						(*_viMonkeyBasic)->setHp((*_viMonkeyBasic)->getHp() - 1);
+						if (IntersectRect(&rc, &(*_viMonkeyBasic)->getRect(), &_viCollision->rc))
+						{
+							(*_viMonkeyBasic)->setHp((*_viMonkeyBasic)->getHp() - 1);
+						}
 					}
 				}
 			}
