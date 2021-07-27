@@ -781,8 +781,8 @@ void mapGenerator::generate(int maxFeatures)
 						_tiles[i][j].terrainFrameX = 0;
 						_tiles[i][j].terrainFrameY = 0;
 						_tiles[i][j].obj = WALL_BASIC;
-						_tiles[i][j].objectFrameX = 0;
-						_tiles[i][j].objectFrameY = 0;
+						_tiles[i][j].objectFrameX = RND->getInt(8);
+						_tiles[i][j].objectFrameY = RND->getInt(2);
 					}
 					if (_tiles[i + 1][j].terrain == DIRT1 && _tiles[i + 1][j].obj == OBJ_NONE)
 					{
@@ -790,8 +790,8 @@ void mapGenerator::generate(int maxFeatures)
 						_tiles[i][j].terrainFrameX = 0;
 						_tiles[i][j].terrainFrameY = 0;
 						_tiles[i][j].obj = WALL_BASIC;
-						_tiles[i][j].objectFrameX = 0;
-						_tiles[i][j].objectFrameY = 0;
+						_tiles[i][j].objectFrameX = RND->getInt(8);
+						_tiles[i][j].objectFrameY = RND->getInt(2);
 					}
 				}
 			}
@@ -809,8 +809,8 @@ void mapGenerator::generate(int maxFeatures)
 						_tiles[i][j].terrainFrameX = 0;
 						_tiles[i][j].terrainFrameY = 0;
 						_tiles[i][j].obj = WALL_BASIC;
-						_tiles[i][j].objectFrameX = 0;
-						_tiles[i][j].objectFrameY = 0;
+						_tiles[i][j].objectFrameX = RND->getInt(8);
+						_tiles[i][j].objectFrameY = RND->getInt(2);
 					}
 					if (_tiles[i][j + 1].terrain == DIRT1 && _tiles[i][j + 1].obj == OBJ_NONE)
 					{
@@ -818,8 +818,8 @@ void mapGenerator::generate(int maxFeatures)
 						_tiles[i][j].terrainFrameX = 0;
 						_tiles[i][j].terrainFrameY = 0;
 						_tiles[i][j].obj = WALL_BASIC;
-						_tiles[i][j].objectFrameX = 0;
-						_tiles[i][j].objectFrameY = 0;
+						_tiles[i][j].objectFrameX = RND->getInt(8);
+						_tiles[i][j].objectFrameY = RND->getInt(2);
 					}
 				}
 			}
@@ -835,8 +835,8 @@ void mapGenerator::generate(int maxFeatures)
 					for (int k = roomIter->x; k < roomIter->x + roomIter->width; k++)
 					{
 						_tiles[j][k].obj = WALL_BASIC;
-						_tiles[j][k].objectFrameY = 0;
-						_tiles[j][k].objectFrameX = 0;
+						_tiles[j][k].objectFrameX = RND->getInt(8);
+						_tiles[j][k].objectFrameY = RND->getInt(2);
 					}
 				}
 				roomIter = _miniRooms.erase(roomIter);
@@ -860,8 +860,8 @@ void mapGenerator::generate(int maxFeatures)
 						if (_tiles[i][j].obj == OBJ_NONE)
 						{
 							_tiles[i][j].obj = WALL_BASIC;
-							_tiles[i][j].objectFrameY = 0;
-							_tiles[i][j].objectFrameX = 0;
+							_tiles[i][j].objectFrameX = RND->getInt(8);
+							_tiles[i][j].objectFrameY = RND->getInt(2);
 						}
 					}
 				}
@@ -889,8 +889,8 @@ void mapGenerator::generate(int maxFeatures)
 			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].terrainFrameX = 0;
 			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].terrainFrameY = 0;
 			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].obj = WALL_BASIC;
-			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameX = 0;
-			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameY = 0;
+			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameX = RND->getInt(8);
+			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameY = RND->getInt(2);
 		}
 
 		setEndBlock();
