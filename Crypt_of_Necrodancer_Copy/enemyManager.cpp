@@ -692,7 +692,11 @@ void enemyManager::updateMonkeyBasic()
 			if ((*_viMonkeyBasic)->getIsCatch())
 			{
 				(*_viMonkeyBasic)->setHp((*_viMonkeyBasic)->getHp() - 1);
+				char str[128];
+				sprintf_s(str, "monkey_hit%d", RND->getFromIntTo(1, 4));
+				SOUNDMANAGER->play(str, 0.4f);
 				_player->setAttack(false);
+
 			}
 			else
 			{
