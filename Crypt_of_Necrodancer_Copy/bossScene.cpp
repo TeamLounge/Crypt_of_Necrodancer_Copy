@@ -77,6 +77,15 @@ void bossScene::update()
 
 	_UIM->plusItemHUD(BOMB);
 	_UIM->updateItemHUD();
+
+	if (_player->getTileY() < 15)
+	{
+		_map->setTileObject(5, 15, WALL_END, 4, 3);
+		_map->setTileObject(6, 15, WALL_END, 4, 3);
+		_map->setTileObject(7, 15, WALL_END, 4, 3);
+
+	}
+
 }
 
 void bossScene::render()

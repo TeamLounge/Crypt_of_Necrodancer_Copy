@@ -18,17 +18,18 @@ protected:
 	float _gravity;
 	int _tilex, _tiley;
 	int _responeCount, _count, _damageRenderCount, _damageindex, _index, _indey;
-	int _hp, _phase;
+	int _hp ,_phase;
 
 	int _playerindex, _playerindey;
 
 
 	float _movingTime, _renderTime;
+	float _beatspeed;
 
 	bool isFind;
 	bool isTime, isMove;
 	bool isAction, damageRender, toRender;
-	bool attack;
+	bool attack ,isdamaged;
 
 public:
 	virtual HRESULT init(int playerIndexX, int playerIndexY);
@@ -60,6 +61,7 @@ public:
 	virtual void setHp(int hp) { _hp = hp; }
 	virtual void setResponeCount(int count) { _responeCount = count; }
 	virtual void setAttck(bool b) { attack = b; }
+	virtual void setIsDamaged(bool b) { isdamaged = b; }
 };
 
 

@@ -1043,12 +1043,14 @@ void enemyManager::updateDeathMetal()
 							(_player->getDirection() == DOWN && _deathMetal->getJudgMundetDirection() == UP)))
 						{
 							_deathMetal->setHp(_deathMetal->getHp() - 1);
+							_deathMetal->setIsDamaged(true);
 							_player->setAttack(false);
 						}
 					}
 					else
 					{
 						_deathMetal->setHp(_deathMetal->getHp() - 1);
+						_deathMetal->setIsDamaged(true);
 						_player->setAttack(false);
 					}
 
@@ -1066,12 +1068,14 @@ void enemyManager::updateDeathMetal()
 							(_player->getDirection() == DOWN && _deathMetal->getJudgMundetDirection() == UP)))
 						{
 							_deathMetal->setHp(_deathMetal->getHp() - 1);
+							_deathMetal->setIsDamaged(true);
 							_player->setAttack(false);
 						}
 					}
 					else
 					{
 						_deathMetal->setHp(_deathMetal->getHp() - 1);
+						_deathMetal->setIsDamaged(true);
 						_player->setAttack(false);
 					}
 
