@@ -192,4 +192,7 @@ void playGround::addImage()
 	//shopkeeper
 	IMAGEMANAGER->addFrameImage("shopkeeper", "image/object/shopkeeper.bmp", 1128, 114, 8, 1, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("shopkeeper_dark", "image/object/shopkeeper_dark.bmp", 1128, 114, 8, 1, true, RGB(255, 0, 255), true);
+
+	//¸àÆ®µî·Ï
+	IMAGEMANAGER->addImage("¹þ¾î³²", "image/UI/TEMP_missed.bmp", 72, 26, true, RGB(255, 0, 255), true);
 }

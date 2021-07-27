@@ -5,6 +5,7 @@ HRESULT playerTestScene::init()
 {
 	SOUNDMANAGER->addSound("zone1-1", "music/zone1_1.ogg", true, false);
 	SOUNDMANAGER->addSound("zone1-1_shopkeeper", "music/zone1_1_shopkeeper.ogg", true, false);
+	CAMERAMANAGER->setCamera(0, 0);
 	
 	//¸Ê
 	_map = new mapGenerator;
@@ -24,9 +25,8 @@ HRESULT playerTestScene::init()
 
 	//UI
 	_UIM = new UIManager;
-	_UIM->init("zone1-1", 200.0f);
-	CAMERAMANAGER->setCamera(0, 0);
-	_UIM->setHeartBeat(7);
+	_UIM->init("zone1-1", 300.f);
+	_UIM->setHeartBeat(4);
 	_UIM->setHeart(5);
 	_UIM->setItemHUD();
 	_UIM->setMoney();

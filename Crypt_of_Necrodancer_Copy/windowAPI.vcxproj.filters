@@ -405,11 +405,14 @@
     <ClInclude Include="deathMetal.h">
       <Filter>playGround\enemy\deathMetal</Filter>
     </ClInclude>
-    <ClInclude Include="weapon.h">
-      <Filter>playGround\item</Filter>
-    </ClInclude>
     <ClInclude Include="UIUIManager.h">
       <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="missed.h">
+      <Filter>playGround\UI\inGame</Filter>
+    </ClInclude>
+    <ClInclude Include="weapon.h">
+      <Filter>playGround\item\weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -673,6 +676,9 @@
     </ClCompile>
     <ClCompile Include="UIUIManager.cpp">
       <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="missed.cpp">
+      <Filter>playGround\UI\inGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

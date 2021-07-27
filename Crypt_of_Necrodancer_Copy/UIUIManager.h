@@ -19,7 +19,7 @@ private:
 	}UI;
 
 	typedef vector<UI>						 arrUI;
-	typedef vector<UI>						 iterUI;
+	typedef vector<UI>::iterator			 iterUI;
 	typedef map<string, arrUI>				 mapUIList;
 	typedef map<string, arrUI>::iterator	 mapUIIter;
 
@@ -28,6 +28,7 @@ private:
 
 	mapUIList _mUIList;
 	arrUI _arrUI;
+	iterUI _iterUI;
 
 public:
 	UIUIManager();
@@ -51,5 +52,10 @@ public:
 	bool deleteUI(string strKey);
 
 	bool deleteAll();
+
+	void moveUI(string strKey, float moveSpeedX, float movespeedY, int alpha);
+	void moveUI(string strKey, float moveSpeedX, float moveSpeedY);
+	
+	void updateUI(string strkey, float UIX, float UIY);
 };
 

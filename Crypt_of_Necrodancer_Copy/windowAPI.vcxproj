@@ -163,6 +163,7 @@
     <ClInclude Include="dagger.h" />
     <ClInclude Include="deathMetal.h" />
     <ClInclude Include="diamond.h" />
+    <ClInclude Include="missed.h" />
     <ClInclude Include="redDragon.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
@@ -253,6 +254,7 @@
     <ClCompile Include="dagger.cpp" />
     <ClCompile Include="deathMetal.cpp" />
     <ClCompile Include="diamond.cpp" />
+    <ClCompile Include="missed.cpp" />
     <ClCompile Include="redDragon.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
