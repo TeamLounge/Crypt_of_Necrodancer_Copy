@@ -24,5 +24,7 @@ public:
 	virtual void render();
 
 	void addImage();
+
+	void addSoundEffect();
 };
 

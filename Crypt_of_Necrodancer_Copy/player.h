@@ -10,6 +10,7 @@
 #define SHADOWMARGIN 30
 #define BODYMARGIN 17
 #define BASICVISION 5
+#define EFFECTVOLUME 0.3f
 
 class weapon;
 class shovel;
@@ -62,6 +63,8 @@ private:
 	bool _isAttacked;
 	float _attackedElapsedTime;
 	int _alphaCount;
+
+	bool _isWall;
 
 public:
 	enemyManager* _em; //에너미 정보 가져오기

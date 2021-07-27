@@ -17,6 +17,7 @@ HRESULT playGround::init()
 	gameNode::init(true);
 	
 	addImage();
+	addSoundEffect();
 
 
 	SCENEMANAGER->addScene("player_test", new playerTestScene);
@@ -192,4 +193,12 @@ void playGround::addImage()
 	//shopkeeper
 	IMAGEMANAGER->addFrameImage("shopkeeper", "image/object/shopkeeper.bmp", 1128, 114, 8, 1, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("shopkeeper_dark", "image/object/shopkeeper_dark.bmp", 1128, 114, 8, 1, true, RGB(255, 0, 255), true);
+}
+
+void playGround::addSoundEffect()
+{
+	SOUNDMANAGER->addSound("dig_dirt", "sound_effect/mov_dig_dirt.ogg", false, false);
+	SOUNDMANAGER->addSound("dig_fail", "sound_effect/mov_dig_fail.ogg", false, false);
+	SOUNDMANAGER->addSound("dig_stone", "sound_effect/mov_dig_stone.ogg", false, false);
+	SOUNDMANAGER->addSound("door_open", "sound_effect/obj_door_open.ogg", false, false);
 }
