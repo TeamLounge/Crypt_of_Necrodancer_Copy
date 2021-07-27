@@ -11,6 +11,19 @@ shovelType * shovelBasic::inputHandle(shovel * shovel)
 		return new shovelTitanium();
 	}
 
+	if (shovel->_player->getTileX() == shovel->_playerBeforeX && shovel->_player->getTileY() == shovel->_playerBeforeY) return nullptr;
+
+	switch (shovel->_map->getTileItem(shovel->_player->getTileX(), shovel->_player->getTileY()))
+	{
+	case MAP_ITEM_NONE:
+		return nullptr;
+		break;
+	case MAP_TITANUM_SHOVEL:
+		shovel->_map->setTileItem(shovel->_player->getTileX(), shovel->_player->getTileY(), MAP_ITEM_NONE);
+		return new shovelTitanium();
+		break;
+	}
+
 	return nullptr;
 }
 

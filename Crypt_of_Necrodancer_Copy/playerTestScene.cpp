@@ -68,6 +68,7 @@ HRESULT playerTestScene::init()
 	_objectManager->setWeaponMemoryAddressLink(_weapon);
 	_objectManager->setShovelMemoryAddressLink(_shovel);
 	_weapon->setMGMemoryAddressLink(_map);
+	_shovel->setMGMemoryAddressLink(_map);
 
 	_em->setWeaponMemoryAddressLink(_weapon);
 

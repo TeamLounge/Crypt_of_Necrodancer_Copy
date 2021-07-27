@@ -1,10 +1,12 @@
 #pragma once
 #include "gameNode.h"
 #include "shovelType.h"
+#include "mapGenerator.h"
 #include <vector>
 
 class player;
 class objectManager;
+class mapGenerator;
 
 struct SHOVELS
 {
@@ -31,6 +33,10 @@ public:
 
 	player* _player;
 	objectManager* _om;
+	mapGenerator* _map;
+
+	int _playerBeforeX;
+	int	_playerBeforeY;
 
 	shovel();
 	~shovel();
@@ -49,6 +55,7 @@ public:
 
 	void setPlayerMemoryAddressLink(player* player) { _player = player; }
 	void setOMMemoryAddressLink(objectManager* om) { _om = om; }
+	void setMGMemoryAddressLink(mapGenerator* map) { _map = map; }
 
 	vector<SHOVELCOLLISION> getVCollision() { return _vCollision; }
 	vector<SHOVELCOLLISION>::iterator getVICollision() { return _viCollision; }
