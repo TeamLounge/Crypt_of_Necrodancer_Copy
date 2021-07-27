@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "playerTestScene.h"
 
-
 HRESULT playerTestScene::init()
 {
 	SOUNDMANAGER->addSound("zone1-1", "music/zone1_1.ogg", true, false);
