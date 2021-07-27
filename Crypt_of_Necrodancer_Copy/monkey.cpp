@@ -118,6 +118,7 @@ void monkey::update(int playerIndexX, int playerIndexY)
 			_dir = _astar->getDirection();
 			damageRender = true;
 			_astar->setDamage(false);
+
 		}
 		isTime = false;
 	}

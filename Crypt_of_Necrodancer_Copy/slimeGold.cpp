@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "slimeGold.h"
 
-HRESULT slimeGold::init()
+HRESULT slimeGold::init(int playerIndexX, int playerIndexY)
 {
 
-	slime::init();	//»ó¼Ó
+	slime::init(playerIndexX, playerIndexY);	//»ó¼Ó
 
 	_direction = RIGHT;		//slimeGold´Â Ç×»ó ¿ìÃøÀ¸·Î °¡¸ç ½ÃÀÛ
 
@@ -17,8 +17,10 @@ HRESULT slimeGold::init()
 	return S_OK;
 }
 
-void slimeGold::update()
+void slimeGold::update(int playerIndexX, int playerIndexY)
 {
+	_playerIndexX = playerIndexX;
+	_playerIndexY = playerIndexY;
 	setSlimeFrame();
 	moveSlimeGold();
 }
@@ -102,6 +104,11 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 					_pastDirection = _direction;	//_past¿¡ ÀÌÀü °ªÀ» ÀÏ´Ü ÀúÀåÇØÁÖÀÚ.
 					_direction = NONE;
 				}
+				else if (_tileX == _playerIndexX && _tileY - 1 == _playerIndexY)
+				{
+					_pastDirection = _direction;
+					_direction = NONE;
+				}
 				else
 				{
 					_map->setIsEnemy(_tileX, _tileY, false);
@@ -125,6 +132,11 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 					_pastDirection = _direction;
 					_direction = NONE;
 				}
+				else if (_tileX == _playerIndexX && _tileY + 1 == _playerIndexY)
+				{
+					_pastDirection = _direction;
+					_direction = NONE;
+				}
 				else
 				{
 					_map->setIsEnemy(_tileX, _tileY, false);
@@ -142,10 +154,14 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 					|| obj == WALL_GOLD || obj == WALL_STONE)
 				{
 					_direction = RIGHT;
-					_map->setTileObject(_tileX + 1, _tileY, OBJ_NONE, 0, 0);
 					_map->setIsEnemy(_tileX, _tileY, true);
 				}
 				else if (_map->getIsEnemy(_tileX - 1, _tileY))
+				{
+					_pastDirection = _direction;
+					_direction = NONE;
+				}
+				else if (_tileX - 1 == _playerIndexX && _tileY == _playerIndexY)
 				{
 					_pastDirection = _direction;
 					_direction = NONE;
@@ -173,6 +189,11 @@ void slimeGold::moveSlimeGold()		//1¹ÚÀÚ ¿ì, ¾Æ·¡, ÁÂ, À§ .. ±æ ¸·À¸¸é ¹Ý¹ÚÀÚ¸¶´
 					_pastDirection = _direction;
 					_direction = NONE;	//Á¦ÀÚ¸® Á¡ÇÁ							
 
+				}
+				else if (_tileX + 1 == _playerIndexX && _tileY == _playerIndexY)
+				{
+					_pastDirection = _direction;
+					_direction = NONE;
 				}
 				else
 				{

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "zombie.h"
 
-HRESULT zombie::init()
+HRESULT zombie::init(int playerIndexX, int playerIndexY)
 {
 	//상속 init
 	_toRender = _damageRender = false;
@@ -9,9 +9,13 @@ HRESULT zombie::init()
 	_pastDirection = NONE;
 	_frameCount = 0;
 	_frameIndex = 0;
+	_damageIndex = 0;
+	_damageRenderCount = 0;
 
 	_isMove = false;		//시작하자마자 움직여
 	_isTime = false;
+	_isPlayer = false;
+	_isAttack = false;
 
 	
 	_hp = 1;
@@ -39,10 +43,30 @@ void zombie::release()
 {
 }
 
-void zombie::update()
+void zombie::update(int playerIndexX, int playerIndexY)
 {
+	_playerIndexX = playerIndexX;
+	_playerIndexY = playerIndexY;
+
 	setZombieFrame();
 	moveZombie();
+	
+	//다음 타일이 플레이어여서 bool 값이 true 되면
+	if (_isPlayer)
+	{
+		_damageRenderCount++;
+		if (_damageRenderCount % 6 == 0)
+		{
+			_damageIndex++;
+			if (_damageIndex > 4)
+			{
+				_damageIndex = 0;
+				_isPlayer = false;
+			}
+			_damageRenderCount = 0;
+		}
+
+	}
 }
 
 void zombie::render()
@@ -53,6 +77,9 @@ void zombie::render()
 	}
 
 	_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
+	
+	//어택 이미지
+	attackPlayerRender();
 }
 
 void zombie::setArrangement()
@@ -78,11 +105,6 @@ void zombie::setArrangement()
 
 void zombie::setZombieFrame()
 {
-	if (TIMEMANAGER->getWorldTime() - _worldTime > _beatSpeed / 2)
-	{
-		_worldTime = TIMEMANAGER->getWorldTime();
-	}
-
 	_frameCount++;
 	if (_frameCount % 8 == 0)
 	{
@@ -127,13 +149,69 @@ void zombie::moveZombie()
 			if (_direction == NONE)
 			{
 				//여기서 방향설정
-				_direction = _pastDirection;	//이전에 담고 있던 방향을 NONE으로 제자리 뛰고 있을 때 다시 불러와
+				//이전에 담고 있던 방향을 NONE으로 제자리 뛰고 있을 때 다시 불러와
+				
+				//이미지로 방향 판단
+				//LEFT
+				if (_pastDirection == LEFT)
+				{
+					if (_tileX - 1 == _playerIndexX && _tileY == _playerIndexY)
+					{
+						if(!_isAttack)	_isAttack = true;
+						_isPlayer = true;			//_isAttack = false는 플레이어쪽에서 맞았다고 정해주고 거기서 꺼줘야한다.
+					}
+					else
+					{
+						_direction = _pastDirection;
+					}
+				}
+				//RIGHT
+				else if (_pastDirection == RIGHT)
+				{
+					if ((_tileX + 1 == _playerIndexX )&& (_tileY == _playerIndexY))
+					{
+						if (!_isAttack)	_isAttack = true;
+						_isPlayer = true;
+					}
+					else
+					{
+						_direction = _pastDirection;
+					}
+				}
+				//UP
+				else if (_pastDirection == UP)
+				{
+					if (_tileX == _playerIndexX && _tileY - 1 == _playerIndexY)
+					{
+					
+						if (!_isAttack)	_isAttack = true;
+						_isPlayer = true;
+					}
+					else
+					{
+						_direction = _pastDirection;
+					}
+				}
+				//DOWN
+				else if (_pastDirection == DOWN)
+				{
+					if (_tileX == _playerIndexX && _tileY + 1 == _playerIndexY)
+					{
+						if (!_isAttack)	_isAttack = true;
+						_isPlayer = true;
+					}
+					else
+					{
+						_direction = _pastDirection;
+					}
+				}
 				
 			}
 
 			if (_direction == UP)
 			{
 				OBJECT obj = _map->getTileObject(_tileX, _tileY - 1);
+
 				//WALL 판단
 				if (obj == WALL_CRACK || obj == WALL_END || obj == WALL_DOOR || obj == WALL_BASIC
 					|| obj == WALL_GOLD || obj == WALL_STONE)
@@ -147,10 +225,12 @@ void zombie::moveZombie()
 					_direction = NONE;
 				}
 				//PLAYER 판단
-				//else if ()
-				//{
-				//
-				//}
+				else if (_tileX == _playerIndexX && _tileY - 1 == _playerIndexY)
+				{
+					_pastDirection = _direction;
+					_direction = NONE;
+
+				}
 				////TRAP 판단
 				//else if ()
 				//{
@@ -179,6 +259,12 @@ void zombie::moveZombie()
 					_pastDirection = _direction;
 					_direction = NONE;
 				}
+				else if (_tileX == _playerIndexX && _tileY + 1 == _playerIndexY)
+				{
+					//_isPlayer = true;
+					_pastDirection = _direction;
+					_direction = NONE;
+				}
 				
 				else
 				{
@@ -200,6 +286,12 @@ void zombie::moveZombie()
 				}
 				else if (_map->getIsEnemy(_tileX - 1, _tileY))
 				{
+					_pastDirection = _direction;
+					_direction = NONE;
+				}
+				else if (_tileX - 1 == _playerIndexX && _tileY == _playerIndexY)
+				{
+					//_isPlayer = true;
 					_pastDirection = _direction;
 					_direction = NONE;
 				}
@@ -226,6 +318,12 @@ void zombie::moveZombie()
 					_pastDirection = _direction;
 					_direction = NONE;	//제자리 점프			//이 때, 현재 타일과 다음 타일의 에너미는 true					
 					
+				}
+				else if (_tileX + 1 == _playerIndexX && _tileY == _playerIndexY)
+				{
+					//_isPlayer = true;
+					_pastDirection = _direction;
+					_direction = NONE;
 				}
 				//제자리 점프하다가 다시 다음 타일이 적이 아니면
 				//다시 이동..
@@ -283,7 +381,7 @@ void zombie::moveZombie()
 				}
 			}
 			break;
-
+			
 		case UP:
 			_gravity += 0.2f;
 			_y += -sinf(PI / 2) * 9 + _gravity;
@@ -319,8 +417,30 @@ void zombie::moveZombie()
 			}
 		}
 	}
+}
 
-
-
-
+void zombie::attackPlayerRender()
+{
+	if (_isPlayer)
+	{
+		switch (_pastDirection)
+		{
+		case LEFT:
+			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
+				_map->getRect(_tileX, _tileY).left + (_map->getRect(_tileX, _tileY).left - _map->getRect(_tileX, _tileY).right) / 2, _map->getRect(_tileX, _tileY).top, _damageIndex, 1);
+			break;
+		case RIGHT:
+			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
+				(_map->getRect(_tileX, _tileY).left + _map->getRect(_tileX, _tileY).right) / 2, _map->getRect(_tileX, _tileY).top, _damageIndex, 0);
+			break;
+		case UP:
+			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
+				_map->getRect(_tileX, _tileY).left, _map->getRect(_tileX, _tileY).top + (_map->getRect(_tileX, _tileY).top - _map->getRect(_tileX, _tileY).bottom)* (3/ 2), _damageIndex, 1);
+			break;
+		case DOWN:
+			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
+				_map->getRect(_tileX, _tileY).left, (_map->getRect(_tileX, _tileY).top + _map->getRect(_tileX, _tileY).bottom) / 2, _damageIndex, 1);
+			break;
+		}
+	}
 }

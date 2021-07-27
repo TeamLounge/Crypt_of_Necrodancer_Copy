@@ -47,7 +47,7 @@ void skeleton::update(int playerIndexX , int playerIndexY)
 		}
 
 	}
-	if (TIMEMANAGER->getWorldTime() - _renderTime >= _beatspeed/2)
+	if (TIMEMANAGER->getWorldTime() - _renderTime >= _beatspeed/2)		//toRender : ·»´õ¿ë(½ºÄÌ·¹Åæ À§ ¾Æ·¡ ÆÈ Èçµé ¶§ ¹Ý¹ÚÀÚ¾¿ÀÌ¿©¼­ Àâ¾ÆÁÖ°íÀÚ)
 	{
 		_renderTime = TIMEMANAGER->getWorldTime();
 		if (toRender)

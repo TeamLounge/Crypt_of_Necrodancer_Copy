@@ -21,6 +21,7 @@ struct tagTile
 	bool isSeen;
 	bool isBombFired;
 	bool isEnemy = false;	//타일 위에 에너미 있냐없냐 => 전 타일이랑 같이 갱신해줘야함
+	bool isPlayer = false;	//타일 위에 플레이어 있냐없냐
 };
 
 class tileMap : public gameNode
