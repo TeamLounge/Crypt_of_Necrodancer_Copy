@@ -235,16 +235,32 @@ void player::update()
 						//웨폰과 에너미의 충돌처리
 						if (_weapon->getVCollision().size() != 0)
 						{
-							for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+							if (_weapon->getWeaponName() == "rapier")
 							{
-								if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
+								if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileY))
 								{
-									if (_isMove)
+									_attack = true;
+								}
+								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
+								{
+									_tileX += 1;
+									_isMove = false;
+									_attack = true;
+								}
+							}
+							else
+							{
+								for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+								{
+
+									if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
 									{
-										_tileX += 1;
-										_isMove = false;
-										_attack = true;
-										_map->setDirtTileFrameY(1);
+										if (_isMove)
+										{
+											_tileX += 1;
+											_isMove = false;
+											_attack = true;
+										}
 									}
 								}
 							}
@@ -363,16 +379,32 @@ void player::update()
 					//웨폰과 에너미의 충돌처리
 					if (_weapon->getVCollision().size() != 0)
 					{
-						for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+
+						if (_weapon->getWeaponName() == "rapier")
 						{
-							if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
+							if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileY))
 							{
-								if (_isMove)
+								_attack = true;
+							}
+							else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
+							{
+								_tileX -= 1;
+								_isMove = false;
+								_attack = true;
+							}
+						}
+						else
+						{
+							for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+							{
+								if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
 								{
-									_tileX -= 1;
-									_isMove = false;
-									_attack = true;
-									_map->setDirtTileFrameY(1);
+									if (_isMove)
+									{
+										_tileX -= 1;
+										_isMove = false;
+										_attack = true;
+									}
 								}
 							}
 						}
@@ -483,16 +515,32 @@ void player::update()
 					//웨폰과 에너미의 충돌처리
 					if (_weapon->getVCollision().size() != 0)
 					{
-						for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+						if (_weapon->getWeaponName() == "rapier")
 						{
-							if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
+							if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileY))
 							{
-								if (_isMove)
+								_attack = true;
+							}
+							else if(_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
+							{
+								_tileY += 1;
+								_isMove = false;
+								_attack = true;
+							}
+						}
+						else
+						{
+							for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+							{
+								if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
 								{
-									_tileY += 1;
-									_isMove = false;
-									_attack = true;
-									_map->setDirtTileFrameY(1);
+									if (_isMove)
+									{
+										_tileY += 1;
+										_isMove = false;
+										_attack = true;
+										_map->setDirtTileFrameY(1);
+									}
 								}
 							}
 						}
@@ -617,16 +665,32 @@ void player::update()
 						//웨폰과 에너미의 충돌처리
 						if (_weapon->getVCollision().size() != 0)
 						{
-							for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+							if (_weapon->getWeaponName() == "rapier")
 							{
-								if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
+								if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileX))
 								{
-									if (_isMove)
+									_attack = true;
+								}
+								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
+								{
+									_tileY -= 1;
+									_isMove = false;
+									_attack = true;
+								}
+							}
+							else
+							{
+								for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+								{
+									if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
 									{
-										_tileY -= 1;
-										_isMove = false;
-										_attack = true;
-										_map->setDirtTileFrameY(1);
+										if (_isMove)
+										{
+											_tileY -= 1;
+											_isMove = false;
+											_attack = true;
+											_map->setDirtTileFrameY(1);
+										}
 									}
 								}
 							}
