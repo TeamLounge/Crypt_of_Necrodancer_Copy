@@ -393,7 +393,8 @@ void objectManager::playerItemCollision()
 		foodName = "cheese";
 		break;
 	case MAP_COIN10:
-		
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(10, false);
 	default:
 		break;
 	}

@@ -396,7 +396,7 @@ void UIManager::renderMoneyNumber()
 	for (int i = 0; i < 3; ++i)
 	{
 		if (_moneyHundred == 0 && i == 2) continue;
-		if (_moneyTen == 0 && i == 1) continue;
+		if (_moneyHundred == 0 && _moneyTen == 0 && i == 1) continue;
 
 		(*(_vMoneyNumber.begin() + i))->render();
 	}

@@ -494,6 +494,7 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 			IMAGEMANAGER->alphaFrameRender("coin10", getMemDC(),
 				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin10")->getFrameWidth() / 2,
 				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin10")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+			break;
 		case MAP_BOMB:
 			IMAGEMANAGER->frameRender("bombX3", getMemDC(),
 				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("bombX3")->getFrameWidth() / 2,
