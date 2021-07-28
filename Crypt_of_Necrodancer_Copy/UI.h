@@ -65,12 +65,14 @@ public:
 
 	void setRect(RECT rc) { _rc = rc; }
 	RECT getRect() { return _rc; }
-
+	RECT* getRectPointer() { return &_rc; }
 	void setCurrentFrameX(int currentFrameX) { _currentFrameX = currentFrameX; }
 	int getCurrentFrameX() { return _currentFrameX; }
+	int* getCurrentFrameXPointer() { return &_currentFrameX; }
 
 	void setCurrentFrameY(int currentFrameY) { _currentFrameY = currentFrameY; }
 	int getCurrentFrameY() { return _currentFrameY; }
+	int* getCurrentFrameYPointer() { return &_currentFrameY; }
 
 	void setRectX(float rectX) { _rectX = rectX; }
 	void setCameraLeftX(float cameraLeftX) { _cameraLeftX = cameraLeftX; }

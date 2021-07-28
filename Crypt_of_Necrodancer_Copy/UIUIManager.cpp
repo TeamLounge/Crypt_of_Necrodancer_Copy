@@ -34,12 +34,12 @@ void UIUIManager::render(HDC hdc, float UIX, float UIY)
 		{
 			if (_arrUI[i].isAlpha)
 			{
-				IMAGEMANAGER->findImage(_arrUI[i].UIImageName)->alphaFrameRender(hdc, UIX, UIY, _arrUI[i].currentFrameX, _arrUI[i].currentFrameY, _arrUI[i].alpha);
+				IMAGEMANAGER->findImage(_arrUI[i].UIImageName)->alphaFrameRender(hdc, UIX, UIY, *_arrUI[i].currentFrameX, *_arrUI[i].currentFrameY, *_arrUI[i].alpha);
 			}
 
 			else
 			{
-				IMAGEMANAGER->findImage(_arrUI[i].UIImageName)->frameRender(hdc, UIX, UIY, _arrUI[i].currentFrameX, _arrUI[i].currentFrameY);
+				IMAGEMANAGER->findImage(_arrUI[i].UIImageName)->frameRender(hdc, UIX, UIY, *_arrUI[i].currentFrameX, *_arrUI[i].currentFrameY);
 			}
 		}
 
@@ -47,13 +47,26 @@ void UIUIManager::render(HDC hdc, float UIX, float UIY)
 		{
 			if (_arrUI[i].isAlpha)
 			{
-				IMAGEMANAGER->findImage(_arrUI[i].UIImageName)->alphaRender(hdc, UIX, UIY, _arrUI[i].alpha);
+				IMAGEMANAGER->findImage(_arrUI[i].UIImageName)->alphaRender(hdc, UIX, UIY, *_arrUI[i].alpha);
 			}
 
 			else
 			{
 				IMAGEMANAGER->findImage(_arrUI[i].UIImageName)->render(hdc, UIX, UIY);
 			}
+		}
+	}
+}
+
+void UIUIManager::renderByRect(string strKey, HDC hdc)
+{
+	mapUIIter key = _mUIList.find(strKey);
+
+	if (key != _mUIList.end())
+	{
+		for (int i = 0; i < key->second.size(); i++)
+		{
+			IMAGEMANAGER->findImage((key->second.begin())->UIImageName)->frameRender(hdc, key->second[i].rc->left, key->second[i].rc->top, *key->second[i].currentFrameX, *key->second[i].currentFrameY);
 		}
 	}
 }
@@ -78,7 +91,7 @@ void UIUIManager::render(string strKey, HDC hdc, float UIX, float UIY, float cur
 	}
 }
 
-void UIUIManager::addUI(string strKey, const char * UIImageName, float UIX, float UIY, int currentFrameX, int currentFrameY, int alpha)
+void UIUIManager::addUI(string strKey, const char * UIImageName, float *UIX, float *UIY, int *currentFrameX, int *currentFrameY, int *alpha)
 {
 	UI _UI;
 	_UI.UIImageName = UIImageName;
@@ -104,7 +117,7 @@ void UIUIManager::addUI(string strKey, const char * UIImageName, float UIX, floa
 	_mUIList.insert(make_pair(strKey, array));
 }
 
-void UIUIManager::addUI(string strKey, const char * UIImageName, float UIX, float UIY, int currentFrameX, int currentFrameY)
+void UIUIManager::addUI(string strKey, const char * UIImageName, float *UIX, float *UIY, int *currentFrameX, int *currentFrameY)
 {
 	UI _UI;
 	_UI.UIImageName = UIImageName;
@@ -129,7 +142,7 @@ void UIUIManager::addUI(string strKey, const char * UIImageName, float UIX, floa
 	_mUIList.insert(make_pair(strKey, array));
 }
 
-void UIUIManager::addUI(string strKey, const char * UIImageName, float UIX, float UIY, int alpha)
+void UIUIManager::addUI(string strKey, const char * UIImageName, float *UIX, float *UIY, int *alpha)
 {
 	UI _UI;
 	_UI.UIImageName = UIImageName;
@@ -153,7 +166,7 @@ void UIUIManager::addUI(string strKey, const char * UIImageName, float UIX, floa
 	_mUIList.insert(make_pair(strKey, array));
 }
 
-void UIUIManager::addUI(string strKey, const char * UIImageName, float UIX, float UIY)
+void UIUIManager::addUI(string strKey, const char * UIImageName, float *UIX, float *UIY)
 {
 	UI _UI;
 	_UI.UIImageName = UIImageName;
@@ -161,6 +174,32 @@ void UIUIManager::addUI(string strKey, const char * UIImageName, float UIX, floa
 	_UI.y = UIY;
 	_UI.isAlpha = false;
 	_UI.isFrame = false;
+
+	for (mapUIIter iter = _mUIList.begin(); iter != _mUIList.end(); iter++)
+	{
+		if (iter->first == strKey)
+		{
+			iter->second.push_back(_UI);
+			return;
+		}
+	}
+
+	arrUI array;
+	array.push_back(_UI);
+	_mUIList.insert(make_pair(strKey, array));
+}
+
+void UIUIManager::addUI(string strKey, const char * UIImageName, RECT * rc, int* currentFrameX, int* currentFrameY)
+{
+	UI _UI;
+	_UI.UIImageName = UIImageName;
+	_UI.x = 0;
+	_UI.y = 0;
+	_UI.currentFrameX = currentFrameX;
+	_UI.currentFrameY = currentFrameY;
+	_UI.isAlpha = false;
+	_UI.isFrame = false;
+	_UI.rc = rc;
 
 	for (mapUIIter iter = _mUIList.begin(); iter != _mUIList.end(); iter++)
 	{
@@ -211,16 +250,3 @@ bool UIUIManager::deleteAll()
 	return false;
 }
 
-void UIUIManager::moveUI(string strKey, float moveSpeedX, float moveSpeedY, int alpha)
-{
-
-}
-
-void UIUIManager::moveUI(string strKey, float moveSpeedX, float moveSpeedY)
-{
-
-}
-
-void UIUIManager::updateUI(string strkey, float UIX, float UIY)
-{
-}

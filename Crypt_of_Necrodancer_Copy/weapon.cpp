@@ -56,7 +56,7 @@ HRESULT weapon::init()
 
 	ZeroMemory(&_collision, sizeof(COLLISION));
 
-	UIMANAGER->addUI("weapon", _weapon.imageName.c_str(), _weapon.x, _weapon.y);
+	UIMANAGER->addUI("weapon", _weapon.imageName.c_str(), &_weapon.x, &_weapon.y);
 
 	return S_OK;
 }
