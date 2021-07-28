@@ -9,13 +9,14 @@ private:
 	typedef struct tagUI
 	{
 		const char* UIImageName;
-		int currentFrameX;
-		int currentFrameY;
-		float x;
-		float y;
+		int* currentFrameX;
+		int* currentFrameY;
+		float* x;
+		float* y;
 		bool isFrame;
 		bool isAlpha;
-		int alpha;
+		int* alpha;
+		RECT* rc;
 	}UI;
 
 	typedef vector<UI>						 arrUI;
@@ -39,23 +40,21 @@ public:
 	void update();
 	void render(HDC hdc, float UIX, float UIY);
 
+	void renderByRect(string strKey, HDC hdc);
+
 	void render(string strKey, HDC hdc, float UIX, float UIY);
 
 	void render(string strKey, HDC hdc, float UIX, float UIY, float currentFrameX, float currentFrameY);
 
+	void addUI(string strKey, const char* UIImageName, float *UIX, float *UIY, int *currentFrameX, int *currentFrameY, int *alpha);
+	void addUI(string strKey, const char* UIImageName, float *UIX, float *UIY, int *currentFrameX, int *currentFrameY);
+	void addUI(string strKey, const char* UIImageName, float *UIX, float *UIY, int *alpha);
+	void addUI(string strKey, const char* UIImageName, float *UIX, float* UIY);
+	void addUI(string strKey, const char* UIImageName, RECT* rc, int* currentFrameX, int* currentFrameY);
 
-	void addUI(string strKey, const char* UIImageName, float UIX, float UIY, int currentFrameX, int currentFrameY, int alpha);
-	void addUI(string strKey, const char* UIImageName, float UIX, float UIY, int currentFrameX, int currentFrameY);
-	void addUI(string strKey, const char* UIImageName, float UIX, float UIY, int alpha);
-	void addUI(string strKey, const char* UIImageName, float UIX, float UIY);
 
 	bool deleteUI(string strKey);
 
 	bool deleteAll();
-
-	void moveUI(string strKey, float moveSpeedX, float movespeedY, int alpha);
-	void moveUI(string strKey, float moveSpeedX, float moveSpeedY);
-	
-	void updateUI(string strkey, float UIX, float UIY);
 };
 

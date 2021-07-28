@@ -47,7 +47,7 @@ HRESULT shovel::init()
 
 	ZeroMemory(&_collision, sizeof(SHOVELCOLLISION));
 
-	UIMANAGER->addUI("shovel", _shovel.imageName.c_str(), _shovel.x, _shovel.y);
+	UIMANAGER->addUI("shovel", _shovel.imageName.c_str(), &_shovel.x, &_shovel.y);
 
 	_playerBeforeX = 0;
 	_playerBeforeY = 0;

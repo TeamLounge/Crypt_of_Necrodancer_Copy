@@ -136,7 +136,7 @@ void playerTestScene::render()
 
 	_UIM->renderItemHUD();
 
-	_UIM->renderHeartBeat();
+	//_UIM->renderHeartBeat();
 	_UIM->renderHeart();
 	_weapon->render();
 	_shovel->render();

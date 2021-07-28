@@ -163,6 +163,10 @@ void cameraManager::render(image* backBuffer, HDC frontDC)
 	}
 
 	MINIMAP->render(cameraDC);
+	
+	UIMANAGER->renderByRect("heartBeatLeft", cameraDC);
+	UIMANAGER->renderByRect("heartBeatRight", cameraDC);
+	UIMANAGER->renderByRect("beatHeart", cameraDC);
 
 	_cameraBuffer->render(frontDC, 0, 0);
 }

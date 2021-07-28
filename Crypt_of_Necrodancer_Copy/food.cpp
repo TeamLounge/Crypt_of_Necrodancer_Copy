@@ -33,7 +33,7 @@ HRESULT food::init()
 	_playerBeforeX = 0;
 	_playerBeforeY = 0;
 
-	UIMANAGER->addUI("food", _food.imageName.c_str(), _food.x, _food.y);
+	UIMANAGER->addUI("food", _food.imageName.c_str(), &_food.x, &_food.y);
 
 	return S_OK;
 }
