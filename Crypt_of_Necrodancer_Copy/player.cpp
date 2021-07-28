@@ -958,6 +958,11 @@ void player::render(int tileX, int tileY)
 	}
 }
 
+void player::render()
+{
+	_vision->render();
+}
+
 void player::damaged()
 {
 	//////////////////////////////////////

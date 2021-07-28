@@ -77,7 +77,7 @@ public:
 	bool makeShop(int x, int y, ROOM_DIRECTION dir);
 
 	bool placeTile(const tagRoom& room, OBJECT obj, int objectFrameX, int objectFrameY, bool _isShop = false, ROOM_DIRECTION dir = DIRECTIONCOUNT);
-	bool createFeature(int index);
+	bool createFeature();
 	bool createFeature(int x, int y, ROOM_DIRECTION dir, int index = NULL);
 
 	TERRAIN getTileTerrain(int x, int y);

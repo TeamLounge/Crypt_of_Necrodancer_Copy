@@ -554,14 +554,7 @@ void mapGenerator::generate(int maxFeatures)
 			return;
 		}
 		//스타트 지점 랜덤 지정
-		while (1)
-		{
-			_startRoomIndex = RND->getFromIntTo(1, (maxFeatures - 2) * 2);
-			if (_startRoomIndex % 2 == 0)
-			{
-				break;
-			}
-		}
+		_startRoomIndex = RND->getFromIntTo(1, 6);
 		//방들을 만들고
 		for (int i = 1; i < (maxFeatures - 1) * 2 - 1; ++i)
 		{
@@ -573,7 +566,7 @@ void mapGenerator::generate(int maxFeatures)
 			{
 				_isMakeRoom = true;
 			}
-			if (!createFeature(i))
+			if (!createFeature())
 			{
 				break;
 			}
@@ -1158,7 +1151,7 @@ bool mapGenerator::makeRoom(int x, int y, ROOM_DIRECTION dir, bool firstRoom, in
 	int minRoomSize = 5;
 	int maxRoomSize = 8;
 	tagRoom room;
-	if (index == _startRoomIndex)
+	if (_rooms.size() == _startRoomIndex)
 	{
 		room.roomState = ROOM_START;
 		room.width = 5;
@@ -1726,7 +1719,7 @@ bool mapGenerator::placeTile(const tagRoom & room, OBJECT obj, int objectFrameX,
 	return true;
 }
 
-bool mapGenerator::createFeature(int index)
+bool mapGenerator::createFeature()
 {
 	for (int i = 0; i < 1000; ++i)
 	{

@@ -132,6 +132,8 @@ void playerTestScene::render()
 	}
 	_em->render();
 
+	_player->render();
+
 	_UIM->renderItemHUD();
 
 	_UIM->renderHeartBeat();
