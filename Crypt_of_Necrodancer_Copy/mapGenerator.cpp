@@ -1624,6 +1624,32 @@ bool mapGenerator::placeTile(const tagRoom & room, OBJECT obj, int objectFrameX,
 			}
 		}
 
+		vector<int> shopItem;
+		int count = 0;
+		while (1)
+		{
+			bool isItemSame = false;
+			if (count == 3) break;
+			int item;
+			while (1)
+			{
+				item = RND->getFromIntTo(1, 13);
+				if (item != 6) break;
+			}
+			for (int i = 0; i < shopItem.size(); i++)
+			{
+				if (shopItem[i] == item)
+				{
+					isItemSame = true;
+					break;
+				}
+			}
+			if (!isItemSame)
+			{
+				shopItem.push_back(item);
+				count++;
+			}
+		}
 
 		switch (dir)
 		{
@@ -1632,36 +1658,36 @@ bool mapGenerator::placeTile(const tagRoom & room, OBJECT obj, int objectFrameX,
 			_tiles[room.y + 3][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 4].terrain = SHOP;
 
-			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 5][room.x + 4].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)shopItem[0];
+			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)shopItem[1];
+			_tiles[room.y + 5][room.x + 4].item = (MAP_ITEM)shopItem[2];
 			break;
 		case SOUTH:
 			_tiles[room.y + 2][room.x + 2].terrain = SHOP;
 			_tiles[room.y + 2][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 2][room.x + 4].terrain = SHOP;
 
-			_tiles[room.y + 4][room.x + 2].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 4][room.x + 3].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 4][room.x + 4].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 4][room.x + 2].item = (MAP_ITEM)shopItem[0];
+			_tiles[room.y + 4][room.x + 3].item = (MAP_ITEM)shopItem[1];
+			_tiles[room.y + 4][room.x + 4].item = (MAP_ITEM)shopItem[2];
 			break;
 		case WEST:
 			_tiles[room.y + 3][room.x + 2].terrain = SHOP;
 			_tiles[room.y + 3][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 4].terrain = SHOP;
 
-			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 5][room.x + 4].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)shopItem[0];
+			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)shopItem[1];
+			_tiles[room.y + 5][room.x + 4].item = (MAP_ITEM)shopItem[2];
 			break;
 		case EAST:
 			_tiles[room.y + 3][room.x + 1].terrain = SHOP;
 			_tiles[room.y + 3][room.x + 2].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 3].terrain = SHOP;
 
-			_tiles[room.y + 5][room.x + 1].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 5][room.x + 1].item = (MAP_ITEM)shopItem[0];
+			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)shopItem[1];
+			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)shopItem[2];
 			break;
 		case DIRECTIONCOUNT:
 			break;

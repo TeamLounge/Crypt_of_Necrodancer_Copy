@@ -87,6 +87,15 @@ void objectManager::update()
 	{
 		_UIM->plusItemHUD(ITEM);
 	}
+
+	if (!_player->getIsMove())
+	{
+		for (vector<tagPushedObject>::iterator iter = _playerPushedObject.begin(); iter != _playerPushedObject.end();)
+		{
+			_map->setTileObjectFrameX(iter->tileX, iter->tileY, 0);
+			iter = _playerPushedObject.erase(iter);
+		}
+	}
 }
 
 void objectManager::render()
@@ -216,17 +225,6 @@ void objectManager::playerObjectCollison()
 	case BARREL:
 		break;
 	}
-
-	if (!_player->getIsMove())
-	{
-		for (vector<tagPushedObject>::iterator iter = _playerPushedObject.begin(); iter!=_playerPushedObject.end();)
-		{
-			_map->setTileObjectFrameX(iter->tileX, iter->tileY, 0);
-			iter = _playerPushedObject.erase(iter);
-		}
-	}
-
-
 }
 
 void objectManager::enemyObjectCollison()
@@ -408,18 +406,17 @@ void objectManager::playerMove(int addTileX, int addTileY, PLAYER_ENEMY_DIRECTIO
 		//위로 가야하므로 플레이어tileY - 1의 오브젝트 비교
 		OBJECT obj = _map->getTileObject(_player->getTileX() + addTileX, _player->getTileY() + addTileY);
 		_map->setTileObjectFrameX(_player->getTileX(), _player->getTileY(), 1);
-		if (obj != WALL_BASIC && obj != WALL_GOLD && obj != WALL_STONE && obj != WALL_CRACK && obj != WALL_DOOR && obj != WALL_END)
+		if (obj != WALL_BASIC && obj != WALL_GOLD && obj != WALL_STONE && obj != WALL_CRACK && obj != WALL_DOOR && obj != WALL_END && !_map->getIsEnemy(_player->getTileX() + addTileX, _player->getTileY() + addTileY))
 		{
 			pushedObj.tileX = _player->getTileX();
 			pushedObj.tileY = _player->getTileY();
 			_playerPushedObject.emplace_back(pushedObj);
-
 			_player->setDirection(dir);
 			_player->setTileX(_player->getTileX() + addTileX);
 			_player->setTileY(_player->getTileY() + addTileY);
 			_player->setIsMove(true);
+			SOUNDMANAGER->play("trap_bounce", 0.3f);
 		}
-		SOUNDMANAGER->play("trap_bounce", 0.3f);
 	}
 }
 
