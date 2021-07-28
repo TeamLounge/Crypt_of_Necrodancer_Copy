@@ -3,7 +3,7 @@
 
 HRESULT bossScene::init()
 {
-	SOUNDMANAGER->addSound("boss", "music/boss_2.ogg", true, false);
+	SOUNDMANAGER->addSound("boss", "music/boss_2.ogg", true, true);
 
 	//¸Ê
 	_map = new mapGenerator;
@@ -39,6 +39,7 @@ HRESULT bossScene::init()
 	_UIM->init("boss", 200.0f);
 	CAMERAMANAGER->setCamera(0, 0);
 	_UIM->setHeartBeat(7);
+	_UIM->setHeart(5);
 	_UIM->setItemHUD();
 
 	_weapon->setPlayerMemoryAddressLink(_player);
@@ -53,8 +54,17 @@ HRESULT bossScene::init()
 	_objectManager->setWeaponMemoryAddressLink(_weapon);
 	_objectManager->setShovelMemoryAddressLink(_shovel);
 	_weapon->setMGMemoryAddressLink(_map);
-	_player->setPlayerUIMemoryAddressLink(_UIM);
+
+	_weapon->setUIMMemortAddressLink(_UIM);
+	_UIM->setWeaponMemoryAddressLink(_weapon);
+	_UIM->setPlayerMemoryAddressLink(_player);
+
+	_shovel->setMGMemoryAddressLink(_map);
+
 	_em->setWeaponMemoryAddressLink(_weapon);
+
+	_player->setPlayerUIMemoryAddressLink(_UIM);
+	_player->setEmMemoryAddressLink(_em);
 	SOUNDMANAGER->play("boss", 0.2f);
 
 	return S_OK;
@@ -77,6 +87,16 @@ void bossScene::update()
 
 	_UIM->plusItemHUD(BOMB);
 	_UIM->updateItemHUD();
+	_UIM->updateHeart();
+
+	if (_player->getTileY() < 15)
+	{
+		_map->setTileObject(5, 15, WALL_END, 4, 3);
+		_map->setTileObject(6, 15, WALL_END, 4, 3);
+		_map->setTileObject(7, 15, WALL_END, 4, 3);
+
+	}
+
 }
 
 void bossScene::render()
@@ -104,6 +124,7 @@ void bossScene::render()
 	_player->getBomb()->render();
 
 	_UIM->renderItemHUD();
+	_UIM->renderHeart();
 	char str[124];
 	sprintf_s(str, "%d, %d", _player->getTileX(), _player->getTileY());
 	TextOut(getMemDC(), _player->getTileRect().left, _player->getTileRect().top, str, strlen(str));

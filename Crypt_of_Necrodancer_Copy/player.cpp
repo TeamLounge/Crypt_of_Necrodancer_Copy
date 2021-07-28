@@ -963,6 +963,7 @@ void player::damaged()
 	//////////////////////////////////////
 	// #### ½ºÄÌ·¹Åæ °ø°Ý·Â ºÎ¿© ###
 	/////////////////////////////////////
+
 	for (int i = 0; i < _em->getVBlackSkeleton().size(); ++i)
 	{
 		if ((*(_em->getVBlackSkeleton().begin() + i))->getAttck())

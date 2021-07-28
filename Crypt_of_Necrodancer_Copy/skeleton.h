@@ -29,12 +29,13 @@ protected:
 	bool isTime , isMove;
 	bool toRender, damageRender;
 public:
-	virtual HRESULT init(int playerIndexX, int playerIndexY);
+	virtual HRESULT init(int playerIndexX, int playerIndexY, bool boss);
 	virtual void update(int playerIndexX, int playerIndexY);
 	virtual void release();
 	virtual void render();
 
 	virtual void skeletonMove(bool Time);
+	virtual void TrapMove();
 
 	virtual image* getImage() { return _img; }
 	virtual int getX() { return _tilex; }

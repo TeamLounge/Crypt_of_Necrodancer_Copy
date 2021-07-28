@@ -1,9 +1,12 @@
 #include "stdafx.h"
 #include "ghost.h"
 
-HRESULT ghost::init(int playerIndexX, int playerIndexY)
+HRESULT ghost::init(int playerIndexX, int playerIndexY, int x,int y, bool boss)
 {
-	ghostAndMinic::init(playerIndexX, playerIndexY);
+	if (!boss)
+		ghostAndMinic::init(playerIndexX, playerIndexY);
+	else
+		ghostAndMinic::bossInit(playerIndexX, playerIndexY, x, y);
 	_movingTime = TIMEMANAGER->getWorldTime();
 	_hp = 1;
 	_img = IMAGEMANAGER->findImage("ghost");

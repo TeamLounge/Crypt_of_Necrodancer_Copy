@@ -235,10 +235,12 @@ void UIManager::updateHeartBeat()
 				(*(_vHeartBeatLeft.begin() + i))->setCameraCenterX(CAMERAMANAGER->getCameraCenterX() - CAMERAMANAGER->getCameraLEFT());
 				(*(_vHeartBeatRight.begin() + j))->setCameraCenterX(CAMERAMANAGER->getCameraRIGHT() - CAMERAMANAGER->getCameraCenterX());
 
-				if (SOUNDMANAGER->getLength(_songName) - SOUNDMANAGER->getPosition(_songName) <= 30000)
-				{
-					(*(_vHeartBeatLeft.begin() + i))->setCurrentFrameX(1);
-					(*(_vHeartBeatRight.begin() + j))->setCurrentFrameX(1);
+				if (_songName != "boss") {
+					if (SOUNDMANAGER->getLength(_songName) - SOUNDMANAGER->getPosition(_songName) <= 30000)
+					{
+						(*(_vHeartBeatLeft.begin() + i))->setCurrentFrameX(1);
+						(*(_vHeartBeatRight.begin() + j))->setCurrentFrameX(1);
+					}
 				}
 			}
 		}
@@ -250,7 +252,7 @@ void UIManager::updateHeartBeat()
 
 		(*_viHeartBeatLeft)->setCameraCenterX((*_viHeartBeatLeft)->getCameraCenterX() - (*_viHeartBeatLeft)->getMoveSpeed());
 
-		(*_viHeartBeatLeft)->setCenterX((CAMERAMANAGER->getCameraCenterX() - (*_viHeartBeatLeft)->getCameraCenterX()));;
+		(*_viHeartBeatLeft)->setCenterX((CAMERAMANAGER->getCameraCenterX() - (*_viHeartBeatLeft)->getCameraCenterX()));
 
 		(*_viHeartBeatLeft)->setRect(RectMakeCenter(
 			(*_viHeartBeatLeft)->getCenterX(),
