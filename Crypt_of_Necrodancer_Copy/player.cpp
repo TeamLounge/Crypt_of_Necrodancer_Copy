@@ -1080,39 +1080,184 @@ void player::damaged()
 	}
 
 	//////////////////////////////////////
-	// #### 몽키 공격력 부여 ###
-	/////////////////////////////////////
-	//for (int i = 0; i < _em->getVMonkeyBasic().size(); ++i)
-	//{
-	//	if ((*(_em->getVMonkeyBasic().begin() + i))->getIsCatch())
-	//	{
-	//		_uiManager->minusHeart(MONKEYDAMAGE);
-	//		(*(_em->getVMonkeyBasic().begin() + i))->setIsCatch(false);
-	//		break;
-	//	}
-	//}
-
-	//////////////////////////////////////
 	// #### 미노타우르스 공격력 부여 ###
-	/////////////////////////////////////  ## 아직 없음
+	/////////////////////////////////////
+	for (int i = 0; i < _em->getVMinotaur().size(); i++)
+	{
+		if ((*(_em->getVSlimeBlue().begin() + i))->getAttack())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(3);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(2);
+			}
+			else
+			{
+				_uiManager->minusHeart(4);
+			}
+			_isAttacked = true;
+			_map->setDirtTileFrameY(0);
+			(*(_em->getVSlimeBlue().begin() + i))->setAttack(false);
+			break;
+		}
+	}
+
 
 	//////////////////////////////////////
 	// #### 슬라임 공격력 부여 ###
-	///////////////////////////////////// ## 아직 못만듬.. by 정무현
+	/////////////////////////////////////
+	for (int i = 0; i < _em->getVSlimeBlue().size(); i++)
+	{
+		if ((*(_em->getVSlimeBlue().begin() + i))->getAttack())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else
+			{
+				_uiManager->minusHeart(2);
+			}
+			_isAttacked = true;
+			_map->setDirtTileFrameY(0);
+			(*(_em->getVSlimeBlue().begin() + i))->setAttack(false);
+			break;
+		}
+	}
 
+	for (int i = 0; i < _em->getVSlimeGold().size(); i++)
+	{
+		if ((*(_em->getVSlimeGold().begin() + i))->getAttack())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else
+			{
+				_uiManager->minusHeart(1);
+			}
+			_isAttacked = true;
+			_map->setDirtTileFrameY(0);
+			(*(_em->getVSlimeGold().begin() + i))->setAttack(false);
+			break;
+		}
+	}
 	//////////////////////////////////////
 	// #### 좀비 공격력 부여 ###
-	///////////////////////////////////// ## 아직 못만듬.. by 정무현
-
+	/////////////////////////////////////
+	for (int i = 0; i < _em->getVZombie().size(); i++)
+	{
+		if ((*(_em->getVZombie().begin() + i))->getAttack())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else
+			{
+				_uiManager->minusHeart(2);
+			}
+			_isAttacked = true;
+			_map->setDirtTileFrameY(0);
+			(*(_em->getVZombie().begin() + i))->setAttack(false);
+			break;
+		}
+	}
 
 	//////////////////////////////////////
 	// #### 고스트 공격력 부여 ###
-	///////////////////////////////////// ## 아직 없음
+	/////////////////////////////////////
 
+	for (int i = 0; i < _em->getVGhost().size(); i++)
+	{
+		if ((*(_em->getVGhost().begin() + i))->getAttck())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else
+			{
+				_uiManager->minusHeart(2);
+			}
+			_isAttacked = true;
+			_map->setDirtTileFrameY(0);
+			(*(_em->getVGhost().begin() + i))->setAttck(false);
+			break;
+		}
+	}
 
 	//////////////////////////////////////
 	// #### 미믹 공격력 부여 ###
-	///////////////////////////////////// ## 아직 없음
+	/////////////////////////////////////
+	for (int i = 0; i < _em->getVMimic().size(); i++)
+	{
+		if ((*(_em->getVMimic().begin() + i))->getAttck())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else
+			{
+				_uiManager->minusHeart(2);
+			}
+			_isAttacked = true;
+			_map->setDirtTileFrameY(0);
+			(*(_em->getVMimic().begin() + i))->setAttck(false);
+			break;
+		}
+	}
+
+	//////////////////////////////////////
+	// #### 드래곤 공격력 부여 ###
+	/////////////////////////////////////
+	for (int i = 0; i < _em->getVRedDragon().size(); i++)
+	{
+		if ((*(_em->getVRedDragon().begin() + i))->getAttck())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(5);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(4);
+			}
+			else
+			{
+				_uiManager->minusHeart(6);
+			}
+			_isAttacked = true;
+			_map->setDirtTileFrameY(0);
+			(*(_em->getVRedDragon().begin() + i))->setAttck(false);
+			break;
+		}
+	}
 }
 
 void player::miss()
