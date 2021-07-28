@@ -113,7 +113,7 @@ void dagger::update(weapon* weapon)
 	{
 		if (weapon->_player->getDirection() == LEFT)
 		{
-			for (int i = 0; i < TILEX; ++i)
+			for (int i = 0; i < weapon->_map->getXSize(); ++i)
 			{
 				(weapon->_vCollision.begin() + 0)->tileX = weapon->_throwTileX - i;
 				(weapon->_vCollision.begin() + 0)->tileY = weapon->_throwTileY;
@@ -140,7 +140,7 @@ void dagger::update(weapon* weapon)
 
 		if (weapon->_player->getDirection() == UP)
 		{
-			for (int i = 0; i < TILEX; ++i)
+			for (int i = 0; i < weapon->_map->getYSize(); ++i)
 			{
 				(weapon->_vCollision.begin() + 0)->tileX = weapon->_throwTileX;
 				(weapon->_vCollision.begin() + 0)->tileY = weapon->_throwTileY - i;
@@ -167,7 +167,7 @@ void dagger::update(weapon* weapon)
 
 		if (weapon->_player->getDirection() == RIGHT)
 		{
-			for (int i = 0; i < TILEX; ++i)
+			for (int i = 0; i < weapon->_map->getXSize(); ++i)
 			{
 				(weapon->_vCollision.begin() + 0)->tileX = weapon->_throwTileX + i;
 				(weapon->_vCollision.begin() + 0)->tileY = weapon->_throwTileY;
@@ -194,7 +194,7 @@ void dagger::update(weapon* weapon)
 
 		if (weapon->_player->getDirection() == DOWN)
 		{
-			for (int i = 0; i < TILEX; ++i)
+			for (int i = 0; i < weapon->_map->getYSize(); ++i)
 			{
 				(weapon->_vCollision.begin() + 0)->tileX = weapon->_throwTileX;
 				(weapon->_vCollision.begin() + 0)->tileY = weapon->_throwTileY + i;
