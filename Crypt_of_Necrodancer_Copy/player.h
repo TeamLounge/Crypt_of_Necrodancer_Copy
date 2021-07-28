@@ -107,6 +107,7 @@ public:
 	void setTileY(int y) { _tileY = y; }
 
 	bool getIsMove() { return _isMove; }
+	bool getIsRush() { return _isRush; }
 	void setIsMove(bool b) { _isMove = b; }
 
 	int getRenderX() { return _tileRenderX; }

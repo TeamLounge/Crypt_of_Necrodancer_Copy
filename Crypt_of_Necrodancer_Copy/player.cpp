@@ -885,44 +885,72 @@ void player::update()
 			if (_x <= (_tileRect.left + _tileRect.right) / 2)
 			{
 				_x = (_tileRect.left + _tileRect.right) / 2;
+				if (_shadow.left <= _tileRect.left)
+				{
+					_shadow.left = _tileRect.left;
+					_shadow.right = _shadow.left + IMAGEMANAGER->findImage("shadow_standard_1")->getWidth();
+				}
 				_isRush = false;
 			}
 			else
 			{
 				_x -= 9;
+				_shadow.left -= 9;
+				_shadow.right = _shadow.left + IMAGEMANAGER->findImage("shadow_standard_1")->getWidth();
 			}
 			break;
 		case RIGHT:
 			if (_x >= (_tileRect.left + _tileRect.right) / 2)
 			{
 				_x = (_tileRect.left + _tileRect.right) / 2;
+				if (_shadow.left >= _tileRect.left)
+				{
+					_shadow.left = _tileRect.left;
+					_shadow.right = _shadow.left + IMAGEMANAGER->findImage("shadow_standard_1")->getWidth();
+				}
 				_isRush = false;
 			}
 			else
 			{
 				_x += 9;
+				_shadow.left += 9;
+				_shadow.right = _shadow.left + IMAGEMANAGER->findImage("shadow_standard_1")->getWidth();
 			}
 			break;
 		case UP:
 			if (_y <= (_tileRect.top + _tileRect.bottom) / 2 - BODYMARGIN)
 			{
 				_y = (_tileRect.top + _tileRect.bottom) / 2 - BODYMARGIN;
+				if (_shadow.top <= _tileRect.top - SHADOWMARGIN)
+				{
+					_shadow.top = _tileRect.top - SHADOWMARGIN;
+					_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("shadow_standard_1")->getHeight();
+				}
 				_isRush = false;
 			}
 			else
 			{
 				_y -= 9;
+				_shadow.top -= 9;
+				_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("shadow_standard_1")->getHeight();
 			}
 			break;
 		case DOWN:
 			if (_y >= (_tileRect.top + _tileRect.bottom) / 2 - BODYMARGIN)
 			{
 				_y = (_tileRect.top + _tileRect.bottom) / 2 - BODYMARGIN;
+				if (_shadow.top >= _tileRect.top - SHADOWMARGIN)
+				{
+					_shadow.top = _tileRect.top - SHADOWMARGIN;
+					_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("shadow_standard_1")->getHeight();
+				}
 				_isRush = false;
 			}
 			else
 			{
 				_y += 9;
+				_shadow.top += 9;
+				_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("shadow_standard_1")->getHeight();
 			}
 			break;
 		default:
