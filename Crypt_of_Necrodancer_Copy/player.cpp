@@ -587,7 +587,6 @@ void player::update()
 											_tileY += 1;
 											_isMove = false;
 											_attack = true;
-											_map->setDirtTileFrameY(1);
 											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
 										}
 									}
@@ -751,7 +750,6 @@ void player::update()
 											_tileY -= 1;
 											_isMove = false;
 											_attack = true;
-											_map->setDirtTileFrameY(1);
 											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
 										}
 									}
