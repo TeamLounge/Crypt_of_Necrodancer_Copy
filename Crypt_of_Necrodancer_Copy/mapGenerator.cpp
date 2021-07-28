@@ -1401,7 +1401,6 @@ bool mapGenerator::makeShop(int x, int y, ROOM_DIRECTION dir)
 			_tiles[y][x].objectFrameX = 4;
 		}
 		return true;
-		return true;
 	}
 	return false;
 }
@@ -2257,8 +2256,8 @@ void mapGenerator::settingItemBox()
 		int y = RND->getFromIntTo(_rooms[roomNum].y - 1, _rooms[roomNum].y + _rooms[roomNum].height + 1);
 		if (_tiles[y][x].obj == OBJ_NONE)
 		{
-			_tiles[y][x].obj = (OBJECT)(17+count);
-			if (17 + count == 17)
+			_tiles[y][x].obj = (OBJECT)(15+count);
+			if (15+ count == 15)
 			{
 				_redBoxRoomNum = roomNum;
 			}
