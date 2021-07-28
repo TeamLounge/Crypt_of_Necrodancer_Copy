@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "greenSkeleton.h"
 
-HRESULT greenSkeleton::init(int playerIndexX, int playerIndexY)
+HRESULT greenSkeleton::init(int playerIndexX, int playerIndexY , bool boss)
 {
-	skeleton::init(playerIndexX, playerIndexY);
+	skeleton::init(playerIndexX, playerIndexY ,boss);
 	_hp = 2;
 	_img = IMAGEMANAGER->findImage("greenSkeleton");
 	_img->setFrameY(0);

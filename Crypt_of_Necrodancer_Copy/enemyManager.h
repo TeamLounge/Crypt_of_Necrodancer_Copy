@@ -178,8 +178,6 @@ public:
 	void setMapGeneratorMemoryAddressLink(mapGenerator* map) { _map = map; }
 	void setPlayerMemoryAddressLink(player* player) { _player = player; }
 	void setWeaponMemoryAddressLink(weapon* weapon) { _weapon = weapon; }
-	void bosspattern();
-
 
 	//ㄹㅇ 수만은 셋터들
 	void setSlimeGreen();
@@ -195,11 +193,11 @@ public:
 	void renderSlimeBlue();
 
 
-	void setWhiteSkeleton();
+	void setWhiteSkeleton(bool boss = false);
 	void updateWhiteSkeleton();
 	void renderWhiteSkeleton();
 
-	void setGreenSkeleton();
+	void setGreenSkeleton(bool boss = false);
 	void updateGreenSkeleton();
 	void renderGreenSkeleton();
 
@@ -208,6 +206,7 @@ public:
 	void renderBlackSkeleton();
 
 	void setGhost();
+	void setGhostBossRoom(int x,int y, bool boss);
 	void updateGhost();
 	void renderGhost();
 

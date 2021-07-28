@@ -72,12 +72,6 @@ void gameNode::release()
 		SOUNDMANAGER->release();
 		SOUNDMANAGER->releaseSingleton();
 
-		//KEYANIMANAGER->release();
-		//KEYANIMANAGER->releaseSingleton();
-
-		//RENDERMANAGER->release();
-		//RENDERMANAGER->releaseSingleton();
-
 		TXTDATA->release();
 		TXTDATA->releaseSingleton();
 
