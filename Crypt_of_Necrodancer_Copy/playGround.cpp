@@ -207,4 +207,6 @@ void playGround::addSoundEffect()
 	SOUNDMANAGER->addSound("monkey_hit1", "sound_effect/en_monkey_hit_01.ogg", false, false);
 	SOUNDMANAGER->addSound("monkey_hit2", "sound_effect/en_monkey_hit_02.ogg", false, false);
 	SOUNDMANAGER->addSound("monkey_hit3", "sound_effect/en_monkey_hit_03.ogg", false, false);
+	SOUNDMANAGER->addSound("bomb_lit", "sound_effect/sfx_bomb_lit.ogg", false, false);
+	SOUNDMANAGER->addSound("bomb_explode", "sound_effect/sfx_bomb_explode.ogg", false, false);
 }

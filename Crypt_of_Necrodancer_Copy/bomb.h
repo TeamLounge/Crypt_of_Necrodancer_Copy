@@ -11,6 +11,7 @@ struct tagBomb
 	int tileX, tileY;
 	bool isExplode;
 	const char* imageName;
+	bool isSoundPlayed;
 };
 class bomb : public gameNode
 {

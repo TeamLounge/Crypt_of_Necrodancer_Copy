@@ -112,8 +112,10 @@ void bomb::fire(int tileX, int tileY, RECT rc)
 	bomb.tileX = tileX;
 	bomb.tileY = tileY;
 	bomb.isExplode = false;
+	bomb.isSoundPlayed = false;
 	bomb.imageName = "bomb";
 	_vBomb.push_back(bomb);
+	SOUNDMANAGER->play("bomb_lit", 0.3f);
 }
 
 void bomb::explode()
@@ -134,12 +136,18 @@ void bomb::explode()
 						_map->setIsHaveTorch(j, i, false);
 						_map->setTileItem(j, i, MAP_COIN10);
 					}
-					else if (_map->getTileObject(j, i) != OBJ_NONE && _map->getTileObject(j, i) != WALL_END)
+					else if (_map->getTileObject(j, i) != OBJ_NONE && _map->getTileObject(j, i) != WALL_END 
+						&& _map->getTileObject(j, i) != RED_ITEM_BOX && _map->getTileObject(j, i) != BLACK_ITEM_BOX)
 					{
 						_map->setTileObject(j, i, OBJ_NONE);
 						_map->setIsHaveTorch(j, i, false);
 					}
 				}
+			}
+			if (!_viBomb->isSoundPlayed)
+			{
+				SOUNDMANAGER->play("bomb_explode", 0.3f);
+				_viBomb->isSoundPlayed = true;
 			}
 		}
 	}
