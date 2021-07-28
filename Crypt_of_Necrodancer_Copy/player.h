@@ -41,6 +41,7 @@ private:
 	float _missSpeed; //미스속도
 
 	bool _isThrow; //던졌어??
+	bool _isThrowReady; //던질준비됐어?
 
 	mapGenerator* _map;
 	
@@ -136,5 +137,10 @@ public:
 
 	bool getIsThrow() { return _isThrow; }
 	void setIsThrow(bool isThrow) { _isThrow = isThrow; }
+
+	bool getIsThrowReady() { return _isThrowReady; }
+	void setIsThrowReady(bool isThrowReady) { _isThrowReady = isThrowReady; }
+
+	RECT getShadowRect() { return _shadow; }
 };
 

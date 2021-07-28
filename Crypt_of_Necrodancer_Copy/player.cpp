@@ -49,6 +49,7 @@ HRESULT player::init()
 
 	_isMiss = false;
 	_isThrow = false;
+	_isThrowReady = false;
 
 	return S_OK;
 }
@@ -140,7 +141,7 @@ void player::update()
 	//심장박동에 맞춘 경우만 행동
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead())
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 			{
@@ -287,14 +288,24 @@ void player::update()
 			}
 		}
 		//판정 벗어났을때
-		else if (!_uiManager->getIsIntersectJudge() && !_isMove)
+		else if (!_uiManager->getIsIntersectJudge() && !_isMove && !_isThrowReady)
 		{
-		_isMiss = true;
+			_isMiss = true;
+		}
+
+		//던질준비가 되었다면 던져라
+		else if (_isThrowReady)
+		{
+			_playerDirection = LEFT;
+			_uiManager->minusItemHUD(PRESS);
+			_uiManager->minusItemHUD(THROW);
+			_isThrow = true;
+			_isThrowReady = false;
 		}
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead())
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
 			_playerDirection = RIGHT;
 			_weapon->update();
@@ -439,14 +450,24 @@ void player::update()
 			}		
 		}
 		//판정 벗어났을때
-		else if (!_uiManager->getIsIntersectJudge() && !_isMove)
+		else if (!_uiManager->getIsIntersectJudge() && !_isMove && !_isThrowReady)
 		{
 			_isMiss = true;
+		}
+
+		//던질준비가 되었다면 던져라
+		else if (_isThrowReady)
+		{
+			_playerDirection = RIGHT;
+			_isThrow = true;
+			_uiManager->minusItemHUD(PRESS);
+			_uiManager->minusItemHUD(THROW);
+			_isThrowReady = false;
 		}
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead())
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 			{
@@ -455,6 +476,7 @@ void player::update()
 					if ((*(_uiManager->getVItemHUD().begin() + i))->getItemType() == THROW)
 					{
 						_uiManager->plusItemHUD(PRESS);
+						_isThrowReady = true;
 					}
 				}
 			}
@@ -600,26 +622,47 @@ void player::update()
 			}
 		}
 		//판정 벗어났을때
-		else if (!_uiManager->getIsIntersectJudge() && !_isMove)
+		else if (!_uiManager->getIsIntersectJudge() && !_isMove && !_isThrowReady)
 		{
-		_isMiss = true;
+			_isMiss = true;
 		}
 
+		//던질준비가 되었다면 던져라
+		else if (_isThrowReady)
+		{
+			_playerDirection = UP;
+			_isThrow = true;
+			_uiManager->minusItemHUD(PRESS);
+			_uiManager->minusItemHUD(THROW);
+			_isThrowReady = false;
+		}
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead())
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 			{
 				_bomb->fire(_tileX, _tileY, _map->getRect(_tileX, _tileY));
 			}
+
+			else if (KEYMANAGER->isStayKeyDown(VK_UP))
+			{
+				for (int i = 0; i < _uiManager->getVItemHUD().size(); ++i)
+				{
+					if ((*(_uiManager->getVItemHUD().begin() + i))->getItemType() == THROW)
+					{
+						_uiManager->plusItemHUD(PRESS);
+						_isThrowReady = true;
+					}
+				}
+			}
+
 			else
 			{
 				_playerDirection = DOWN;
 				_weapon->update();
 				_shovel->update();
-
 
 				if (_em->getIsCatch())
 				{
@@ -767,9 +810,19 @@ void player::update()
 		}
 
 		//판정 벗어났을때
-		else if (!_uiManager->getIsIntersectJudge() && !_isMove)
+		else if (!_uiManager->getIsIntersectJudge() && !_isMove && !_isThrowReady)
 		{
 			_isMiss = true;
+		}
+
+		//던질준비가 되었다면 던져라
+		else if (_isThrowReady)
+		{
+			_playerDirection = DOWN;
+			_isThrow = true;
+			_uiManager->minusItemHUD(PRESS);
+			_uiManager->minusItemHUD(THROW);
+			_isThrowReady = false;
 		}
 	}
 	_tileRect = _map->getRect(_tileX, _tileY);

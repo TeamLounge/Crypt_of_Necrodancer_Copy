@@ -42,6 +42,9 @@ public:
 	int _playerBeforeX;
 	int	_playerBeforeY;
 
+	int _throwTileX;
+	int _throwTileY;
+
 	weapon();
 	~weapon();
 

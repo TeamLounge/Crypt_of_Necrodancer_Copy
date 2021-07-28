@@ -197,19 +197,6 @@ void UIManager::setHeartBeat(int heartBeatNum)
 
 		UIMANAGER->addUI("heartBeatLeft", "heartBeat", _heartBeatLeft->getRectPointer(), _heartBeatLeft->getCurrentFrameXPointer(), _heartBeatLeft->getCurrentFrameYPointer());
 	}
-	/*
-	for (_viHeartBeatLeft = _vHeartBeatLeft.begin(); _viHeartBeatLeft != _vHeartBeatLeft.end(); ++_viHeartBeatLeft)
-	{
-		(*_viHeartBeatLeft)->setCameraCenterX(CAMERAMANAGER->getCameraCenterX() - ((*_viHeartBeatLeft)->getRect().left + (*_viHeartBeatLeft)->getRect().right) / 2);
-		(*_viHeartBeatLeft)->setCameraLeftX((*_viHeartBeatLeft)->getCameraCenterX());
-	}
-
-	for (_viHeartBeatRight = _vHeartBeatRight.begin(); _viHeartBeatRight != _vHeartBeatRight.end(); ++_viHeartBeatRight)
-	{
-		(*_viHeartBeatRight)->setCameraCenterX(((*_viHeartBeatRight)->getRect().left + (*_viHeartBeatRight)->getRect().right) / 2 - CAMERAMANAGER->getCameraCenterX());
-		(*_viHeartBeatRight)->setCameraLeftX((*_viHeartBeatRight)->getCameraCenterX());
-	}
-	*/
 }
 
 void UIManager::updateHeartBeat()

@@ -48,48 +48,176 @@ weaponType * dagger::inputHandle(weapon* weapon)
 
 void dagger::update(weapon* weapon)
 {
-	if (weapon->_player->getDirection() == LEFT)
+	//스로우가 아닐때
+	if (!weapon->_player->getIsThrow())
 	{
-		(weapon->_vCollision.begin() + 0)->rc = RectMake(
-			weapon->_player->getTileRect().left -TILESIZE,
-			weapon->_player->getTileRect().top,
-			TILESIZE, TILESIZE);
+		if (weapon->_player->getDirection() == LEFT)
+		{
+			(weapon->_vCollision.begin() + 0)->rc = RectMake(
+				weapon->_player->getTileRect().left -TILESIZE,
+				weapon->_player->getTileRect().top,
+				TILESIZE, TILESIZE);
 
-		(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX() - 1;
-		(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY();
+			(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX() - 1;
+			(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY();
+
+			weapon->_throwTileX = weapon->_player->getTileX();
+			weapon->_throwTileY = weapon->_player->getTileY();
+		}
+
+		if (weapon->_player->getDirection() == UP)
+		{
+			(weapon->_vCollision.begin() + 0)->rc = RectMake(
+				weapon->_player->getTileRect().left,
+				weapon->_player->getTileRect().top - TILESIZE,
+				TILESIZE, TILESIZE);
+
+			(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX();
+			(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY() - 1;
+
+			weapon->_throwTileX = weapon->_player->getTileX();
+			weapon->_throwTileY = weapon->_player->getTileY();
+		}
+
+		if (weapon->_player->getDirection() == RIGHT)
+		{
+			(weapon->_vCollision.begin() + 0)->rc = RectMake(
+				weapon->_player->getTileRect().left + TILESIZE,
+				weapon->_player->getTileRect().top,
+				TILESIZE, TILESIZE);
+
+			(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX() + 1;
+			(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY();
+
+			weapon->_throwTileX = weapon->_player->getTileX();
+			weapon->_throwTileY = weapon->_player->getTileY();
+		}
+
+		if (weapon->_player->getDirection() == DOWN)
+		{
+			(weapon->_vCollision.begin() + 0)->rc = RectMake(
+				weapon->_player->getTileRect().left,
+				weapon->_player->getTileRect().top + TILESIZE,
+				TILESIZE, TILESIZE);
+
+			(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX();
+			(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY() + 1;
+
+			weapon->_throwTileX = weapon->_player->getTileX();
+			weapon->_throwTileY = weapon->_player->getTileY();
+		}
 	}
 
-	if (weapon->_player->getDirection() == UP)
+	//스로우일때
+	else
 	{
-		(weapon->_vCollision.begin() + 0)->rc = RectMake(
-			weapon->_player->getTileRect().left,
-			weapon->_player->getTileRect().top - TILESIZE,
-			TILESIZE, TILESIZE);
+		if (weapon->_player->getDirection() == LEFT)
+		{
+			for (int i = 0; i < TILEX; ++i)
+			{
+				(weapon->_vCollision.begin() + 0)->tileX = weapon->_throwTileX - i;
+				(weapon->_vCollision.begin() + 0)->tileY = weapon->_throwTileY;
 
-		(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX();
-		(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY() - 1;
-	}
+				OBJECT obj = weapon->_map->getTileObject((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY);
 
-	if (weapon->_player->getDirection() == RIGHT)
-	{
-		(weapon->_vCollision.begin() + 0)->rc = RectMake(
-			weapon->_player->getTileRect().left + TILESIZE,
-			weapon->_player->getTileRect().top,
-			TILESIZE, TILESIZE);
+				if (weapon->_map->getIsEnemy((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY))
+				{
+					weapon->_player->setAttack(true);
+				}
 
-		(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX() + 1;
-		(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY();
-	}
+				else if (obj == WALL_BASIC || obj == WALL_CRACK ||
+					obj == WALL_DOOR || obj == WALL_END || obj == WALL_GOLD || obj == WALL_STONE)
+				{
+					weapon->_map->setTileItem((weapon->_vCollision.begin() + 0)->tileX + 1,
+						(weapon->_vCollision.begin() + 0)->tileY, MAP_DAGGER);
+					CAMERAMANAGER->vibrateScreen((weapon->_player->getShadowRect().left + weapon->_player->getShadowRect().right) / 2,
+						(weapon->_player->getShadowRect().top + weapon->_player->getShadowRect().bottom) / 2, 30.0f);
+					weapon->_player->setIsThrow(false);
+					break;
+				}
+			}
+		}
 
-	if (weapon->_player->getDirection() == DOWN)
-	{
-		(weapon->_vCollision.begin() + 0)->rc = RectMake(
-			weapon->_player->getTileRect().left,
-			weapon->_player->getTileRect().top + TILESIZE,
-			TILESIZE, TILESIZE);
+		if (weapon->_player->getDirection() == UP)
+		{
+			for (int i = 0; i < TILEX; ++i)
+			{
+				(weapon->_vCollision.begin() + 0)->tileX = weapon->_throwTileX;
+				(weapon->_vCollision.begin() + 0)->tileY = weapon->_throwTileY - i;
 
-		(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX();
-		(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY() + 1;
+				OBJECT obj = weapon->_map->getTileObject((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY);
+
+				if (weapon->_map->getIsEnemy((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY))
+				{
+					weapon->_player->setAttack(true);
+				}
+
+				else if (obj == WALL_BASIC || obj == WALL_CRACK ||
+					obj == WALL_DOOR || obj == WALL_END || obj == WALL_GOLD || obj == WALL_STONE)
+				{
+					weapon->_map->setTileItem((weapon->_vCollision.begin() + 0)->tileX,
+						(weapon->_vCollision.begin() + 0)->tileY + 1, MAP_DAGGER);
+					CAMERAMANAGER->vibrateScreen((weapon->_player->getShadowRect().left + weapon->_player->getShadowRect().right) / 2,
+						(weapon->_player->getShadowRect().top + weapon->_player->getShadowRect().bottom) / 2, 30.0f);
+					weapon->_player->setIsThrow(false);
+					break;
+				}
+			}
+		}
+
+		if (weapon->_player->getDirection() == RIGHT)
+		{
+			for (int i = 0; i < TILEX; ++i)
+			{
+				(weapon->_vCollision.begin() + 0)->tileX = weapon->_throwTileX + i;
+				(weapon->_vCollision.begin() + 0)->tileY = weapon->_throwTileY;
+
+				OBJECT obj = weapon->_map->getTileObject((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY);
+
+				if (weapon->_map->getIsEnemy((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY))
+				{
+					weapon->_player->setAttack(true);
+				}
+
+				else if (obj == WALL_BASIC || obj == WALL_CRACK ||
+					obj == WALL_DOOR || obj == WALL_END || obj == WALL_GOLD || obj == WALL_STONE)
+				{
+					weapon->_map->setTileItem((weapon->_vCollision.begin() + 0)->tileX - 1,
+						(weapon->_vCollision.begin() + 0)->tileY, MAP_DAGGER);
+					CAMERAMANAGER->vibrateScreen((weapon->_player->getShadowRect().left + weapon->_player->getShadowRect().right) / 2,
+						(weapon->_player->getShadowRect().top + weapon->_player->getShadowRect().bottom) / 2, 30.0f);
+					weapon->_player->setIsThrow(false);
+					break;
+				}
+			}
+		}
+
+		if (weapon->_player->getDirection() == DOWN)
+		{
+			for (int i = 0; i < TILEX; ++i)
+			{
+				(weapon->_vCollision.begin() + 0)->tileX = weapon->_throwTileX;
+				(weapon->_vCollision.begin() + 0)->tileY = weapon->_throwTileY + i;
+
+				OBJECT obj = weapon->_map->getTileObject((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY);
+
+				if (weapon->_map->getIsEnemy((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY))
+				{
+					weapon->_player->setAttack(true);
+				}
+
+				else if (obj == WALL_BASIC || obj == WALL_CRACK ||
+					obj == WALL_DOOR || obj == WALL_END || obj == WALL_GOLD || obj == WALL_STONE)
+				{
+					weapon->_map->setTileItem((weapon->_vCollision.begin() + 0)->tileX,
+						(weapon->_vCollision.begin() + 0)->tileY - 1, MAP_DAGGER);
+					CAMERAMANAGER->vibrateScreen((weapon->_player->getShadowRect().left + weapon->_player->getShadowRect().right) / 2,
+						(weapon->_player->getShadowRect().top + weapon->_player->getShadowRect().bottom) / 2, 30.0f);
+					weapon->_player->setIsThrow(false);
+					break;
+				}
+			}
+		}
 	}
 }
 

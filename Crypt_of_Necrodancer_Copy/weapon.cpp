@@ -51,6 +51,9 @@ HRESULT weapon::init()
 	_playerBeforeX = 0;
 	_playerBeforeY = 0;
 
+	_throwTileX = 0;
+	_throwTileY = 0;
+
 	_weaponType = new dagger();
 	_weaponType->enter(this);
 
