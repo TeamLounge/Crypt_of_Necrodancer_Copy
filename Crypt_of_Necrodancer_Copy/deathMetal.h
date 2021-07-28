@@ -38,9 +38,9 @@ public:
 	virtual void release();
 	virtual void render();
 
-	virtual void phaseOneFourMove(bool Time);
+	virtual void phaseOneMove(bool Time);
 	virtual void phaseTwoThreeMove(bool Time);
-	virtual void phaseThreeMove(bool Time);
+	virtual void phaseFourMove(bool Time);
 	virtual void TrapMove();
 	virtual void fire();
 

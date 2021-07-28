@@ -64,11 +64,13 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 			TrapMove();
 			if (!isMove&&_astar->getStart())
 			{
-				phaseOneFourMove(isTime);
+				phaseOneMove(isTime);
 			}
 		}
 		else if (_hp < 7 && _hp >= 3)
 		{
+			_astar->endmove(playerIndexX, playerIndexY);
+			_astar->clear();
 			_beatspeed = 1.0f;
 			TrapMove();
 			phaseTwoThreeMove(isTime);
@@ -81,7 +83,7 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 			TrapMove();
 			if (!isMove && _astar->getStart())
 			{
-				phaseOneFourMove(isTime);
+				phaseFourMove(isTime);
 			}
 		}
 		isTime = false;
@@ -284,7 +286,7 @@ void deathMetal::render()
 	TextOut(getMemDC(), _rc.left, _rc.bottom, str, strlen(str));
 }
 
-void deathMetal::phaseOneFourMove(bool Time)
+void deathMetal::phaseOneMove(bool Time)
 {
 	if (Time) {
 		int pastX = _tilex;
@@ -340,151 +342,143 @@ void deathMetal::phaseOneFourMove(bool Time)
 
 void deathMetal::phaseTwoThreeMove(bool Time)
 {
-	if (Time) {
-		++actionCount;
+	
+	if (isdamaged)
+	{
 		int pastX = _tilex;
 		int pastY = _tiley;
-		int x = abs(_tilex - _playerindex);
-		int y = abs(_tiley - _playerindey);
-		if (isdamaged)
+		if (_tilex > 6)
 		{
-			if (_tilex > 6)
-			{
-				_tilex = 3;
-			}
-			else
-			{
-				_tilex = 9;
-			}
-
-			if (_tiley > 10)
-			{
-				_tiley = 8;
-			}
-			else
-			{
-				_tiley = 12;
-			}
-			isdamaged = false;
-			_x = _map->getRect(_tilex, _tiley).right - _img->getFrameWidth() / 2;
-			_y = _map->getRect(_tilex, _tiley).bottom - _img->getFrameHeight();
-			if (_map->getIsEnemy(_tilex, _tiley)) {
-				_tilex -= 1;
-				_map->setIsEnemy(pastX, pastY, false);
-				_rc = _map->getRect(_tilex, _tiley);
-				_astar->actionMove(_tilex, _tiley);
-				_map->setIsEnemy(_tilex, _tiley, true);
-			}
-			_y += -sinf(7 * PI / 9) * 9;
-			_dir = NONE;
+			_tilex = 3;
 		}
 		else
 		{
-			if (x > y)
-			{
-				if (x > 3) {
-					if (_tilex > _playerindex)
-					{
-						_tilex -= 1;
-					}
-					else
-					{
-						_tilex += 1;
-					}
-				}
-				else
-				{
-					if (_tilex > _playerindex)
-					{
-						_tilex += 1;
-					}
-					else
-					{
-						_tilex += 1;
-					}
-				}
-			}
-			else
-			{
-				if (y > 3)
-				{
-					if (_tiley > _playerindey)
-					{
-						_tiley -= 1;
-					}
-					else
-					{
-						_tiley += 1;
-					}
-				}
-				else
-				{
-					if (_tiley > _playerindey)
-					{
-						_tiley += 1;
-					}
-					else
-					{
-						_tiley -= 1;
-					}
-				}
-				if (_map->getTileObject(_tilex, _tiley) != OBJ_NONE)
-				{
-					if (_tilex > _playerindex)
-					{
-						_tilex += 1;
-					}
-					else
-					{
-						_tilex -= 1;
-					}
-					_tiley = pastY;
-				}
-			}
-			if (!_map->getIsEnemy(_tilex, _tiley) && _map->getTileObject(_tilex, _tiley) == OBJ_NONE)
-			{
-				_map->setIsEnemy(pastX, pastY, false);
-				_rc = _map->getRect(_tilex, _tiley);
-				_astar->actionMove(_tilex, _tiley);
-				_map->setIsEnemy(_tilex, _tiley, true);
-			}
-			else
-			{
-				_tilex = pastX;
-				_tiley = pastY;
-			}
+			_tilex = 9;
+		}
 
-			if (pastY == _tiley && _tilex - pastX == -1)
-			{
-				_y += -sinf(7 * PI / 9) * 9;
-				_dir = LEFT;
+		if (_tiley > 10)
+		{
+			_tiley = 8;
+		}
+		else
+		{
+			_tiley = 12;
+		}
+		isdamaged = false;
+		_x = _map->getRect(_tilex, _tiley).right - _img->getFrameWidth() / 2;
+		_y = _map->getRect(_tilex, _tiley).bottom - _img->getFrameHeight();
+		if (_map->getIsEnemy(_tilex, _tiley)) {
+			_tilex -= 1;
+		}
+		_map->setIsEnemy(pastX, pastY, false);
+		_rc = _map->getRect(_tilex, _tiley);
+		_astar->actionMove(_tilex, _tiley);
+		_map->setIsEnemy(_tilex, _tiley, true);
+	
+		_y += -sinf(7 * PI / 9) * 9;
+		_dir = NONE;
+	}
+	else if (!isdamaged && Time) {
+		++actionCount;
+		int x = abs(_tilex - _playerindex);
+		int y = abs(_tiley - _playerindey);
+		int pastX = _tilex;
+		int pastY = _tiley;
+		
+		if (x >= y)
+		{
+			if (x >= 3) {
+				
+				if (_tilex >= _playerindex)
+				{
+					_tilex -= 1;
+				}
+				else
+				{
+					_tilex += 1;
+				}
 			}
-			else if (pastY == _tiley && _tilex - pastX == 1)
+			else
 			{
-				_y += -sinf(7 * PI / 9) * 9;
-				_dir = RIGHT;
-			}
-			else if (pastX == _tilex && _tiley - pastY == -1)
-			{
-				_y += -sinf(PI / 2) * 9;
-				_dir = UP;
-			}
-			else if (pastX == _tilex && _tiley - pastY == 1)
-			{
-				_y += -sinf(PI / 2);
-				_dir = DOWN;
-			}
-			else if (_tilex == pastX && _tiley == pastY)
-			{
-				_y += -sinf(7 * PI / 9) * 9;
-				_dir = NONE;
+				if (_tilex >= _playerindex)
+				{
+					_tilex += 1;
+				}
+				else
+				{
+					_tilex -= 1;
+				}
 			}
 		}
+		else
+		{
+			if (y >= 3)
+			{
+				if (_tiley >= _playerindey)
+				{
+					_tiley -= 1;
+				}
+				else
+				{
+					_tiley += 1;
+				}
+			}
+			else
+			{
+				if (_tiley >= _playerindey)
+				{
+					_tiley += 1;
+				}
+				else
+				{
+					_tiley -= 1;
+				}
+			}
+		}
+		if (_map->getIsEnemy(_tilex, _tiley) || _map->getTileObject(_tilex, _tiley) != OBJ_NONE  || _map->getIsPlayer(_tilex,_tiley))
+		{
+			_tilex = pastX;
+			_tiley = pastY;
+		}
+		else
+		{
+			_map->setIsEnemy(pastX, pastY, false);
+			_rc = _map->getRect(_tilex, _tiley);
+			_astar->actionMove(_tilex, _tiley);
+			_map->setIsEnemy(_tilex, _tiley, true);
+		}
+	
+		
+
+		if (pastY == _tiley && _tilex - pastX == -1)
+		{
+			_y += -sinf(7 * PI / 9) * 9;
+			_dir = LEFT;
+		}
+		else if (pastY == _tiley && _tilex - pastX == 1)
+		{
+			_y += -sinf(7 * PI / 9) * 9;
+			_dir = RIGHT;
+		}
+		else if (pastX == _tilex && _tiley - pastY == -1)
+		{
+			_y += -sinf(PI / 2) * 9;
+			_dir = UP;
+		}
+		else if (pastX == _tilex && _tiley - pastY == 1)
+		{
+			_y += -sinf(PI / 2);
+			_dir = DOWN;
+		}
+		else if (_tilex == pastX && _tiley == pastY)
+		{
+			_y += -sinf(7 * PI / 9) * 9;
+			_dir = NONE;
+		}
+
 		if (actionCount==8)
 		{
 			_index = 6;
-			_tilex = pastX;
-			_tiley = pastY;
 			actionCount = 0;
 			isAction = true;
 		}
@@ -494,66 +488,91 @@ void deathMetal::phaseTwoThreeMove(bool Time)
 
 }
 
-void deathMetal::phaseThreeMove(bool Time)
+void deathMetal::phaseFourMove(bool Time)
 {
-	if (Time) {
+	if (isdamaged)
+	{
 		int pastX = _tilex;
 		int pastY = _tiley;
-		int x = abs(_tilex - _playerindex);
-		int y = abs(_tiley - _playerindey);
-		if (x > 3)
+		if (_tilex > 6)
 		{
-			if (_tilex > _playerindex)
-			{
-				_tilex += 1;
-			}
-			else
-			{
-				_tilex -= 1;
-			}
-		}
-		if (y > 3)
-		{
-			if (_tiley > _playerindey)
-			{
-				_tiley += 1;
-			}
-			else
-			{
-				_tiley -= 1;
-			}
-		}
-		if (_map->getTileObject(_tilex, _tiley) != OBJ_NONE)
-		{
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_rc = _map->getRect(_tilex, _tiley);
-
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
+			_tilex = 3;
 		}
 		else
 		{
-			_tilex = pastX;
-			_tiley = pastY;
+			_tilex = 9;
+		}
+
+		if (_tiley > 10)
+		{
+			_tiley = 8;
+		}
+		else
+		{
+			_tiley = 12;
+		}
+		isdamaged = false;
+		_x = _map->getRect(_tilex, _tiley).right - _img->getFrameWidth() / 2;
+		_y = _map->getRect(_tilex, _tiley).bottom - _img->getFrameHeight();
+		if (_map->getIsEnemy(_tilex, _tiley)) {
+			_tilex -= 1;
+		}
+		_map->setIsEnemy(pastX, pastY, false);
+		_rc = _map->getRect(_tilex, _tiley);
+		_astar->actionMove(_tilex, _tiley);
+		_map->setIsEnemy(_tilex, _tiley, true);
+
+		_y += -sinf(7 * PI / 9) * 9;
+		_dir = NONE;
+	}
+	else if (!isdamaged && Time) {
+
+
+		int pastX = _tilex;
+		int pastY = _tiley;
+		if (_astar->getCloseListsize() != 0)
+		{
+			if (!_map->getIsEnemy(_astar->getClosebackX(), _astar->getClosebackY()))
+			{
+				_map->setIsEnemy(_tilex, _tiley, false);
+				_tilex = _astar->getClosebackX();
+				_tiley = _astar->getClosebackY();
+				_rc = _map->getRect(_tilex, _tiley);
+				_astar->move(_tilex, _tiley);
+				_map->setIsEnemy(_tilex, _tiley, true);
+			}
+		}
+		else if (_astar->getCloseListsize() == 0)
+		{
+			_astar->enemyAttack();
 		}
 		if (pastY == _tiley && _tilex - pastX == -1)
 		{
+			_y += -sinf(7 * PI / 9) * 9;
 			_dir = LEFT;
+			_judgmentdir = _dir;
 		}
 		else if (pastY == _tiley && _tilex - pastX == 1)
 		{
+			_y += -sinf(7 * PI / 9) * 9;
 			_dir = RIGHT;
+			_judgmentdir = _dir;
 		}
 		else if (pastX == _tilex && _tiley - pastY == -1)
 		{
+			_y += -sinf(PI / 2) * 9;
 			_dir = UP;
+			_judgmentdir = _dir;
 		}
 		else if (pastX == _tilex && _tiley - pastY == 1)
 		{
+			_y += -sinf(PI / 2);
 			_dir = DOWN;
+			_judgmentdir = _dir;
 		}
 		else if (_tilex == pastX && _tiley == pastY)
 		{
+			_y += -sinf(7 * PI / 9) * 9;
 			_dir = NONE;
 		}
 	}

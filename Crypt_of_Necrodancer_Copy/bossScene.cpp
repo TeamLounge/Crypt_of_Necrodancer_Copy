@@ -3,7 +3,7 @@
 
 HRESULT bossScene::init()
 {
-	SOUNDMANAGER->addSound("boss", "music/boss_2.ogg", true, false);
+	SOUNDMANAGER->addSound("boss", "music/boss_2.ogg", true, true);
 
 	//¸Ê
 	_map = new mapGenerator;

@@ -261,11 +261,12 @@ void UIManager::updateHeartBeat()
 
 				(*(_vHeartBeatLeft.begin() + i))->setCenterX((*(_vHeartBeatLeft.begin() + _nextI))->getCenterX() - _heartBeatInterval);
 				(*(_vHeartBeatRight.begin() + j))->setCenterX((*(_vHeartBeatRight.begin() + _nextJ))->getCenterX() + _heartBeatInterval);
-
-				if (SOUNDMANAGER->getLength(_songName) - SOUNDMANAGER->getPosition(_songName) <= 30000)
-				{
-					(*(_vHeartBeatLeft.begin() + i))->setCurrentFrameX(1);
-					(*(_vHeartBeatRight.begin() + j))->setCurrentFrameX(1);
+				if (_songName != "boss") {
+					if (SOUNDMANAGER->getLength(_songName) - SOUNDMANAGER->getPosition(_songName) <= 30000)
+					{
+						(*(_vHeartBeatLeft.begin() + i))->setCurrentFrameX(1);
+						(*(_vHeartBeatRight.begin() + j))->setCurrentFrameX(1);
+					}
 				}
 			}
 		}
