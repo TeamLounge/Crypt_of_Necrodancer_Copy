@@ -105,11 +105,6 @@ void playerTestScene::update()
 	_shopkeeper->update();
 	_UIM->updateMoney();
 	_UIM->updateMoneyNumber(0, false);
-
-	if (KEYMANAGER->isOnceKeyDown('Q'))
-	{
-		_UIM->updateMoneyNumber(10, false);
-	}
 }
 
 void playerTestScene::render()

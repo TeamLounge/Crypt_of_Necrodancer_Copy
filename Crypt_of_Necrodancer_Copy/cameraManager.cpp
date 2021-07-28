@@ -108,10 +108,10 @@ void cameraManager::updateScreen(float standardX, float standardY,
 //ㅈㄱ
 void cameraManager::vibrateScreen(float standardX, float standardY, float magnitude)
 {
-	_count += TIMEMANAGER->getElapsedTime();
+	//_count += TIMEMANAGER->getElapsedTime();
 	updateCamera(standardX + RND->getFromFloatTo(-magnitude, magnitude),
 		standardY + RND->getFromFloatTo(-magnitude, magnitude));
-	_count = 0;
+	//_count = 0;
 
 	//카운트가 왜 말썽일까.........
 	//interval(진동 주기) 없음
