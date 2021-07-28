@@ -8,6 +8,7 @@
 #include "rapier.h"
 #include "UIManager.h"
 
+
 weaponType * dagger::inputHandle(weapon* weapon)
 {
 	if (weapon->_player->getTileX() == weapon->_playerBeforeX && weapon->_player->getTileY() == weapon->_playerBeforeY) return nullptr;
