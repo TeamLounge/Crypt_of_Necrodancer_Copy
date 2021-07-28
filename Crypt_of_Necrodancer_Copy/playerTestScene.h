@@ -22,6 +22,7 @@ private:
 
 	shopkeeper* _shopkeeper;
 
+	int stairBossX, stairBossY;
 public:
 	virtual HRESULT init();
 	virtual void release();

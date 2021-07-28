@@ -2,7 +2,7 @@
 #include "monkey.h"
 class monkeyBasic : public monkey
 {
-	image* _heart;
+	image  *_heart1 , *_heart2 , *_heart3 , *_heart4;
 public:
 	HRESULT init(int playerIndexX, int playerIndexY);
 	void update(int playerIndexX, int playerIndexY);

@@ -6,10 +6,10 @@ HRESULT playerTestScene::init()
 	SOUNDMANAGER->addSound("zone1-1", "music/zone1_1.ogg", true, false);
 	SOUNDMANAGER->addSound("zone1-1_shopkeeper", "music/zone1_1_shopkeeper.ogg", true, false);
 	CAMERAMANAGER->setCamera(0, 0);
-	
+
 	//¸Ê
 	_map = new mapGenerator;
-	_map->init(70,70);
+	_map->init(70, 70);
 	_map->generate(7);
 
 	//ÇÃ·¹ÀÌ¾î
@@ -45,7 +45,6 @@ HRESULT playerTestScene::init()
 	SOUNDMANAGER->play("zone1-1_shopkeeper", 0.2f);
 	SOUNDMANAGER->setGroup("zone1-1");
 	SOUNDMANAGER->setGroup("zone1-1_shopkeeper");
-
 	_weapon = new weapon;
 	_weapon->init();
 
@@ -80,6 +79,25 @@ HRESULT playerTestScene::init()
 	_player->setPlayerUIMemoryAddressLink(_UIM);
 	_player->setEmMemoryAddressLink(_em);
 
+	int bossRoom;
+	for (int i = 0; i < _map->getRoom().size(); i++)
+	{
+		if (_map->getRoom()[i].roomState == ROOM_BOSS)
+			bossRoom = i;
+	}
+	for (int y = 0; y < _map->getRoom()[bossRoom].y + _map->getRoom()[bossRoom].height; ++y)
+	{
+		for (int x = 0; x < _map->getRoom()[bossRoom].x + _map->getRoom()[bossRoom].width; ++x)
+		{
+			if (_map->getTileTerrain(x, y) == STAIR_BOSS)
+			{
+				stairBossX = x;
+				stairBossY = y;
+			}
+		}
+	}
+
+
 	return S_OK;
 }
 
@@ -105,6 +123,17 @@ void playerTestScene::update()
 	_shopkeeper->update();
 	_UIM->updateMoney();
 	_UIM->updateMoneyNumber(0, false);
+	if (!_em->getIsMiniBoss())
+	{
+		//¿©±â¸é ÇØ°ñ¹þ°ÜÁö°í
+		_map->setTileTerrain(stairBossX, stairBossY, STAIR_NONE);
+		if (_player->getTileX() == stairBossX && _player->getTileY() == stairBossY)
+		{
+			SCENEMANAGER->changeScene("bossScene");
+			SOUNDMANAGER->stop("zone1-1");
+			SOUNDMANAGER->stop("zone1-1_shopkeeper");
+		}
+	}
 }
 
 void playerTestScene::render()

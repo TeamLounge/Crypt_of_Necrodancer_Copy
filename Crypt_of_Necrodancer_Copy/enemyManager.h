@@ -41,8 +41,7 @@ private:
 	mapGenerator* _map;
 
 	bool _isboss;
-	bool _isWhite;
-	bool _isgreen;
+	bool _isminiboss;
 
 
 	//////////////////////////////
@@ -287,7 +286,7 @@ public:
 	deathMetal* getDeathMetal() { return _deathMetal; }
 
 	bool getIsBoss() { return _isboss; }
-
+	bool getIsMiniBoss() { return _isminiboss; }
 	bool getIsCatch() {
 		for (_viMonkeyBasic = _vMonkeyBasic.begin(); _viMonkeyBasic != _vMonkeyBasic.end(); ++_viMonkeyBasic)
 		{
