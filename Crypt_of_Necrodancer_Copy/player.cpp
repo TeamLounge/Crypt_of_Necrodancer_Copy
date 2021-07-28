@@ -134,7 +134,7 @@ void player::update()
 		if (_attackElapsedTime >= 5.0f)
 		{
 			_attackElapsedTime -= 5.0f;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 		}
 	}
 	_isWall = false;
@@ -156,7 +156,7 @@ void player::update()
 				if (_em->getIsCatch())
 				{
 					_attack = true;
-					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 				}
 				else
 				{
@@ -255,14 +255,14 @@ void player::update()
 									_attack = true;
 									_isMove = false;
 									_isRush = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 								}
 								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
 								{
 									_tileX += 1;
 									_isMove = false;
 									_attack = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 								}
 							}
 							else
@@ -277,7 +277,7 @@ void player::update()
 											_tileX += 1;
 											_isMove = false;
 											_attack = true;
-											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 										}
 									}
 								}
@@ -314,7 +314,7 @@ void player::update()
 			if (_em->getIsCatch())
 			{
 				_attack = true;
-				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			}
 			else
 			{
@@ -419,14 +419,14 @@ void player::update()
 								_attack = true;
 								_isMove = false;
 								_isRush = true;
-								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 							}
 							else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
 							{
 								_tileX -= 1;
 								_isMove = false;
 								_attack = true;
-								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 							}
 						}
 						else
@@ -440,7 +440,7 @@ void player::update()
 										_tileX -= 1;
 										_isMove = false;
 										_attack = true;
-										CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+										CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 									}
 								}
 							}
@@ -489,7 +489,7 @@ void player::update()
 				if (_em->getIsCatch())
 				{
 					_attack = true;
-					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 				}
 				else
 				{
@@ -588,14 +588,14 @@ void player::update()
 									_attack = true;
 									_isMove = false;
 									_isRush = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 								}
 								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
 								{
 									_tileY += 1;
 									_isMove = false;
 									_attack = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 								}
 							}
 							else
@@ -609,8 +609,7 @@ void player::update()
 											_tileY += 1;
 											_isMove = false;
 											_attack = true;
-											_map->setDirtTileFrameY(1);
-											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 										}
 									}
 								}
@@ -667,7 +666,7 @@ void player::update()
 				if (_em->getIsCatch())
 				{
 					_attack = true;
-					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 				}
 				else
 				{
@@ -773,14 +772,14 @@ void player::update()
 									_attack = true;
 									_isMove = false;
 									_isRush = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 								}
 								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
 								{
 									_tileY -= 1;
 									_isMove = false;
 									_attack = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 								}
 							}
 							else
@@ -794,8 +793,7 @@ void player::update()
 											_tileY -= 1;
 											_isMove = false;
 											_attack = true;
-											_map->setDirtTileFrameY(1);
-											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 										}
 									}
 								}
@@ -938,44 +936,72 @@ void player::update()
 			if (_x <= (_tileRect.left + _tileRect.right) / 2)
 			{
 				_x = (_tileRect.left + _tileRect.right) / 2;
+				if (_shadow.left <= _tileRect.left)
+				{
+					_shadow.left = _tileRect.left;
+					_shadow.right = _shadow.left + IMAGEMANAGER->findImage("shadow_standard_1")->getWidth();
+				}
 				_isRush = false;
 			}
 			else
 			{
 				_x -= 9;
+				_shadow.left -= 9;
+				_shadow.right = _shadow.left + IMAGEMANAGER->findImage("shadow_standard_1")->getWidth();
 			}
 			break;
 		case RIGHT:
 			if (_x >= (_tileRect.left + _tileRect.right) / 2)
 			{
 				_x = (_tileRect.left + _tileRect.right) / 2;
+				if (_shadow.left >= _tileRect.left)
+				{
+					_shadow.left = _tileRect.left;
+					_shadow.right = _shadow.left + IMAGEMANAGER->findImage("shadow_standard_1")->getWidth();
+				}
 				_isRush = false;
 			}
 			else
 			{
 				_x += 9;
+				_shadow.left += 9;
+				_shadow.right = _shadow.left + IMAGEMANAGER->findImage("shadow_standard_1")->getWidth();
 			}
 			break;
 		case UP:
 			if (_y <= (_tileRect.top + _tileRect.bottom) / 2 - BODYMARGIN)
 			{
 				_y = (_tileRect.top + _tileRect.bottom) / 2 - BODYMARGIN;
+				if (_shadow.top <= _tileRect.top - SHADOWMARGIN)
+				{
+					_shadow.top = _tileRect.top - SHADOWMARGIN;
+					_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("shadow_standard_1")->getHeight();
+				}
 				_isRush = false;
 			}
 			else
 			{
 				_y -= 9;
+				_shadow.top -= 9;
+				_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("shadow_standard_1")->getHeight();
 			}
 			break;
 		case DOWN:
 			if (_y >= (_tileRect.top + _tileRect.bottom) / 2 - BODYMARGIN)
 			{
 				_y = (_tileRect.top + _tileRect.bottom) / 2 - BODYMARGIN;
+				if (_shadow.top >= _tileRect.top - SHADOWMARGIN)
+				{
+					_shadow.top = _tileRect.top - SHADOWMARGIN;
+					_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("shadow_standard_1")->getHeight();
+				}
 				_isRush = false;
 			}
 			else
 			{
 				_y += 9;
+				_shadow.top += 9;
+				_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("shadow_standard_1")->getHeight();
 			}
 			break;
 		default:
@@ -1055,8 +1081,9 @@ void player::damaged()
 				_uiManager->minusHeart(4);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVBlackSkeleton().begin() + i))->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
 		}
 	}
@@ -1078,8 +1105,10 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVWitheSkeleton().begin() + i))->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			break;
 		}
 	}
 
@@ -1100,46 +1129,225 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVGreenSkeleton().begin() + i))->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
 		}
 	}
 
 	//////////////////////////////////////
-	// #### 몽키 공격력 부여 ###
-	/////////////////////////////////////
-	//for (int i = 0; i < _em->getVMonkeyBasic().size(); ++i)
-	//{
-	//	if ((*(_em->getVMonkeyBasic().begin() + i))->getIsCatch())
-	//	{
-	//		_uiManager->minusHeart(MONKEYDAMAGE);
-	//		(*(_em->getVMonkeyBasic().begin() + i))->setIsCatch(false);
-	//		break;
-	//	}
-	//}
-
-	//////////////////////////////////////
 	// #### 미노타우르스 공격력 부여 ###
-	/////////////////////////////////////  ## 아직 없음
+	/////////////////////////////////////
+	for (int i = 0; i < _em->getVMinotaur().size(); i++)
+	{
+		if ((*(_em->getVSlimeBlue().begin() + i))->getAttack())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(3);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(2);
+			}
+			else
+			{
+				_uiManager->minusHeart(4);
+			}
+			_isAttacked = true;
+			_map->setTileFrameY(0);
+			(*(_em->getVSlimeBlue().begin() + i))->setAttack(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			break;
+		}
+	}
+
 
 	//////////////////////////////////////
 	// #### 슬라임 공격력 부여 ###
-	///////////////////////////////////// ## 아직 못만듬.. by 정무현
+	/////////////////////////////////////
+	for (int i = 0; i < _em->getVSlimeBlue().size(); i++)
+	{
+		if ((*(_em->getVSlimeBlue().begin() + i))->getAttack())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else
+			{
+				_uiManager->minusHeart(2);
+			}
+			_isAttacked = true;
+			_map->setTileFrameY(0);
+			(*(_em->getVSlimeBlue().begin() + i))->setAttack(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			break;
+		}
+	}
 
+	for (int i = 0; i < _em->getVSlimeGold().size(); i++)
+	{
+		if ((*(_em->getVSlimeGold().begin() + i))->getAttack())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else
+			{
+				_uiManager->minusHeart(1);
+			}
+			_isAttacked = true;
+			_map->setTileFrameY(0);
+			(*(_em->getVSlimeGold().begin() + i))->setAttack(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			break;
+		}
+	}
 	//////////////////////////////////////
 	// #### 좀비 공격력 부여 ###
-	///////////////////////////////////// ## 아직 못만듬.. by 정무현
-
+	/////////////////////////////////////
+	for (int i = 0; i < _em->getVZombie().size(); i++)
+	{
+		if ((*(_em->getVZombie().begin() + i))->getAttack())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else
+			{
+				_uiManager->minusHeart(2);
+			}
+			_isAttacked = true;
+			_map->setTileFrameY(0);
+			(*(_em->getVZombie().begin() + i))->setAttack(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			break;
+		}
+	}
 
 	//////////////////////////////////////
 	// #### 고스트 공격력 부여 ###
-	///////////////////////////////////// ## 아직 없음
+	/////////////////////////////////////
 
+	for (int i = 0; i < _em->getVGhost().size(); i++)
+	{
+		if ((*(_em->getVGhost().begin() + i))->getAttck())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else
+			{
+				_uiManager->minusHeart(2);
+			}
+			_isAttacked = true;
+			_map->setTileFrameY(0);
+			(*(_em->getVGhost().begin() + i))->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			break;
+		}
+	}
 
 	//////////////////////////////////////
 	// #### 미믹 공격력 부여 ###
-	///////////////////////////////////// ## 아직 없음
+	/////////////////////////////////////
+	for (int i = 0; i < _em->getVMimic().size(); i++)
+	{
+		if ((*(_em->getVMimic().begin() + i))->getAttck())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else
+			{
+				_uiManager->minusHeart(2);
+			}
+			_isAttacked = true;
+			_map->setTileFrameY(0);
+			(*(_em->getVMimic().begin() + i))->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			break;
+		}
+	}
+
+	//////////////////////////////////////
+	// #### 드래곤 공격력 부여 ###
+	/////////////////////////////////////
+	for (int i = 0; i < _em->getVRedDragon().size(); i++)
+	{
+		if ((*(_em->getVRedDragon().begin() + i))->getAttck())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(5);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(4);
+			}
+			else
+			{
+				_uiManager->minusHeart(6);
+			}
+			_isAttacked = true;
+			_map->setTileFrameY(0);
+			(*(_em->getVRedDragon().begin() + i))->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			break;
+		}
+	}
+
+	//////////////////////////////////////
+	// #### 데스메탈 공격력 부여 ###
+	/////////////////////////////////////
+	if (_em->getIsBoss())
+	{
+		if (_em->getDeathMetal()->getAttck())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(2);
+			}
+			else
+			{
+				_uiManager->minusHeart(3);
+			}
+			_isAttacked = true;
+			_map->setTileFrameY(0);
+			_em->getDeathMetal()->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+		}
+	}
 }
 
 void player::miss()

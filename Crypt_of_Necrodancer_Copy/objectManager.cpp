@@ -391,7 +391,7 @@ void objectManager::playerItemCollision()
 void objectManager::playerMove(int addTileX, int addTileY, PLAYER_ENEMY_DIRECTION dir)
 {
 	tagPushedObject pushedObj;
-	if (!_player->getIsMove())
+	if (!_player->getIsMove() && !_player->getIsRush())
 	{
 		//위로 가야하므로 플레이어tileY - 1의 오브젝트 비교
 		OBJECT obj = _map->getTileObject(_player->getTileX() + addTileX, _player->getTileY() + addTileY);
