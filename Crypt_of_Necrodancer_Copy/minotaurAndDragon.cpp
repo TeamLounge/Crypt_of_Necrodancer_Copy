@@ -7,16 +7,17 @@ HRESULT minotaurAndDragon::init(int playerIndexX, int playerIndexY)
 	isFind = false;
 	isTime = isMove = false;
 	 _count = _damageRenderCount = _damageindex = _index = _indey = 0;
-	isAction = damageRender = false;
+	isAction = toRender = damageRender = false;
 	attack = false;
 	_beatspeed = 1.0f;
+
 	while (true) //랜덤배치
 	{
 		int bossRoom = 0;
 		int random = RND->getInt(_map->getRoom().size());//랜덤방에 배치
 		for (int i = 0; i < _map->getRoom().size(); ++i)
 		{
-			if (_map->getRoom()[i].roomState == ROOM_BOSS)
+			if (_map->getRoom()[i].roomState == ROOM_BOSS)	//미니 보스방
 			{
 				bossRoom = i;
 			}
@@ -29,8 +30,11 @@ HRESULT minotaurAndDragon::init(int playerIndexX, int playerIndexY)
 	}
 	_rc = _map->getRect(_tilex, _tiley);
 	_map->setIsEnemy(_tilex, _tiley, true);
+	_x = _rc.left;								//_x, _y는 이미지를 움직이기 위한 _rc를 토대로 가져온 실제 좌표(정보 가져오기 위함)
+	_y = _rc.top - (_rc.bottom - _rc.top) / 2;
 	_astar->setLinkrandomMap(_map);
-	_astar->init(_tilex, _tiley, playerIndexX, playerIndexY, true);
+	_astar->init(_tilex, _tiley, playerIndexX, playerIndexY, true);	//miniBoss = true
+
 	return S_OK;
 }
 
@@ -38,7 +42,9 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 {
 	_playerindex = playerIndexX;
 	_playerindey = playerIndexY;
+
 	_astar->endmove(playerIndexX, playerIndexY);
+
 	if (isAction) 
 	{
 		if (TIMEMANAGER->getWorldTime() - _movingTime >= _beatspeed/2)

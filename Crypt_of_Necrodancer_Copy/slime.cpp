@@ -11,6 +11,8 @@ HRESULT slime::init(int playerIndexX, int playerIndexY)
 
 	_isMove = false;		//시작하자마자 움직여
 	_isTime = false;
+	_isPlayer = false;
+	_isAttack = false;
 
 	_gravity = 0;
 	_beatSpeed = 1.0f;

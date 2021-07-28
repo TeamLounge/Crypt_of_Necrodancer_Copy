@@ -30,6 +30,8 @@ void slimeGreen::render()
 	{
 		Rectangle(getMemDC(), _rc);
 	}
+
+	//알파 값에 따른 블랙모드
 	if (_map->getAlpha(_tileX, _tileY) <= 255 && _map->getAlpha(_tileX, _tileY) > 150) {
 		_img = IMAGEMANAGER->findImage("slimeGreen");
 		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
@@ -43,11 +45,6 @@ void slimeGreen::render()
 
 void slimeGreen::setSlimeFrame()
 {
-	if (TIMEMANAGER->getWorldTime() - _worldTime > _beatSpeed / 2)
-	{
-		_worldTime = TIMEMANAGER->getWorldTime();
-	}
-
 	_frameCount++;
 	if (_frameCount % 8 == 0)
 	{

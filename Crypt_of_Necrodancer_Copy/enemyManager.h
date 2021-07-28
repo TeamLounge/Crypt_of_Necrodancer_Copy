@@ -89,7 +89,7 @@ private:
 	viBlackSkeleton _viBlackSkeleton;
 
 	//////////////////////////////
-	//	     고스트&미믹 		//
+	//	     고스트&미믹 			//
 	//////////////////////////////
 	typedef vector<ghost*>  vGhost;
 	typedef vector<ghost*>::iterator viGhost;
@@ -121,7 +121,7 @@ private:
 	viMonkeyWhite _viMonkeyWhite;
 
 	//////////////////////////////
-	//	     미노타우르스 		//
+	//	     미노타우르스 			//
 	//////////////////////////////
 
 	typedef vector<minotaur*>  vMinotaur;
@@ -178,7 +178,7 @@ public:
 	void setMapGeneratorMemoryAddressLink(mapGenerator* map) { _map = map; }
 	void setPlayerMemoryAddressLink(player* player) { _player = player; }
 	void setWeaponMemoryAddressLink(weapon* weapon) { _weapon = weapon; }
-	void bosspatten();
+	void bosspattern();
 
 
 	//ㄹㅇ 수만은 셋터들
@@ -247,11 +247,6 @@ public:
 	void setWhiteSkeletonBossRoom();
 	void setGreenSkeletonBossRoom();
 
-
-	//에너미 삭제 할 때
-	//_em->delete(_tileX, _tileY); 이런 
-
-
 	//ㄹㅇ 수만은 겟터들
 
 	vSlimeGreen getVSlimeGreen() { return _vSlimeGreen; }
@@ -293,9 +288,4 @@ public:
 	vRedDragon getVRedDragon() { return _vRedDragon; }
 	viRedDragon getVIRedDragon() { return _viRedDragon; }
 
-
-
-	/////////////////////////////////
-	//속도 값 통일해서 변수로 만들어두기
-	/////////////////////////////////
 };

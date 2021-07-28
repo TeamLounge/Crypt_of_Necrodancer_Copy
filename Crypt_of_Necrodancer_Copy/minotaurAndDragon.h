@@ -27,7 +27,7 @@ protected:
 	bool isFind;
 	bool isTime, isMove;
 	bool attack;
-	bool isAction ,damageRender;
+	bool isAction, toRender, damageRender;
 public:
 	virtual HRESULT init(int playerIndexX, int playerIndexY);
 	virtual void update(int playerIndexX, int playerIndexY);

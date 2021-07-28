@@ -6,16 +6,16 @@ HRESULT enemyManager::init()
 {
 
 	setWhiteSkeleton();
-	setGreenSkeleton();
-	setBlackSkeleton();
+	//setGreenSkeleton();
+	//setBlackSkeleton();
 
-	setSlimeGreen();
+	//setSlimeGreen();
 	setSlimeGold();
 	setSlimeBlue();
 
-	setGhost();
+	//setGhost();
 
-	setMimic();
+	//setMimic();
 
 	setMonkeyBasic();
 	//setMonkeyWhite();
@@ -24,8 +24,10 @@ HRESULT enemyManager::init()
 
 	setZombie();
 
-	//setRedDragon();
+	setRedDragon();
+
 	attackoff = false;
+
 	return S_OK;
 }
 
@@ -42,16 +44,17 @@ void enemyManager::update()
 	_weaponName = _weapon->getWeaponName();
 
 	updateWhiteSkeleton();
-	updateGreenSkeleton();
-	updateBlackSkeleton();
+	//updateGreenSkeleton();
+	//updateBlackSkeleton();
 
-	updateMimic();
-
-	updateGhost();
-
-	updateSlimeGreen();
+	//updateSlimeGreen();
 	updateSlimeGold();
 	updateSlimeBlue();
+
+	//updateGhost();
+	
+	//updateMimic();
+
 
 	updateMonkeyBasic();
 	//updateMonkeyWhite();
@@ -60,7 +63,8 @@ void enemyManager::update()
 
 	updateZombie();
 
-	//updateRedDragon();
+	updateRedDragon();
+
 	_player->setAttack(false);
 }
 
@@ -68,16 +72,17 @@ void enemyManager::render()
 {
 
 	renderWhiteSkeleton();
-	renderGreenSkeleton();
-	renderBlackSkeleton();
+	//renderGreenSkeleton();
+	//renderBlackSkeleton();
 
-	renderMimic();
-
-	renderGhost();
-
-	renderSlimeGreen();
+	//renderSlimeGreen();
 	renderSlimeGold();
 	renderSlimeBlue();
+
+	//renderGhost();
+
+	//renderMimic();
+
 
 	renderMonkeyBasic();
 	//renderMonkeyWhite();
@@ -86,13 +91,14 @@ void enemyManager::render()
 
 	renderZombie();
 
-	//renderRedDragon();
+	renderRedDragon();
 }
 
 HRESULT enemyManager::bossRoomInit()
 {
 	setDeathMetal();
 	_isboss = true;
+
 	return S_OK;
 }
 
@@ -101,38 +107,8 @@ void enemyManager::bossRoomRelease()
 
 }
 
-void enemyManager::bossRoomUpdate()
-{
-	//여기는 무기공격판정렉트 계속 받는곳
-	_vCollision = _weapon->getVCollision();
-	_viCollision = _weapon->getVICollision();
-	_weaponName = _weapon->getWeaponName();
-
-	if(_isboss)
-		updateDeathMetal();
-	if (!_vGhost.empty())
-	{
-
-	}
-	if (!_vWitheSkeleton.empty())
-	{
-
-	}
-	if (!_vGreenSkeleton.empty())
-	{
-
-	}
-	_player->setAttack(false);
-}
-
-void enemyManager::bossRoomRender()
-{
-	if (_isboss) 
-	{
-		renderDeathMetal();
-	}
-}
-
+//스켈레톤WHITE
+///////////////////////////////////////
 void enemyManager::setWhiteSkeleton()
 {
 	for (int i = 0; i < 5; i++)
@@ -199,6 +175,8 @@ void enemyManager::renderWhiteSkeleton()
 	}
 }
 
+//스켈레톤GREEN
+///////////////////////////////////////
 void enemyManager::setGreenSkeleton()
 {
 	for (int i = 0; i < 5; i++)
@@ -266,6 +244,8 @@ void enemyManager::renderGreenSkeleton()
 	}
 }
 
+//스켈레톤BLACK
+///////////////////////////////////////
 void enemyManager::setBlackSkeleton()
 {
 	for (int i = 0; i < 5; i++)
@@ -332,11 +312,8 @@ void enemyManager::renderBlackSkeleton()
 	}
 }
 
-void enemyManager::bosspatten()
-{
-	_deathMetal->update(_player->getTileX(), _player->getTileX());
-}
-
+//슬라임GREEN
+///////////////////////////////////////
 void enemyManager::setSlimeGreen()
 {
 	for (int i = 0; i < 5; i++)
@@ -404,6 +381,8 @@ void enemyManager::renderSlimeGreen()
 	}
 }
 
+//슬라임GOLD
+///////////////////////////////////////
 void enemyManager::setSlimeGold()
 {
 	for (int i = 0; i < 3; i++)
@@ -470,6 +449,8 @@ void enemyManager::renderSlimeGold()
 	}
 }
 
+//슬라임BLUE
+///////////////////////////////////////
 void enemyManager::setSlimeBlue()
 {
 	for (int i = 0; i < 4; i++)
@@ -537,8 +518,8 @@ void enemyManager::renderSlimeBlue()
 	}
 }
 
-
-
+//고스트
+///////////////////////////////////////
 void enemyManager::setGhost()
 {
 	for (int i = 0; i < 1; i++)
@@ -606,6 +587,8 @@ void enemyManager::renderGhost()
 	}
 }
 
+//미믹
+///////////////////////////////////////
 void enemyManager::setMimic()
 {
 	for (int i = 0; i < 1; i++)
@@ -673,6 +656,8 @@ void enemyManager::renderMimic()
 	}
 }
 
+//몽키BASIC
+///////////////////////////////////////
 void enemyManager::setMonkeyBasic()
 {
 	for (int i = 0; i < 1; i++)
@@ -730,6 +715,8 @@ void enemyManager::renderMonkeyBasic()
 	}
 }
 
+//몽키WHITE
+///////////////////////////////////////
 void enemyManager::setMonkeyWhite()
 {
 	for (int i = 0; i < 1; i++)
@@ -786,6 +773,8 @@ void enemyManager::renderMonkeyWhite()
 	}
 }
 
+//미노타우루스
+///////////////////////////////////////
 void enemyManager::setMinotaur()
 {
 	for (int i = 0; i < 1; i++)
@@ -843,6 +832,8 @@ void enemyManager::renderMinotaur()
 	}
 }
 
+//좀비
+///////////////////////////////////////
 void enemyManager::setZombie()
 {
 	for (int i = 0; i < 3; i++)
@@ -853,7 +844,6 @@ void enemyManager::setZombie()
 		_vZombie.push_back(_zombie);
 	}
 }
-
 void enemyManager::updateZombie()
 {
 	for (_viZombie = _vZombie.begin(); _viZombie != _vZombie.end();)
@@ -893,7 +883,6 @@ void enemyManager::updateZombie()
 	}
 
 }
-
 void enemyManager::renderZombie()
 {
 	for (_viZombie = _vZombie.begin(); _viZombie != _vZombie.end(); ++_viZombie)
@@ -902,6 +891,8 @@ void enemyManager::renderZombie()
 	}
 }
 
+//레드드래곤
+///////////////////////////////////////
 void enemyManager::setRedDragon()
 {
 	for (int i = 0; i < 1; i++)
@@ -912,7 +903,6 @@ void enemyManager::setRedDragon()
 		_vRedDragon.push_back(_redDragon);
 	}
 }
-
 void enemyManager::updateRedDragon()
 {
 	for (_viRedDragon = _vRedDragon.begin(); _viRedDragon != _vRedDragon.end();)
@@ -951,7 +941,6 @@ void enemyManager::updateRedDragon()
 		}
 	}
 }
-
 void enemyManager::renderRedDragon()
 {
 	for (_viRedDragon = _vRedDragon.begin(); _viRedDragon != _vRedDragon.end(); ++_viRedDragon)
@@ -960,69 +949,14 @@ void enemyManager::renderRedDragon()
 	}
 }
 
-void enemyManager::setEnemySpeed(float speed)
-{
-	for (_viSlimeGreen = _vSlimeGreen.begin(); _viSlimeGreen != _vSlimeGreen.end(); ++_viSlimeGreen)
-	{
-		(*_viSlimeGreen)->setBeatSpeed(speed);
-	}
-	for (_viSlimeGold = _vSlimeGold.begin(); _viSlimeGold != _vSlimeGold.end(); ++_viSlimeGold)
-	{
-		(*_viSlimeGold)->setBeatSpeed(speed);
-	}
-	for (_viSlimeBlue = _vSlimeBlue.begin(); _viSlimeBlue != _vSlimeBlue.end(); ++_viSlimeBlue)
-	{
-		(*_viSlimeBlue)->setBeatSpeed(speed);
-	}
-	for (_viWitheSkeleton = _vWitheSkeleton.begin(); _viWitheSkeleton != _vWitheSkeleton.end(); ++_viWitheSkeleton)
-	{
-		(*_viWitheSkeleton)->setBeatSpeed(speed);
-	}
-	for (_viGreenSkeleton = _vGreenSkeleton.begin(); _viGreenSkeleton != _vGreenSkeleton.end(); ++_viGreenSkeleton)
-	{
-		(*_viGreenSkeleton)->setBeatSpeed(speed);
-	}
-	for (_viBlackSkeleton = _vBlackSkeleton.begin(); _viBlackSkeleton != _vBlackSkeleton.end(); ++_viBlackSkeleton)
-	{
-		(*_viBlackSkeleton)->setBeatSpeed(speed);
-	}
-	for (_viGhost = _vGhost.begin(); _viGhost != _vGhost.end(); ++_viGhost)
-	{
-		(*_viGhost)->setBeatSpeed(speed);
-	}
-	for (_viMimic = _vMimic.begin(); _viMimic != _vMimic.end(); ++_viMimic)
-	{
-		(*_viMimic)->setBeatSpeed(speed);
-	}
-	for (_viMonkeyBasic = _vMonkeyBasic.begin(); _viMonkeyBasic != _vMonkeyBasic.end(); ++_viMonkeyBasic)
-	{
-		(*_viMonkeyBasic)->setBeatSpeed(speed);
-	}
-	for (_viMonkeyWhite = _vMonkeyWhite.begin(); _viMonkeyWhite != _vMonkeyWhite.end(); ++_viMonkeyWhite)
-	{
-		(*_viMonkeyWhite)->setBeatSpeed(speed);
-	}
-	for (_viMinotaur = _vMinotaur.begin(); _viMinotaur != _vMinotaur.end(); ++_viMinotaur)
-	{
-		(*_viMinotaur)->setBeatSpeed(speed);
-	}
-	for (_viZombie = _vZombie.begin(); _viZombie != _vZombie.end(); ++_viZombie)
-	{
-		(*_viZombie)->setBeatSpeed(speed);
-	}
-	for (_viRedDragon = _vRedDragon.begin(); _viRedDragon != _vRedDragon.end(); ++_viRedDragon)
-	{
-		(*_viRedDragon)->setBeatSpeed(speed);
-	}
-}
-
+//데스메탈
+///////////////////////////////////////
 void enemyManager::setDeathMetal()
 {
 	_deathMetal = new deathMetal;
 	_deathMetal->setTileMapLinK(_map);
 	_deathMetal->init(_player->getTileX(), _player->getTileY());
 }
-
 void enemyManager::updateDeathMetal()
 {
 
@@ -1091,24 +1025,114 @@ void enemyManager::updateDeathMetal()
 	}
 
 }
-
 void enemyManager::renderDeathMetal()
 {
 	_deathMetal->render();
 }
 
+//보스룸 관련
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void enemyManager::setGhostBossRoom()
 {
 	
 }
-
 void enemyManager::setWhiteSkeletonBossRoom()
 {
 
 }
-
 void enemyManager::setGreenSkeletonBossRoom()
 {
 
 }
 
+void enemyManager::bossRoomUpdate()
+{
+	//여기는 무기공격판정렉트 계속 받는곳
+	_vCollision = _weapon->getVCollision();
+	_viCollision = _weapon->getVICollision();
+	_weaponName = _weapon->getWeaponName();
+
+	if(_isboss)
+		updateDeathMetal();
+	if (!_vGhost.empty())
+	{
+
+	}
+	if (!_vWitheSkeleton.empty())
+	{
+
+	}
+	if (!_vGreenSkeleton.empty())
+	{
+
+	}
+	_player->setAttack(false);
+}
+void enemyManager::bossRoomRender()
+{
+	if (_isboss) 
+	{
+		renderDeathMetal();
+	}
+}
+void enemyManager::bosspattern()
+{
+	_deathMetal->update(_player->getTileX(), _player->getTileX());
+}
+
+
+void enemyManager::setEnemySpeed(float speed)
+{
+	for (_viSlimeGreen = _vSlimeGreen.begin(); _viSlimeGreen != _vSlimeGreen.end(); ++_viSlimeGreen)
+	{
+		(*_viSlimeGreen)->setBeatSpeed(speed);
+	}
+	for (_viSlimeGold = _vSlimeGold.begin(); _viSlimeGold != _vSlimeGold.end(); ++_viSlimeGold)
+	{
+		(*_viSlimeGold)->setBeatSpeed(speed);
+	}
+	for (_viSlimeBlue = _vSlimeBlue.begin(); _viSlimeBlue != _vSlimeBlue.end(); ++_viSlimeBlue)
+	{
+		(*_viSlimeBlue)->setBeatSpeed(speed);
+	}
+	for (_viWitheSkeleton = _vWitheSkeleton.begin(); _viWitheSkeleton != _vWitheSkeleton.end(); ++_viWitheSkeleton)
+	{
+		(*_viWitheSkeleton)->setBeatSpeed(speed);
+	}
+	for (_viGreenSkeleton = _vGreenSkeleton.begin(); _viGreenSkeleton != _vGreenSkeleton.end(); ++_viGreenSkeleton)
+	{
+		(*_viGreenSkeleton)->setBeatSpeed(speed);
+	}
+	for (_viBlackSkeleton = _vBlackSkeleton.begin(); _viBlackSkeleton != _vBlackSkeleton.end(); ++_viBlackSkeleton)
+	{
+		(*_viBlackSkeleton)->setBeatSpeed(speed);
+	}
+	for (_viGhost = _vGhost.begin(); _viGhost != _vGhost.end(); ++_viGhost)
+	{
+		(*_viGhost)->setBeatSpeed(speed);
+	}
+	for (_viMimic = _vMimic.begin(); _viMimic != _vMimic.end(); ++_viMimic)
+	{
+		(*_viMimic)->setBeatSpeed(speed);
+	}
+	for (_viMonkeyBasic = _vMonkeyBasic.begin(); _viMonkeyBasic != _vMonkeyBasic.end(); ++_viMonkeyBasic)
+	{
+		(*_viMonkeyBasic)->setBeatSpeed(speed);
+	}
+	for (_viMonkeyWhite = _vMonkeyWhite.begin(); _viMonkeyWhite != _vMonkeyWhite.end(); ++_viMonkeyWhite)
+	{
+		(*_viMonkeyWhite)->setBeatSpeed(speed);
+	}
+	for (_viMinotaur = _vMinotaur.begin(); _viMinotaur != _vMinotaur.end(); ++_viMinotaur)
+	{
+		(*_viMinotaur)->setBeatSpeed(speed);
+	}
+	for (_viZombie = _vZombie.begin(); _viZombie != _vZombie.end(); ++_viZombie)
+	{
+		(*_viZombie)->setBeatSpeed(speed);
+	}
+	for (_viRedDragon = _vRedDragon.begin(); _viRedDragon != _vRedDragon.end(); ++_viRedDragon)
+	{
+		(*_viRedDragon)->setBeatSpeed(speed);
+	}
+}

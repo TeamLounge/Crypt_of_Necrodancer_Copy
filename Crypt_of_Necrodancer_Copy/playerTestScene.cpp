@@ -123,6 +123,7 @@ void playerTestScene::render()
 			_player->render(j, i);
 			_player->renderShovelEffect(j, i);
 			_objectManager->render(j, i);
+			//_em
 		}
 	}
 	_em->render();
@@ -134,8 +135,8 @@ void playerTestScene::render()
 	_weapon->render();
 	_shovel->render();
 
-	_objectManager->render();
-	_player->getBomb()->render();
+	_objectManager->render();			//Æø¹ß ÇßÀ» ¶§
+	_player->getBomb()->render();		//Æø¹ß ÇßÀ» ¶§
 	_UIM->renderMoney();
 	_UIM->renderMoneyNumber();
 

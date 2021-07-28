@@ -55,17 +55,16 @@ void zombie::update(int playerIndexX, int playerIndexY)
 	if (_isPlayer)
 	{
 		_damageRenderCount++;
-		if (_damageRenderCount % 6 == 0)
+		if (_damageRenderCount % 3 == 0)
 		{
 			_damageIndex++;
-			if (_damageIndex > 4)
+			if (_damageIndex > 2)
 			{
 				_damageIndex = 0;
 				_isPlayer = false;
 			}
 			_damageRenderCount = 0;
 		}
-
 	}
 }
 
@@ -75,6 +74,8 @@ void zombie::render()
 	{
 		Rectangle(getMemDC(), _rc);
 	}
+
+	//알파 값에 따른 블랙모드
 	if (_map->getAlpha(_tileX, _tileY) <= 255 && _map->getAlpha(_tileX, _tileY) > 150) {
 		_img = IMAGEMANAGER->findImage("zombie");
 		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
@@ -84,6 +85,8 @@ void zombie::render()
 		_img = IMAGEMANAGER->findImage("zombie_dark");
 		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
 	}
+
+	attackPlayerRender();
 }
 
 void zombie::setArrangement()
@@ -152,21 +155,19 @@ void zombie::moveZombie()
 		{
 			if (_direction == NONE)
 			{
-				//여기서 방향설정
-				//이전에 담고 있던 방향을 NONE으로 제자리 뛰고 있을 때 다시 불러와
-				
-				//이미지로 방향 판단
 				//LEFT
 				if (_pastDirection == LEFT)
 				{
 					if (_tileX - 1 == _playerIndexX && _tileY == _playerIndexY)
 					{
 						if(!_isAttack)	_isAttack = true;
-						_isPlayer = true;			//_isAttack = false는 플레이어쪽에서 맞았다고 정해주고 거기서 꺼줘야한다.
+						_isPlayer = true;			//다음 타일이 플레이어라면   ///////_isAttack = false는 플레이어쪽에서 맞았다고 정해주고 거기서 꺼줘야한다.
 					}
 					else
 					{
 						_direction = _pastDirection;
+						//여기서 방향설정
+						//이전에 담고 있던 방향을 NONE으로 제자리 뛰고 있을 때 다시 불러와
 					}
 				}
 				//RIGHT
@@ -233,6 +234,7 @@ void zombie::moveZombie()
 				{
 					_pastDirection = _direction;
 					_direction = NONE;
+					_isPlayer = true;
 
 				}
 				////TRAP 판단
@@ -268,6 +270,7 @@ void zombie::moveZombie()
 					//_isPlayer = true;
 					_pastDirection = _direction;
 					_direction = NONE;
+					_isPlayer = true;
 				}
 				
 				else
@@ -298,6 +301,7 @@ void zombie::moveZombie()
 					//_isPlayer = true;
 					_pastDirection = _direction;
 					_direction = NONE;
+					_isPlayer = true;
 				}
 				else
 				{
@@ -328,6 +332,7 @@ void zombie::moveZombie()
 					//_isPlayer = true;
 					_pastDirection = _direction;
 					_direction = NONE;
+					_isPlayer = true;
 				}
 				//제자리 점프하다가 다시 다음 타일이 적이 아니면
 				//다시 이동..
@@ -427,7 +432,7 @@ void zombie::attackPlayerRender()
 {
 	if (_isPlayer)
 	{
-		switch (_pastDirection)
+		switch (_pastDirection)	//_pastDirection으로 해야 현재 타일에 맞게 보이겠지.
 		{
 		case LEFT:
 			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
