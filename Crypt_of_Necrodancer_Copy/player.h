@@ -42,6 +42,13 @@ private:
 	int _currentFrameY; //현재 프레임y
 	float _gravity;
 
+	image* _miss;	//미스이미지 등록용
+	bool _isMiss;	//미스했냐?
+	float _missRange; //미스거리..
+	float _missSpeed; //미스속도
+
+	bool _isThrow; //던졌어??
+
 	mapGenerator* _map;
 	
 	vision* _vision;
@@ -87,6 +94,7 @@ public:
 	virtual void render(int tileX, int tileY);
 
 	void damaged();
+	void miss();
 
 	PLAYER_ENEMY_DIRECTION getDirection() { return _playerDirection; }
 	void setDirection(PLAYER_ENEMY_DIRECTION dir) { _playerDirection = dir; }
@@ -130,5 +138,8 @@ public:
 	void setAttack(bool attack) { _attack = attack; }
 
 	void renderShovelEffect(int tileX, int tileY);
+
+	bool getIsThrow() { return _isThrow; }
+	void setIsThrow(bool isThrow) { _isThrow = isThrow; }
 };
 

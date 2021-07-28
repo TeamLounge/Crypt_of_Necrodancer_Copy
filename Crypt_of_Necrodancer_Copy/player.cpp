@@ -40,6 +40,15 @@ HRESULT player::init()
 	_attackElapsedTime = 0;
 	setupPlayerRect();
 
+	_miss = new image;
+	_miss = IMAGEMANAGER->findImage("벗어남");
+	_miss->setX(CAMERAMANAGER->getCameraCenterX());
+	_miss->setY(CAMERAMANAGER->getCameraBOTTOM() - 200);
+	_missRange = 0;
+
+	_isMiss = false;
+	_isThrow = false;
+
 	return S_OK;
 }
 
@@ -131,7 +140,7 @@ void player::update()
 	//심장박동에 맞춘 경우만 행동
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove)
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_uiManager->getIsPlayerDead())
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 			{
@@ -263,12 +272,12 @@ void player::update()
 		//판정 벗어났을때
 		else if (!_uiManager->getIsIntersectJudge() && !_isMove)
 		{
-
+			_isMiss = true;
 		}
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove)
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_uiManager->getIsPlayerDead())
 		{
 			_playerDirection = RIGHT;
 			_weapon->update();
@@ -397,138 +406,166 @@ void player::update()
 			}
 			
 		}
+
+		//판정 벗어났을때
+		else if (!_uiManager->getIsIntersectJudge() && !_isMove)
+		{
+			_isMiss = true;
+		}
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove)
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_uiManager->getIsPlayerDead())
 		{
-			_playerDirection = UP;
-			_weapon->update();
-			_shovel->update();
-			_tileY -= 1;
-			_isMove = true;
-
-			//삽과 벽 충돌처리
-			if (_shovel->getVCollision().size() != 0)
+			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 			{
-				for (int i = 0; i < _shovel->getVCollision().size(); ++i)
+				for (int i = 0; i < _uiManager->getVItemHUD().size(); ++i)
 				{
-					int sTileX = (*(_shovel->getVCollision().begin() + i)).tileX;
-					int sTileY = (*(_shovel->getVCollision().begin() + i)).tileY;
-					OBJECT obj = _map->getTileObject(sTileX, sTileY);
-					if (_shovel->getShovelName() == "shovelTitanium")
+					if ((*(_uiManager->getVItemHUD().begin() + i))->getItemType() == THROW)
 					{
-						if (obj == WALL_CRACK)
-						{
-							_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-							_map->setIsHaveTorch(sTileX, sTileY, false);
-							_tileY += 1;
-							_isMove = false;
-							_isWall = true;
-							_isTouchWall = true;
-							SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
-						}
-						else if (obj == WALL_STONE)
-						{
-							_map->setTileObject(sTileX, sTileY, WALL_CRACK, 2, 1);
-							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-							_tileY += 1;
-							_isMove = false;
-							_isWall = true;
-							_isTouchWall = true;
-							SOUNDMANAGER->play("dig_stone", EFFECTVOLUME);
-						}
-						else if (obj == WALL_DOOR || obj == WALL_BASIC)
-						{
-							_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-							_map->setIsHaveTorch(sTileX, sTileY, false);
-							_tileY += 1;
-							_isMove = false;
-							_isWall = true;
-							if (obj == WALL_DOOR)
-							{
-								SOUNDMANAGER->play("door_open", EFFECTVOLUME);
-							}
-							else
-							{
-								SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
-								_isTouchWall = true;
-							}
-						}
-						else if (obj == WALL_END || obj == WALL_GOLD)
-						{
-							_tileY += 1;
-							_isMove = false;
-							_isWall = true;
-							_isTouchWall = true;
-							SOUNDMANAGER->play("dig_fail", EFFECTVOLUME);
-						}
-					}
-					else
-					{
-						if (obj == WALL_DOOR || obj == WALL_BASIC)
-						{
-							_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-							CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-							_map->setIsHaveTorch(sTileX, sTileY, false);
-							_tileY += 1;
-							_isMove = false;
-							_isWall = true;
-							if (obj == WALL_DOOR)
-							{
-								SOUNDMANAGER->play("door_open", EFFECTVOLUME);
-							}
-							else
-							{
-								SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
-								_isTouchWall = true;
-							}
-						}
-						else if(obj == WALL_CRACK || obj == WALL_END
-							|| obj == WALL_GOLD
-							|| obj == WALL_STONE)
-						{
-							_tileY += 1;
-							_isMove = false;
-							_isWall = true;
-							_isTouchWall = true;
-							SOUNDMANAGER->play("dig_fail", 0.3f);
-						}
+						_uiManager->plusItemHUD(PRESS);
 					}
 				}
 			}
-			if (!_isWall)
+
+			else
 			{
-				//웨폰과 에너미의 충돌처리
-				if (_weapon->getVCollision().size() != 0)
+				_playerDirection = UP;
+				_weapon->update();
+				_shovel->update();
+				_tileY -= 1;
+				_isMove = true;
+
+				//삽과 벽 충돌처리
+				if (_shovel->getVCollision().size() != 0)
 				{
-					for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+					for (int i = 0; i < _shovel->getVCollision().size(); ++i)
 					{
-						if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
+						int sTileX = (*(_shovel->getVCollision().begin() + i)).tileX;
+						int sTileY = (*(_shovel->getVCollision().begin() + i)).tileY;
+						OBJECT obj = _map->getTileObject(sTileX, sTileY);
+						if (_shovel->getShovelName() == "shovelTitanium")
 						{
-							if (_isMove)
+							if (obj == WALL_CRACK)
+							{
+								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+								_map->setIsHaveTorch(sTileX, sTileY, false);
+								_tileY += 1;
+								_isMove = false;
+								_isWall = true;
+								_isTouchWall = true;
+								SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
+							}
+							else if (obj == WALL_STONE)
+							{
+								_map->setTileObject(sTileX, sTileY, WALL_CRACK, 2, 1);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+								_tileY += 1;
+								_isMove = false;
+								_isWall = true;
+								_isTouchWall = true;
+								SOUNDMANAGER->play("dig_stone", EFFECTVOLUME);
+							}
+							else if (obj == WALL_DOOR || obj == WALL_BASIC)
+							{
+								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+								_map->setIsHaveTorch(sTileX, sTileY, false);
+								_tileY += 1;
+								_isMove = false;
+								_isWall = true;
+								if (obj == WALL_DOOR)
+								{
+									SOUNDMANAGER->play("door_open", EFFECTVOLUME);
+								}
+								else
+								{
+									SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
+									_isTouchWall = true;
+								}
+							}
+							else if (obj == WALL_END || obj == WALL_GOLD)
 							{
 								_tileY += 1;
 								_isMove = false;
-								_attack = true;
-								_map->setDirtTileFrameY(1);
+								_isWall = true;
+								_isTouchWall = true;
+								SOUNDMANAGER->play("dig_fail", EFFECTVOLUME);
+							}
+						}
+						else
+						{
+							if (obj == WALL_DOOR || obj == WALL_BASIC)
+							{
+								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+								_map->setIsHaveTorch(sTileX, sTileY, false);
+								_tileY += 1;
+								_isMove = false;
+								_isWall = true;
+								if (obj == WALL_DOOR)
+								{
+									SOUNDMANAGER->play("door_open", EFFECTVOLUME);
+								}
+								else
+								{
+									SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
+									_isTouchWall = true;
+								}
+							}
+							else if (obj == WALL_CRACK || obj == WALL_END
+								|| obj == WALL_GOLD
+								|| obj == WALL_STONE)
+							{
+								_tileY += 1;
+								_isMove = false;
+								_isWall = true;
+								_isTouchWall = true;
+								SOUNDMANAGER->play("dig_fail", 0.3f);
+							}
+						}
+					}
+				}
+				if (!_isWall)
+				{
+					//웨폰과 에너미의 충돌처리
+					if (_weapon->getVCollision().size() != 0)
+					{
+						for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+						{
+							if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
+							{
+								if (_isMove)
+								{
+									_tileY += 1;
+									_isMove = false;
+									_attack = true;
+									_map->setDirtTileFrameY(1);
+								}
 							}
 						}
 					}
 				}
 			}
 		}
+
+		//판정 벗어났을때
+		else if (!_uiManager->getIsIntersectJudge() && !_isMove)
+		{
+		_isMiss = true;
+		}
+
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove)
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_uiManager->getIsPlayerDead())
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 			{
 				_bomb->fire(_tileX, _tileY, _map->getRect(_tileX, _tileY));
 			}
+
 			else
 			{
 				_playerDirection = DOWN;
@@ -660,6 +697,12 @@ void player::update()
 				
 			}
 		}
+
+		//판정 벗어났을때
+		else if (!_uiManager->getIsIntersectJudge() && !_isMove)
+		{
+			_isMiss = true;
+		}
 	}
 	_tileRect = _map->getRect(_tileX, _tileY);
 
@@ -776,7 +819,8 @@ void player::update()
 	_vision->update(_tileX, _tileY);
 
 	_bomb->update();
-	//damaged();
+	damaged();
+	miss();
 }
 
 
@@ -787,16 +831,25 @@ void player::render(int tileX, int tileY)
 		//Rectangle(getMemDC(), _shadow);
 		IMAGEMANAGER->alphaRender("shadow_standard_1", getMemDC(), _shadow.left, _shadow.top, 125);
 		IMAGEMANAGER->alphaRender("shadow_standard_2", getMemDC(), _shadow.left, _shadow.top, 125);
-		IMAGEMANAGER->alphaFrameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY, _alpha);
-		IMAGEMANAGER->alphaFrameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY, _alpha);
-
+		if (!_uiManager->getIsPlayerDead())
+		{
+			IMAGEMANAGER->alphaFrameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY, _alpha);
+			IMAGEMANAGER->alphaFrameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY, _alpha);
+		}
 		char str[128];
 		sprintf_s(str, "bool : %d", _uiManager->getIsIntersectJudge());
 		DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
 
+		
+
 		//_vision->render();
 	}
 	_bomb->render(tileX, tileY);
+
+	if (_isMiss)
+	{
+		_miss->render(getMemDC());
+	}
 }
 
 void player::damaged()
@@ -808,10 +861,9 @@ void player::damaged()
 	{
 		if ((*(_em->getVBlackSkeleton().begin() + i))->getAttck())
 		{
-			_uiManager->minusHeart(1);
+			_uiManager->minusHeart(SKELETONDAMAGE);
 			_isAttacked = true;
 			_map->setDirtTileFrameY(0);
-			_uiManager->minusHeart(SKELETONDAMAGE);
 			(*(_em->getVBlackSkeleton().begin() + i))->setAttck(false);
 			break;
 		}
@@ -822,6 +874,8 @@ void player::damaged()
 		if ((*(_em->getVWitheSkeleton().begin() + i))->getAttck())
 		{
 			_uiManager->minusHeart(SKELETONDAMAGE);
+			_isAttacked = true;
+			_map->setDirtTileFrameY(0);
 			(*(_em->getVWitheSkeleton().begin() + i))->setAttck(false);
 			break;
 		}
@@ -832,6 +886,8 @@ void player::damaged()
 		if ((*(_em->getVGreenSkeleton().begin() + i))->getAttck())
 		{
 			_uiManager->minusHeart(SKELETONDAMAGE);
+			_isAttacked = true;
+			_map->setDirtTileFrameY(0);
 			(*(_em->getVGreenSkeleton().begin() + i))->setAttck(false);
 			break;
 		}
@@ -871,6 +927,30 @@ void player::damaged()
 	//////////////////////////////////////
 	// #### 미믹 공격력 부여 ###
 	///////////////////////////////////// ## 아직 없음
+}
+
+void player::miss()
+{
+	if (!_isMiss)
+	{
+		_miss->setY(CAMERAMANAGER->getCameraBOTTOM() - 200);
+		_miss->setX(CAMERAMANAGER->getCameraCenterX() - 36);
+		_missRange = 0;
+		_missSpeed = 0;
+	}
+
+	if (_isMiss)
+	{
+		_missSpeed = 10;
+		_missRange -= (TIMEMANAGER->getElapsedTime() * _missSpeed);
+		_miss->setY(_miss->getY() + _missRange);
+		_miss->setX(CAMERAMANAGER->getCameraCenterX() - 36);
+	}
+
+	if (_missRange / TIMEMANAGER->getElapsedTime() < -200)
+	{
+		_isMiss = false;
+	}
 }
 
 void player::setupPlayerRect()

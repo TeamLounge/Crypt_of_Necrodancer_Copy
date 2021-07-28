@@ -12,6 +12,8 @@
 #include <vector>
 
 class objectManager;
+class weapon;
+class player;
 
 class UIManager : public gameNode
 {
@@ -47,6 +49,10 @@ private:
 	X* _diaX;
 
 	objectManager* _om;
+	weapon* _weapon;
+	player* _player;
+
+	bool _isPlayerDead;		//플레이어 죽었어?
 
 	int _heartNum;
 	float _elapsedSec;
@@ -199,10 +205,18 @@ public:
 	vector<UI*> getVItemHUD() { return _vItemHUD; }
 	vector<UI*>::iterator getVIItemHUD() { return _viItemHUD; }
 
+	vector<UI*> getVHeart() { return _vHeart; }
+	vector<UI*>::iterator getVIHeart() { return _viHeart; }
+
 	void setOMMemoryAddressLink(objectManager* om) { _om = om; }
+	void setWeaponMemoryAddressLink(weapon* weapon) { _weapon = weapon; }
+	void setPlayerMemoryAddressLink(player* player) { _player = player; }
 
 	bool getIsIntersectJudge() { return _isIntersectJudge; }
 
 	void setBeatSpeed(float speed) { _beatSpeed = speed; }
+
+	bool getIsPlayerDead() { return _isPlayerDead; }
+	void setIsPlayerDead(bool isPlayerDead) { _isPlayerDead = isPlayerDead; }
 };
 

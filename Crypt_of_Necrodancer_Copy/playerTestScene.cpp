@@ -68,7 +68,9 @@ HRESULT playerTestScene::init()
 	_objectManager->setWeaponMemoryAddressLink(_weapon);
 	_objectManager->setShovelMemoryAddressLink(_shovel);
 	_weapon->setMGMemoryAddressLink(_map);
-
+	_weapon->setUIMMemortAddressLink(_UIM);
+	_UIM->setWeaponMemoryAddressLink(_weapon);
+	_UIM->setPlayerMemoryAddressLink(_player);
 	_em->setWeaponMemoryAddressLink(_weapon);
 
 	_player->setPlayerUIMemoryAddressLink(_UIM);
@@ -137,4 +139,9 @@ void playerTestScene::render()
 	_UIM->renderMoney();
 	_UIM->renderMoneyNumber();
 
+	if (_UIM->getIsPlayerDead())
+	{
+		IMAGEMANAGER->render("Á×À½¸àÆ®1", getMemDC(), CAMERAMANAGER->getCameraCenterX() - 200, CAMERAMANAGER->getCameraBOTTOM() - 200);
+		IMAGEMANAGER->render("Á×À½¸àÆ®2", getMemDC(), CAMERAMANAGER->getCameraCenterX() + 50, CAMERAMANAGER->getCameraBOTTOM() - 200);
+	}
 }

@@ -24,6 +24,7 @@ weaponType * spear::inputHandle(weapon * weapon)
 		return new broadSword();
 		break;
 	case MAP_DAGGER:
+		weapon->_player->setIsThrow(false);
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_SPEAR);
 		return new dagger();
 		break;

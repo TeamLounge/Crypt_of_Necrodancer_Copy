@@ -6,3 +6,4 @@
 #include "spear.h"
 #include "rapier.h"
 #include "mapGenerator.h"
+#include "UIManager.h"

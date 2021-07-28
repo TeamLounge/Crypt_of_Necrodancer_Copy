@@ -198,6 +198,8 @@ void playGround::addImage()
 
 	//¸àÆ®µî·Ï
 	IMAGEMANAGER->addImage("¹þ¾î³²", "image/UI/TEMP_missed.bmp", 72, 26, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("Á×À½¸àÆ®1", "image/UI/game_death1.bmp", 236, 24, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("Á×À½¸àÆ®2", "image/UI/game_death2.bmp", 166, 24, true, RGB(255, 0, 255), true);
 }
 
 void playGround::addSoundEffect()

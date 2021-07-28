@@ -80,6 +80,11 @@ void weapon::update()
 	_weapon.rc = RectMake(_player->getTileRect().left, _player->getTileRect().top,
 		TILESIZE, TILESIZE);
 
+	if (_weapon.imageName == "dagger")
+	{
+		_UIM->plusItemHUD(THROW);
+	}
+
 	_weapon.x = (_weapon.rc.left + _weapon.rc.right) / 2;
 	_weapon.y = (_weapon.rc.top + _weapon.rc.bottom) / 2;
 }
