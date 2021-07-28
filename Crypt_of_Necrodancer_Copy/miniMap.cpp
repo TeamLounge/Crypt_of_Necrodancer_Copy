@@ -90,8 +90,8 @@ void miniMap::drawMiniMap(int tileX, int tileY, TERRAIN terrain, OBJECT obj, MAP
 		IMAGEMANAGER->findImage("minimap_item")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
 		break;
 	case BOX:
-		break;
 	case BARREL:
+		IMAGEMANAGER->findImage("minimap_enemy")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);
 		break;
 	case SHOPKEEPER:
 		IMAGEMANAGER->findImage("minimap_shopkeeper")->render(_miniMapBuffer->getMemDC(), tileX * MINIMAP_TILE_SIZE, tileY * MINIMAP_TILE_SIZE);

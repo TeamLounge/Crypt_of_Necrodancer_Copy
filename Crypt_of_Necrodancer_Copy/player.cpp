@@ -130,7 +130,7 @@ void player::update()
 	//심장박동에 맞춘 경우만 행동
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove)
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 			{
@@ -276,7 +276,7 @@ void player::update()
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove)
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush)
 		{
 			_playerDirection = RIGHT;
 			_weapon->update();
@@ -558,7 +558,7 @@ void player::update()
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove)
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 			{

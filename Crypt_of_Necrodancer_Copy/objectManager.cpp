@@ -419,6 +419,7 @@ void objectManager::playerMove(int addTileX, int addTileY, PLAYER_ENEMY_DIRECTIO
 			_player->setTileY(_player->getTileY() + addTileY);
 			_player->setIsMove(true);
 		}
+		SOUNDMANAGER->play("trap_bounce", 0.3f);
 	}
 }
 
