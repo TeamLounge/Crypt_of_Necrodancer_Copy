@@ -113,6 +113,7 @@ void playGround::addImage()
 
 	//play HUD
 	IMAGEMANAGER->addFrameImage("heart", "image/UI/heart.bmp", 100, 150, 2, 3, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("Enemy_heart", "image/UI/heart.bmp", 67, 100, 2, 3, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("heartBeat", "image/UI/beat_marker.bmp", 24, 64, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("beatHeart", "image/UI/beat_heart.bmp", 246, 156, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("money", "image/UI/money.bmp", 48, 48, true, RGB(255, 0, 255));

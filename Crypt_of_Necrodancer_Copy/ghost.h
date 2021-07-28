@@ -4,6 +4,7 @@
 class ghost : public ghostAndMinic
 {
 private:
+	image* _heart;
 	int alpha;
 public:
 	HRESULT init(int playerIndexX, int playerIndexY , int x = 0,int y = 0,bool boss = false );

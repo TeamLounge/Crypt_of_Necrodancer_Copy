@@ -53,6 +53,20 @@ void slimeBlue::render(int tileX, int tileY)
 
 		//알파 값에 따른 블랙모드
 		if (_map->getAlpha(_tileX, _tileY) <= 255 && _map->getAlpha(_tileX, _tileY) > 100) {
+			if (_hp == 2)
+			{
+				_heart1 = IMAGEMANAGER->findImage("Enemy_heart");
+				_heart1->frameRender(getMemDC(), _x+5 , _y - 25, 0, 0);
+				_heart2 = IMAGEMANAGER->findImage("Enemy_heart");
+				_heart2->frameRender(getMemDC(), _x + 35, _y - 25, 0, 0);
+			}
+			if (_hp == 1)
+			{
+				_heart1 = IMAGEMANAGER->findImage("Enemy_heart");
+				_heart1->frameRender(getMemDC(), _x+5 , _y - 25, 0, 0);
+				_heart2 = IMAGEMANAGER->findImage("Enemy_heart");
+				_heart2->frameRender(getMemDC(), _x + 35, _y - 25, 0, 2);
+			}
 			_img = IMAGEMANAGER->findImage("slimeBlue");
 			_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
 		}

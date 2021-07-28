@@ -79,11 +79,21 @@ void zombie::render(int tileX, int tileY)
 
 		//알파 값에 따른 블랙모드
 		if (_map->getAlpha(_tileX, _tileY) <= 255 && _map->getAlpha(_tileX, _tileY) > 150) {
+			if (_hp == 1)
+			{
+				_heart = IMAGEMANAGER->findImage("Enemy_heart");
+				_heart->frameRender(getMemDC(), _x + 20, _y - 30, 0, 0);
+			}
 			_img = IMAGEMANAGER->findImage("zombie");
 			_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
 		}
 		else if (_map->getAlpha(_tileX, _tileY) <= 150 && _map->getAlpha(_tileX, _tileY) > 0)
 		{
+			if (_hp == 1)
+			{
+				_heart = IMAGEMANAGER->findImage("Enemy_heart");
+				_heart->frameRender(getMemDC(), _x + 20, _y - 30, 0, 0);
+			}
 			_img = IMAGEMANAGER->findImage("zombie_dark");
 			_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
 		}

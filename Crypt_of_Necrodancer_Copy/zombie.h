@@ -9,7 +9,7 @@ private:
 	PLAYER_ENEMY_DIRECTION _direction;
 	PLAYER_ENEMY_DIRECTION _pastDirection;
 
-	image * _img;
+	image *_img , *_heart;
 	RECT _rc;
 
 	float _x, _y;	//중점 좌표로 //플레이어 몸통 중심 좌표

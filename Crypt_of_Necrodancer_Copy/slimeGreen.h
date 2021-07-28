@@ -4,7 +4,7 @@
 class slimeGreen :public slime
 {
 	bool _indexSwitch;
-
+	image* _heart;
 public:
 	virtual HRESULT init(int playerIndexX, int playerIndexY);
 	virtual void update(int playerIndexX, int playerIndexY);

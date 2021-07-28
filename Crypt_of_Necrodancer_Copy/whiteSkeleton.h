@@ -4,6 +4,7 @@
 class whiteSkeleton : public skeleton
 {
 	bool _indexswitch;
+	image* _heart;
 public:
 	HRESULT init(int playerIndexX , int playerIndexY , bool boss = false);
 	void update(int playerIndexX, int playerIndexY);

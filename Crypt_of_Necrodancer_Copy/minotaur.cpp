@@ -44,11 +44,11 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 		//¾×¼Ç
 		if (_tilex == playerIndexX)
 		{
-			_index == 4;
+
 			if (_tiley > playerIndexY)
 			{
 				isAction = true;
-				_index == 4;
+				_index = 4;
 				_dir = UP;
 				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
 				_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
@@ -57,7 +57,7 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 			{
 				isAction = true;
 			
-				_index == 4;
+				_index = 4;
 				_dir = DOWN;
 				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
 				_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
@@ -68,7 +68,7 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 			if (_tilex > playerIndexX)
 			{
 				isAction = true;
-				_index == 4;
+				_index = 4;
 				_dir = LEFT;
 				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
 				_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
@@ -76,7 +76,7 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 			else if (_tilex < playerIndexX)
 			{
 				isAction = true;
-				_index == 4;
+				_index = 4;
 				_dir = RIGHT;
 				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
 				_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
