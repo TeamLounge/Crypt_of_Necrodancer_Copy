@@ -284,6 +284,8 @@ public:
 	vRedDragon getVRedDragon() { return _vRedDragon; }
 	viRedDragon getVIRedDragon() { return _viRedDragon; }
 
+	deathMetal* getDeathMetal() { return _deathMetal; }
+
 	bool getIsCatch() {
 		for (_viMonkeyBasic = _vMonkeyBasic.begin(); _viMonkeyBasic != _vMonkeyBasic.end(); ++_viMonkeyBasic)
 		{

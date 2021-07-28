@@ -1258,6 +1258,28 @@ void player::damaged()
 			break;
 		}
 	}
+
+	//////////////////////////////////////
+	// #### 데스메탈 공격력 부여 ###
+	/////////////////////////////////////
+	if (_em->getDeathMetal()->getAttck())
+	{
+		if (_bodyImageName == "player_body_leather")
+		{
+			_uiManager->minusHeart(1);
+		}
+		else if (_bodyImageName == "player_body_chain")
+		{
+			_uiManager->minusHeart(2);
+		}
+		else
+		{
+			_uiManager->minusHeart(3);
+		}
+		_isAttacked = true;
+		_map->setDirtTileFrameY(0);
+		_em->getDeathMetal()->setAttck(false);
+	}
 }
 
 void player::miss()
