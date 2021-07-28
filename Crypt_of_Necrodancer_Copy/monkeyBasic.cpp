@@ -158,17 +158,20 @@ void monkeyBasic::release()
 {
 }
 
-void monkeyBasic::render()
+void monkeyBasic::render(int tileX, int tileY)
 {
-	monkey::render();
-	if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
-		_img = IMAGEMANAGER->findImage("monkeyBasic");
-		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
-	}
-	else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
+	if (tileX == _tilex && tileY == _tiley)
 	{
-		_img = IMAGEMANAGER->findImage("monkeyBasic_dark");
-		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+		monkey::render();
+		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
+			_img = IMAGEMANAGER->findImage("monkeyBasic");
+			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+		}
+		else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
+		{
+			_img = IMAGEMANAGER->findImage("monkeyBasic_dark");
+			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+		}
 	}
 
 }

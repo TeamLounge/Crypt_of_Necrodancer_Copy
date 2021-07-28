@@ -42,25 +42,28 @@ void slimeBlue::release()
 {
 }
 
-void slimeBlue::render()
+void slimeBlue::render(int tileX, int tileY)
 {
-	if (KEYMANAGER->isToggleKey(VK_TAB))
+	if (tileX == _tileX && tileY == _tileY)
 	{
-		Rectangle(getMemDC(), _rc);
-	}
+		if (KEYMANAGER->isToggleKey(VK_TAB))
+		{
+			Rectangle(getMemDC(), _rc);
+		}
 
-	//알파 값에 따른 블랙모드
-	if (_map->getAlpha(_tileX, _tileY) <= 255 && _map->getAlpha(_tileX, _tileY) > 100) {
-		_img = IMAGEMANAGER->findImage("slimeBlue");
-		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
-	}
-	else if (_map->getAlpha(_tileX, _tileY) <= 100 && _map->getAlpha(_tileX, _tileY) > 0)
-	{
-		_img = IMAGEMANAGER->findImage("slimeBlue_dark");
-		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
-	}
+		//알파 값에 따른 블랙모드
+		if (_map->getAlpha(_tileX, _tileY) <= 255 && _map->getAlpha(_tileX, _tileY) > 100) {
+			_img = IMAGEMANAGER->findImage("slimeBlue");
+			_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
+		}
+		else if (_map->getAlpha(_tileX, _tileY) <= 100 && _map->getAlpha(_tileX, _tileY) > 0)
+		{
+			_img = IMAGEMANAGER->findImage("slimeBlue_dark");
+			_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
+		}
 
-	attackPlayerRender();
+		attackPlayerRender();
+	}
 }
 
 void slimeBlue::setSlimeFrame()

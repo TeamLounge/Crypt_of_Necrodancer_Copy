@@ -8,6 +8,6 @@ public:
 	HRESULT init(int playerIndexX , int playerIndexY , bool boss = false);
 	void update(int playerIndexX, int playerIndexY);
 	void release();
-	void render();
+	void render(int tileX, int tileY);
 
 };

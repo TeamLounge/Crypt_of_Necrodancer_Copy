@@ -167,12 +167,12 @@ public:
 	virtual HRESULT init();
 	virtual void release();
 	virtual void update();
-	virtual void render();
+	virtual void render(int tileX, int tileY);
 
 	virtual HRESULT bossRoomInit();
 	virtual void bossRoomRelease();
 	virtual void bossRoomUpdate();
-	virtual void bossRoomRender();
+	virtual void bossRoomRender(int tileX, int tileY);
 
 
 	void setMapGeneratorMemoryAddressLink(mapGenerator* map) { _map = map; }
@@ -182,57 +182,57 @@ public:
 	//ㄹㅇ 수만은 셋터들
 	void setSlimeGreen();
 	void updateSlimeGreen();
-	void renderSlimeGreen();
+	void renderSlimeGreen(int tileX, int tileY);
 
 	void setSlimeGold();
 	void updateSlimeGold();
-	void renderSlimeGold();
+	void renderSlimeGold(int tileX, int tileY);
 
 	void setSlimeBlue();
 	void updateSlimeBlue();
-	void renderSlimeBlue();
+	void renderSlimeBlue(int tileX, int tileY);
 
 
 	void setWhiteSkeleton(bool boss = false);
 	void updateWhiteSkeleton();
-	void renderWhiteSkeleton();
+	void renderWhiteSkeleton(int tileX, int tileY);
 
 	void setGreenSkeleton(bool boss = false);
 	void updateGreenSkeleton();
-	void renderGreenSkeleton();
+	void renderGreenSkeleton(int tileX, int tileY);
 
 	void setBlackSkeleton();
 	void updateBlackSkeleton();
-	void renderBlackSkeleton();
+	void renderBlackSkeleton(int tileX, int tileY);
 
 	void setGhost();
 	void setGhostBossRoom(int x,int y, bool boss);
 	void updateGhost();
-	void renderGhost();
+	void renderGhost(int tileX, int tileY);
 
 	void setMimic();
 	void updateMimic();
-	void renderMimic();
+	void renderMimic(int tileX, int tileY);
 
 	void setMonkeyBasic();
 	void updateMonkeyBasic();
-	void renderMonkeyBasic();
+	void renderMonkeyBasic(int tileX, int tileY);
 
 	void setMonkeyWhite();
 	void updateMonkeyWhite();
-	void renderMonkeyWhite();
+	void renderMonkeyWhite(int tileX, int tileY);
 
 	void setMinotaur();
 	void updateMinotaur();
-	void renderMinotaur();
+	void renderMinotaur(int tileX, int tileY);
 
 	void setZombie();
 	void updateZombie();
-	void renderZombie();
+	void renderZombie(int tileX, int tileY);
 
 	void setRedDragon();
 	void updateRedDragon();
-	void renderRedDragon();
+	void renderRedDragon(int tileX, int tileY);
 
 
 	void setEnemySpeed(float speed);
@@ -240,11 +240,8 @@ public:
 	//보스방용
 	void setDeathMetal();
 	void updateDeathMetal();
-	void renderDeathMetal();
+	void renderDeathMetal(int tileX, int tileY);
 
-	void setGhostBossRoom();
-	void setWhiteSkeletonBossRoom();
-	void setGreenSkeletonBossRoom();
 
 	//ㄹㅇ 수만은 겟터들
 

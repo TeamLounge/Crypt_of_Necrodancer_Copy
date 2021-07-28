@@ -68,30 +68,30 @@ void enemyManager::update()
 	_player->setAttack(false);
 }
 
-void enemyManager::render()
+void enemyManager::render(int tileX, int tileY)
 {
 
-	renderWhiteSkeleton();
-	//renderGreenSkeleton();
-	//renderBlackSkeleton();
+	renderWhiteSkeleton(tileX, tileY);
+	//renderGreenSkeleton(tileX, tileY);
+	//renderBlackSkeleton(tileX, tileY);
 
-	//renderSlimeGreen();
-	renderSlimeGold();
-	renderSlimeBlue();
+	//renderSlimeGreen(tileX, tileY);
+	renderSlimeGold(tileX, tileY);
+	renderSlimeBlue(tileX, tileY);
 
-	//renderGhost();
+	//renderGhost(tileX, tileY);
 
-	//renderMimic();
+	//renderMimic(tileX, tileY);
 
 
-	renderMonkeyBasic();
-	//renderMonkeyWhite();
+	renderMonkeyBasic(tileX, tileY);
+	//renderMonkeyWhite(tileX, tileY);
 
-	renderMinotaur();
+	renderMinotaur(tileX, tileY);
 
-	renderZombie();
+	renderZombie(tileX, tileY);
 
-	renderRedDragon();
+	renderRedDragon(tileX, tileY);
 }
 
 //½ºÄÌ·¹ÅæWHITE
@@ -155,11 +155,11 @@ void enemyManager::updateWhiteSkeleton()
 		}
 	}
 }
-void enemyManager::renderWhiteSkeleton()
+void enemyManager::renderWhiteSkeleton(int tileX, int tileY)
 {
 	for (_viWitheSkeleton = _vWitheSkeleton.begin(); _viWitheSkeleton != _vWitheSkeleton.end(); ++_viWitheSkeleton)
 	{
-		(*_viWitheSkeleton)->render();
+		(*_viWitheSkeleton)->render(tileX, tileY);
 	}
 }
 
@@ -225,11 +225,11 @@ void enemyManager::updateGreenSkeleton()
 		}
 	}
 }
-void enemyManager::renderGreenSkeleton()
+void enemyManager::renderGreenSkeleton(int tileX, int tileY)
 {
 	for (_viGreenSkeleton = _vGreenSkeleton.begin(); _viGreenSkeleton != _vGreenSkeleton.end(); ++_viGreenSkeleton)
 	{
-		(*_viGreenSkeleton)->render();
+		(*_viGreenSkeleton)->render(tileX, tileY);
 	}
 }
 
@@ -293,11 +293,11 @@ void enemyManager::updateBlackSkeleton()
 		}
 	}
 }
-void enemyManager::renderBlackSkeleton()
+void enemyManager::renderBlackSkeleton(int tileX, int tileY)
 {
 	for (_viBlackSkeleton = _vBlackSkeleton.begin(); _viBlackSkeleton != _vBlackSkeleton.end(); ++_viBlackSkeleton)
 	{
-		(*_viBlackSkeleton)->render();
+		(*_viBlackSkeleton)->render(tileX, tileY);
 	}
 }
 
@@ -362,11 +362,11 @@ void enemyManager::updateSlimeGreen()
 	}
 
 }
-void enemyManager::renderSlimeGreen()
+void enemyManager::renderSlimeGreen(int tileX, int tileY)
 {
 	for (_viSlimeGreen = _vSlimeGreen.begin(); _viSlimeGreen != _vSlimeGreen.end(); ++_viSlimeGreen)
 	{
-		(*_viSlimeGreen)->render();
+		(*_viSlimeGreen)->render(tileX, tileY);
 	}
 }
 
@@ -430,11 +430,11 @@ void enemyManager::updateSlimeGold()
 	}
 
 }
-void enemyManager::renderSlimeGold()
+void enemyManager::renderSlimeGold(int tileX, int tileY)
 {
 	for (_viSlimeGold = _vSlimeGold.begin(); _viSlimeGold != _vSlimeGold.end(); ++_viSlimeGold)
 	{
-		(*_viSlimeGold)->render();
+		(*_viSlimeGold)->render(tileX, tileY);
 	}
 }
 
@@ -499,11 +499,11 @@ void enemyManager::updateSlimeBlue()
 	}
 
 }
-void enemyManager::renderSlimeBlue()
+void enemyManager::renderSlimeBlue(int tileX, int tileY)
 {
 	for (_viSlimeBlue = _vSlimeBlue.begin(); _viSlimeBlue != _vSlimeBlue.end(); ++_viSlimeBlue)
 	{
-		(*_viSlimeBlue)->render();
+		(*_viSlimeBlue)->render(tileX, tileY);
 	}
 }
 
@@ -575,11 +575,11 @@ void enemyManager::updateGhost()
 		}
 	}
 }
-void enemyManager::renderGhost()
+void enemyManager::renderGhost(int tileX, int tileY)
 {
 	for (_viGhost = _vGhost.begin(); _viGhost != _vGhost.end(); ++_viGhost)
 	{
-		(*_viGhost)->render();
+		(*_viGhost)->render(tileX, tileY);
 	}
 }
 
@@ -644,11 +644,11 @@ void enemyManager::updateMimic()
 	}
 
 }
-void enemyManager::renderMimic()
+void enemyManager::renderMimic(int tileX, int tileY)
 {
 	for (_viMimic = _vMimic.begin(); _viMimic != _vMimic.end(); ++_viMimic)
 	{
-		(*_viMimic)->render();
+		(*_viMimic)->render(tileX, tileY);
 	}
 }
 
@@ -715,11 +715,11 @@ void enemyManager::updateMonkeyBasic()
 	}
 
 }
-void enemyManager::renderMonkeyBasic()
+void enemyManager::renderMonkeyBasic(int tileX, int tileY)
 {
 	for (_viMonkeyBasic = _vMonkeyBasic.begin(); _viMonkeyBasic != _vMonkeyBasic.end(); ++_viMonkeyBasic)
 	{
-		(*_viMonkeyBasic)->render();
+		(*_viMonkeyBasic)->render(tileX, tileY);
 	}
 }
 
@@ -773,11 +773,11 @@ void enemyManager::updateMonkeyWhite()
 		}
 	}
 }
-void enemyManager::renderMonkeyWhite()
+void enemyManager::renderMonkeyWhite(int tileX, int tileY)
 {
 	for (_viMonkeyWhite = _vMonkeyWhite.begin(); _viMonkeyWhite != _vMonkeyWhite.end(); ++_viMonkeyWhite)
 	{
-		(*_viMonkeyWhite)->render();
+		(*_viMonkeyWhite)->render(tileX, tileY);
 	}
 }
 
@@ -832,11 +832,11 @@ void enemyManager::updateMinotaur()
 	}
 
 }
-void enemyManager::renderMinotaur()
+void enemyManager::renderMinotaur(int tileX, int tileY)
 {
 	for (_viMinotaur = _vMinotaur.begin(); _viMinotaur != _vMinotaur.end(); ++_viMinotaur)
 	{
-		(*_viMinotaur)->render();
+		(*_viMinotaur)->render(tileX, tileY);
 	}
 }
 
@@ -891,11 +891,11 @@ void enemyManager::updateZombie()
 	}
 
 }
-void enemyManager::renderZombie()
+void enemyManager::renderZombie(int tileX, int tileY)
 {
 	for (_viZombie = _vZombie.begin(); _viZombie != _vZombie.end(); ++_viZombie)
 	{
-		(*_viZombie)->render();
+		(*_viZombie)->render(tileX, tileY);
 	}
 }
 
@@ -949,11 +949,11 @@ void enemyManager::updateRedDragon()
 		}
 	}
 }
-void enemyManager::renderRedDragon()
+void enemyManager::renderRedDragon(int tileX, int tileY)
 {
 	for (_viRedDragon = _vRedDragon.begin(); _viRedDragon != _vRedDragon.end(); ++_viRedDragon)
 	{
-		(*_viRedDragon)->render();
+		(*_viRedDragon)->render(tileX, tileY);
 	}
 }
 
@@ -1036,9 +1036,9 @@ void enemyManager::updateDeathMetal()
 	}
 
 }
-void enemyManager::renderDeathMetal()
+void enemyManager::renderDeathMetal(int tileX, int tileY)
 {
-	_deathMetal->render();
+	_deathMetal->render(tileX, tileY);
 }
 
 //º¸½º·ë °ü·Ã
@@ -1122,22 +1122,22 @@ void enemyManager::bossRoomUpdate()
 	_player->setAttack(false);
 }
 
-void enemyManager::bossRoomRender()
+void enemyManager::bossRoomRender(int tileX, int tileY)
 {
 	if (_isboss)
 	{
-		renderDeathMetal();
+		renderDeathMetal(tileX, tileY);
 		if (!_vGhost.empty())
 		{
-			renderGhost();
+			renderGhost(tileX, tileY);
 		}
 		if (!_vWitheSkeleton.empty())
 		{
-			renderWhiteSkeleton();
+			renderWhiteSkeleton(tileX, tileY);
 		}
 		if (!_vGreenSkeleton.empty())
 		{
-			renderGreenSkeleton();
+			renderGreenSkeleton(tileX, tileY);
 		}
 	}
 

@@ -141,21 +141,20 @@ void whiteSkeleton::release()
 
 }
 
-void whiteSkeleton::render()
+void whiteSkeleton::render(int tileX, int tileY)
 {
-	//Rectangle(getMemDC(), _rc);
-	skeleton::render();
-	if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
-		_img = IMAGEMANAGER->findImage("whiteSkeleton");
-		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
-	}
-	else if(_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
+	if (tileX == _tilex && tileY == _tiley)
 	{
-		_img = IMAGEMANAGER->findImage("skeleton_dark");
-		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+		//Rectangle(getMemDC(), _rc);
+		skeleton::render();
+		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
+			_img = IMAGEMANAGER->findImage("whiteSkeleton");
+			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+		}
+		else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
+		{
+			_img = IMAGEMANAGER->findImage("skeleton_dark");
+			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+		}
 	}
-
-	char str[128];
-	sprintf_s(str, "hp = %d", _hp);
-	TextOut(getMemDC(), _rc.left, _rc.top, str, strlen(str));
 }

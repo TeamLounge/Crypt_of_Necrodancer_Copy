@@ -248,42 +248,41 @@ void deathMetal::release()
 
 }
 
-void deathMetal::render()
+void deathMetal::render(int tileX, int tileY)
 {
+
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
 		_astar->render();
 	}
-
-	if (damageRender)
+	if (tileX == _tilex && tileY == _tiley) 
 	{
-		switch (_astar->getDirection())
+		if (damageRender)
 		{
-		case LEFT:
-			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
-				_map->getRect(_tilex, _tiley).left + (_map->getRect(_tilex, _tiley).left - _map->getRect(_tilex, _tiley).right) / 2, _map->getRect(_tilex, _tiley).top, _damageindex, 1);
-			break;
-		case RIGHT:
-			IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
-				(_map->getRect(_tilex, _tiley).left + _map->getRect(_tilex, _tiley).right) / 2, _map->getRect(_tilex, _tiley).top, _damageindex, 0);
-			break;
-		case UP:
-			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
-				_map->getRect(_tilex, _tiley).left, _map->getRect(_tilex, _tiley).top + (_map->getRect(_tilex, _tiley).top - _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
-			break;
-		case DOWN:
-			IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
-				_map->getRect(_tilex, _tiley).left, (_map->getRect(_tilex, _tiley).top + _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
-			break;
+			switch (_astar->getDirection())
+			{
+			case LEFT:
+				IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
+					_map->getRect(_tilex, _tiley).left + (_map->getRect(_tilex, _tiley).left - _map->getRect(_tilex, _tiley).right) / 2, _map->getRect(_tilex, _tiley).top, _damageindex, 1);
+				break;
+			case RIGHT:
+				IMAGEMANAGER->frameRender("enemyAttackX", getMemDC(),
+					(_map->getRect(_tilex, _tiley).left + _map->getRect(_tilex, _tiley).right) / 2, _map->getRect(_tilex, _tiley).top, _damageindex, 0);
+				break;
+			case UP:
+				IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
+					_map->getRect(_tilex, _tiley).left, _map->getRect(_tilex, _tiley).top + (_map->getRect(_tilex, _tiley).top - _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
+				break;
+			case DOWN:
+				IMAGEMANAGER->frameRender("enemyAttackY", getMemDC(),
+					_map->getRect(_tilex, _tiley).left, (_map->getRect(_tilex, _tiley).top + _map->getRect(_tilex, _tiley).bottom) / 2, _damageindex, 1);
+				break;
+			}
 		}
+
+		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 	}
 
-	_img->frameRender(getMemDC(), _x, _y, _index, _indey);
-	char str[128];
-	sprintf_s(str, "hp : %d", _hp);
-	TextOut(getMemDC(), _rc.left, _rc.top, str, strlen(str));
-	sprintf_s(str, "dir : %d", _judgmentdir);
-	TextOut(getMemDC(), _rc.left, _rc.bottom, str, strlen(str));
 }
 
 void deathMetal::phaseOneMove(bool Time)

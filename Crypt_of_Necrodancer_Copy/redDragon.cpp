@@ -123,20 +123,23 @@ void redDragon::update(int playerIndexX, int playerIndexY)
 	
 }
 
-void redDragon::render()
+void redDragon::render(int tileX, int tileY)
 {
-	minotaurAndDragon::render();
+	if (tileX == _tilex && tileY == _tiley)
+	{
+		minotaurAndDragon::render();
 
-	//알파렌더
-	if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150)
-	{
-		_img = IMAGEMANAGER->findImage("dragonRed");
-		_img->frameRender(getMemDC(), _x - 60, _y - 55, _index, _indey);		//이미지 위치 잡아주기 위해 임의 값 감소시켜줌
-	}
-	else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
-	{
-		_img = IMAGEMANAGER->findImage("dragonRed_dark");
-		_img->frameRender(getMemDC(), _x - 60, _y - 55, _index, _indey);
+		//알파렌더
+		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150)
+		{
+			_img = IMAGEMANAGER->findImage("dragonRed");
+			_img->frameRender(getMemDC(), _x - 60, _y - 55, _index, _indey);		//이미지 위치 잡아주기 위해 임의 값 감소시켜줌
+		}
+		else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
+		{
+			_img = IMAGEMANAGER->findImage("dragonRed_dark");
+			_img->frameRender(getMemDC(), _x - 60, _y - 55, _index, _indey);
+		}
 	}
 	//_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 
@@ -147,45 +150,54 @@ void redDragon::render()
 
 void redDragon::setRedDragonFrame()
 {
-	//드래곤과 플레이어가 같은 줄이면
-	if (_tiley == _playerindey)
-	{
-		isSameLine = true;
-	}
-	//드래곤과 플레이어가 같은 줄이 아니면
-	else isSameLine = false;
+	////드래곤과 플레이어가 같은 줄이면
+	//if (_tiley == _playerindey)
+	//{
+	//	isSameLine = true;
+	//	if (!isdealy)
+	//	{
+	//		_index = 2;
+	//		isdealy = true;
+	//	}
 
-	//_count++;
-	if (isSameLine)
-	{
-		_count++;
-		_index = 2;
-		_index++;
-		if (_index >= 2 && _index <= 6)	//2 - 6		//광선 쏘기
-		{
-			if (_count % 5 == 0)
-			{
-				_index++;
-				if (_index > 6) _index = 2;
-				_count = 0;
-			}
-		}
-		
-	}
-	else
-	{
-		_count++;
-		_index = 0;
-		if (_index >= 0 && _index <= 1)	//0, 1		//평상시 이동
-		{
-			if (_count % 10 == 0)
-			{
-				_index++;
-				if (_index > 1) _index = 0;
-				_count = 0;
-			}
-		}
-	}
+	//}
+	////드래곤과 플레이어가 같은 줄이 아니면
+	//else isSameLine = false;
+
+	////_count++;
+	//if (isSameLine)
+	//{
+	//	_count++;
+	//	if (_index >= 2 && _index <= 6)	//2 - 6		//광선 쏘기
+	//	{
+	//		if (_count % 5 == 0)
+	//		{
+	//			_index++;
+	//			if (_index > 6)
+	//			{
+	//				isdealy =false;
+	//				_index = 0;
+	//			}
+	//			_count = 0;
+	//		}
+	//		isSameLine = false;
+	//	}
+	//	
+	//}
+	//else
+	//{
+	//	_count++;
+	//	_index = 0;
+	//	if (_index >= 0 && _index <= 1)	//0, 1		//평상시 이동
+	//	{
+	//		if (_count % 10 == 0)
+	//		{
+	//			_index++;
+	//			if (_index > 1) _index = 0;
+	//			_count = 0;
+	//		}
+	//	}
+	//}
 }
 
 void redDragon::moveRedDragon()

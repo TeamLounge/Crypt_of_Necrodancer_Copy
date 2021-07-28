@@ -112,10 +112,11 @@ void bossScene::render()
 			if (j >= _map->getXSize()) break;
 			_map->render(j, i, false);
 			_player->render(j, i);
+			_em->bossRoomRender(j, i);
 			_objectManager->render(j, i);
 		}
 	}
-	_em->bossRoomRender();
+
 	_UIM->renderHeartBeat();
 	_weapon->render();
 	_shovel->render();

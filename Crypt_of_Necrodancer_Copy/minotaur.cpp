@@ -99,19 +99,21 @@ void minotaur::release()
 {
 }
 
-void minotaur::render()
+void minotaur::render(int tileX, int tileY)
 {
-	minotaurAndDragon::render();
-	//Rectangle(getMemDC(), _rc);
-
-	if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
-		_img = IMAGEMANAGER->findImage("minotaur");
-		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
-	}
-	else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
+	if (tileX == _tilex && tileY == _tiley)
 	{
-		_img = IMAGEMANAGER->findImage("minotaur_dark");
-		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+		minotaurAndDragon::render();
+		//Rectangle(getMemDC(), _rc);
+
+		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
+			_img = IMAGEMANAGER->findImage("minotaur");
+			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+		}
+		else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
+		{
+			_img = IMAGEMANAGER->findImage("minotaur_dark");
+			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+		}
 	}
-	//_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 }

@@ -6,6 +6,6 @@ public:
 	HRESULT init(int playerIndexX, int playerIndexY);
 	void update(int playerIndexX, int playerIndexY);
 	void release();
-	void render();
+	void render(int tileX, int tileY);
 };
 

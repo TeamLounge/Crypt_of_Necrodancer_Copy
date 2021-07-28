@@ -96,18 +96,20 @@ void ghost::release()
 
 }
 
-void ghost::render()
+void ghost::render(int tileX, int tileY)
 {
-	ghostAndMinic::render();
-	if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
-		
-		_img = IMAGEMANAGER->findImage("ghost");
-		_img->alphaFrameRender(getMemDC(), _x, _y, _index, _indey,alpha);
-	}
-	else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
+	if (tileX == _tilex && tileY == _tiley)
 	{
-		_img = IMAGEMANAGER->findImage("ghost_dark");
-		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+		ghostAndMinic::render();
+		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
+
+			_img = IMAGEMANAGER->findImage("ghost");
+			_img->alphaFrameRender(getMemDC(), _x, _y, _index, _indey, alpha);
+		}
+		else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
+		{
+			_img = IMAGEMANAGER->findImage("ghost_dark");
+			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
+		}
 	}
-	//_img->alphaFrameRender(getMemDC(), _x, _y, _index, _indey, alpha);
 }

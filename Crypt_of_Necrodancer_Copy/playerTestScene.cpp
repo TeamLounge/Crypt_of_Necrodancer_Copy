@@ -127,10 +127,10 @@ void playerTestScene::render()
 			_player->render(j, i);
 			_player->renderShovelEffect(j, i);
 			_objectManager->render(j, i);
-			//_em
+			_em->render(j, i);
 		}
 	}
-	_em->render();
+	//_em->render();
 
 	_player->render();
 
