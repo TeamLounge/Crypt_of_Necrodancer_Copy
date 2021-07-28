@@ -168,11 +168,15 @@ public:
 	
 	POINT getShopKeeperXY() { return _shopKeeper; }
 
-	void setTileFrameY(float frameY) {
-		for (int i = 0; i < _height; i++)
+	void setTileFrameY(int tileX, int tileY, int frameY) {
+		for (int i = tileY - VISIONY / 2; i < tileY + VISIONY / 2; i++)
 		{
-			for (int j = 0; j < _width; j++)
+			if (i < 0)continue;
+			if (i >= _height) break;
+			for (int j = tileX - VISIONX /2; j < tileX + VISIONX /2; j++)
 			{
+				if (j < 0) continue;
+				if (j >= _width) break;
 				if (_tiles[i][j].terrain == DIRT1 || _tiles[i][j].terrain == DIRT2 || _tiles[i][j].terrain == BOSS)
 				{
 					_tiles[i][j].terrainFrameY = frameY;

@@ -134,7 +134,7 @@ void player::update()
 		if (_attackElapsedTime >= 5.0f)
 		{
 			_attackElapsedTime -= 5.0f;
-			_map->setTileFrameY(0);
+			_map->setTileFrameY(_tileX, _tileY, 0);
 		}
 	}
 	_isWall = false;
@@ -291,6 +291,7 @@ void player::update()
 		else if (!_uiManager->getIsIntersectJudge() && !_isMove && !_isThrowReady)
 		{
 			_isMiss = true;
+			_map->setTileFrameY(_tileX, _tileY, 0);
 		}
 
 		//던질준비가 되었다면 던져라
@@ -453,6 +454,7 @@ void player::update()
 		else if (!_uiManager->getIsIntersectJudge() && !_isMove && !_isThrowReady)
 		{
 			_isMiss = true;
+			_map->setTileFrameY(_tileX, _tileY, 0);
 		}
 
 		//던질준비가 되었다면 던져라
@@ -624,6 +626,7 @@ void player::update()
 		else if (!_uiManager->getIsIntersectJudge() && !_isMove && !_isThrowReady)
 		{
 			_isMiss = true;
+			_map->setTileFrameY(_tileX, _tileY, 0);
 		}
 
 		//던질준비가 되었다면 던져라
@@ -811,6 +814,7 @@ void player::update()
 		else if (!_uiManager->getIsIntersectJudge() && !_isMove && !_isThrowReady)
 		{
 			_isMiss = true;
+			_map->setTileFrameY(_tileX, _tileY, 0);
 		}
 
 		//던질준비가 되었다면 던져라
@@ -1081,7 +1085,7 @@ void player::damaged()
 				_uiManager->minusHeart(4);
 			}
 			_isAttacked = true;
-			_map->setTileFrameY(0);
+			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVBlackSkeleton().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
@@ -1105,7 +1109,7 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setTileFrameY(0);
+			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVWitheSkeleton().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
@@ -1129,7 +1133,7 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setTileFrameY(0);
+			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVGreenSkeleton().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
@@ -1156,7 +1160,7 @@ void player::damaged()
 				_uiManager->minusHeart(4);
 			}
 			_isAttacked = true;
-			_map->setTileFrameY(0);
+			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVSlimeBlue().begin() + i))->setAttack(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
@@ -1184,7 +1188,7 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setTileFrameY(0);
+			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVSlimeBlue().begin() + i))->setAttack(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
@@ -1208,7 +1212,7 @@ void player::damaged()
 				_uiManager->minusHeart(1);
 			}
 			_isAttacked = true;
-			_map->setTileFrameY(0);
+			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVSlimeGold().begin() + i))->setAttack(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
@@ -1234,7 +1238,7 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setTileFrameY(0);
+			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVZombie().begin() + i))->setAttack(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
@@ -1262,7 +1266,7 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setTileFrameY(0);
+			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVGhost().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
@@ -1289,7 +1293,7 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setTileFrameY(0);
+			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVMimic().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
@@ -1316,7 +1320,7 @@ void player::damaged()
 				_uiManager->minusHeart(6);
 			}
 			_isAttacked = true;
-			_map->setTileFrameY(0);
+			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVRedDragon().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
@@ -1343,7 +1347,7 @@ void player::damaged()
 				_uiManager->minusHeart(3);
 			}
 			_isAttacked = true;
-			_map->setTileFrameY(0);
+			_map->setTileFrameY(_tileX, _tileY, 0);
 			_em->getDeathMetal()->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 		}

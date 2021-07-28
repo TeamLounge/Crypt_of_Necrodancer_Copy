@@ -145,7 +145,7 @@ void enemyManager::updateWhiteSkeleton()
 			_map->setIsEnemy((*_viWitheSkeleton)->getX(), (*_viWitheSkeleton)->getY(), false);
 			//이거 삭제!
 			_viWitheSkeleton = _vWitheSkeleton.erase(_viWitheSkeleton);
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -216,7 +216,7 @@ void enemyManager::updateGreenSkeleton()
 			_map->setIsEnemy((*_viGreenSkeleton)->getX(), (*_viGreenSkeleton)->getY(), false);
 			//이거 삭제!
 			_viGreenSkeleton = _vGreenSkeleton.erase(_viGreenSkeleton);
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -285,7 +285,7 @@ void enemyManager::updateBlackSkeleton()
 			_map->setIsEnemy((*_viBlackSkeleton)->getX(), (*_viBlackSkeleton)->getY(), false);
 			//이거 삭제!
 			_viBlackSkeleton = _vBlackSkeleton.erase(_viBlackSkeleton);
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -355,7 +355,7 @@ void enemyManager::updateSlimeGreen()
 			//이거 삭제!
 			_viSlimeGreen = _vSlimeGreen.erase(_viSlimeGreen);
 			//타일 반짝이게
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -426,7 +426,7 @@ void enemyManager::updateSlimeGold()
 			_viSlimeGold = _vSlimeGold.erase(_viSlimeGold);
 
 			//타일 반짝이게
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -498,7 +498,7 @@ void enemyManager::updateSlimeBlue()
 			_viSlimeBlue = _vSlimeBlue.erase(_viSlimeBlue);
 
 			//타일 반짝이게
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -578,7 +578,7 @@ void enemyManager::updateGhost()
 			_viGhost = _vGhost.erase(_viGhost);
 
 			//타일 반짝이게
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -649,7 +649,7 @@ void enemyManager::updateMimic()
 			_viMimic = _vMimic.erase(_viMimic);
 
 			//타일 반짝이게
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -725,7 +725,7 @@ void enemyManager::updateMonkeyBasic()
 			_viMonkeyBasic = _vMonkeyBasic.erase(_viMonkeyBasic);
 
 			//타일 반짝이게
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -787,7 +787,7 @@ void enemyManager::updateMonkeyWhite()
 			_viMonkeyWhite = _vMonkeyWhite.erase(_viMonkeyWhite);
 
 			//타일 반짝이게
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -848,7 +848,7 @@ void enemyManager::updateMinotaur()
 			_viMinotaur = _vMinotaur.erase(_viMinotaur);
 
 			//타일 반짝이게
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -910,7 +910,7 @@ void enemyManager::updateZombie()
 			_viZombie = _vZombie.erase(_viZombie);
 
 			//타일 반짝이게
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -972,7 +972,7 @@ void enemyManager::updateRedDragon()
 			_viRedDragon = _vRedDragon.erase(_viRedDragon);
 
 			//타일 반짝이게
-			_map->setTileFrameY(1);
+			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
 		else
 		{
@@ -1063,7 +1063,7 @@ void enemyManager::updateDeathMetal()
 		_isboss = false;
 
 		//타일 반짝이게
-		_map->setTileFrameY(1);
+		_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 	}
 	else
 	{
