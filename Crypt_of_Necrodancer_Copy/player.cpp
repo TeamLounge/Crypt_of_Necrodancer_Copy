@@ -21,6 +21,7 @@ HRESULT player::init()
 
 	_isMove = false;
 	_attack = false;
+	_isRush = false;
 
 	_bomb = new bomb;
 	_bomb->init();
@@ -240,6 +241,8 @@ void player::update()
 								if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileY))
 								{
 									_attack = true;
+									_isMove = false;
+									_isRush = true;
 								}
 								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
 								{
@@ -385,6 +388,8 @@ void player::update()
 							if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileY))
 							{
 								_attack = true;
+								_isMove = false;
+								_isRush = true;
 							}
 							else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
 							{
@@ -415,7 +420,7 @@ void player::update()
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove)
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush)
 		{
 			_playerDirection = UP;
 			_weapon->update();
@@ -520,6 +525,8 @@ void player::update()
 							if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileY))
 							{
 								_attack = true;
+								_isMove = false;
+								_isRush = true;
 							}
 							else if(_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
 							{
@@ -667,9 +674,11 @@ void player::update()
 						{
 							if (_weapon->getWeaponName() == "rapier")
 							{
-								if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileX))
+								if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileY))
 								{
 									_attack = true;
+									_isMove = false;
+									_isRush = true;
 								}
 								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
 								{
@@ -803,6 +812,60 @@ void player::update()
 		}
 	}
 
+	//돌진 모션
+	if (_isRush)
+	{
+		switch (_playerDirection)
+		{
+		case LEFT:
+			if (_x <= (_tileRect.left + _tileRect.right) / 2)
+			{
+				_x = (_tileRect.left + _tileRect.right) / 2;
+				_isRush = false;
+			}
+			else
+			{
+				_x -= 9;
+			}
+			break;
+		case RIGHT:
+			if (_x >= (_tileRect.left + _tileRect.right) / 2)
+			{
+				_x = (_tileRect.left + _tileRect.right) / 2;
+				_isRush = false;
+			}
+			else
+			{
+				_x += 9;
+			}
+			break;
+		case UP:
+			if (_y <= (_tileRect.top + _tileRect.bottom) / 2 - BODYMARGIN)
+			{
+				_y = (_tileRect.top + _tileRect.bottom) / 2 - BODYMARGIN;
+				_isRush = false;
+			}
+			else
+			{
+				_y -= 9;
+			}
+			break;
+		case DOWN:
+			if (_y >= (_tileRect.top + _tileRect.bottom) / 2 - BODYMARGIN)
+			{
+				_y = (_tileRect.top + _tileRect.bottom) / 2 - BODYMARGIN;
+				_isRush = false;
+			}
+			else
+			{
+				_y += 9;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
 	_body = RectMakeCenter(_x, _y,
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameWidth(),
 		IMAGEMANAGER->findImage(_bodyImageName)->getFrameHeight());
@@ -814,7 +877,7 @@ void player::update()
 	_vision->update(_tileX, _tileY);
 
 	_bomb->update();
-	//damaged();
+	damaged();
 }
 
 
@@ -843,10 +906,67 @@ void player::damaged()
 	{
 		if ((*(_em->getVBlackSkeleton().begin() + i))->getAttck())
 		{
-			_uiManager->minusHeart(1);
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(3);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(2);
+			}
+			else
+			{
+				_uiManager->minusHeart(4);
+			}
 			_isAttacked = true;
 			_map->setDirtTileFrameY(0);
 			(*(_em->getVBlackSkeleton().begin() + i))->setAttck(false);
+			break;
+		}
+	}
+
+	for (int i = 0; i < _em->getVGreenSkeleton().size(); ++i)
+	{
+		if ((*(_em->getVGreenSkeleton().begin() + i))->getAttck())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else
+			{
+				_uiManager->minusHeart(2);
+			}
+			_isAttacked = true;
+			_map->setDirtTileFrameY(0);
+			(*(_em->getVGreenSkeleton().begin() + i))->setAttck(false);
+			break;
+		}
+	}
+
+	for (int i = 0; i < _em->getVWitheSkeleton().size(); ++i)
+	{
+		if ((*(_em->getVWitheSkeleton().begin() + i))->getAttck())
+		{
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else
+			{
+				_uiManager->minusHeart(2);
+			}
+			_isAttacked = true;
+			_map->setDirtTileFrameY(0);
+			(*(_em->getVWitheSkeleton().begin() + i))->setAttck(false);
 			break;
 		}
 	}

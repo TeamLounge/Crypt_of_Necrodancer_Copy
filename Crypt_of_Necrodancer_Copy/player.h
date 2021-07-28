@@ -41,6 +41,7 @@ private:
 
 	float _elapsedSec; //프레임 움직임 위해서
 	bool _isMove;
+	bool _isRush;
 	bool _attack;
 	PLAYER_ENEMY_DIRECTION _playerDirection;
 
