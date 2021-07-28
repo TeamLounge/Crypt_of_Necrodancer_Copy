@@ -10,14 +10,7 @@
 #define SHADOWMARGIN 30
 #define BODYMARGIN 17
 #define BASICVISION 5
-#define EFFECTVOLUME 0.3f
-#define SKELETONDAMAGE 1
-#define MONKEYDAMAGE 1
-#define SLIMEDAMAGE 1
-#define MIMICDAMAGE 1
-#define ZOMBIEDAMAGE 1
-#define MINODAMAGE 1
-#define DRAGONDAMAGE 1
+#define EFFECTVOLUME 0.6f
 
 class weapon;
 class shovel;
@@ -55,6 +48,7 @@ private:
 
 	float _elapsedSec; //프레임 움직임 위해서
 	bool _isMove;
+	bool _isRush;
 	bool _attack;
 	PLAYER_ENEMY_DIRECTION _playerDirection;
 

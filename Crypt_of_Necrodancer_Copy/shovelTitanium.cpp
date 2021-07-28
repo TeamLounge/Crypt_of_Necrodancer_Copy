@@ -6,11 +6,6 @@
 
 shovelType * shovelTitanium::inputHandle(shovel * shovel)
 {
-	if (KEYMANAGER->isOnceKeyDown('E'))
-	{
-		return new shovelBasic();
-	}
-
 	return nullptr;
 }
 

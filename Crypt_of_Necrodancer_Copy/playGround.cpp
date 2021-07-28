@@ -208,4 +208,11 @@ void playGround::addSoundEffect()
 	SOUNDMANAGER->addSound("dig_fail", "sound_effect/mov_dig_fail.ogg", false, false);
 	SOUNDMANAGER->addSound("dig_stone", "sound_effect/mov_dig_stone.ogg", false, false);
 	SOUNDMANAGER->addSound("door_open", "sound_effect/obj_door_open.ogg", false, false);
+	SOUNDMANAGER->addSound("monkey_grab", "sound_effect/en_monkey_grab.ogg", false, false);
+	SOUNDMANAGER->addSound("monkey_hit1", "sound_effect/en_monkey_hit_01.ogg", false, false);
+	SOUNDMANAGER->addSound("monkey_hit2", "sound_effect/en_monkey_hit_02.ogg", false, false);
+	SOUNDMANAGER->addSound("monkey_hit3", "sound_effect/en_monkey_hit_03.ogg", false, false);
+	SOUNDMANAGER->addSound("bomb_lit", "sound_effect/sfx_bomb_lit.ogg", false, false);
+	SOUNDMANAGER->addSound("bomb_explode", "sound_effect/sfx_bomb_explode.ogg", false, false);
+	SOUNDMANAGER->addSound("trap_bounce", "sound_effect/obj_trap_bounce.ogg", false, false);
 }

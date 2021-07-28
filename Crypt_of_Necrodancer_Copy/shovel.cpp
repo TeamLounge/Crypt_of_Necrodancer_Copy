@@ -49,6 +49,9 @@ HRESULT shovel::init()
 
 	UIMANAGER->addUI("shovel", _shovel.imageName.c_str(), _shovel.x, _shovel.y);
 
+	_playerBeforeX = 0;
+	_playerBeforeY = 0;
+
 	return S_OK;
 }
 
@@ -67,6 +70,12 @@ void shovel::update()
 
 	_shovel.x = (_shovel.rc.left + _shovel.rc.right) / 2;
 	_shovel.y = (_shovel.rc.top + _shovel.rc.bottom) / 2;
+
+	if (_player->getTileX() != _playerBeforeX || _player->getTileY() != _playerBeforeY)
+	{
+		_playerBeforeX = _player->getTileX();
+		_playerBeforeY = _player->getTileY();
+	}
 }
 
 void shovel::render()

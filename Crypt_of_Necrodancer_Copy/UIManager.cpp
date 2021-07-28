@@ -217,7 +217,7 @@ void UIManager::updateHeartBeat()
 	_beatHeart->setCurrentFrameX(0);
 
 	_beatJudgement = RectMakeCenter(CAMERAMANAGER->getCameraCenterX(), CAMERAMANAGER->getCameraBOTTOM() - 100,
-		_beatHeart->getImg()->getFrameWidth() + 10,
+		_beatHeart->getImg()->getFrameWidth() + 70,
 		_beatHeart->getImg()->getFrameHeight());
 
 	for (int i = 0; i < _vHeartBeatLeft.size(); ++i)

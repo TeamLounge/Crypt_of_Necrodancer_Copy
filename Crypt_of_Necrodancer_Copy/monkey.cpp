@@ -120,7 +120,7 @@ void monkey::update(int playerIndexX, int playerIndexY)
 			iscatch = true;
 			_astar->setDamage(false);
 			delete _astar;
-
+			SOUNDMANAGER->play("monkey_grab", 0.4f);
 		}
 		isTime = false;
 	}

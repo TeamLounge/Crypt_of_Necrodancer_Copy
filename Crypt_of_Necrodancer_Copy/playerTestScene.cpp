@@ -25,7 +25,7 @@ HRESULT playerTestScene::init()
 
 	//UI
 	_UIM = new UIManager;
-	_UIM->init("zone1-1", 300.f);
+	_UIM->init("zone1-1", 355.0f);
 	_UIM->setHeartBeat(4);
 	_UIM->setHeart(5);
 	_UIM->setItemHUD();
@@ -68,9 +68,13 @@ HRESULT playerTestScene::init()
 	_objectManager->setWeaponMemoryAddressLink(_weapon);
 	_objectManager->setShovelMemoryAddressLink(_shovel);
 	_weapon->setMGMemoryAddressLink(_map);
+
 	_weapon->setUIMMemortAddressLink(_UIM);
 	_UIM->setWeaponMemoryAddressLink(_weapon);
 	_UIM->setPlayerMemoryAddressLink(_player);
+
+	_shovel->setMGMemoryAddressLink(_map);
+
 	_em->setWeaponMemoryAddressLink(_weapon);
 
 	_player->setPlayerUIMemoryAddressLink(_UIM);

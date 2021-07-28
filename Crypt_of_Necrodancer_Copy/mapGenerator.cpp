@@ -781,8 +781,8 @@ void mapGenerator::generate(int maxFeatures)
 						_tiles[i][j].terrainFrameX = 0;
 						_tiles[i][j].terrainFrameY = 0;
 						_tiles[i][j].obj = WALL_BASIC;
-						_tiles[i][j].objectFrameX = 0;
-						_tiles[i][j].objectFrameY = 0;
+						_tiles[i][j].objectFrameX = RND->getInt(8);
+						_tiles[i][j].objectFrameY = RND->getInt(2);
 					}
 					if (_tiles[i + 1][j].terrain == DIRT1 && _tiles[i + 1][j].obj == OBJ_NONE)
 					{
@@ -790,8 +790,8 @@ void mapGenerator::generate(int maxFeatures)
 						_tiles[i][j].terrainFrameX = 0;
 						_tiles[i][j].terrainFrameY = 0;
 						_tiles[i][j].obj = WALL_BASIC;
-						_tiles[i][j].objectFrameX = 0;
-						_tiles[i][j].objectFrameY = 0;
+						_tiles[i][j].objectFrameX = RND->getInt(8);
+						_tiles[i][j].objectFrameY = RND->getInt(2);
 					}
 				}
 			}
@@ -809,8 +809,8 @@ void mapGenerator::generate(int maxFeatures)
 						_tiles[i][j].terrainFrameX = 0;
 						_tiles[i][j].terrainFrameY = 0;
 						_tiles[i][j].obj = WALL_BASIC;
-						_tiles[i][j].objectFrameX = 0;
-						_tiles[i][j].objectFrameY = 0;
+						_tiles[i][j].objectFrameX = RND->getInt(8);
+						_tiles[i][j].objectFrameY = RND->getInt(2);
 					}
 					if (_tiles[i][j + 1].terrain == DIRT1 && _tiles[i][j + 1].obj == OBJ_NONE)
 					{
@@ -818,8 +818,8 @@ void mapGenerator::generate(int maxFeatures)
 						_tiles[i][j].terrainFrameX = 0;
 						_tiles[i][j].terrainFrameY = 0;
 						_tiles[i][j].obj = WALL_BASIC;
-						_tiles[i][j].objectFrameX = 0;
-						_tiles[i][j].objectFrameY = 0;
+						_tiles[i][j].objectFrameX = RND->getInt(8);
+						_tiles[i][j].objectFrameY = RND->getInt(2);
 					}
 				}
 			}
@@ -835,8 +835,8 @@ void mapGenerator::generate(int maxFeatures)
 					for (int k = roomIter->x; k < roomIter->x + roomIter->width; k++)
 					{
 						_tiles[j][k].obj = WALL_BASIC;
-						_tiles[j][k].objectFrameY = 0;
-						_tiles[j][k].objectFrameX = 0;
+						_tiles[j][k].objectFrameX = RND->getInt(8);
+						_tiles[j][k].objectFrameY = RND->getInt(2);
 					}
 				}
 				roomIter = _miniRooms.erase(roomIter);
@@ -860,8 +860,8 @@ void mapGenerator::generate(int maxFeatures)
 						if (_tiles[i][j].obj == OBJ_NONE)
 						{
 							_tiles[i][j].obj = WALL_BASIC;
-							_tiles[i][j].objectFrameY = 0;
-							_tiles[i][j].objectFrameX = 0;
+							_tiles[i][j].objectFrameX = RND->getInt(8);
+							_tiles[i][j].objectFrameY = RND->getInt(2);
 						}
 					}
 				}
@@ -889,8 +889,8 @@ void mapGenerator::generate(int maxFeatures)
 			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].terrainFrameX = 0;
 			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].terrainFrameY = 0;
 			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].obj = WALL_BASIC;
-			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameX = 0;
-			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameY = 0;
+			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameX = RND->getInt(8);
+			_tiles[_newWallIndex[i].y][_newWallIndex[i].x].objectFrameY = RND->getInt(2);
 		}
 
 		setEndBlock();
@@ -1624,6 +1624,32 @@ bool mapGenerator::placeTile(const tagRoom & room, OBJECT obj, int objectFrameX,
 			}
 		}
 
+		vector<int> shopItem;
+		int count = 0;
+		while (1)
+		{
+			bool isItemSame = false;
+			if (count == 3) break;
+			int item;
+			while (1)
+			{
+				item = RND->getFromIntTo(1, 13);
+				if (item != 6) break;
+			}
+			for (int i = 0; i < shopItem.size(); i++)
+			{
+				if (shopItem[i] == item)
+				{
+					isItemSame = true;
+					break;
+				}
+			}
+			if (!isItemSame)
+			{
+				shopItem.push_back(item);
+				count++;
+			}
+		}
 
 		switch (dir)
 		{
@@ -1632,36 +1658,36 @@ bool mapGenerator::placeTile(const tagRoom & room, OBJECT obj, int objectFrameX,
 			_tiles[room.y + 3][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 4].terrain = SHOP;
 
-			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 5][room.x + 4].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)shopItem[0];
+			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)shopItem[1];
+			_tiles[room.y + 5][room.x + 4].item = (MAP_ITEM)shopItem[2];
 			break;
 		case SOUTH:
 			_tiles[room.y + 2][room.x + 2].terrain = SHOP;
 			_tiles[room.y + 2][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 2][room.x + 4].terrain = SHOP;
 
-			_tiles[room.y + 4][room.x + 2].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 4][room.x + 3].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 4][room.x + 4].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 4][room.x + 2].item = (MAP_ITEM)shopItem[0];
+			_tiles[room.y + 4][room.x + 3].item = (MAP_ITEM)shopItem[1];
+			_tiles[room.y + 4][room.x + 4].item = (MAP_ITEM)shopItem[2];
 			break;
 		case WEST:
 			_tiles[room.y + 3][room.x + 2].terrain = SHOP;
 			_tiles[room.y + 3][room.x + 3].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 4].terrain = SHOP;
 
-			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 5][room.x + 4].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)shopItem[0];
+			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)shopItem[1];
+			_tiles[room.y + 5][room.x + 4].item = (MAP_ITEM)shopItem[2];
 			break;
 		case EAST:
 			_tiles[room.y + 3][room.x + 1].terrain = SHOP;
 			_tiles[room.y + 3][room.x + 2].obj = SHOPKEEPER;
 			_tiles[room.y + 3][room.x + 3].terrain = SHOP;
 
-			_tiles[room.y + 5][room.x + 1].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
-			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)RND->getFromIntTo(1, 13);
+			_tiles[room.y + 5][room.x + 1].item = (MAP_ITEM)shopItem[0];
+			_tiles[room.y + 5][room.x + 2].item = (MAP_ITEM)shopItem[1];
+			_tiles[room.y + 5][room.x + 3].item = (MAP_ITEM)shopItem[2];
 			break;
 		case DIRECTIONCOUNT:
 			break;
@@ -2190,10 +2216,10 @@ void mapGenerator::testObject()
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].item = MAP_DAGGER;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].itemDirection = UP;
 									   
-	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 2].item = MAP_LONGSWORD;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 2].item = MAP_RAPIER;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 2].itemDirection = UP;
 									   
-	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].item = MAP_BROADSWORD;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].item = MAP_TITANUM_SHOVEL;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].itemDirection = UP;*/
 
 }
@@ -2212,7 +2238,7 @@ void mapGenerator::settingTraps()
 			int y = RND->getFromIntTo(_rooms[i].y - 1, _rooms[i].y + _rooms[i].height + 1);
 			if (_tiles[y][x].obj == OBJ_NONE)
 			{
-				_tiles[y][x].obj = (OBJECT)RND->getFromIntTo(7, 17);
+				_tiles[y][x].obj = (OBJECT)RND->getFromIntTo(7, 15);
 				count++;
 			}
 		}
