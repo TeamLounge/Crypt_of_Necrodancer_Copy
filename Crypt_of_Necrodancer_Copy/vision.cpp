@@ -86,7 +86,7 @@ void vision::searchSurround()
 	{
 		if (i >= _map->getXSize()) continue;
 		if (_visionSearch[VISIONY / 2][i - (_tileX - VISIONX / 2)].tileX == - 1) continue;
-		if (_startLightNum - (i - _tileX) < 0) continue;
+		if (_startLightNum - (i - _tileX) <= 0) continue;
 
 		_visionSearch[10][i - (_tileX - 10)].lightNum = _startLightNum - (i - _tileX);
 		
