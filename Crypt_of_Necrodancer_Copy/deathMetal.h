@@ -9,7 +9,7 @@ class deathMetal : public gameNode
 protected:
 	mapGenerator* _map;
 	aStarTest* _astar;
-	PLAYER_ENEMY_DIRECTION _dir , _judgmentdir;
+	PLAYER_ENEMY_DIRECTION _dir, _judgmentdir;
 
 	image* _img;
 	RECT _rc;
@@ -19,18 +19,18 @@ protected:
 	int _tilex, _tiley;
 	int _responeCount, _count, _damageRenderCount, _damageindex, _index, _indey;
 	int actionCount;
-	int _hp ,_phase;
+	int _hp, _phase;
 
 	int _playerindex, _playerindey;
 
 
 	float _movingTime, _renderTime;
-	float _beatspeed;
+	float _beatSpeed, _beat;
 
 	bool isFind;
 	bool isTime, isMove;
 	bool isAction, damageRender, toRender;
-	bool attack ,isdamaged;
+	bool attack, isdamaged;
 
 public:
 	virtual HRESULT init(int playerIndexX, int playerIndexY);
@@ -54,7 +54,7 @@ public:
 	virtual bool getAttck() { return attack; }
 	virtual PLAYER_ENEMY_DIRECTION getJudgMundetDirection() { return _judgmentdir; }
 	virtual bool getIsAction() { return isAction; }
-
+	virtual float getBeatSpeed() { return _beatSpeed; }
 
 	virtual void setImage(image* image) { _img = image; }
 	virtual void setX(int x) { _tilex = x; }
@@ -65,6 +65,6 @@ public:
 	virtual void setAttck(bool b) { attack = b; }
 	virtual void setIsDamaged(bool b) { isdamaged = b; }
 	virtual void setIsAction(bool b) { isAction = b; }
+	virtual void setBeatSpeed(float beatspeed) { _beatSpeed = beatspeed; }
+
 };
-
-

@@ -10,7 +10,8 @@ HRESULT deathMetal::init(int playerIndexX, int playerIndexY)
 	_responeCount = _count = _damageRenderCount = _damageindex = _index = _indey = _phase = 0;
 	toRender = damageRender = false;
 	actionCount = 0;
-	_beatspeed = 1.0f;
+	_beatSpeed = 1.0f;
+	_beat = (_beatSpeed * (3.0f / 2.0f));
 	_img = IMAGEMANAGER->findImage("deathMetal");
 	_tilex = 6;
 	_tiley = 10;
@@ -30,7 +31,7 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 {
 	_playerindex = playerIndexX;
 	_playerindey = playerIndexY;
-	if (TIMEMANAGER->getWorldTime() - _movingTime >= _beatspeed*(3/2))
+	if (TIMEMANAGER->getWorldTime() - _movingTime >= _beat)
 	{
 		_movingTime = TIMEMANAGER->getWorldTime();
 		if (isTime)
@@ -57,7 +58,6 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 	else
 	{
 		if (_hp >= 7) {
-			_beatspeed *= (3/2);
 			_astar->endmove(playerIndexX, playerIndexY);
 			_astar->update();
 
@@ -69,15 +69,15 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 		}
 		else if (_hp < 7 && _hp >= 3)
 		{
+			_beat = _beatSpeed;
 			_astar->endmove(playerIndexX, playerIndexY);
 			_astar->clear();
-			_beatspeed = 1.0f;
+
 			TrapMove();
 			phaseTwoThreeMove(isTime);
 		}
 		else if (_hp <= 2 && _hp > 0)
 		{
-			_beatspeed = 1.0f;
 			_astar->endmove(playerIndexX, playerIndexY);
 			_astar->update();
 			TrapMove();
@@ -526,7 +526,6 @@ void deathMetal::phaseFourMove(bool Time)
 		_dir = NONE;
 	}
 	else if (!isdamaged && Time) {
-
 
 		int pastX = _tilex;
 		int pastY = _tiley;

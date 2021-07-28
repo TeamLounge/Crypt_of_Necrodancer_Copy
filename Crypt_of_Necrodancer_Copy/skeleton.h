@@ -35,6 +35,7 @@ public:
 	virtual void render();
 
 	virtual void skeletonMove(bool Time);
+	virtual void TrapMove();
 
 	virtual image* getImage() { return _img; }
 	virtual int getX() { return _tilex; }

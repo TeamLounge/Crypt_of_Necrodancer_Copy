@@ -101,51 +101,8 @@ void skeleton::update(int playerIndexX, int playerIndexY)
 		_astar->endmove(playerIndexX, playerIndexY);
 		_astar->update();
 
-		if (_map->getTileObject(_tilex, _tiley) == TR_LEFT)
-		{
-			_dir = LEFT;
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_tilex -= 1;
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			//_astar->callPathFinder();
-			isMove = true;
-		}
-		else if (_map->getTileObject(_tilex, _tiley) == TR_RIGHT)
-		{
-			_dir = RIGHT;
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_tilex += 1;
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			//_astar->callPathFinder();
-			isMove = true;
-		}
-		else if (_map->getTileObject(_tilex, _tiley) == TR_UP)
-		{
-			_dir = UP;
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_tiley -= 1;
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			//_astar->callPathFinder();
-			isMove = true;
-		}
-		else if (_map->getTileObject(_tilex, _tiley) == TR_DOWN)
-		{
-			_dir = DOWN;
-			_map->setIsEnemy(_tilex, _tiley, false);
-			_tilex += 1;
-			_rc = _map->getRect(_tilex, _tiley);
-			_astar->move(_tilex, _tiley);
-			_map->setIsEnemy(_tilex, _tiley, true);
-			//_astar->callPathFinder();
-			isMove = true;
-		}
-		else if (_astar->getStart())
+		TrapMove();
+		if (!isMove &&_astar->getStart())
 		{
 			skeletonMove(isTime);
 		}
@@ -255,5 +212,67 @@ void skeleton::skeletonMove(bool Time)
 			_dir = NONE;
 		}
 		isMove = true;
+	}
+}
+
+void skeleton::TrapMove()
+{
+	if (_map->getTileObject(_tilex, _tiley) == TR_LEFT)
+	{
+		_dir = LEFT;
+		_map->setIsEnemy(_tilex, _tiley, false);
+		_tilex -= 1;
+		_astar->callPathFinder(_tilex, _tiley);
+		_rc = _map->getRect(_tilex, _tiley);
+		_map->setIsEnemy(_tilex, _tiley, true);
+		if (!isMove)isMove = true;
+	}
+	else if (_map->getTileObject(_tilex, _tiley) == TR_RIGHT) {
+		_dir = LEFT;
+		_map->setIsEnemy(_tilex, _tiley, false);
+		_tilex += 1;
+		_astar->callPathFinder(_tilex, _tiley);
+		_rc = _map->getRect(_tilex, _tiley);
+		_map->setIsEnemy(_tilex, _tiley, true);
+		if (!isMove)isMove = true;
+	}
+	else if (_map->getTileObject(_tilex, _tiley) == TR_UP) {
+		_map->setIsEnemy(_tilex, _tiley, false);
+		_tiley -= 1;
+		_astar->callPathFinder(_tilex, _tiley);
+		_rc = _map->getRect(_tilex, _tiley);
+		_map->setIsEnemy(_tilex, _tiley, true);
+		if (!isMove)isMove = true;
+	}
+	else if (_map->getTileObject(_tilex, _tiley) == TR_DOWN) {
+		_map->setIsEnemy(_tilex, _tiley, false);
+		_tiley += 1;
+		_astar->callPathFinder(_tilex, _tiley);
+		_rc = _map->getRect(_tilex, _tiley);
+		_map->setIsEnemy(_tilex, _tiley, true);
+		if (!isMove)isMove = true;
+	}
+	else if (_map->getTileObject(_tilex, _tiley) == TR_JUMP)
+	{
+		_map->setIsEnemy(_tilex, _tiley, false);
+		switch (_dir)
+		{
+		case LEFT:
+			_tilex -= 1;
+			break;
+		case RIGHT:
+			_tilex += 1;
+			break;
+		case UP:
+			_tiley -= 1;
+			break;
+		case DOWN:
+			_tiley += 1;
+			break;
+		}
+		_astar->callPathFinder(_tilex, _tiley);
+		_rc = _map->getRect(_tilex, _tiley);
+		_map->setIsEnemy(_tilex, _tiley, true);
+		if (!isMove)isMove = true;
 	}
 }
