@@ -133,7 +133,7 @@ void player::update()
 		if (_attackElapsedTime >= 5.0f)
 		{
 			_attackElapsedTime -= 5.0f;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 		}
 	}
 	_isWall = false;
@@ -155,7 +155,7 @@ void player::update()
 				if (_em->getIsCatch())
 				{
 					_attack = true;
-					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 				}
 				else
 				{
@@ -254,14 +254,14 @@ void player::update()
 									_attack = true;
 									_isMove = false;
 									_isRush = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 								}
 								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
 								{
 									_tileX += 1;
 									_isMove = false;
 									_attack = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 								}
 							}
 							else
@@ -276,7 +276,7 @@ void player::update()
 											_tileX += 1;
 											_isMove = false;
 											_attack = true;
-											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 										}
 									}
 								}
@@ -303,7 +303,7 @@ void player::update()
 			if (_em->getIsCatch())
 			{
 				_attack = true;
-				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+				CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			}
 			else
 			{
@@ -408,14 +408,14 @@ void player::update()
 								_attack = true;
 								_isMove = false;
 								_isRush = true;
-								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 							}
 							else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
 							{
 								_tileX -= 1;
 								_isMove = false;
 								_attack = true;
-								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 							}
 						}
 						else
@@ -429,7 +429,7 @@ void player::update()
 										_tileX -= 1;
 										_isMove = false;
 										_attack = true;
-										CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+										CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 									}
 								}
 							}
@@ -467,7 +467,7 @@ void player::update()
 				if (_em->getIsCatch())
 				{
 					_attack = true;
-					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 				}
 				else
 				{
@@ -566,14 +566,14 @@ void player::update()
 									_attack = true;
 									_isMove = false;
 									_isRush = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 								}
 								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
 								{
 									_tileY += 1;
 									_isMove = false;
 									_attack = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 								}
 							}
 							else
@@ -587,7 +587,7 @@ void player::update()
 											_tileY += 1;
 											_isMove = false;
 											_attack = true;
-											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 										}
 									}
 								}
@@ -623,7 +623,7 @@ void player::update()
 				if (_em->getIsCatch())
 				{
 					_attack = true;
-					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 				}
 				else
 				{
@@ -729,14 +729,14 @@ void player::update()
 									_attack = true;
 									_isMove = false;
 									_isRush = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 								}
 								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
 								{
 									_tileY -= 1;
 									_isMove = false;
 									_attack = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 								}
 							}
 							else
@@ -750,7 +750,7 @@ void player::update()
 											_tileY -= 1;
 											_isMove = false;
 											_attack = true;
-											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 30.0f);
+											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 										}
 									}
 								}
@@ -1028,8 +1028,9 @@ void player::damaged()
 				_uiManager->minusHeart(4);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVBlackSkeleton().begin() + i))->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
 		}
 	}
@@ -1051,8 +1052,10 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVWitheSkeleton().begin() + i))->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			break;
 		}
 	}
 
@@ -1073,8 +1076,9 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVGreenSkeleton().begin() + i))->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
 		}
 	}
@@ -1099,8 +1103,9 @@ void player::damaged()
 				_uiManager->minusHeart(4);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVSlimeBlue().begin() + i))->setAttack(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
 		}
 	}
@@ -1126,8 +1131,9 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVSlimeBlue().begin() + i))->setAttack(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
 		}
 	}
@@ -1149,8 +1155,9 @@ void player::damaged()
 				_uiManager->minusHeart(1);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVSlimeGold().begin() + i))->setAttack(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
 		}
 	}
@@ -1174,8 +1181,9 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVZombie().begin() + i))->setAttack(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
 		}
 	}
@@ -1201,8 +1209,9 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVGhost().begin() + i))->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
 		}
 	}
@@ -1227,8 +1236,9 @@ void player::damaged()
 				_uiManager->minusHeart(2);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVMimic().begin() + i))->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
 		}
 	}
@@ -1253,8 +1263,9 @@ void player::damaged()
 				_uiManager->minusHeart(6);
 			}
 			_isAttacked = true;
-			_map->setDirtTileFrameY(0);
+			_map->setTileFrameY(0);
 			(*(_em->getVRedDragon().begin() + i))->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
 		}
 	}
@@ -1262,23 +1273,27 @@ void player::damaged()
 	//////////////////////////////////////
 	// #### 데스메탈 공격력 부여 ###
 	/////////////////////////////////////
-	if (_em->getDeathMetal()->getAttck())
+	if (_em->getIsBoss())
 	{
-		if (_bodyImageName == "player_body_leather")
+		if (_em->getDeathMetal()->getAttck())
 		{
-			_uiManager->minusHeart(1);
+			if (_bodyImageName == "player_body_leather")
+			{
+				_uiManager->minusHeart(1);
+			}
+			else if (_bodyImageName == "player_body_chain")
+			{
+				_uiManager->minusHeart(2);
+			}
+			else
+			{
+				_uiManager->minusHeart(3);
+			}
+			_isAttacked = true;
+			_map->setTileFrameY(0);
+			_em->getDeathMetal()->setAttck(false);
+			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 		}
-		else if (_bodyImageName == "player_body_chain")
-		{
-			_uiManager->minusHeart(2);
-		}
-		else
-		{
-			_uiManager->minusHeart(3);
-		}
-		_isAttacked = true;
-		_map->setDirtTileFrameY(0);
-		_em->getDeathMetal()->setAttck(false);
 	}
 }
 

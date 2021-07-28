@@ -286,6 +286,8 @@ public:
 
 	deathMetal* getDeathMetal() { return _deathMetal; }
 
+	bool getIsBoss() { return _isboss; }
+
 	bool getIsCatch() {
 		for (_viMonkeyBasic = _vMonkeyBasic.begin(); _viMonkeyBasic != _vMonkeyBasic.end(); ++_viMonkeyBasic)
 		{
