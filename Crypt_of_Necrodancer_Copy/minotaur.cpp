@@ -10,6 +10,7 @@ HRESULT minotaur::init(int playerIndexX, int playerIndexY)
 	_x = (_rc.left+_rc.right)/2 - (_img->getFrameWidth()/2);
 	_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
 	_gravity = 0;
+	_heart1 = _heart2 = _heart3 = _heart4 = IMAGEMANAGER->findImage("Enemy_heart");
 	return S_OK;
 }
 
@@ -107,11 +108,70 @@ void minotaur::render(int tileX, int tileY)
 		//Rectangle(getMemDC(), _rc);
 
 		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
+			
+			if (_hp == 4)
+			{
+				_heart1->frameRender(getMemDC(), _x + 13, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 43, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 73, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 103, _y - 25, 0, 0);
+			}
+			if (_hp == 3)
+			{
+				_heart1->frameRender(getMemDC(), _x + 13, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 43, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 73, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 103, _y - 25, 0, 2);
+			}
+			if (_hp == 2)
+			{
+				_heart1->frameRender(getMemDC(), _x + 13, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 43, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 73, _y - 25, 0, 2);
+				_heart4->frameRender(getMemDC(), _x + 103, _y - 25, 0, 2);
+			}
+			if (_hp == 1)
+			{
+				_heart1->frameRender(getMemDC(), _x + 13, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 43, _y - 25, 0, 2);
+				_heart3->frameRender(getMemDC(), _x + 73, _y - 25, 0, 2);
+				_heart4->frameRender(getMemDC(), _x + 103, _y - 25, 0, 2);
+			}
+
 			_img = IMAGEMANAGER->findImage("minotaur");
 			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 		}
 		else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
 		{
+
+			if (_hp == 4)
+			{
+				_heart1->frameRender(getMemDC(), _x + 13, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 43, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 73, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 103, _y - 25, 0, 0);
+			}
+			if (_hp == 3)
+			{
+				_heart1->frameRender(getMemDC(), _x + 13, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 43, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 73, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 103, _y - 25, 0, 2);
+			}
+			if (_hp == 2)
+			{
+				_heart1->frameRender(getMemDC(), _x + 13, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 43, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 73, _y - 25, 0, 2);
+				_heart4->frameRender(getMemDC(), _x + 103, _y - 25, 0, 2);
+			}
+			if (_hp == 1)
+			{
+				_heart1->frameRender(getMemDC(), _x + 13, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 43, _y - 25, 0, 2);
+				_heart3->frameRender(getMemDC(), _x + 73, _y - 25, 0, 2);
+				_heart4->frameRender(getMemDC(), _x + 103, _y - 25, 0, 2);
+			}
 			_img = IMAGEMANAGER->findImage("minotaur_dark");
 			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 		}

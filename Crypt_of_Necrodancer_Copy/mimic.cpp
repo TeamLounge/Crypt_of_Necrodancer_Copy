@@ -8,6 +8,7 @@ HRESULT mimic::init(int playerIndexX, int playerIndexY)
 	_hp = 1;
 	_img = IMAGEMANAGER->findImage("mimic");
 	_img->setFrameY(0);
+	_heart = IMAGEMANAGER->findImage("Enemy_heart");
 	return S_OK;
 }
 
@@ -163,7 +164,6 @@ void mimic::render(int tileX, int tileY)
 		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
 			if (_hp == 1)
 			{
-				_heart = IMAGEMANAGER->findImage("Enemy_heart");
 				_heart->frameRender(getMemDC(), _x + 20, _y - 10, 0, 0);
 			}
 			_img = IMAGEMANAGER->findImage("mimic");
@@ -173,7 +173,6 @@ void mimic::render(int tileX, int tileY)
 		{
 			if (_hp == 1)
 			{
-				_heart = IMAGEMANAGER->findImage("Enemy_heart");
 				_heart->frameRender(getMemDC(), _x + 20, _y - 10, 0, 0);
 			}
 			_img = IMAGEMANAGER->findImage("mimic_dark");

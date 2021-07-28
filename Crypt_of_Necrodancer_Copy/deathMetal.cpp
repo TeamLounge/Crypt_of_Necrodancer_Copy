@@ -7,9 +7,9 @@ HRESULT deathMetal::init(int playerIndexX, int playerIndexY)
 	isFind = false;
 	isTime = isMove = false;
 	attack = isdamaged = false;
-	_responeCount = _count = _damageRenderCount = _damageindex = _index = _indey = _phase = 0;
+	_responeCount = _count =  _damageRenderCount = _damageindex = _index = _indey = _phase = 0;
 	toRender = damageRender = false;
-	actionCount = 0;
+	actionCount = _fireindex = _fireRenderCount =0;
 	_beatSpeed = 1.0f;
 	_beat = (_beatSpeed * (3.0f / 2.0f));
 	_img = IMAGEMANAGER->findImage("deathMetal");
@@ -24,6 +24,9 @@ HRESULT deathMetal::init(int playerIndexX, int playerIndexY)
 	_playerindex = playerIndexX;
 	_playerindey = playerIndexY;
 	_hp = 9;
+	_heart1 = _heart2 = _heart3 = _heart4 = _heart5 = _heart6 = _heart7 = _heart8 = _heart9 = IMAGEMANAGER->findImage("Enemy_heart");
+	_vCollision.clear();
+
 	return S_OK;
 }
 
@@ -66,6 +69,12 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 			{
 				phaseOneMove(isTime);
 			}
+			if (_astar->getDamage())
+			{
+				damageRender = true;
+				if (!attack) attack = true;
+				_astar->setDamage(false);
+			}
 		}
 		else if (_hp < 7 && _hp >= 3)
 		{
@@ -85,16 +94,26 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 			{
 				phaseFourMove(isTime);
 			}
+			if (isAction&&_index == 7)
+			{
+				if (!attack)attack = true;
+				_fireRenderCount++;
+				if (_fireRenderCount % 3 == 0)
+				{
+					_fireindex++;
+				}
+				if (_fireindex > 5)
+				{
+					_fireindex = 0;
+					_index = 8;
+					isAction = false;
+					if (attack)attack = false;
+				}
+			}
 		}
 		isTime = false;
 	}
-	if (_astar->getDamage())
-	{
-		damageRender = true;
-		if (!attack) attack = true;
-		_astar->setDamage(false);
-	}
-
+	
 	if (damageRender)
 	{
 		_damageRenderCount++;
@@ -108,6 +127,7 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 			damageRender = false;
 		}
 	}
+
 	if (isMove)
 	{
 		switch (_dir)
@@ -207,28 +227,55 @@ void deathMetal::update(int playerIndexX, int playerIndexY)
 			break;
 		}
 	}
+
 	if (_hp >= 7)
 	{
-		switch (_dir)
+		switch (_judgmentdir)
 		{
 		case LEFT:
-			_index = 0;
-			_indey = 1;
 		case RIGHT:
-			_index = 0;
+			_count++;
+			if (_count & 10 == 0)
+			{
+				_index++;
+				if (_index > 1)_index=0;
+				_count = 0;
+			}
 			break;
 		case UP:
-			_index = 4;
+			_count++;
+			if (_count & 10 == 0)
+			{
+				_index++;
+				if (_index > 5)_index = 4;
+				_count = 0;
+			}
 			break;
 		case DOWN:
-			_index = 2;
+			_count++;
+			if (_count & 10 == 0)
+			{
+				_index++;
+				if (_index > 3)_index = 2;
+				_count = 0;
+			}
 			break;
 
 		}
 	}
-	if (_hp < 7)
+	else
 	{
-		_index = 8;
+		if (!isAction)
+		{
+			_count++;
+			if (_count & 10 == 0)
+			{
+				_index++;
+				if (_index > 9) _index = 8;
+				_count = 0;
+			}
+		}
+
 	}
 	if (playerIndexX < _tilex)
 	{
@@ -279,7 +326,133 @@ void deathMetal::render(int tileX, int tileY)
 				break;
 			}
 		}
-
+		if (isAction&&_index == 7)
+		{
+			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+			{
+				if (_viCollision->tileX == _tilex)
+				{
+					_viCollision->_img->frameRender(getMemDC(), _viCollision->rc.left, _viCollision->rc.top, _fireindex, 1);
+				}
+				else if (_viCollision->tileX - 1 == _tilex)
+				{
+					_viCollision->_img->frameRender(getMemDC(), _viCollision->rc.left, _viCollision->rc.top, _fireindex, 0);
+				}
+				else
+				{
+					_viCollision->_img->frameRender(getMemDC(), _viCollision->rc.left, _viCollision->rc.top, _fireindex, 0);
+				}
+	
+			}
+		}
+		if (_hp == 9)
+		{
+			_heart1->frameRender(getMemDC(), _x - 23, _y - 25, 0, 0);
+			_heart2->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+			_heart3->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+			_heart4->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+			_heart5->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+			_heart6->frameRender(getMemDC(), _x + 123, _y - 25, 0, 0);
+			_heart7->frameRender(getMemDC(), _x + 153, _y - 25, 0, 0);
+			_heart8->frameRender(getMemDC(), _x + 183, _y - 25, 0, 0);
+			_heart9->frameRender(getMemDC(), _x + 213, _y - 25, 0, 0);
+		}
+		if (_hp == 8)
+		{
+			_heart1->frameRender(getMemDC(), _x - 23, _y - 25, 0, 0);
+			_heart2->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+			_heart3->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+			_heart4->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+			_heart5->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+			_heart6->frameRender(getMemDC(), _x + 123, _y - 25, 0, 0);
+			_heart7->frameRender(getMemDC(), _x + 153, _y - 25, 0, 0);
+			_heart8->frameRender(getMemDC(), _x + 183, _y - 25, 0, 0);
+			_heart9->frameRender(getMemDC(), _x + 213, _y - 25, 0, 2);
+		}
+		if (_hp == 7)
+		{
+			_heart1->frameRender(getMemDC(), _x - 23, _y - 25, 0, 0);
+			_heart2->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+			_heart3->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+			_heart4->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+			_heart5->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+			_heart6->frameRender(getMemDC(), _x + 123, _y - 25, 0, 0);
+			_heart7->frameRender(getMemDC(), _x + 153, _y - 25, 0, 0);
+			_heart8->frameRender(getMemDC(), _x + 183, _y - 25, 0, 2);
+			_heart9->frameRender(getMemDC(), _x + 213, _y - 25, 0, 2);
+		}
+		if (_hp == 6)
+		{
+			_heart1->frameRender(getMemDC(), _x - 23, _y - 25, 0, 0);
+			_heart2->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+			_heart3->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+			_heart4->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+			_heart5->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+			_heart6->frameRender(getMemDC(), _x + 123, _y - 25, 0, 0);
+			_heart7->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			_heart8->frameRender(getMemDC(), _x + 183, _y - 25, 0, 2);
+			_heart9->frameRender(getMemDC(), _x + 213, _y - 25, 0, 2);
+		}
+		if (_hp == 5)
+		{
+			_heart1->frameRender(getMemDC(), _x - 23, _y - 25, 0, 0);
+			_heart2->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+			_heart3->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+			_heart4->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+			_heart5->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+			_heart6->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+			_heart7->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			_heart8->frameRender(getMemDC(), _x + 183, _y - 25, 0, 2);
+			_heart9->frameRender(getMemDC(), _x + 213, _y - 25, 0, 2);
+		}
+		if (_hp == 4)
+		{
+			_heart1->frameRender(getMemDC(), _x - 23, _y - 25, 0, 0);
+			_heart2->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+			_heart3->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+			_heart4->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+			_heart5->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+			_heart6->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+			_heart7->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			_heart8->frameRender(getMemDC(), _x + 183, _y - 25, 0, 2);
+			_heart9->frameRender(getMemDC(), _x + 213, _y - 25, 0, 2);
+		}
+		if (_hp == 3)
+		{
+			_heart1->frameRender(getMemDC(), _x - 23, _y - 25, 0, 0);
+			_heart2->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+			_heart3->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+			_heart4->frameRender(getMemDC(), _x + 63, _y - 25, 0, 2);
+			_heart5->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+			_heart6->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+			_heart7->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			_heart8->frameRender(getMemDC(), _x + 183, _y - 25, 0, 2);
+			_heart9->frameRender(getMemDC(), _x + 213, _y - 25, 0, 2);
+		}
+		if (_hp == 2)
+		{
+			_heart1->frameRender(getMemDC(), _x - 23, _y - 25, 0, 0);
+			_heart2->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+			_heart3->frameRender(getMemDC(), _x + 33, _y - 25, 0, 2);
+			_heart4->frameRender(getMemDC(), _x + 63, _y - 25, 0, 2);
+			_heart5->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+			_heart6->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+			_heart7->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			_heart8->frameRender(getMemDC(), _x + 183, _y - 25, 0, 2);
+			_heart9->frameRender(getMemDC(), _x + 213, _y - 25, 0, 2);
+		}
+		if (_hp == 1)
+		{
+			_heart1->frameRender(getMemDC(), _x - 23, _y - 25, 0, 0);
+			_heart2->frameRender(getMemDC(), _x + 3, _y - 25, 0, 2);
+			_heart3->frameRender(getMemDC(), _x + 33, _y - 25, 0, 2);
+			_heart4->frameRender(getMemDC(), _x + 63, _y - 25, 0, 2);
+			_heart5->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+			_heart6->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+			_heart7->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			_heart8->frameRender(getMemDC(), _x + 183, _y - 25, 0, 2);
+			_heart9->frameRender(getMemDC(), _x + 213, _y - 25, 0, 2);
+		}
 		_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 	}
 
@@ -336,6 +509,24 @@ void deathMetal::phaseOneMove(bool Time)
 			_dir = NONE;
 		}
 	}
+	if (_hp >= 7)
+	{
+		_count++;
+		switch (_dir)
+		{
+		case LEFT:
+		case RIGHT:
+			_index = 0;
+			break;
+		case UP:
+			_index = 4;
+			break;
+		case DOWN:
+			_index = 2;
+			break;
+
+		}
+	}
 	if (!isMove)isMove = true;
 }
 
@@ -375,6 +566,7 @@ void deathMetal::phaseTwoThreeMove(bool Time)
 		_map->setIsEnemy(_tilex, _tiley, true);
 	
 		_y += -sinf(7 * PI / 9) * 9;
+		_index = 8;
 		_dir = NONE;
 	}
 	else if (!isdamaged && Time) {
@@ -474,14 +666,13 @@ void deathMetal::phaseTwoThreeMove(bool Time)
 			_y += -sinf(7 * PI / 9) * 9;
 			_dir = NONE;
 		}
-
+		_index = 8;
 		if (actionCount==8)
 		{
 			_index = 6;
 			actionCount = 0;
 			isAction = true;
 		}
-
 	}
 	if (!isMove)isMove = true;
 
@@ -511,6 +702,7 @@ void deathMetal::phaseFourMove(bool Time)
 			_tiley = 12;
 		}
 		isdamaged = false;
+		isAction == false;
 		_x = _map->getRect(_tilex, _tiley).right - _img->getFrameWidth() / 2;
 		_y = _map->getRect(_tilex, _tiley).bottom - _img->getFrameHeight();
 		if (_map->getIsEnemy(_tilex, _tiley)) {
@@ -523,8 +715,33 @@ void deathMetal::phaseFourMove(bool Time)
 
 		_y += -sinf(7 * PI / 9) * 9;
 		_dir = NONE;
+		_index = 8;
 	}
-	else if (!isdamaged && Time) {
+	else if (isAction && Time)
+	{
+		if (_index == 6)
+		{
+			for (int i = 1; i < 12; i++)
+			{
+				collision _collision;
+				_collision.tileX = i;
+				_collision.tileY = _tiley;
+				_collision.rc = _map->getRect(_collision.tileX, _collision.tileY);
+				_collision.isattack = true;
+				if (_tilex == i || _tilex + 1 == i)
+				{
+					_collision._img = IMAGEMANAGER->findImage("dragonRedFireStarting");
+				}
+				else
+				{
+					_collision._img = IMAGEMANAGER->findImage("dragonRedFire");
+				}
+				_vCollision.emplace_back(_collision);
+			}
+			++_index;
+		}
+	}
+	else if (!isdamaged && !isAction && Time) {
 
 		int pastX = _tilex;
 		int pastY = _tiley;
@@ -548,32 +765,44 @@ void deathMetal::phaseFourMove(bool Time)
 		{
 			_y += -sinf(7 * PI / 9) * 9;
 			_dir = LEFT;
-			_judgmentdir = _dir;
 		}
 		else if (pastY == _tiley && _tilex - pastX == 1)
 		{
 			_y += -sinf(7 * PI / 9) * 9;
 			_dir = RIGHT;
-			_judgmentdir = _dir;
 		}
 		else if (pastX == _tilex && _tiley - pastY == -1)
 		{
 			_y += -sinf(PI / 2) * 9;
 			_dir = UP;
-			_judgmentdir = _dir;
+
 		}
 		else if (pastX == _tilex && _tiley - pastY == 1)
 		{
 			_y += -sinf(PI / 2);
 			_dir = DOWN;
-			_judgmentdir = _dir;
+	
 		}
 		else if (_tilex == pastX && _tiley == pastY)
 		{
 			_y += -sinf(7 * PI / 9) * 9;
 			_dir = NONE;
 		}
+		_index = 8;
+		if (_tiley == _playerindey)
+		{
+			++fireCount;
+			if (fireCount == 2)
+			{
+				isAction = true;
+				_index = 6;
+				fireCount = 0;
+				_vCollision.clear();
+			}
+		}
+	
 	}
+
 	if (!isMove)isMove = true;
 }
 
@@ -599,11 +828,8 @@ void deathMetal::TrapMove()
 			break;
 		}
 		_astar->callPathFinder(_tilex, _tiley);
+		_map->setIsEnemy(_tilex, _tiley, true);
 		_rc = _map->getRect(_tilex, _tiley);
 		if (!isMove)isMove = true;
 	}
-}
-
-void deathMetal::fire()
-{
 }

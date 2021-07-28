@@ -7,7 +7,9 @@ HRESULT blackSkeleton::init(int playerIndexX, int playerIndexY)
 	_hp = 3;
 	_img = IMAGEMANAGER->findImage("blackSkeleton");
 	_img->setFrameY(0);
-
+	_heart1 = IMAGEMANAGER->findImage("Enemy_heart");
+	_heart2 = IMAGEMANAGER->findImage("Enemy_heart");
+	_heart3 = IMAGEMANAGER->findImage("Enemy_heart");
 	return S_OK;
 }
 
@@ -176,12 +178,50 @@ void blackSkeleton::render(int tileX, int tileY)
 	if (tileX == _tilex && tileY == _tiley)
 	{
 		skeleton::render();
-		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
+		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) 
+		{
+			
+			if (_hp == 3)
+			{
+				_heart1->frameRender(getMemDC(), _x - 10, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 20, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 50, _y - 25, 0, 0);
+			}
+			if (_hp == 2)
+			{
+				_heart1->frameRender(getMemDC(), _x - 10, _y - 25, 0, 0);	
+				_heart2->frameRender(getMemDC(), _x + 20, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 50, _y - 25, 0, 2);
+			}
+			if (_hp == 1)
+			{
+				_heart1->frameRender(getMemDC(), _x - 10, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 20, _y - 25, 0, 2);
+				_heart3->frameRender(getMemDC(), _x + 50, _y - 25, 0, 2);
+			}
 			_img = IMAGEMANAGER->findImage("blackSkeleton");
 			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 		}
 		else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
 		{
+			if (_hp == 3)
+			{
+				_heart1->frameRender(getMemDC(), _x - 5, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 20, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 40, _y - 25, 0, 0);
+			}
+			if (_hp == 2)
+			{
+				_heart1->frameRender(getMemDC(), _x - 5, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 20, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 40, _y - 25, 0, 2);
+			}
+			if (_hp == 1)
+			{
+				_heart1->frameRender(getMemDC(), _x - 5, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 20, _y - 25, 0, 2);
+				_heart3->frameRender(getMemDC(), _x + 40, _y - 25, 0, 2);
+			}
 			_img = IMAGEMANAGER->findImage("skeleton_dark");
 			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 		}

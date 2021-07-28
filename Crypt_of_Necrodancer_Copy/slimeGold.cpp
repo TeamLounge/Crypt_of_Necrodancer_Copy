@@ -12,7 +12,7 @@ HRESULT slimeGold::init(int playerIndexX, int playerIndexY)
 	_map->setIsEnemy(_tileX, _tileY, true);	//에너미 타일 속성 ON
 	_hp = 1;
 	_direction = RIGHT;
-
+	_heart = IMAGEMANAGER->findImage("Enemy_heart");
 
 	return S_OK;
 }

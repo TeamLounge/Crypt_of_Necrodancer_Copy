@@ -15,7 +15,7 @@ HRESULT redDragon::init(int playerIndexX, int playerIndexY)
 	_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
 	_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
 	isSameLine = false;	//플레이어와 동일 선 상에 있는지 확인하고자하는 불값	//레드드래곤 클래스 안에서 선언
-
+	_heart1 = _heart2 = _heart3 = _heart4 = _heart5 = _heart6 = IMAGEMANAGER->findImage("Enemy_heart");
 	return S_OK;
 }
 
@@ -134,11 +134,119 @@ void redDragon::render(int tileX, int tileY)
 		//알파렌더
 		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150)
 		{
+			if (_hp == 6)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 0);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 0);
+			}
+			if (_hp == 5)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 0);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 4)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 3)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 2)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 2);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 1)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 2);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 2);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
 			_img = IMAGEMANAGER->findImage("dragonRed");
 			_img->frameRender(getMemDC(), _x , _y , _index, _indey);		//이미지 위치 잡아주기 위해 임의 값 감소시켜줌
 		}
 		else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
 		{
+			if (_hp == 6)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 0);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 0);
+			}
+			if (_hp == 5)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 0);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 4)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 3)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 2)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 2);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 1)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 2);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 2);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
 			_img = IMAGEMANAGER->findImage("dragonRed_dark");
 			_img->frameRender(getMemDC(), _x , _y , _index, _indey);
 		}

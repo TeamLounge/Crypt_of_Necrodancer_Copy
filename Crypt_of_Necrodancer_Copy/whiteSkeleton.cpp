@@ -9,6 +9,7 @@ HRESULT whiteSkeleton::init(int playerIndexX, int playerIndexY , bool boss)
 	_hp = 1;
 	_img = IMAGEMANAGER->findImage("whiteSkeleton");
 	_img->setFrameY(0);
+	_heart = IMAGEMANAGER->findImage("Enemy_heart");
 	return S_OK;
 }
 
@@ -150,7 +151,6 @@ void whiteSkeleton::render(int tileX, int tileY)
 		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
 			if (_hp == 1)
 			{
-				_heart = IMAGEMANAGER->findImage("Enemy_heart");
 				_heart->frameRender(getMemDC(), _x + 20, _y - 10, 0, 0);
 			}
 			_img = IMAGEMANAGER->findImage("whiteSkeleton");
@@ -160,7 +160,6 @@ void whiteSkeleton::render(int tileX, int tileY)
 		{
 			if (_hp == 1)
 			{
-				_heart = IMAGEMANAGER->findImage("Enemy_heart");
 				_heart->frameRender(getMemDC(), _x + 20, _y - 10, 0, 0);
 			}
 			_img = IMAGEMANAGER->findImage("skeleton_dark");

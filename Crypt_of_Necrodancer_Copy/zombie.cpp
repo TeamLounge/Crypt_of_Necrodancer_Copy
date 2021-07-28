@@ -16,7 +16,7 @@ HRESULT zombie::init(int playerIndexX, int playerIndexY)
 	_isTime = false;
 	_isPlayer = false;
 	_isAttack = false;
-
+	_heart = IMAGEMANAGER->findImage("Enemy_heart");
 	
 	_hp = 1;
 	_beatSpeed = 1.0f;

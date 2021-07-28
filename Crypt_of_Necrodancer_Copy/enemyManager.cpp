@@ -6,25 +6,31 @@ HRESULT enemyManager::init()
 {
 
 	setWhiteSkeleton();
-	//setGreenSkeleton();
-	//setBlackSkeleton();
+	setGreenSkeleton();
+	setBlackSkeleton();
 
-	//setSlimeGreen();
+	setSlimeGreen();
 	setSlimeGold();
 	setSlimeBlue();
 
-	//setGhost();
+	setGhost();
 
-	//setMimic();
+	setMimic();
 
 	setMonkeyBasic();
 	//setMonkeyWhite();
 
-	setMinotaur();
-
 	setZombie();
-
-	setRedDragon();
+	int random = RND->getInt(1);
+	if (random == 0)
+	{
+		setMinotaur();
+	}
+	else 
+	{
+		setRedDragon();
+	}
+	
 
 	attackoff = false;
 
@@ -44,26 +50,27 @@ void enemyManager::update()
 	_weaponName = _weapon->getWeaponName();
 
 	updateWhiteSkeleton();
-	//updateGreenSkeleton();
-	//updateBlackSkeleton();
+	updateGreenSkeleton();
+	updateBlackSkeleton();
 
-	//updateSlimeGreen();
+	updateSlimeGreen();
 	updateSlimeGold();
 	updateSlimeBlue();
 
-	//updateGhost();
+	updateGhost();
 	
-	//updateMimic();
+	updateMimic();
 
 
 	updateMonkeyBasic();
 	//updateMonkeyWhite();
 
-	updateMinotaur();
-
 	updateZombie();
 
-	updateRedDragon();
+	if (!_vMinotaur.empty())
+		updateMinotaur();
+	if(!_vRedDragon.empty())
+		updateRedDragon();
 
 	_player->setAttack(false);
 }
@@ -72,26 +79,26 @@ void enemyManager::render(int tileX, int tileY)
 {
 
 	renderWhiteSkeleton(tileX, tileY);
-	//renderGreenSkeleton(tileX, tileY);
-	//renderBlackSkeleton(tileX, tileY);
+	renderGreenSkeleton(tileX, tileY);
+	renderBlackSkeleton(tileX, tileY);
 
-	//renderSlimeGreen(tileX, tileY);
+	renderSlimeGreen(tileX, tileY);
 	renderSlimeGold(tileX, tileY);
 	renderSlimeBlue(tileX, tileY);
 
-	//renderGhost(tileX, tileY);
+	renderGhost(tileX, tileY);
 
-	//renderMimic(tileX, tileY);
+	renderMimic(tileX, tileY);
 
 
 	renderMonkeyBasic(tileX, tileY);
 	//renderMonkeyWhite(tileX, tileY);
-
-	renderMinotaur(tileX, tileY);
-
 	renderZombie(tileX, tileY);
+	if (!_vMinotaur.empty())
+		renderMinotaur(tileX, tileY);
+	if (!_vRedDragon.empty())
+		renderRedDragon(tileX, tileY);
 
-	renderRedDragon(tileX, tileY);
 }
 
 //½ºÄÌ·¹ÅæWHITE
@@ -1081,10 +1088,10 @@ void enemyManager::renderDeathMetal(int tileX, int tileY)
 
 HRESULT enemyManager::bossRoomInit()
 {
-	setGhostBossRoom(3, 8, true);
-	setGhostBossRoom(9, 8, true);
-	setGhostBossRoom(3, 12, true);
-	setGhostBossRoom(9, 12, true);
+	//setGhostBossRoom(3, 8, true);
+	//setGhostBossRoom(9, 8, true);
+	//setGhostBossRoom(3, 12, true);
+	//setGhostBossRoom(9, 12, true);
 	setDeathMetal();
 	_isboss = true;
 

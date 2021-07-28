@@ -3,22 +3,29 @@
 #include "aStarTest.h"
 #include "mapGenerator.h"
 
+struct collision
+{
+	image *_img;
+	RECT rc;
+	bool isattack;
+	int  tileX, tileY;		// 타일좌표와 일치 필요
+};
 class deathMetal : public gameNode
 {
+private:
 
-protected:
 	mapGenerator* _map;
 	aStarTest* _astar;
 	PLAYER_ENEMY_DIRECTION _dir, _judgmentdir;
 
 	image* _img;
 	RECT _rc;
-
+	image *_heart1, *_heart2, *_heart3, *_heart4, *_heart5, *_heart6 , *_heart7, *_heart8 , *_heart9;
 	float _x, _y;
 	float _gravity;
 	int _tilex, _tiley;
-	int _responeCount, _count, _damageRenderCount, _damageindex, _index, _indey;
-	int actionCount;
+	int _responeCount, _count, _damageRenderCount, _damageindex, _fireRenderCount,_fireindex, _index, _indey;
+	int actionCount, fireCount;
 	int _hp, _phase;
 
 	int _playerindex, _playerindey;
@@ -32,6 +39,8 @@ protected:
 	bool isAction, damageRender, toRender;
 	bool attack, isdamaged;
 
+
+
 public:
 	virtual HRESULT init(int playerIndexX, int playerIndexY);
 	virtual void update(int playerIndexX, int playerIndexY);
@@ -42,7 +51,7 @@ public:
 	virtual void phaseTwoThreeMove(bool Time);
 	virtual void phaseFourMove(bool Time);
 	virtual void TrapMove();
-	virtual void fire();
+
 
 	virtual image* getImage() { return _img; }
 	virtual int getX() { return _tilex; }
@@ -67,4 +76,6 @@ public:
 	virtual void setIsAction(bool b) { isAction = b; }
 	virtual void setBeatSpeed(float beatspeed) { _beatSpeed = beatspeed; }
 
+	vector<collision>			_vCollision;
+	vector<collision>::iterator _viCollision;
 };

@@ -1334,17 +1334,57 @@ void player::damaged()
 	{
 		if (_em->getDeathMetal()->getAttck())
 		{
-			if (_bodyImageName == "player_body_leather")
-			{
-				_uiManager->minusHeart(1);
+			if (_em->getDeathMetal()->getHp() > 2) {
+				if (_bodyImageName == "player_body_leather")
+				{
+					_uiManager->minusHeart(1);
+				}
+				else if (_bodyImageName == "player_body_chain")
+				{
+					_uiManager->minusHeart(2);
+				}
+				else
+				{
+					_uiManager->minusHeart(3);
+				}
 			}
-			else if (_bodyImageName == "player_body_chain")
+			if (_em->getDeathMetal()->getHp() <= 2)
 			{
-				_uiManager->minusHeart(2);
-			}
-			else
-			{
-				_uiManager->minusHeart(3);
+				RECT rc;
+				bool isdamaged = false;
+				for(int i=0 ; i <_em->getDeathMetal()->_vCollision.size(); i++)
+				{
+					if (IntersectRect(&rc, &_em->getDeathMetal()->_vCollision[i].rc, &_body))
+					{
+						if (_em->getDeathMetal()->_vCollision[i].isattack)
+						{
+							if (_bodyImageName == "player_body_leather")
+							{
+								_uiManager->minusHeart(1);
+									isdamaged = true;
+									break;
+							}
+							else if (_bodyImageName == "player_body_chain")
+							{
+								_uiManager->minusHeart(2);
+								isdamaged = true;
+								break;
+							}
+							else
+							{
+								_uiManager->minusHeart(3);
+								isdamaged = true;
+								break;
+							}
+						}
+					}
+				}
+				if (isdamaged) {
+					for (int i = 0; i < _em->getDeathMetal()->_vCollision.size(); i++)
+					{   
+						_em->getDeathMetal()->_vCollision[i].isattack = false;
+					}
+				}
 			}
 			_isAttacked = true;
 			_map->setTileFrameY(_tileX, _tileY, 0);
