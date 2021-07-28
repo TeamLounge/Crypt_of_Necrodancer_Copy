@@ -12,6 +12,8 @@ HRESULT redDragon::init(int playerIndexX, int playerIndexY)
 	_img = IMAGEMANAGER->findImage("dragonRed");
 	_img->setFrameY(0);
 
+	_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
+	_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
 	isSameLine = false;	//플레이어와 동일 선 상에 있는지 확인하고자하는 불값	//레드드래곤 클래스 안에서 선언
 
 	return S_OK;
@@ -39,7 +41,7 @@ void redDragon::update(int playerIndexX, int playerIndexY)
 	}
 	
 	setRedDragonFrame();	//_count 증가시키고, _index 받아서 프레임 조절
-	moveRedDragon();
+	//moveRedDragon();
 
 	//if (_index <= 3) {
 	//	_count++;
@@ -107,7 +109,7 @@ void redDragon::update(int playerIndexX, int playerIndexY)
 	//		}
 	//	}
 	//}
-	////moveMotion();
+	moveMotion();
 
 	if (playerIndexX < _tilex)
 	{
@@ -133,12 +135,12 @@ void redDragon::render(int tileX, int tileY)
 		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150)
 		{
 			_img = IMAGEMANAGER->findImage("dragonRed");
-			_img->frameRender(getMemDC(), _x - 60, _y - 55, _index, _indey);		//이미지 위치 잡아주기 위해 임의 값 감소시켜줌
+			_img->frameRender(getMemDC(), _x , _y , _index, _indey);		//이미지 위치 잡아주기 위해 임의 값 감소시켜줌
 		}
 		else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
 		{
 			_img = IMAGEMANAGER->findImage("dragonRed_dark");
-			_img->frameRender(getMemDC(), _x - 60, _y - 55, _index, _indey);
+			_img->frameRender(getMemDC(), _x , _y , _index, _indey);
 		}
 	}
 	//_img->frameRender(getMemDC(), _x, _y, _index, _indey);

@@ -59,7 +59,6 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 				isTime = true;
 			}
 		}
-	
 		_astar->clear();
 		if (_dir != NONE) minotaurActionMove(isTime);
 	}
@@ -92,7 +91,7 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 		else
 		{
 			_astar->update();
-			if (isMove &&_astar->getStart())
+			if (!isMove &&_astar->getStart())
 			{
 				minotaurAndDragonMove(isTime);
 			}
@@ -104,7 +103,7 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 		damageRender = true;
 		_astar->setDamage(false);
 		//여기가 에너미가 플레이어한데 어택!
-		//if (!attack) attack = true;
+		if (!attack) attack = true;
 	}
 
 	if (damageRender)
