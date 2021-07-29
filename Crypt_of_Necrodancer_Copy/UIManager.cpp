@@ -179,7 +179,7 @@ void UIManager::setHeartBeat(int heartBeatNum)
 	{
 		UI* _heartBeatRight;
 		_heartBeatRight = new heartBeat;
-		_heartBeatRight->init("heartBeat", PointMake(CAMERAX + 700 - i * _heartBeatInterval,
+		_heartBeatRight->init("heartBeat", PointMake(CAMERAX - i * _heartBeatInterval,
 			CAMERAY - 100));
 
 		_vHeartBeatRight.push_back(_heartBeatRight);
@@ -190,7 +190,7 @@ void UIManager::setHeartBeat(int heartBeatNum)
 	{
 		UI* _heartBeatLeft;
 		_heartBeatLeft = new heartBeat;
-		_heartBeatLeft->init("heartBeat", PointMake(-700 + i * _heartBeatInterval,
+		_heartBeatLeft->init("heartBeat", PointMake(i * _heartBeatInterval,
 			CAMERAY - 100));
 
 		_vHeartBeatLeft.push_back(_heartBeatLeft);

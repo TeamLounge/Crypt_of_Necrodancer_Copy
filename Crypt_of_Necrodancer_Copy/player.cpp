@@ -1054,11 +1054,11 @@ void player::renderShovelEffect(int tileX, int tileY)
 	{
 		if (_shovel->getShovelName() == "shovelTitanium")
 		{
-			IMAGEMANAGER->findImage("shovelTitanium")->frameRender(getMemDC(), _shovel->getVCollision()[0].rc.left, _shovel->getVCollision()[0].rc.top - (TILESIZE * 5) / 8, 0, 0);
+			IMAGEMANAGER->findImage("shovelTitaniumEffect")->frameRender(getMemDC(), _shovel->getVCollision()[0].rc.left, _shovel->getVCollision()[0].rc.top - (TILESIZE * 5) / 8, 0, _currentFrameY);
 		}
 		else
 		{
-			IMAGEMANAGER->findImage("shovelBasic")->frameRender(getMemDC(), _shovel->getVCollision()[0].rc.left, _shovel->getVCollision()[0].rc.top - (TILESIZE * 5) / 8, 0, 0);
+			IMAGEMANAGER->findImage("shovelBasicEffect")->frameRender(getMemDC(), _shovel->getVCollision()[0].rc.left, _shovel->getVCollision()[0].rc.top - (TILESIZE * 5) / 8, 0, _currentFrameY);
 		}
 	}
 }

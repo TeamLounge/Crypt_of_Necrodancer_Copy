@@ -130,6 +130,9 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("spear", "image/item/rapier.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("shovelBasic", "image/item/shovel_basic.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("shovelTitanium", "image/item/shovel_titanium.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("shovelBasicEffect", "image/item/shovel_basic_effect.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("shovelTitaniumEffect", "image/item/shovel_titanium_effect.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	
 
 	//armor
 	IMAGEMANAGER->addFrameImage("chain_armor", "image/item/chainmail.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
