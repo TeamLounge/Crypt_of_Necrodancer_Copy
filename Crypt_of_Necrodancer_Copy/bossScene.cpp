@@ -4,6 +4,7 @@
 HRESULT bossScene::init()
 {
 	SOUNDMANAGER->addSound("boss", "music/boss_2.ogg", true, true);
+	CAMERAMANAGER->setCamera(0, 0);
 
 	//¸Ê
 	_map = new mapGenerator;
@@ -21,11 +22,21 @@ HRESULT bossScene::init()
 	_em->setPlayerMemoryAddressLink(_player);
 	_em->bossRoomInit();
 
+	//UI
+	_UIM = new UIManager;
+	_UIM->init("zone1-1", 355.0f);
+	_UIM->setHeartBeat(4);
+	_UIM->setHeart(5);
+	_UIM->setItemHUD();
+	_UIM->setMoney();
+	_UIM->setMoneyNumber();
+
 	//¿ÀºêÁ§Æ®
 	_objectManager = new objectManager;
 	_objectManager->init();
 	_objectManager->setObjectMapMemoryAddressLink(_map);
 	_objectManager->setObjectPlayerMemoryAddressLink(_player);
+	_objectManager->setObjectEnemyManagerMemoryAddressLink(_em);
 	_objectManager->getBomb()->setBombMapMemoryAddressLink(_map);
 
 	_weapon = new weapon;
@@ -33,14 +44,6 @@ HRESULT bossScene::init()
 
 	_shovel = new shovel;
 	_shovel->init();
-
-	//UI
-	_UIM = new UIManager;
-	_UIM->init("boss", 200.0f);
-	CAMERAMANAGER->setCamera(0, 0);
-	_UIM->setHeartBeat(7);
-	_UIM->setHeart(5);
-	_UIM->setItemHUD();
 
 	_weapon->setPlayerMemoryAddressLink(_player);
 	_player->setWeaponMemoryAddressLink(_weapon);
@@ -65,6 +68,7 @@ HRESULT bossScene::init()
 
 	_player->setPlayerUIMemoryAddressLink(_UIM);
 	_player->setEmMemoryAddressLink(_em);
+
 	SOUNDMANAGER->play("boss", 0.2f);
 
 	return S_OK;
@@ -79,24 +83,26 @@ void bossScene::update()
 	_map->update(_player->getTileX(), _player->getTileY());
 	_player->update();
 
-	_em->bossRoomUpdate();
+	_em->update();
+
+	_UIM->updateItemHUD();
 	_UIM->updateHeartBeat();
+	_UIM->plusItemHUD(BOMB);
+	_UIM->updateHeart();
+	_UIM->updateMoney();
+	_UIM->updateMoneyNumber(0, false);
+
 	_objectManager->update();
 	_weapon->update();
 	_shovel->update();
 
-	_UIM->plusItemHUD(BOMB);
-	_UIM->updateItemHUD();
-	_UIM->updateHeart();
-
-	if (_player->getTileY() < 15)
+	if (_player->getTileY() < 14)
 	{
 		_map->setTileObject(5, 15, WALL_END, 4, 3);
 		_map->setTileObject(6, 15, WALL_END, 4, 3);
 		_map->setTileObject(7, 15, WALL_END, 4, 3);
 
 	}
-
 }
 
 void bossScene::render()
@@ -117,20 +123,21 @@ void bossScene::render()
 		}
 	}
 
-	_UIM->renderHeartBeat();
-	_weapon->render();
-	_shovel->render();
-
-	_objectManager->render();
-	_player->getBomb()->render();
+	_player->render();
 
 	_UIM->renderItemHUD();
 	_UIM->renderHeart();
-	char str[124];
-	sprintf_s(str, "%d, %d", _player->getTileX(), _player->getTileY());
-	TextOut(getMemDC(), _player->getTileRect().left, _player->getTileRect().top, str, strlen(str));
+	_weapon->render();
+	_shovel->render();
 
-	sprintf_s(str, "dir : %d", _player->getDirection());
-	TextOut(getMemDC(), _player->getTileRect().left, _player->getTileRect().top, str, strlen(str));
+	_objectManager->render();			//Æø¹ß ÇßÀ» ¶§
+	_player->getBomb()->render();		//Æø¹ß ÇßÀ» ¶§
+	_UIM->renderMoney();
+	_UIM->renderMoneyNumber();
 
+	if (_UIM->getIsPlayerDead())
+	{
+		IMAGEMANAGER->render("Á×À½¸àÆ®1", getMemDC(), CAMERAMANAGER->getCameraCenterX() - 200, CAMERAMANAGER->getCameraBOTTOM() - 200);
+		IMAGEMANAGER->render("Á×À½¸àÆ®2", getMemDC(), CAMERAMANAGER->getCameraCenterX() + 50, CAMERAMANAGER->getCameraBOTTOM() - 200);
+	}
 }

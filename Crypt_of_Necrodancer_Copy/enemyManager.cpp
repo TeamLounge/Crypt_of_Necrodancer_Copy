@@ -5,26 +5,33 @@
 HRESULT enemyManager::init()
 {
 
-	//setWhiteSkeleton();
-	//setGreenSkeleton();
-	//setBlackSkeleton();
+	setWhiteSkeleton();
+	setGreenSkeleton();
+	setBlackSkeleton();
 
-	//setSlimeGreen();
-	//setSlimeGold();
-	//setSlimeBlue();
+	setSlimeGreen();
+	setSlimeGold();
+	setSlimeBlue();
 
-	//setGhost();
+	setGhost();
 
-	//setMimic();
+	setMimic();
 
-	//setMonkeyBasic();
+	setMonkeyBasic();
 	//setMonkeyWhite();
 
-	//setMinotaur();
-
-	//setZombie();
-
-	setRedDragon();
+	setZombie();
+	int random = RND->getInt(10); //랜덤레드드래곤이냐 미노타우루스냐
+	if (random >= 5)
+	{
+		setMinotaur();
+	}
+	else if( random <5)
+	{
+		setRedDragon();
+	}
+	
+	_isminiboss = true;
 
 	attackoff = false;
 
@@ -43,27 +50,24 @@ void enemyManager::update()
 	_viCollision = _weapon->getVICollision();
 	_weaponName = _weapon->getWeaponName();
 
-	//updateWhiteSkeleton();
-	//updateGreenSkeleton();
-	//updateBlackSkeleton();
+	updateWhiteSkeleton();
+	updateGreenSkeleton();
+	updateBlackSkeleton();
 
-	//updateSlimeGreen();
-	//updateSlimeGold();
-	//updateSlimeBlue();
+	updateSlimeGreen();
+	updateSlimeGold();
+	updateSlimeBlue();
 
-	//updateGhost();
+	updateGhost();
 	
-	//updateMimic();
+	updateMimic();
 
+	updateZombie();
 
-	//updateMonkeyBasic();
-	//updateMonkeyWhite();
-
-	//updateMinotaur();
-
-	//updateZombie();
-
-	updateRedDragon();
+	if (!_vMinotaur.empty()) //랜덤레드드래곤이냐 미노타우루스냐
+		updateMinotaur();
+	if(!_vRedDragon.empty())
+		updateRedDragon();
 
 	_player->setAttack(false);
 }
@@ -71,27 +75,27 @@ void enemyManager::update()
 void enemyManager::render(int tileX, int tileY)
 {
 
-	//renderWhiteSkeleton(tileX, tileY);
-	//renderGreenSkeleton(tileX, tileY);
-	//renderBlackSkeleton(tileX, tileY);
+	renderWhiteSkeleton(tileX, tileY);
+	renderGreenSkeleton(tileX, tileY);
+	renderBlackSkeleton(tileX, tileY);
 
-	//renderSlimeGreen(tileX, tileY);
-	//renderSlimeGold(tileX, tileY);
-	//renderSlimeBlue(tileX, tileY);
+	renderSlimeGreen(tileX, tileY);
+	renderSlimeGold(tileX, tileY);
+	renderSlimeBlue(tileX, tileY);
 
-	//renderGhost(tileX, tileY);
+	renderGhost(tileX, tileY);
 
-	//renderMimic(tileX, tileY);
+	renderMimic(tileX, tileY);
 
 
 	//renderMonkeyBasic(tileX, tileY);
 	//renderMonkeyWhite(tileX, tileY);
+	renderZombie(tileX, tileY);
+	if (!_vMinotaur.empty())//랜덤레드드래곤이냐 미노타우루스냐
+		renderMinotaur(tileX, tileY);
+	if (!_vRedDragon.empty())
+		renderRedDragon(tileX, tileY);
 
-	//renderMinotaur(tileX, tileY);
-
-	//renderZombie(tileX, tileY);
-
-	renderRedDragon(tileX, tileY);
 }
 
 //스켈레톤WHITE
@@ -846,7 +850,7 @@ void enemyManager::updateMinotaur()
 		{
 			_map->setIsEnemy((*_viMinotaur)->getX(), (*_viMinotaur)->getY(), false);
 			_viMinotaur = _vMinotaur.erase(_viMinotaur);
-
+			_isminiboss = false;
 			//타일 반짝이게
 			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
@@ -970,7 +974,7 @@ void enemyManager::updateRedDragon()
 		{
 			_map->setIsEnemy((*_viRedDragon)->getX(), (*_viRedDragon)->getY(), false);
 			_viRedDragon = _vRedDragon.erase(_viRedDragon);
-
+			_isminiboss = false;
 			//타일 반짝이게
 			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
 		}
@@ -1081,10 +1085,10 @@ void enemyManager::renderDeathMetal(int tileX, int tileY)
 
 HRESULT enemyManager::bossRoomInit()
 {
-	setGhostBossRoom(3, 8, true);
-	setGhostBossRoom(9, 8, true);
-	setGhostBossRoom(3, 12, true);
-	setGhostBossRoom(9, 12, true);
+	//setGhostBossRoom(3, 8, true);
+	//setGhostBossRoom(9, 8, true);
+	//setGhostBossRoom(3, 12, true);
+	//setGhostBossRoom(9, 12, true);
 	setDeathMetal();
 	_isboss = true;
 

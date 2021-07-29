@@ -9,7 +9,8 @@ HRESULT slimeBlue::init(int playerIndexX, int playerIndexY)
 	_map->setIsEnemy(_tileX, _tileY, true);	//에너미 타일 속성 ON
 	_hp = 2;
 	_direction = UP;
-
+	_heart1 = IMAGEMANAGER->findImage("Enemy_heart");
+	_heart2 = IMAGEMANAGER->findImage("Enemy_heart");
 	return S_OK;
 }
 
@@ -72,6 +73,20 @@ void slimeBlue::render(int tileX, int tileY)
 		}
 		else if (_map->getAlpha(_tileX, _tileY) <= 100 && _map->getAlpha(_tileX, _tileY) > 0)
 		{
+			if (_hp == 2)
+			{
+				_heart1 = IMAGEMANAGER->findImage("Enemy_heart");
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2 = IMAGEMANAGER->findImage("Enemy_heart");
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+			}
+			if (_hp == 1)
+			{
+				_heart1 = IMAGEMANAGER->findImage("Enemy_heart");
+				_heart1->frameRender(getMemDC(), _x + 5, _y - 25, 0, 0);
+				_heart2 = IMAGEMANAGER->findImage("Enemy_heart");
+				_heart2->frameRender(getMemDC(), _x + 35, _y - 25, 0, 2);
+			}
 			_img = IMAGEMANAGER->findImage("slimeBlue_dark");
 			_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
 		}

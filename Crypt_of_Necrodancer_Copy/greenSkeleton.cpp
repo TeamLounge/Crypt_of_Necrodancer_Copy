@@ -7,6 +7,8 @@ HRESULT greenSkeleton::init(int playerIndexX, int playerIndexY , bool boss)
 	_hp = 2;
 	_img = IMAGEMANAGER->findImage("greenSkeleton");
 	_img->setFrameY(0);
+	_heart1 = IMAGEMANAGER->findImage("Enemy_heart");
+	_heart2 = IMAGEMANAGER->findImage("Enemy_heart");
 	return S_OK;
 }
 
@@ -177,11 +179,31 @@ void greenSkeleton::render(int tileX, int tileY)
 	{
 		skeleton::render();
 		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
+			if (_hp == 2)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+			}
+			if (_hp == 1)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 2);
+			}
 			_img = IMAGEMANAGER->findImage("greenSkeleton");
 			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 		}
 		else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
 		{
+			if (_hp == 2)
+			{
+				_heart1->frameRender(getMemDC(), _x + 5, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 35, _y - 25, 0, 0);
+			}
+			if (_hp == 1)
+			{
+				_heart1->frameRender(getMemDC(), _x + 5, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 35, _y - 25, 0, 2);
+			}
 			_img = IMAGEMANAGER->findImage("skeleton_dark");
 			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 		}

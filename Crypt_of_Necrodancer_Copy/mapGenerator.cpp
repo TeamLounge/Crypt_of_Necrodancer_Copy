@@ -936,8 +936,8 @@ void mapGenerator::generateBossMap()
 		for (int j = 0; j < BOSSMAPX; ++j)
 		{
 			tagTile tile;
-			tile.rc = RectMake(200 + j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
-			tile.itemRect = RectMake(200 + j * TILESIZE, i * TILESIZE + MARGIN - (TILESIZE / 2), TILESIZE, TILESIZE);
+			tile.rc = RectMake(j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
+			tile.itemRect = RectMake(j * TILESIZE, i * TILESIZE + MARGIN - (TILESIZE / 2), TILESIZE, TILESIZE);
 			tile.terrain = EMPTY;
 			tile.obj = OBJ_NONE;
 			tile.item = MAP_ITEM_NONE;
@@ -2119,6 +2119,8 @@ void mapGenerator::setBossRoom()
 	_tiles[y][x].obj = OBJ_NONE;
 	_tiles[y][x].objectFrameX = 0;
 	_tiles[y][x].objectFrameY = 0;
+	_bossStair.x = x;
+	_bossStair.y = y;
 }
 
 void mapGenerator::setTorch()

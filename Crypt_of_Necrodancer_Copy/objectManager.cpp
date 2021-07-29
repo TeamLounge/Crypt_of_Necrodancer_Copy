@@ -77,12 +77,15 @@ void objectManager::update()
 	{
 		_UIM->plusItemHUD(TORCH);
 	}
+	if (_player->getFoodName() == "food_none")
+	{
+		foodName = "food_none";
+	}
 
 	if (foodName == "food_none")
 	{
 		_UIM->minusItemHUD(ITEM);
 	}
-
 	else
 	{
 		_UIM->plusItemHUD(ITEM);
@@ -96,6 +99,8 @@ void objectManager::update()
 			iter = _playerPushedObject.erase(iter);
 		}
 	}
+	
+
 }
 
 void objectManager::render()
@@ -358,6 +363,7 @@ void objectManager::playerItemCollision()
 		}
 
 		foodName = "apple";
+		_player->setFoodName("apple");
 		break;
 	case MAP_CHEESE:
 		if (foodName == "food_none")
@@ -379,6 +385,7 @@ void objectManager::playerItemCollision()
 		}
 
 		foodName = "cheese";
+		_player->setFoodName("cheese");
 		break;
 	case MAP_COIN10:
 		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);

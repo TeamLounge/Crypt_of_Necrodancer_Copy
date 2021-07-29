@@ -17,6 +17,7 @@ HRESULT redDragon::init(int playerIndexX, int playerIndexY)
 	isSameLine = false;	//플레이어와 동일 선 상에 있는지 확인하고자하는 불값	//레드드래곤 클래스 안에서 선언
 
 	_vFire.clear();	//벡터 안의 쓰레기 값 없애기
+	_heart1 = _heart2 = _heart3 = _heart4 = _heart5 = _heart6 = IMAGEMANAGER->findImage("Enemy_heart");
 
 	return S_OK;
 }
@@ -173,39 +174,146 @@ void redDragon::render(int tileX, int tileY)
 		//알파렌더
 		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150)
 		{
+			if (_hp == 6)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 0);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 0);
+			}
+			if (_hp == 5)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 0);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 4)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 3)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 2)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 2);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 1)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 2);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 2);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+
+			if (fireRender) {
+				for (int i = 0; i < _vFire.size(); i++)
+				{
+					if (_vFire[i].img == IMAGEMANAGER->findImage("dragonRedFireStarting"))		//이미지가 스타팅이냐
+					{
+						if (_indey == 0)	//왼쪽이냐
+						{
+							_vFire[i].img->frameRender(getMemDC(), _vFire[i].rc.left, _vFire[i].rc.top, _fireIndex, 1);
+						}
+						else if (_indey == 1)	//오른쪽이냐
+						{
+							_vFire[i].img->frameRender(getMemDC(), _vFire[i].rc.left, _vFire[i].rc.top, _fireIndex, 0);
+						}
+					}
+					else if (_vFire[i].img == IMAGEMANAGER->findImage("dragonRedFire"))		//이미지가 기본 화염포 이미지냐
+					{
+						_vFire[i].img->frameRender(getMemDC(), _vFire[i].rc.left, _vFire[i].rc.top, _fireIndex, 0);
+					}
+				}
+			}
+
 			_img = IMAGEMANAGER->findImage("dragonRed");
 			_img->frameRender(getMemDC(), _x , _y , _index, _indey);		//이미지 위치 잡아주기 위해 임의 값 감소시켜줌
 		}
 		else if (_map->getAlpha(_tilex, _tiley) <= 150 && _map->getAlpha(_tilex, _tiley) > 0)
 		{
+			if (_hp == 6)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 0);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 0);
+			}
+			if (_hp == 5)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 0);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 4)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 0);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 3)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 0);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 2)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 0);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 2);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
+			if (_hp == 1)
+			{
+				_heart1->frameRender(getMemDC(), _x + 3, _y - 25, 0, 0);
+				_heart2->frameRender(getMemDC(), _x + 33, _y - 25, 0, 2);
+				_heart3->frameRender(getMemDC(), _x + 63, _y - 25, 0, 2);
+				_heart4->frameRender(getMemDC(), _x + 93, _y - 25, 0, 2);
+				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
+				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
+			}
 			_img = IMAGEMANAGER->findImage("dragonRed_dark");
 			_img->frameRender(getMemDC(), _x , _y , _index, _indey);
-		}
 
-		if (fireRender)	//화염포 렌더 켜짐
-		{
-			for (int i = 0; i < _vFire.size(); i++)
-			{
-				if (_vFire[i].img == IMAGEMANAGER->findImage("dragonRedFireStarting"))		//이미지가 스타팅이냐
-				{
-					if (_indey == 0)	//왼쪽이냐
-					{
-						_vFire[i].img->frameRender(getMemDC(), _vFire[i].rc.left, _vFire[i].rc.top, _fireIndex, 1);
-					}
-					else if (_indey == 1)	//오른쪽이냐
-					{
-						_vFire[i].img->frameRender(getMemDC(), _vFire[i].rc.left, _vFire[i].rc.top, _fireIndex, 0);
-					}
-				}
-				else if (_vFire[i].img == IMAGEMANAGER->findImage("dragonRedFire"))		//이미지가 기본 화염포 이미지냐
-				{
-					_vFire[i].img->frameRender(getMemDC(), _vFire[i].rc.left, _vFire[i].rc.top, _fireIndex, 0);
-				}
-			}
+
+
 		}
 	}
-
-	char str[128];
-	sprintf_s(str, "hp = %d", _hp);
-	TextOut(getMemDC(), _rc.left, _rc.top, str, strlen(str));
 }

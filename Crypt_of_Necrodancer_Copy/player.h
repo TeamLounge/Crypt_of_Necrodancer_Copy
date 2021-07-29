@@ -44,7 +44,7 @@ private:
 	bool _isThrowReady; //던질준비됐어?
 
 	mapGenerator* _map;
-	
+
 	vision* _vision;
 
 	float _elapsedSec; //프레임 움직임 위해서
@@ -79,6 +79,7 @@ private:
 	float _shovelEffectElapsedTime;
 
 	float _attackElapsedTime;
+	string _foodName;
 
 public:
 	enemyManager* _em; //에너미 정보 가져오기
@@ -143,5 +144,8 @@ public:
 	void setIsThrowReady(bool isThrowReady) { _isThrowReady = isThrowReady; }
 
 	RECT getShadowRect() { return _shadow; }
+
+	void setFoodName(string food) { _foodName = food; }
+	string getFoodName() { return _foodName; }
 };
 

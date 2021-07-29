@@ -55,6 +55,8 @@ private:
 
 	POINT _shopKeeper;
 
+	POINT _bossStair;
+
 public:
 	virtual HRESULT init(int width, int height);
 	virtual void release();
@@ -154,6 +156,9 @@ public:
 
 	int getBossRoomX() { return _rooms[_bossRoomIndex].x; }
 	int getBossRoomY() { return _rooms[_bossRoomIndex].y; }
+
+	int getBossStairX() { return _bossStair.x; }
+	int getBossStairY() { return _bossStair.y; }
 
 	bool getIsHaveTorch(int tileX, int tileY) { return _tiles[tileY][tileX].isHaveTorch; }
 	bool getIsEnemy(int tileX, int tileY) { return _tiles[tileY][tileX].isEnemy; }

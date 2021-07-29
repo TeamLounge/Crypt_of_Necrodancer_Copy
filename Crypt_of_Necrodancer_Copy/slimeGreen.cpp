@@ -9,6 +9,7 @@ HRESULT slimeGreen::init(int playerIndexX, int playerIndexY)
 	_map->setIsEnemy(_tileX, _tileY, true);	//에너미 타일 속성 ON		//에너미끼리 안 겹치게		//지나온 타일이 없으니까 이렇게 초기화만 해주고 말아도 됨.
 	_indexSwitch = false;
 	_hp = 1;
+	_heart = IMAGEMANAGER->findImage("Enemy_heart");
 	return S_OK;
 }
 

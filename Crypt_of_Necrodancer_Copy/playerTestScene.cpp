@@ -6,10 +6,10 @@ HRESULT playerTestScene::init()
 	SOUNDMANAGER->addSound("zone1-1", "music/zone1_1.ogg", true, false);
 	SOUNDMANAGER->addSound("zone1-1_shopkeeper", "music/zone1_1_shopkeeper.ogg", true, false);
 	CAMERAMANAGER->setCamera(0, 0);
-	
+
 	//¸Ê
 	_map = new mapGenerator;
-	_map->init(70,70);
+	_map->init(70, 70);
 	_map->generate(7);
 
 	//ÇÃ·¹ÀÌ¾î
@@ -45,7 +45,6 @@ HRESULT playerTestScene::init()
 	SOUNDMANAGER->play("zone1-1_shopkeeper", 0.2f);
 	SOUNDMANAGER->setGroup("zone1-1");
 	SOUNDMANAGER->setGroup("zone1-1_shopkeeper");
-
 	_weapon = new weapon;
 	_weapon->init();
 
@@ -80,31 +79,50 @@ HRESULT playerTestScene::init()
 	_player->setPlayerUIMemoryAddressLink(_UIM);
 	_player->setEmMemoryAddressLink(_em);
 
+	stairBossX = _map->getBossStairX();
+	stairBossY = _map->getBossStairY();
+
 	return S_OK;
 }
 
 void playerTestScene::release()
 {
+	
 }
 
 void playerTestScene::update()
 {
 	_map->update(_player->getTileX(), _player->getTileY());
 	_player->update();
-	_UIM->updateItemHUD();
+	
 	//RENDERMANAGER->update();
 	_em->update();
+	
+	_UIM->updateItemHUD();
 	_UIM->updateHeartBeat();
 	_UIM->plusItemHUD(BOMB);
 	_UIM->updateHeart();
+	_UIM->updateMoney();
+	_UIM->updateMoneyNumber(0, false);
 
 	_objectManager->update();
 	_weapon->update();
 	_shovel->update();
 
 	_shopkeeper->update();
-	_UIM->updateMoney();
-	_UIM->updateMoneyNumber(0, false);
+
+	if (!_em->getIsMiniBoss())
+	{
+		//¿©±â¸é ÇØ°ñ¹ş°ÜÁö°í
+		_map->setTileTerrain(stairBossX, stairBossY, STAIR_NONE);
+		if (_player->getTileX() == stairBossX && _player->getTileY() == stairBossY)
+		{
+			SOUNDMANAGER->stop("zone1-1");
+			SOUNDMANAGER->stop("zone1-1_shopkeeper");
+			UIMANAGER->deleteAll();
+			SCENEMANAGER->changeScene("bossScene");
+		}
+	}
 }
 
 void playerTestScene::render()
@@ -130,8 +148,6 @@ void playerTestScene::render()
 	_player->render();
 
 	_UIM->renderItemHUD();
-
-	//_UIM->renderHeartBeat();
 	_UIM->renderHeart();
 	_weapon->render();
 	_shovel->render();

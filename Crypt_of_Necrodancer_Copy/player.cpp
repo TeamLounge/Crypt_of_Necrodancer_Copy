@@ -2,7 +2,7 @@
 #include "player.h"
 #include "weapon.h"
 #include "shovel.h"
-#include "enemyManager.h"
+#include "objectManager.h"
 
 
 HRESULT player::init()
@@ -50,6 +50,8 @@ HRESULT player::init()
 	_isMiss = false;
 	_isThrow = false;
 	_isThrowReady = false;
+
+	_foodName = "food_none";
 
 	return S_OK;
 }
@@ -143,7 +145,22 @@ void player::update()
 	{
 		if (/*_uiManager->getIsIntersectJudge() &&*/ !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
-			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+			if (KEYMANAGER->isStayKeyDown(VK_UP)) {
+				if (_foodName == "apple")
+				{
+					_uiManager->minusItemHUD(ITEM);
+					_uiManager->plusHeart(2);
+					_foodName = "food_none";
+				}
+				else if (_foodName == "cheese")
+				{
+					_uiManager->minusItemHUD(ITEM);
+					_uiManager->plusHeart(4);
+					_foodName = "food_none";
+
+				}
+			}
+			else if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 			{
 				_bomb->fire(_tileX, _tileY, _map->getRect(_tileX, _tileY));
 			}
@@ -471,7 +488,21 @@ void player::update()
 	{
 		if (/*_uiManager->getIsIntersectJudge() &&*/ !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
-			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+			if (KEYMANAGER->isStayKeyDown(VK_LEFT)) {
+				if (_foodName == "apple")
+				{
+					//_uiManager->minusItemHUD(ITEM);
+					_uiManager->plusHeart(2);
+					_foodName = "food_none";
+				}
+				else if (_foodName == "cheese")
+				{
+					//_uiManager->minusItemHUD(ITEM);
+					_uiManager->plusHeart(4);
+					_foodName = "food_none";
+				}
+			}
+			else if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 			{
 				for (int i = 0; i < _uiManager->getVItemHUD().size(); ++i)
 				{
@@ -1022,6 +1053,7 @@ void player::update()
 		IMAGEMANAGER->findImage(_headImageName)->getFrameHeight());
 
 	_vision->update(_tileX, _tileY);
+	
 
 	_bomb->update();
 	damaged();
@@ -1384,17 +1416,57 @@ void player::damaged()
 	{
 		if (_em->getDeathMetal()->getAttck())
 		{
-			if (_bodyImageName == "player_body_leather")
-			{
-				_uiManager->minusHeart(1);
+			if (_em->getDeathMetal()->getHp() > 2) {
+				if (_bodyImageName == "player_body_leather")
+				{
+					_uiManager->minusHeart(1);
+				}
+				else if (_bodyImageName == "player_body_chain")
+				{
+					_uiManager->minusHeart(2);
+				}
+				else
+				{
+					_uiManager->minusHeart(3);
+				}
 			}
-			else if (_bodyImageName == "player_body_chain")
+			if (_em->getDeathMetal()->getHp() <= 2)
 			{
-				_uiManager->minusHeart(2);
-			}
-			else
-			{
-				_uiManager->minusHeart(3);
+				RECT rc;
+				bool isdamaged = false;
+				for(int i=0 ; i <_em->getDeathMetal()->_vCollision.size(); i++)
+				{
+					if (IntersectRect(&rc, &_em->getDeathMetal()->_vCollision[i].rc, &_body))
+					{
+						if (_em->getDeathMetal()->_vCollision[i].isattack)
+						{
+							if (_bodyImageName == "player_body_leather")
+							{
+								_uiManager->minusHeart(1);
+									isdamaged = true;
+									break;
+							}
+							else if (_bodyImageName == "player_body_chain")
+							{
+								_uiManager->minusHeart(2);
+								isdamaged = true;
+								break;
+							}
+							else
+							{
+								_uiManager->minusHeart(3);
+								isdamaged = true;
+								break;
+							}
+						}
+					}
+				}
+				if (isdamaged) {
+					for (int i = 0; i < _em->getDeathMetal()->_vCollision.size(); i++)
+					{   
+						_em->getDeathMetal()->_vCollision[i].isattack = false;
+					}
+				}
 			}
 			_isAttacked = true;
 			_map->setTileFrameY(_tileX, _tileY, 0);

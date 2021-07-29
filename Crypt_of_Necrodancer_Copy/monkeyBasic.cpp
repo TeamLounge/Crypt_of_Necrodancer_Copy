@@ -6,6 +6,7 @@ HRESULT monkeyBasic::init(int playerIndexX, int playerIndexY)
 	monkey::init(playerIndexX, playerIndexY);
 	_img = IMAGEMANAGER->findImage("monkeyBasic");
 	_img->setFrameY(0);
+	_heart1 = _heart2 = _heart3 = _heart4 = IMAGEMANAGER->findImage("Enemy_heart");
 	return S_OK;
 }
 
@@ -164,10 +165,42 @@ void monkeyBasic::render(int tileX, int tileY)
 	{
 		monkey::render();
 		if (_map->getAlpha(_tilex, _tiley) <= 255 && _map->getAlpha(_tilex, _tiley) > 150) {
-			if (_hp == 1)
+			if (!iscatch) {
+				if (_hp == 1)
+				{
+					_heart1->frameRender(getMemDC(), _x + 20, _y - 10, 0, 0);
+				}
+			}
+			else
 			{
-				_heart = IMAGEMANAGER->findImage("Enemy_heart");
-				_heart->frameRender(getMemDC(), _x + 20, _y - 10, 0, 0);
+				if (_hp == 4)
+				{
+					_heart1->frameRender(getMemDC(), _x - 20, _y - 10, 0, 0);
+					_heart2->frameRender(getMemDC(), _x + 10, _y - 10, 0, 0);
+					_heart3->frameRender(getMemDC(), _x + 40, _y - 10, 0, 0);
+					_heart4->frameRender(getMemDC(), _x + 70, _y - 10, 0, 0);
+				}
+				else if (_hp == 3)
+				{
+					_heart1->frameRender(getMemDC(), _x - 20, _y - 10, 0, 0);
+					_heart2->frameRender(getMemDC(), _x + 10, _y - 10, 0, 0);
+					_heart3->frameRender(getMemDC(), _x + 40, _y - 10, 0, 0);
+					_heart4->frameRender(getMemDC(), _x + 70, _y - 10, 0, 2);
+				}
+				else if (_hp == 2)
+				{
+					_heart1->frameRender(getMemDC(), _x - 20, _y - 10, 0, 0);
+					_heart2->frameRender(getMemDC(), _x + 10, _y - 10, 0, 0);
+					_heart3->frameRender(getMemDC(), _x + 40, _y - 10, 0, 2);
+					_heart4->frameRender(getMemDC(), _x + 70, _y - 10, 0, 2);
+				}
+				else if (_hp == 1)
+				{
+					_heart1->frameRender(getMemDC(), _x - 20, _y - 10, 0, 0);
+					_heart2->frameRender(getMemDC(), _x + 10, _y - 10, 0, 2);
+					_heart3->frameRender(getMemDC(), _x + 40, _y - 10, 0, 2);
+					_heart4->frameRender(getMemDC(), _x + 70, _y - 10, 0, 2);
+				}
 			}
 			_img = IMAGEMANAGER->findImage("monkeyBasic");
 			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
@@ -176,8 +209,8 @@ void monkeyBasic::render(int tileX, int tileY)
 		{
 			if (_hp == 1)
 			{
-				_heart = IMAGEMANAGER->findImage("Enemy_heart");
-				_heart->frameRender(getMemDC(), _x + 20, _y - 10, 0, 0);
+				_heart1 = IMAGEMANAGER->findImage("Enemy_heart");
+				_heart1->frameRender(getMemDC(), _x + 20, _y - 10, 0, 0);
 			}
 			_img = IMAGEMANAGER->findImage("monkeyBasic_dark");
 			_img->frameRender(getMemDC(), _x, _y, _index, _indey);
