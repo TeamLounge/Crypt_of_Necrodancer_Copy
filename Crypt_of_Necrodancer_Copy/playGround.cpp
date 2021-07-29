@@ -178,7 +178,7 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("dragonRed", "image/enemy/dragonRed.bmp", 1281, 306, 7, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("dragonRed_dark", "image/enemy/dragonRed_dark.bmp", 1281, 306, 7, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("dragonRedFire", "image/enemy/dragonRedFire.bmp", 420, 60, 7, 1, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addFrameImage("dragonRedFireStarting", "image/enemy/dragonRedFireStarting.bmp", 420, 120, 7, 1, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("dragonRedFireStarting", "image/enemy/dragonRedFireStarting.bmp", 420, 120, 7, 2, true, RGB(255, 0, 255), true);
 
 	IMAGEMANAGER->addFrameImage("deathMetal", "image/enemy/deathMetal.bmp", 2100, 318, 10, 2, true, RGB(255, 0, 255), true);
 

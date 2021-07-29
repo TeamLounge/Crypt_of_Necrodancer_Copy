@@ -6,8 +6,8 @@ HRESULT minotaurAndDragon::init(int playerIndexX, int playerIndexY)
 	_astar = new aStarTest;
 	isFind = false;
 	isTime = isMove = false;
-	 _count = _damageRenderCount = _damageindex = _index = _indey = 0;
-	isAction = toRender = damageRender = false;
+	 _count = _damageRenderCount = _damageindex = _fireRenderCount = _fireIndex = _index = _indey = 0;
+	isFire = isRun = toRender = damageRender = fireRender = false;
 	attack = false;
 	_beatspeed = 1.0f;
 
@@ -45,7 +45,7 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 
 	_astar->endmove(playerIndexX, playerIndexY);
 
-	if (isAction) 
+	if (isFire || isRun) 
 	{
 		if (TIMEMANAGER->getWorldTime() - _movingTime >= _beatspeed/2)
 		{
@@ -60,7 +60,8 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 			}
 		}
 		_astar->clear();
-		if (_dir != NONE) minotaurActionMove(isTime);
+		if (isRun &&_dir != NONE) minotaurActionMove(isTime);
+		if (isFire) redDragonActionMove();
 	}
 	else
 	{
@@ -118,6 +119,24 @@ void minotaurAndDragon::update(int playerIndexX, int playerIndexY)
 		{
 			_damageindex = 0;
 			damageRender = false;
+		}
+	}
+	//isFire∑Œ µÂ∑°∞Ô≤®
+	if (fireRender)
+	{
+		if (!attack) attack = true;
+		_fireRenderCount++;
+		if (_fireRenderCount % 3 == 0)
+		{
+			_fireIndex++;
+			_fireRenderCount = 0;
+		}
+		if (_fireIndex > 6)	//»≠ø∞∆˜ ¿Œµ¶Ω∫
+		{
+			_fireIndex = 0;
+			fireRender = false;
+			if (attack) attack = false;
+			_index = 6;		//µÂ∑°∞Ô µø¿€ ¿Œµ¶Ω∫
 		}
 	}
 }
@@ -309,6 +328,11 @@ void minotaurAndDragon::minotaurActionMove(bool Time)
 
 		}
 	}
+
+}
+
+void minotaurAndDragon::redDragonActionMove()
+{
 
 }
 

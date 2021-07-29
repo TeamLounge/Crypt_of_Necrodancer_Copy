@@ -13,7 +13,5 @@ public:
 	void update(int playerIndexX, int playerIndexY);
 	void render(int tileX, int tileY);
 
-	virtual void setRedDragonFrame();
-	virtual void moveRedDragon();
 };
 

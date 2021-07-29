@@ -141,7 +141,7 @@ void player::update()
 	//심장박동에 맞춘 경우만 행동
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
+		if (/*_uiManager->getIsIntersectJudge() &&*/ !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 			{
@@ -306,7 +306,7 @@ void player::update()
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
+		if (/*_uiManager->getIsIntersectJudge() &&*/ !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
 			_playerDirection = RIGHT;
 			_weapon->update();
@@ -469,7 +469,7 @@ void player::update()
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
+		if (/*_uiManager->getIsIntersectJudge() &&*/ !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 			{
@@ -641,7 +641,7 @@ void player::update()
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
+		if (/*_uiManager->getIsIntersectJudge() &&*/ !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 			{
@@ -1145,7 +1145,7 @@ void player::damaged()
 	/////////////////////////////////////
 	for (int i = 0; i < _em->getVMinotaur().size(); i++)
 	{
-		if ((*(_em->getVSlimeBlue().begin() + i))->getAttack())
+		if ((*(_em->getVMinotaur().begin() + i))->getAttck())
 		{
 			if (_bodyImageName == "player_body_leather")
 			{
@@ -1161,7 +1161,7 @@ void player::damaged()
 			}
 			_isAttacked = true;
 			_map->setTileFrameY(_tileX, _tileY, 0);
-			(*(_em->getVSlimeBlue().begin() + i))->setAttack(false);
+			(*(_em->getVMinotaur().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
 			break;
 		}
@@ -1307,18 +1307,68 @@ void player::damaged()
 	{
 		if ((*(_em->getVRedDragon().begin() + i))->getAttck())
 		{
-			if (_bodyImageName == "player_body_leather")
+			if (_em->getVRedDragon()[i]->getIsFire())
 			{
-				_uiManager->minusHeart(5);
-			}
-			else if (_bodyImageName == "player_body_chain")
-			{
-				_uiManager->minusHeart(4);
+				bool isdamaged = false;
+				for (int j = 0; j < _em->getVRedDragon()[i]->_vFire.size(); j++)
+				{
+					
+					RECT temp;
+					if (IntersectRect(&temp, &_em->getVRedDragon()[i]->_vFire[j].rc, &_body))
+					{
+						if (_em->getVRedDragon()[i]->_vFire[j].isAttack)
+						{
+							if (_bodyImageName == "player_body_leather")
+							{
+								_uiManager->minusHeart(5);
+								_em->getVRedDragon()[i]->_vFire[j].isAttack = false;
+								isdamaged = true;
+								break;
+							}
+							else if (_bodyImageName == "player_body_chain")
+							{
+								_uiManager->minusHeart(4);
+								_em->getVRedDragon()[i]->_vFire[j].isAttack = false;
+								isdamaged = true;
+								break;
+							}
+							else
+							{
+								_uiManager->minusHeart(6);
+								_em->getVRedDragon()[i]->_vFire[j].isAttack = false;
+								isdamaged = true;
+								break;
+							}
+						}
+					}
+				}
+				if (isdamaged)
+				{
+					for (int j = 0; j < _em->getVRedDragon()[i]->_vFire.size(); j++)
+					{
+
+						_em->getVRedDragon()[i]->_vFire[j].isAttack = false;
+					}
+				}
 			}
 			else
 			{
-				_uiManager->minusHeart(6);
+				//일반 공격일 때
+				if (_bodyImageName == "player_body_leather")
+				{
+					_uiManager->minusHeart(5);
+				}
+				else if (_bodyImageName == "player_body_chain")
+				{
+					_uiManager->minusHeart(4);
+				}
+				else
+				{
+					_uiManager->minusHeart(6);
+				}
+
 			}
+
 			_isAttacked = true;
 			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVRedDragon().begin() + i))->setAttck(false);

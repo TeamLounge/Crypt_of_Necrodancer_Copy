@@ -26,7 +26,7 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 			_count = 0;
 		}
 	}
-	if (isAction&& _index >= 5)
+	if (isRun && _index >= 5)
 	{
 		if (isTime)
 		{	
@@ -35,11 +35,11 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 		if (_index > 8)
 		{
 			_index = 0;
-			isAction = false;
+			isRun = false;
 			_astar->callPathFinder(_tilex,_tiley);
 		}
 	}
-	if (!isAction&&isFind)
+	if (!isRun && isFind)
 	{
 		//¾×¼Ç
 		if (_tilex == playerIndexX)
@@ -47,7 +47,7 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 
 			if (_tiley > playerIndexY)
 			{
-				isAction = true;
+				isRun = true;
 				_index = 4;
 				_dir = UP;
 				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
@@ -55,7 +55,7 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 			}
 			else if (_tiley < playerIndexY)
 			{
-				isAction = true;
+				isRun = true;
 			
 				_index = 4;
 				_dir = DOWN;
@@ -67,7 +67,7 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 		{
 			if (_tilex > playerIndexX)
 			{
-				isAction = true;
+				isRun = true;
 				_index = 4;
 				_dir = LEFT;
 				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
@@ -75,7 +75,7 @@ void minotaur::update(int playerIndexX, int playerIndexY)
 			}
 			else if (_tilex < playerIndexX)
 			{
-				isAction = true;
+				isRun = true;
 				_index = 4;
 				_dir = RIGHT;
 				_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);

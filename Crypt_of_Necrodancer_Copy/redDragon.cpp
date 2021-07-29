@@ -16,6 +16,8 @@ HRESULT redDragon::init(int playerIndexX, int playerIndexY)
 	_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
 	isSameLine = false;	//플레이어와 동일 선 상에 있는지 확인하고자하는 불값	//레드드래곤 클래스 안에서 선언
 
+	_vFire.clear();	//벡터 안의 쓰레기 값 없애기
+
 	return S_OK;
 }
 
@@ -26,90 +28,127 @@ void redDragon::release()
 void redDragon::update(int playerIndexX, int playerIndexY)
 {
 	minotaurAndDragon::update(playerIndexX, playerIndexY);
-
-	if (isFind && toRender)
-	{
-		if (_index >= 4)
-		{
-			_index = 0;
-		}
-		else
-		{
-			_index = 4;
-		}
-		toRender = false;
-	}
 	
-	setRedDragonFrame();	//_count 증가시키고, _index 받아서 프레임 조절
-	//moveRedDragon();
+	if (_index <= 1)
+	{
+		_count++;
+		if (_count % 10 == 0)
+		{
+			_index++;
+			if (_index > 1)	_index = 0;
+			_count = 0;
+		}
+	}
+	if (isFire && _index >= 2)
+	{
+		if (_index < 5)
+		{	_count++;
+			if (_count % 7 == 0)
+			{
+				_index++;
+				_count = 0;
+			}
+		}
+		else if (_index == 5)
+		{
+			//여기서 화염포를 쏘는 랜더불변수를 또 줘야함
+			fireRender = true;
 
-	//if (_index <= 3) {
-	//	_count++;
-	//	if (_count % 10 == 0)
-	//	{
-	//		_index++;
-	//		if (_index > 3) _index = 0;
-	//		_count = 0;
-	//	}
-	//}
-	//if (isAction && _index >= 5)
-	//{
-	//	if (isTime)
-	//	{
-	//		_index++;
-	//	}
-	//	if (_index > 8)
-	//	{
-	//		_index = 0;
-	//		isAction = false;
-	//		_astar->callPathFinder(_tilex, _tiley);
-	//	}
-	//}
-	//if (!isAction&&isFind)
-	//{
-	//	//액션
-	//	if (_tilex == playerIndexX)
-	//	{
-	//		_index == 4;
-	//		if (_tiley > playerIndexY)
-	//		{
-	//			isAction = true;
-	//			_index == 4;
-	//			_dir = UP;
-	//			_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
-	//			_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
-	//		}
-	//		else if (_tiley < playerIndexY)
-	//		{
-	//			isAction = true;
+		}
+		else if (_index == 6)
+		{
+			
+			if (isTime)
+			{
+				_count++;
+			}
+			if (_count == 2)
+			{
+				_vFire.clear();
+				isFire = false;
+				_count = 0;
 
-	//			_index == 4;
-	//			_dir = DOWN;
-	//			_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
-	//			_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
-	//		}
-	//	}
-	//	else if (_tiley == playerIndexY)
-	//	{
-	//		if (_tilex > playerIndexX)
-	//		{
-	//			isAction = true;
-	//			_index == 4;
-	//			_dir = LEFT;
-	//			_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
-	//			_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
-	//		}
-	//		else if (_tilex < playerIndexX)
-	//		{
-	//			isAction = true;
-	//			_index == 4;
-	//			_dir = RIGHT;
-	//			_x = (_rc.left + _rc.right) / 2 - (_img->getFrameWidth() / 2);
-	//			_y = _rc.top - ((_rc.bottom - _rc.top) / 2) - (_img->getFrameHeight() / 2);
-	//		}
-	//	}
-	//}
+				_index = 0;
+			}
+		}
+	}
+
+	//
+	if (!isFire && isFind)	//화염포를 쏘는상태가아니면서 적을탐지햇을때	//abs(_tilex - playerIndexX == 5)
+	{							//실제로 필요한 상황은 Action이 켜져야할 상황을만드는것
+		//if (!(_tiley == playerIndexY))	//같은 y축이 아니면 ->화염포를쏘지말고 적을 쫒아가야되잖음
+
+		if (_tiley == playerIndexY)	//같은 y축이면(선 상이면) -> 광선 쏘는 이미지
+		{
+			isFire = true;
+			_index = 2;
+
+			if (_indey == 0)	//LEFT
+			{
+				for (int i = _tilex - 1; i > 0; --i)
+				{
+					if (_map->getTileObject(i, _tiley) == OBJ_NONE)
+					{
+						FIRE _fire;
+						if (i == _tilex - 1)
+						{
+
+							_fire.img = IMAGEMANAGER->findImage("dragonRedFireStarting");
+						}
+						else
+						{
+							_fire.img = IMAGEMANAGER->findImage("dragonRedFire");
+						}
+						_fire.isAttack = true;
+						_fire.tileX = i;
+						_fire.tileY = _tiley;
+						_fire.rc = _map->getRect(i, _tiley);
+						_vFire.push_back(_fire);
+					}
+					else if (_map->getTileObject(i, _tiley) != OBJ_NONE)
+					{
+						break;
+					}
+	
+				}
+			}
+			else if (_indey == 1)	//RIGHT
+			{	
+				for (int i = _tilex + 1; i < _map->getXSize(); i++)
+				{
+					if (_map->getTileObject(i, _tiley) == OBJ_NONE)
+					{
+						FIRE _fire;
+						if (i == _tilex + 1)
+						{
+
+							_fire.img = IMAGEMANAGER->findImage("dragonRedFireStarting");
+						}
+						else
+						{
+							_fire.img = IMAGEMANAGER->findImage("dragonRedFire");
+						}
+						_fire.isAttack = true;
+						_fire.tileX = i;
+						_fire.tileY = _tiley;
+						_fire.rc = _map->getRect(i, _tiley);
+
+						_vFire.push_back(_fire);
+					}
+					else if (_map->getTileObject(i, _tiley) != OBJ_NONE)
+					{
+						break;
+					}
+				}
+			}
+		}
+
+	}
+
 	moveMotion();
+	//이 안에 카메라 떨림 필요
+	//CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+
 
 	if (playerIndexX < _tilex)
 	{
@@ -142,138 +181,31 @@ void redDragon::render(int tileX, int tileY)
 			_img = IMAGEMANAGER->findImage("dragonRed_dark");
 			_img->frameRender(getMemDC(), _x , _y , _index, _indey);
 		}
+
+		if (fireRender)	//화염포 렌더 켜짐
+		{
+			for (int i = 0; i < _vFire.size(); i++)
+			{
+				if (_vFire[i].img == IMAGEMANAGER->findImage("dragonRedFireStarting"))		//이미지가 스타팅이냐
+				{
+					if (_indey == 0)	//왼쪽이냐
+					{
+						_vFire[i].img->frameRender(getMemDC(), _vFire[i].rc.left, _vFire[i].rc.top, _fireIndex, 1);
+					}
+					else if (_indey == 1)	//오른쪽이냐
+					{
+						_vFire[i].img->frameRender(getMemDC(), _vFire[i].rc.left, _vFire[i].rc.top, _fireIndex, 0);
+					}
+				}
+				else if (_vFire[i].img == IMAGEMANAGER->findImage("dragonRedFire"))		//이미지가 기본 화염포 이미지냐
+				{
+					_vFire[i].img->frameRender(getMemDC(), _vFire[i].rc.left, _vFire[i].rc.top, _fireIndex, 0);
+				}
+			}
+		}
 	}
-	//_img->frameRender(getMemDC(), _x, _y, _index, _indey);
 
 	char str[128];
 	sprintf_s(str, "hp = %d", _hp);
 	TextOut(getMemDC(), _rc.left, _rc.top, str, strlen(str));
-}
-
-void redDragon::setRedDragonFrame()
-{
-	////드래곤과 플레이어가 같은 줄이면
-	//if (_tiley == _playerindey)
-	//{
-	//	isSameLine = true;
-	//	if (!isdealy)
-	//	{
-	//		_index = 2;
-	//		isdealy = true;
-	//	}
-
-	//}
-	////드래곤과 플레이어가 같은 줄이 아니면
-	//else isSameLine = false;
-
-	////_count++;
-	//if (isSameLine)
-	//{
-	//	_count++;
-	//	if (_index >= 2 && _index <= 6)	//2 - 6		//광선 쏘기
-	//	{
-	//		if (_count % 5 == 0)
-	//		{
-	//			_index++;
-	//			if (_index > 6)
-	//			{
-	//				isdealy =false;
-	//				_index = 0;
-	//			}
-	//			_count = 0;
-	//		}
-	//		isSameLine = false;
-	//	}
-	//	
-	//}
-	//else
-	//{
-	//	_count++;
-	//	_index = 0;
-	//	if (_index >= 0 && _index <= 1)	//0, 1		//평상시 이동
-	//	{
-	//		if (_count % 10 == 0)
-	//		{
-	//			_index++;
-	//			if (_index > 1) _index = 0;
-	//			_count = 0;
-	//		}
-	//	}
-	//}
-}
-
-void redDragon::moveRedDragon()
-{
-
-	//점프 이동 => 화이트 스켈레톤의 업데이트
-	if (isMove)
-	{
-		switch (_dir)
-		{
-		case NONE:
-			_gravity += 0.965f;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
-			{
-				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				isMove = false;
-				_gravity = 0;
-			}
-			break;
-
-		case LEFT:
-			_gravity += 0.965f;
-			_x += cosf(7 * PI / 9) * 9;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-			if (_x <= _rc.left)
-			{
-				_x = _rc.left;
-				isMove = false;
-				_gravity = 0;
-				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
-				{
-					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				}
-			}
-			break;
-
-		case RIGHT:
-			_gravity += 0.965f;
-			_x -= cosf(7 * PI / 9) * 9;
-			_y += -sinf(7 * PI / 9) * 9 + _gravity;
-			if (_x >= _rc.left)
-			{
-				_x = _rc.left;
-				isMove = false;
-				_gravity = 0;
-				if (_y >= (_rc.top - (_rc.bottom - _rc.top) / 2))
-				{
-					_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				}
-			}
-			break;
-
-		case UP:
-			_gravity += 0.2f;
-			_y += -sinf(PI / 2) * 9 + _gravity;
-			if (_y <= _rc.top - (_rc.bottom - _rc.top) / 2)
-			{
-				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				isMove = false;
-				_gravity = 0;
-			}
-			break;
-
-		case DOWN:
-			_gravity += 1.2f;
-			_y += -sinf(PI / 2) + _gravity;
-			if (_y >= _rc.top - (_rc.bottom - _rc.top) / 2)
-			{
-				_y = _rc.top - (_rc.bottom - _rc.top) / 2;
-				isMove = false;
-				_gravity = 0;
-			}
-			break;
-		}
-	}
 }

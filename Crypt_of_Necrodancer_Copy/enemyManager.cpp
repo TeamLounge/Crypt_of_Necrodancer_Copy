@@ -5,24 +5,24 @@
 HRESULT enemyManager::init()
 {
 
-	setWhiteSkeleton();
+	//setWhiteSkeleton();
 	//setGreenSkeleton();
 	//setBlackSkeleton();
 
 	//setSlimeGreen();
-	setSlimeGold();
-	setSlimeBlue();
+	//setSlimeGold();
+	//setSlimeBlue();
 
 	//setGhost();
 
 	//setMimic();
 
-	setMonkeyBasic();
+	//setMonkeyBasic();
 	//setMonkeyWhite();
 
-	setMinotaur();
+	//setMinotaur();
 
-	setZombie();
+	//setZombie();
 
 	setRedDragon();
 
@@ -43,25 +43,25 @@ void enemyManager::update()
 	_viCollision = _weapon->getVICollision();
 	_weaponName = _weapon->getWeaponName();
 
-	updateWhiteSkeleton();
+	//updateWhiteSkeleton();
 	//updateGreenSkeleton();
 	//updateBlackSkeleton();
 
 	//updateSlimeGreen();
-	updateSlimeGold();
-	updateSlimeBlue();
+	//updateSlimeGold();
+	//updateSlimeBlue();
 
 	//updateGhost();
 	
 	//updateMimic();
 
 
-	updateMonkeyBasic();
+	//updateMonkeyBasic();
 	//updateMonkeyWhite();
 
-	updateMinotaur();
+	//updateMinotaur();
 
-	updateZombie();
+	//updateZombie();
 
 	updateRedDragon();
 
@@ -71,25 +71,25 @@ void enemyManager::update()
 void enemyManager::render(int tileX, int tileY)
 {
 
-	renderWhiteSkeleton(tileX, tileY);
+	//renderWhiteSkeleton(tileX, tileY);
 	//renderGreenSkeleton(tileX, tileY);
 	//renderBlackSkeleton(tileX, tileY);
 
 	//renderSlimeGreen(tileX, tileY);
-	renderSlimeGold(tileX, tileY);
-	renderSlimeBlue(tileX, tileY);
+	//renderSlimeGold(tileX, tileY);
+	//renderSlimeBlue(tileX, tileY);
 
 	//renderGhost(tileX, tileY);
 
 	//renderMimic(tileX, tileY);
 
 
-	renderMonkeyBasic(tileX, tileY);
+	//renderMonkeyBasic(tileX, tileY);
 	//renderMonkeyWhite(tileX, tileY);
 
-	renderMinotaur(tileX, tileY);
+	//renderMinotaur(tileX, tileY);
 
-	renderZombie(tileX, tileY);
+	//renderZombie(tileX, tileY);
 
 	renderRedDragon(tileX, tileY);
 }
