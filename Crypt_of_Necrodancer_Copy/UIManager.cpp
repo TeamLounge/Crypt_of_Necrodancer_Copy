@@ -44,6 +44,9 @@ HRESULT UIManager::init(string songName, float speed, int judgeRange)
 	_missAlpha = 255;
 
 	_isPlayerDead = false;
+	_isDeathSoundOn = false;
+
+	_isGod = false;
 
 	_judgeRange = judgeRange;
 
@@ -105,9 +108,30 @@ void UIManager::updateHeart()
 		else (*(_vHeart.begin() + _heartCnt))->setCurrentFrameX((*(_vHeart.begin() + _heartCnt))->getCurrentFrameX() + 1);
 	}
 
-	if ((*(_vHeart.begin() + _vHeart.size() - 1))->getCurrentFrameY() == (*(_vHeart.begin() + _vHeart.size() - 1))->getImg()->getMaxFrameY())
+	if (KEYMANAGER->isOnceKeyDown('Q'))
 	{
-		_isPlayerDead = true;
+		if (!_isGod) _isGod = true;
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('W'))
+	{
+		if (_isGod) _isGod = false;
+	}
+
+	if (!_isGod)
+	{
+		//플레이어 죽음
+		if ((*(_vHeart.begin() + _vHeart.size() - 1))->getCurrentFrameY() == (*(_vHeart.begin() + _vHeart.size() - 1))->getImg()->getMaxFrameY())
+		{
+			_isPlayerDead = true;
+		}
+	}
+
+	if (_isPlayerDead && !_isDeathSoundOn)
+	{
+		SOUNDMANAGER->play("player_death", EFFECTVOLUME);
+		SOUNDMANAGER->stop("player_hurt");
+		_isDeathSoundOn = true;
 	}
 }
 
@@ -1467,7 +1491,10 @@ void UIManager::renderItemHUD()
 
 		if ((*(_vItemHUD.begin() + i))->getItemType() == ATTACK)
 		{
-			UIMANAGER->render("weapon", getMemDC(), (*(_vItemHUD.begin() + i))->getRect().left + 10, (*(_vItemHUD.begin() + i))->getRect().top + 20, 0, 0);
+			if (!_weapon->getIsThrowRender())
+			{
+				UIMANAGER->render("weapon", getMemDC(), (*(_vItemHUD.begin() + i))->getRect().left + 10, (*(_vItemHUD.begin() + i))->getRect().top + 20, 0, 0);
+			}
 		}
 
 		if ((*(_vItemHUD.begin() + i))->getItemType() == THROW)

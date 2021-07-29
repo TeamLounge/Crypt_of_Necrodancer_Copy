@@ -414,6 +414,9 @@
     <ClInclude Include="missed.h">
       <Filter>playGround\UI\inGame</Filter>
     </ClInclude>
+    <ClInclude Include="throwDagger.h">
+      <Filter>playGround\item\weapon\weaponType</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -679,6 +682,9 @@
     </ClCompile>
     <ClCompile Include="missed.cpp">
       <Filter>playGround\UI\inGame</Filter>
+    </ClCompile>
+    <ClCompile Include="throwDagger.cpp">
+      <Filter>playGround\item\weapon\weaponType</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -53,6 +53,8 @@ private:
 	player* _player;
 
 	bool _isPlayerDead;		//플레이어 죽었어?
+	bool _isDeathSoundOn;	//죽음의 소리가 들렸어?
+	bool _isGod;			//신이야? (무적모드)
 
 	int _heartNum;
 	float _elapsedSec;
@@ -219,5 +221,8 @@ public:
 
 	bool getIsPlayerDead() { return _isPlayerDead; }
 	void setIsPlayerDead(bool isPlayerDead) { _isPlayerDead = isPlayerDead; }
+
+	bool getIsGod() { return _isGod; }
+	void setIsGod(bool isGod) { _isGod = isGod; }
 };
 

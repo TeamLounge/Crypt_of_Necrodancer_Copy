@@ -6,6 +6,8 @@ class weapon;
 class broadSword : public weaponType
 {
 private:
+	float elapsedTime;  //이펙트 효과 돌리기위한
+	float speed;		//이펙트 속도를 위한
 
 public:
 	virtual weaponType* inputHandle(weapon* weapon);

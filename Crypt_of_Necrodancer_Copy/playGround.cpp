@@ -19,10 +19,12 @@ HRESULT playGround::init()
 	addImage();
 	addSoundEffect();
 
-
+	SCENEMANAGER->addScene("splash", new splashScene);
+	SCENEMANAGER->addScene("intro", new introScene);
+	SCENEMANAGER->addScene("title", new titleScene);
 	SCENEMANAGER->addScene("player_test", new playerTestScene);
 	SCENEMANAGER->addScene("bossScene", new bossScene);
-	SCENEMANAGER->changeScene("bossScene");
+	SCENEMANAGER->changeScene("splash");
 
 
 	return S_OK;
@@ -48,19 +50,22 @@ void playGround::update()
 
 void playGround::render()
 {
-	PatBlt(getMemDC(), 0, 0, BACKGROUNDX, BACKGROUNDY, BLACKNESS);
-	//================제발 이 사이에 좀 그립시다==========================
+	if (!STREAMMANAGER->getIsPlay())
+	{
+		PatBlt(getMemDC(), 0, 0, BACKGROUNDX, BACKGROUNDY, BLACKNESS);
+		//================제발 이 사이에 좀 그립시다==========================
 
-	HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
-	SelectObject(getMemDC(), myPen);
+		HPEN myPen = (HPEN)CreatePen(0, 1, RGB(0, 0, 0));
+		SelectObject(getMemDC(), myPen);
 
-	SCENEMANAGER->render();
+		SCENEMANAGER->render();
 
-	DeleteObject(myPen);
+		DeleteObject(myPen);
 
-	//==================================================
-	//this->getBackBuffer()->render(getHDC(), 0, 0);
-	CAMERAMANAGER->render(this->getBackBuffer(), getHDC());
+		//==================================================
+		//this->getBackBuffer()->render(getHDC(), 0, 0);
+		CAMERAMANAGER->render(this->getBackBuffer(), getHDC());
+	}
 }
 
 
@@ -211,6 +216,17 @@ void playGround::addImage()
 	IMAGEMANAGER->addImage("벗어남", "image/UI/TEMP_missed.bmp", 72, 26, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addImage("죽음멘트1", "image/UI/game_death1.bmp", 236, 24, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addImage("죽음멘트2", "image/UI/game_death2.bmp", 166, 24, true, RGB(255, 0, 255), true);
+
+	//이펙트 등록
+	IMAGEMANAGER->addFrameImage("broadSword_LR", "image/item/broadSword_W.bmp", 162, 378, 3, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("broadSword_TB", "image/item/broadSword2_W.bmp", 567, 108, 3, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("dagger_LR", "image/item/dagger_W.bmp", 171, 66, 3, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("dagger_TB", "image/item/dagger2_W.bmp", 99, 114, 3, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("longSword_LR", "image/item/longSword_W.bmp", 552, 96, 4, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("longSword_TB", "image/item/longSword2_W.bmp", 192, 276, 4, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("rapier_LR", "image/item/rapier_W.bmp", 528, 42, 4, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("rapier_TB", "image/item//rapier2_W.bmp", 84, 264, 4, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("throwDagger_LR", "image/item/throwDagger_LR.bmp", 76, 48, 3, 2, true, RGB(255, 0, 255), true);
 }
 
 void playGround::addSoundEffect()
@@ -232,4 +248,12 @@ void playGround::addSoundEffect()
 	SOUNDMANAGER->addSound("pickup_armor", "sound_effect/sfx_pickup_armor.ogg", false, false);
 	SOUNDMANAGER->addSound("deathMetal_fire", "sound_effect/en_deathmetal_fireball.ogg", false, false);
 	SOUNDMANAGER->addSound("deathMetal_skel", "sound_effect/en_deathmetal_skels.ogg", false, false);
+	SOUNDMANAGER->addSound("attackVoice", "sound_effect/vo_cad_melee_1_01.ogg", false, false);
+	SOUNDMANAGER->addSound("attackVoice2", "sound_effect/vo_cad_melee_2_01.ogg", false, false);
+	SOUNDMANAGER->addSound("attackVoice3", "sound_effect/vo_cad_melee_3_01.ogg", false, false);
+	SOUNDMANAGER->addSound("attackVoice4", "sound_effect/vo_cad_melee_4_01.ogg", false, false);
+	SOUNDMANAGER->addSound("player_death", "sound_effect/vo_cad_death_03.ogg", false, false);
+	SOUNDMANAGER->addSound("player_hurt", "sound_effect/vo_cad_hurt_05.ogg", false, false);
+	SOUNDMANAGER->addSound("miss_beat", "sound_effect/sfx_missedbeat.ogg", false, false);
+	SOUNDMANAGER->addSound("throw", "sound_effect/wep_throwable_thrown.ogg", false, false);
 }

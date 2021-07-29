@@ -11,10 +11,10 @@ titleScene::~titleScene()
 
 HRESULT titleScene::init()
 {
-	IMAGEMANAGER->addImage("title", "image/UI/title.bmp", WINSIZEX, WINSIZEY, false, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("anyKey", "image/UI/아무키.bmp", WINSIZEX / 3, WINSIZEY / 15, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("title", "image/UI/title.bmp", WINSIZEX, WINSIZEY, false, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("anyKey", "image/UI/아무키.bmp", WINSIZEX / 3, WINSIZEY / 15, true, RGB(255, 0, 255), true);
 	SOUNDMANAGER->addSound("titleMusic", "music/titleMusic.mp3", true, true);
-	SOUNDMANAGER->play("titleMusic", 0.8f);
+	SOUNDMANAGER->play("titleMusic", 0.6f);
 	_title = IMAGEMANAGER->findImage("title");
 	_anyKey = IMAGEMANAGER->findImage("anyKey");
 
@@ -57,7 +57,7 @@ void titleScene::update()
 	if (KEYMANAGER->isOnceKeyDown())
 	{
 		SOUNDMANAGER->stop("titleMusic");
-		SCENEMANAGER->changeScene("lobby");
+		SCENEMANAGER->changeScene("player_test");
 	}
 }
 

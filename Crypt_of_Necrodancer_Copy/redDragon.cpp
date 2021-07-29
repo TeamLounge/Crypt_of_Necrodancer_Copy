@@ -309,6 +309,29 @@ void redDragon::render(int tileX, int tileY)
 				_heart5->frameRender(getMemDC(), _x + 123, _y - 25, 0, 2);
 				_heart6->frameRender(getMemDC(), _x + 153, _y - 25, 0, 2);
 			}
+
+
+			if (fireRender) {
+				for (int i = 0; i < _vFire.size(); i++)
+				{
+					if (_vFire[i].img == IMAGEMANAGER->findImage("dragonRedFireStarting"))		//이미지가 스타팅이냐
+					{
+						if (_indey == 0)	//왼쪽이냐
+						{
+							_vFire[i].img->frameRender(getMemDC(), _vFire[i].rc.left, _vFire[i].rc.top, _fireIndex, 1);
+						}
+						else if (_indey == 1)	//오른쪽이냐
+						{
+							_vFire[i].img->frameRender(getMemDC(), _vFire[i].rc.left, _vFire[i].rc.top, _fireIndex, 0);
+						}
+					}
+					else if (_vFire[i].img == IMAGEMANAGER->findImage("dragonRedFire"))		//이미지가 기본 화염포 이미지냐
+					{
+						_vFire[i].img->frameRender(getMemDC(), _vFire[i].rc.left, _vFire[i].rc.top, _fireIndex, 0);
+					}
+				}
+			}
+
 			_img = IMAGEMANAGER->findImage("dragonRed_dark");
 			_img->frameRender(getMemDC(), _x , _y , _index, _indey);
 

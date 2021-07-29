@@ -24,12 +24,14 @@ HRESULT bossScene::init()
 
 	//UI
 	_UIM = new UIManager;
-	_UIM->init("boss", 630.0f, 250);
+	_UIM->init("boss", 630.0f, 230);
 	_UIM->setHeartBeat(3);
 	_UIM->setHeart(5);
 	_UIM->setItemHUD();
 	_UIM->setMoney();
 	_UIM->setMoneyNumber();
+	_UIM->setDiamond();
+	_UIM->setDiaNumber();
 
 	//오브젝트
 	_objectManager = new objectManager;
@@ -57,6 +59,7 @@ HRESULT bossScene::init()
 	_objectManager->setWeaponMemoryAddressLink(_weapon);
 	_objectManager->setShovelMemoryAddressLink(_shovel);
 	_weapon->setMGMemoryAddressLink(_map);
+	_weapon->setEMMemoryAddressLink(_em);
 
 	_weapon->setUIMMemortAddressLink(_UIM);
 	_UIM->setWeaponMemoryAddressLink(_weapon);
@@ -82,6 +85,7 @@ void bossScene::update()
 {
 	_map->update(_player->getTileX(), _player->getTileY());
 	_player->update();
+	_weapon->update();
 
 	_em->bossRoomUpdate();
 
@@ -91,9 +95,10 @@ void bossScene::update()
 	_UIM->updateHeart();
 	_UIM->updateMoney();
 	_UIM->updateMoneyNumber(0, false);
+	_UIM->updateDiamond();
+	_UIM->updateDiaNumber(0, false);
 
 	_objectManager->update();
-	_weapon->update();
 	_shovel->update();
 
 	if (_player->getTileY() < 14)
@@ -125,13 +130,16 @@ void bossScene::render()
 
 	_UIM->renderItemHUD();
 	_UIM->renderHeart();
-	_weapon->render();
-	_shovel->render();
 
 	_objectManager->render();			//폭발 했을 때
 	_player->getBomb()->render();		//폭발 했을 때
 	_UIM->renderMoney();
 	_UIM->renderMoneyNumber();
+	_UIM->renderDiamond();
+	_UIM->renderDiaNumber();
+
+	_weapon->render();
+	_shovel->render();
 
 	if (_UIM->getIsPlayerDead())
 	{

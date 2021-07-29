@@ -4,6 +4,9 @@
 #include "mapGenerator.h"
 #include "playerTestScene.h"
 #include "bossScene.h"
+#include "titleScene.h"
+#include "introScene.h"
+#include "splashScene.h"
 #include "player.h"
 
 

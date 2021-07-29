@@ -1008,8 +1008,8 @@ void mapGenerator::generateBossMap()
 		for (int j = 0; j < BOSSMAPX; ++j)
 		{
 			tagTile tile;
-			tile.rc = RectMake(j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
-			tile.itemRect = RectMake(j * TILESIZE, i * TILESIZE + MARGIN - (TILESIZE / 2), TILESIZE, TILESIZE);
+			tile.rc = RectMake(200 + j * TILESIZE, i * TILESIZE + MARGIN, TILESIZE, TILESIZE);
+			tile.itemRect = RectMake(200 + j * TILESIZE, i * TILESIZE + MARGIN - (TILESIZE / 2), TILESIZE, TILESIZE);
 			tile.terrain = EMPTY;
 			tile.obj = OBJ_NONE;
 			tile.item = MAP_ITEM_NONE;
@@ -2279,13 +2279,13 @@ void mapGenerator::testObject()
 	_tiles[_rooms[_startRoomIndex].y + 2][_rooms[_startRoomIndex].x + 3].item = MAP_LEATHER_ARMOR;
 	_tiles[_rooms[_startRoomIndex].y + 2][_rooms[_startRoomIndex].x + 3].itemDirection = UP;
 
-	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].item = MAP_DAGGER;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].item = MAP_LONGSWORD;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 1].itemDirection = UP;
 									   
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 2].item = MAP_RAPIER;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 2].itemDirection = UP;
 									   
-	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].item = MAP_LONGSWORD;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].item = MAP_SPEAR;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].itemDirection = UP;
 
 }
