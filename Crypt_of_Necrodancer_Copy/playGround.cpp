@@ -230,4 +230,6 @@ void playGround::addSoundEffect()
 	SOUNDMANAGER->addSound("trap_bounce", "sound_effect/obj_trap_bounce.ogg", false, false);
 	SOUNDMANAGER->addSound("pickup_weapon", "sound_effect/sfx_pickup_weapon.ogg", false, false);
 	SOUNDMANAGER->addSound("pickup_gold", "sound_effect/sfx_pickup_gold_01.ogg", false, false);
+	SOUNDMANAGER->addSound("pickup_general", "sound_effect/sfx_pickup_general_ST.ogg", false, false);
+	SOUNDMANAGER->addSound("pickup_armor", "sound_effect/sfx_pickup_armor.ogg", false, false);
 }

@@ -258,6 +258,7 @@ void objectManager::playerItemCollision()
 		}
 		_player->getVision()->setStartLightNum(BASICVISION + 1);
 		torchName = "torch_plus_1";
+		SOUNDMANAGER->play("pickup_general", 0.6f);
 		break;
 	case MAP_TORCH_PLUS_2:
 		if (_player->getVision()->getStartLightNum() == BASICVISION)
@@ -277,9 +278,7 @@ void objectManager::playerItemCollision()
 		}
 		_player->getVision()->setStartLightNum(BASICVISION + 2);
 		torchName = "torch_plus_2";
-		break;
-	case MAP_TITANUM_SHOVEL:
-
+		SOUNDMANAGER->play("pickup_general", 0.6f);
 		break;
 	case MAP_LEATHER_ARMOR:
 		if (_player->getBodyImageName() == "player_body_basic")
@@ -299,6 +298,7 @@ void objectManager::playerItemCollision()
 		}
 		_player->setBodyImageName("player_body_leather");
 		bodyName = "leather_armor";
+		SOUNDMANAGER->play("pickup_armor", 0.6f);
 		break;
 	case MAP_CHAIN_ARMOR:
 		if (_player->getBodyImageName() == "player_body_basic")
@@ -318,6 +318,8 @@ void objectManager::playerItemCollision()
 		}
 		_player->setBodyImageName("player_body_chain");
 		bodyName = "chain_armor";
+
+		SOUNDMANAGER->play("pickup_armor", 0.6f);
 		break;
 	case MAP_APPLE:
 		if (foodName == "food_none")
@@ -339,6 +341,8 @@ void objectManager::playerItemCollision()
 		}
 
 		foodName = "apple";
+
+		SOUNDMANAGER->play("pickup_general", 0.6f);
 		break;
 	case MAP_CHEESE:
 		if (foodName == "food_none")
@@ -360,6 +364,8 @@ void objectManager::playerItemCollision()
 		}
 
 		foodName = "cheese";
+
+		SOUNDMANAGER->play("pickup_general", 0.6f);
 		break;
 	case MAP_COIN1:
 		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);

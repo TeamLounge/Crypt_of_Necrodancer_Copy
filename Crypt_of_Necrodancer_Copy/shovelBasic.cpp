@@ -20,6 +20,7 @@ shovelType * shovelBasic::inputHandle(shovel * shovel)
 		break;
 	case MAP_TITANUM_SHOVEL:
 		shovel->_map->setTileItem(shovel->_player->getTileX(), shovel->_player->getTileY(), MAP_ITEM_NONE);
+		SOUNDMANAGER->play("pickup_general", 0.6f);
 		return new shovelTitanium();
 		break;
 	}
