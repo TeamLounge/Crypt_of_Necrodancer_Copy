@@ -22,9 +22,7 @@ HRESULT playGround::init()
 
 	SCENEMANAGER->addScene("player_test", new playerTestScene);
 	SCENEMANAGER->addScene("bossScene", new bossScene);
-	SCENEMANAGER->changeScene("player_test");
-	
-	//SCENEMANAGER->changeScene("bossScene");
+	SCENEMANAGER->changeScene("bossScene");
 
 
 	return S_OK;
@@ -126,9 +124,12 @@ void playGround::addImage()
 	IMAGEMANAGER->addFrameImage("broadSword", "image/item/broadsword.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("rapier", "image/item/rapier.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("longSword", "image/item/longsword.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addFrameImage("spear", "image/item/rapier.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("spear", "image/item/spear.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("shovelBasic", "image/item/shovel_basic.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("shovelTitanium", "image/item/shovel_titanium.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("shovelBasicEffect", "image/item/shovel_basic_effect.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("shovelTitaniumEffect", "image/item/shovel_titanium_effect.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	
 
 	//armor
 	IMAGEMANAGER->addFrameImage("chain_armor", "image/item/chainmail.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
@@ -191,6 +192,15 @@ void playGround::addImage()
 	IMAGEMANAGER->addImage("shadow_standard_2", "image/player/shadow_standard2.bmp", 72, 81, true, RGB(255, 0, 255), true);//검은색 짝대기
 
 	//coin
+	IMAGEMANAGER->addFrameImage("coin1", "image/item/coin/coin1.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin2", "image/item/coin/coin2.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin3", "image/item/coin/coin3.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin4", "image/item/coin/coin4.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin5", "image/item/coin/coin5.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin6", "image/item/coin/coin6.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin7", "image/item/coin/coin7.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin8", "image/item/coin/coin8.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin9", "image/item/coin/coin9.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("coin10", "image/item/coin/coin10.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 
 	//shopkeeper
@@ -216,4 +226,10 @@ void playGround::addSoundEffect()
 	SOUNDMANAGER->addSound("bomb_lit", "sound_effect/sfx_bomb_lit.ogg", false, false);
 	SOUNDMANAGER->addSound("bomb_explode", "sound_effect/sfx_bomb_explode.ogg", false, false);
 	SOUNDMANAGER->addSound("trap_bounce", "sound_effect/obj_trap_bounce.ogg", false, false);
+	SOUNDMANAGER->addSound("pickup_weapon", "sound_effect/sfx_pickup_weapon.ogg", false, false);
+	SOUNDMANAGER->addSound("pickup_gold", "sound_effect/sfx_pickup_gold_01.ogg", false, false);
+	SOUNDMANAGER->addSound("pickup_general", "sound_effect/sfx_pickup_general_ST.ogg", false, false);
+	SOUNDMANAGER->addSound("pickup_armor", "sound_effect/sfx_pickup_armor.ogg", false, false);
+	SOUNDMANAGER->addSound("deathMetal_fire", "sound_effect/en_deathmetal_fireball.ogg", false, false);
+	SOUNDMANAGER->addSound("deathMetal_skel", "sound_effect/en_deathmetal_skels.ogg", false, false);
 }

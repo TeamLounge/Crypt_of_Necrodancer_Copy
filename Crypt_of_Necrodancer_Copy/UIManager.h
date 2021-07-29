@@ -107,6 +107,7 @@ private:
 
 	bool _isIntersectJudge;
 	RECT _beatJudgement;
+	int _judgeRange;
 
 	float _beatSpeed; //하트 비트 스피드
 
@@ -122,7 +123,7 @@ public:
 	UIManager();
 	~UIManager();
 
-	HRESULT init(string songName, float speed);
+	HRESULT init(string songName, float speed, int judgeRange);
 	void release();
 	void update();
 	void render();

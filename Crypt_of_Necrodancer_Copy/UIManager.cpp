@@ -13,7 +13,7 @@ UIManager::~UIManager()
 {
 }
 
-HRESULT UIManager::init(string songName, float speed)
+HRESULT UIManager::init(string songName, float speed, int judgeRange)
 {
 	_heartNum = 0;
 	_elapsedSec = 0;
@@ -44,6 +44,8 @@ HRESULT UIManager::init(string songName, float speed)
 	_missAlpha = 255;
 
 	_isPlayerDead = false;
+
+	_judgeRange = judgeRange;
 
 	return S_OK;
 }
@@ -179,7 +181,7 @@ void UIManager::setHeartBeat(int heartBeatNum)
 	{
 		UI* _heartBeatRight;
 		_heartBeatRight = new heartBeat;
-		_heartBeatRight->init("heartBeat", PointMake(CAMERAX + 700 - i * _heartBeatInterval,
+		_heartBeatRight->init("heartBeat", PointMake(CAMERAX - i * _heartBeatInterval,
 			CAMERAY - 100));
 
 		_vHeartBeatRight.push_back(_heartBeatRight);
@@ -190,7 +192,7 @@ void UIManager::setHeartBeat(int heartBeatNum)
 	{
 		UI* _heartBeatLeft;
 		_heartBeatLeft = new heartBeat;
-		_heartBeatLeft->init("heartBeat", PointMake(-700 + i * _heartBeatInterval,
+		_heartBeatLeft->init("heartBeat", PointMake(i * _heartBeatInterval,
 			CAMERAY - 100));
 
 		_vHeartBeatLeft.push_back(_heartBeatLeft);
@@ -210,7 +212,7 @@ void UIManager::updateHeartBeat()
 	_beatHeart->setCurrentFrameX(0);
 
 	_beatJudgement = RectMakeCenter(CAMERAX / 2, CAMERAY - 100,
-		_beatHeart->getImg()->getFrameWidth() + 70,
+		_beatHeart->getImg()->getFrameWidth() + _judgeRange,
 		_beatHeart->getImg()->getFrameHeight());
 
 	/*
@@ -243,9 +245,20 @@ void UIManager::updateHeartBeat()
 		}
 	}
 	*/
+
+	for (_viHeartBeatRight = _vHeartBeatRight.begin(); _viHeartBeatRight != _vHeartBeatRight.end(); ++_viHeartBeatRight)
+	{
+		RECT temp;
+		if (IntersectRect(&temp, &(*_viHeartBeatRight)->getRect(), &_beatJudgement))
+		{
+			_isIntersectJudge = true;
+			break;
+		}
+	}
+
 	for (int i = 0; i < _vHeartBeatLeft.size(); ++i)
 	{
-		if ((*(_vHeartBeatLeft.begin() + i))->getCenterX() >= CAMERAX / 2)
+		if ((*(_vHeartBeatLeft.begin() + i))->getCenterX() >= CAMERAX / 2 + 20)
 		{
 			_nextI = i + 1;
 			if (_nextI == _vHeartBeatLeft.size()) _nextI = 0;
@@ -256,7 +269,7 @@ void UIManager::updateHeartBeat()
 
 	for (int i = 0; i < _vHeartBeatRight.size(); ++i)
 	{
-		if ((*(_vHeartBeatRight.begin() + i))->getCenterX() <= CAMERAX / 2)
+		if ((*(_vHeartBeatRight.begin() + i))->getCenterX() <= CAMERAX / 2 - 20)
 		{
 			_nextI = i + 1;
 			if (_nextI == _vHeartBeatRight.size()) _nextI = 0;
@@ -305,16 +318,6 @@ void UIManager::updateHeartBeat()
 		if (IntersectRect(&temp, &(*_viHeartBeatRight)->getRect(), &_beatHeart->getRect()))
 		{
 			_beatHeart->setCurrentFrameX(1);
-		}
-	}
-
-	for (_viHeartBeatRight = _vHeartBeatRight.begin(); _viHeartBeatRight != _vHeartBeatRight.end(); ++_viHeartBeatRight)
-	{
-		RECT temp;
-		if (IntersectRect(&temp, &(*_viHeartBeatRight)->getRect(), &_beatJudgement))
-		{
-			_isIntersectJudge = true;
-			break;
 		}
 	}
 }

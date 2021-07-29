@@ -25,7 +25,7 @@ HRESULT playerTestScene::init()
 
 	//UI
 	_UIM = new UIManager;
-	_UIM->init("zone1-1", 355.0f);
+	_UIM->init("zone1-1", 355.0f, 100);
 	_UIM->setHeartBeat(4);
 	_UIM->setHeart(5);
 	_UIM->setItemHUD();
@@ -144,8 +144,6 @@ void playerTestScene::render()
 		}
 	}
 	//_em->render();
-
-	_player->render();
 
 	_UIM->renderItemHUD();
 	_UIM->renderHeart();

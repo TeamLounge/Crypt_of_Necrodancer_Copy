@@ -24,8 +24,8 @@ HRESULT bossScene::init()
 
 	//UI
 	_UIM = new UIManager;
-	_UIM->init("zone1-1", 355.0f);
-	_UIM->setHeartBeat(4);
+	_UIM->init("boss", 630.0f, 250);
+	_UIM->setHeartBeat(3);
 	_UIM->setHeart(5);
 	_UIM->setItemHUD();
 	_UIM->setMoney();
@@ -69,7 +69,7 @@ HRESULT bossScene::init()
 	_player->setPlayerUIMemoryAddressLink(_UIM);
 	_player->setEmMemoryAddressLink(_em);
 
-	SOUNDMANAGER->play("boss", 0.2f);
+	SOUNDMANAGER->play("boss", 0.4f);
 
 	return S_OK;
 }
@@ -83,7 +83,7 @@ void bossScene::update()
 	_map->update(_player->getTileX(), _player->getTileY());
 	_player->update();
 
-	_em->update();
+	_em->bossRoomUpdate();
 
 	_UIM->updateItemHUD();
 	_UIM->updateHeartBeat();
@@ -122,8 +122,6 @@ void bossScene::render()
 			_objectManager->render(j, i);
 		}
 	}
-
-	_player->render();
 
 	_UIM->renderItemHUD();
 	_UIM->renderHeart();

@@ -21,19 +21,23 @@ weaponType * spear::inputHandle(weapon * weapon)
 		break;
 	case MAP_BROADSWORD:
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_SPEAR);
+		SOUNDMANAGER->play("pickup_weapon", 0.6f);
 		return new broadSword();
 		break;
 	case MAP_DAGGER:
 		weapon->_player->setIsThrow(false);
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_SPEAR);
+		SOUNDMANAGER->play("pickup_weapon", 0.6f);
 		return new dagger();
 		break;
 	case MAP_LONGSWORD:
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_SPEAR);
+		SOUNDMANAGER->play("pickup_weapon", 0.6f);
 		return new longSword();
 		break;
 	case MAP_RAPIER:
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_SPEAR);
+		SOUNDMANAGER->play("pickup_weapon", 0.6f);
 		return new rapier();
 		break;
 	}

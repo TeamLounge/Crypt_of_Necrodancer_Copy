@@ -178,7 +178,7 @@ public:
 		{
 			if (i < 0)continue;
 			if (i >= _height) break;
-			for (int j = tileX - VISIONX /2; j < tileX + VISIONX /2; j++)
+			for (int j = tileX - VISIONX /2 + 5; j < tileX + VISIONX /2 + 5; j++)
 			{
 				if (j < 0) continue;
 				if (j >= _width) break;

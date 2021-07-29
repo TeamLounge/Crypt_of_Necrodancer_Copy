@@ -61,7 +61,7 @@ void vision::searchSurround()
 	for (int i = _tileX - 1; i >= _tileX - VISIONX / 2; i--)
 	{
 		if (i < 0) break;
-		if (_visionSearch[VISIONY / 2][i - (VISIONX / 2)].tileX == - 1) continue;
+		if (_visionSearch[VISIONY / 2][i - (_tileX - VISIONX / 2)].tileX == - 1) continue;
 		if (_startLightNum -(_tileX - i) <= 0) continue;
 
 		_visionSearch[VISIONX / 2][i - (_tileX - VISIONX / 2)].lightNum = _startLightNum - (_tileX - i);

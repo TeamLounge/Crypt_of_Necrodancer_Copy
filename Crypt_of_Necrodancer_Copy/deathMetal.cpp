@@ -739,6 +739,7 @@ void deathMetal::phaseFourMove(bool Time)
 				_vCollision.emplace_back(_collision);
 			}
 			++_index;
+			SOUNDMANAGER->play("deathMetal_fire", 0.4f);
 		}
 	}
 	else if (!isdamaged && !isAction && Time) {

@@ -143,7 +143,7 @@ void player::update()
 	//심장박동에 맞춘 경우만 행동
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
-		if (/*_uiManager->getIsIntersectJudge() &&*/ !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_UP)) {
 				if (_foodName == "apple")
@@ -166,142 +166,7 @@ void player::update()
 			}
 			else
 			{
-				_playerDirection = LEFT;
-				_weapon->update();
-				_shovel->update();
-
-				if (_em->getIsCatch())
-				{
-					_attack = true;
-					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-				}
-				else
-				{
-					_tileX -= 1;
-					_isMove = true;
-
-					//삽과 벽 충돌처리
-					if (_shovel->getVCollision().size() != 0)
-					{
-						for (int i = 0; i < _shovel->getVCollision().size(); ++i)
-						{
-							int sTileX = (*(_shovel->getVCollision().begin() + i)).tileX;
-							int sTileY = (*(_shovel->getVCollision().begin() + i)).tileY;
-							OBJECT obj = _map->getTileObject(sTileX, sTileY);
-							if (_shovel->getShovelName() == "shovelTitanium")
-							{
-								if (obj == WALL_STONE)
-								{
-									_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-									_tileX += 1;
-									_isMove = false;
-									_isWall = true;
-									_isTouchWall = true;
-									SOUNDMANAGER->play("dig_stone", EFFECTVOLUME);
-								}
-								else if (obj == WALL_DOOR || obj == WALL_BASIC)
-								{
-									_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-									_map->setIsHaveTorch(sTileX, sTileY, false);
-									_tileX += 1;
-									_isMove = false;
-									_isWall = true;
-									if (obj == WALL_DOOR)
-									{
-										SOUNDMANAGER->play("door_open", EFFECTVOLUME);
-									}
-									else
-									{
-										SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
-										_isTouchWall = true;
-									}
-								}
-								else if (obj == WALL_END || obj == WALL_GOLD)
-								{
-									_tileX += 1;
-									_isMove = false;
-									_isWall = true;
-									_isTouchWall = true;
-									SOUNDMANAGER->play("dig_fail", 0.2f);
-								}
-							}
-							else
-							{
-								if (obj == WALL_DOOR || obj == WALL_BASIC)
-								{
-									_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-									_map->setIsHaveTorch(sTileX, sTileY, false);
-									_tileX += 1;
-									_isMove = false;
-									_isWall = true;
-									if (obj == WALL_DOOR)
-									{
-										SOUNDMANAGER->play("door_open", EFFECTVOLUME);
-									}
-									else
-									{
-										SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
-										_isTouchWall = true;
-									}
-								}
-								else if (obj == WALL_CRACK || obj == WALL_END
-									|| obj == WALL_GOLD
-									|| obj == WALL_STONE)
-								{
-									_tileX += 1;
-									_isMove = false;
-									_isWall = true;
-									_isTouchWall = true;
-									SOUNDMANAGER->play("dig_fail", EFFECTVOLUME);
-								}
-							}
-						}
-					}
-					if (!_isWall)
-					{
-						//웨폰과 에너미의 충돌처리
-						if (_weapon->getVCollision().size() != 0)
-						{
-							if (_weapon->getWeaponName() == "rapier")
-							{
-								if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileY))
-								{
-									_attack = true;
-									_isMove = false;
-									_isRush = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-								}
-								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
-								{
-									_tileX += 1;
-									_isMove = false;
-									_attack = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-								}
-							}
-							else
-							{
-								for (int i = 0; i < _weapon->getVCollision().size(); ++i)
-								{
-
-									if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
-									{
-										if (_isMove)
-										{
-											_tileX += 1;
-											_isMove = false;
-											_attack = true;
-											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+				playerMovement(LEFT, -1, 0);
 			}
 		}
 		//판정 벗어났을때
@@ -323,12 +188,13 @@ void player::update()
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
-		if (/*_uiManager->getIsIntersectJudge() &&*/ !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
 			_playerDirection = RIGHT;
 			_weapon->update();
 			_shovel->update();
 			
+			//원숭이에게 잡혔을 때
 			if (_em->getIsCatch())
 			{
 				_attack = true;
@@ -336,135 +202,7 @@ void player::update()
 			}
 			else
 			{
-				_tileX += 1;
-				_tileRenderX = _tileX;
-				_isMove = true;
-				
-				//삽과 벽 충돌처리
-				if (_shovel->getVCollision().size() != 0)
-				{
-					for (int i = 0; i < _shovel->getVCollision().size(); ++i)
-					{
-						int sTileX = (*(_shovel->getVCollision().begin() + i)).tileX;
-						int sTileY = (*(_shovel->getVCollision().begin() + i)).tileY;
-						OBJECT obj = _map->getTileObject(sTileX, sTileY);
-						if (_shovel->getShovelName() == "shovelTitanium")
-						{
-							if (obj == WALL_STONE)
-							{
-								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-								_tileX -= 1;
-								_tileRenderX = _tileX;
-								_isMove = false;
-								_isWall = true;
-								_isTouchWall = true;
-								SOUNDMANAGER->play("dig_stone", EFFECTVOLUME);
-							}
-							else if (obj == WALL_DOOR || obj == WALL_BASIC)
-							{
-								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-								_map->setIsHaveTorch(sTileX, sTileY, false);
-								_tileX -= 1;
-								_tileRenderX = _tileX;
-								_isMove = false;
-								_isWall = true;
-								if (obj == WALL_DOOR)
-								{
-									SOUNDMANAGER->play("door_open", EFFECTVOLUME);
-								}
-								else
-								{
-									SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
-									_isTouchWall = true;
-								}
-							}
-							else if (obj == WALL_END || obj == WALL_GOLD)
-							{
-								_tileX -= 1;
-								_tileRenderX = _tileX;
-								_isMove = false;
-								_isWall = true;
-								_isTouchWall = true;
-								SOUNDMANAGER->play("dig_fail", EFFECTVOLUME);
-							}
-						}
-						else
-						{
-							if (obj == WALL_DOOR || obj == WALL_BASIC)
-							{
-								_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-								_map->setIsHaveTorch(sTileX, sTileY, false);
-								_tileX -= 1;
-								_tileRenderX = _tileX;
-								_isMove = false;
-								_isWall = true;
-								if (obj == WALL_DOOR)
-								{
-									SOUNDMANAGER->play("door_open", EFFECTVOLUME);
-								}
-								else
-								{
-									SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
-									_isTouchWall = true;
-								}
-							}
-							else if (obj == WALL_CRACK || obj == WALL_END
-								|| obj == WALL_GOLD
-								|| obj == WALL_STONE)
-							{
-								_tileX -= 1;
-								_tileRenderX = _tileX;
-								_isMove = false;
-								_isWall = true;
-								SOUNDMANAGER->play("dig_fail", EFFECTVOLUME);
-								_isTouchWall = true;
-							}
-						}
-					}
-				}
-				if (!_isWall)
-				{
-					//웨폰과 에너미의 충돌처리
-					if (_weapon->getVCollision().size() != 0)
-					{
-						if (_weapon->getWeaponName() == "rapier")
-						{
-							if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileY))
-							{
-								_attack = true;
-								_isMove = false;
-								_isRush = true;
-								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-							}
-							else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
-							{
-								_tileX -= 1;
-								_isMove = false;
-								_attack = true;
-								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-							}
-						}
-						else
-						{
-							for (int i = 0; i < _weapon->getVCollision().size(); ++i)
-							{
-								if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
-								{
-									if (_isMove)
-									{
-										_tileX -= 1;
-										_isMove = false;
-										_attack = true;
-										CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-									}
-								}
-							}
-						}
-					}
-				}
+				playerMovement(RIGHT, 1, 0);
 			}		
 		}
 		//판정 벗어났을때
@@ -486,7 +224,7 @@ void player::update()
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
-		if (/*_uiManager->getIsIntersectJudge() &&*/ !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_LEFT)) {
 				if (_foodName == "apple")
@@ -515,142 +253,7 @@ void player::update()
 			}
 			else
 			{
-				_playerDirection = UP;
-				_weapon->update();
-				_shovel->update();
-
-				if (_em->getIsCatch())
-				{
-					_attack = true;
-					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-				}
-				else
-				{
-					_tileY -= 1;
-					_isMove = true;
-
-					//삽과 벽 충돌처리
-					if (_shovel->getVCollision().size() != 0)
-					{
-						for (int i = 0; i < _shovel->getVCollision().size(); ++i)
-						{
-							int sTileX = (*(_shovel->getVCollision().begin() + i)).tileX;
-							int sTileY = (*(_shovel->getVCollision().begin() + i)).tileY;
-							OBJECT obj = _map->getTileObject(sTileX, sTileY);
-							if (_shovel->getShovelName() == "shovelTitanium")
-							{
-								if (obj == WALL_STONE)
-								{
-									_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-									_tileY += 1;
-									_isMove = false;
-									_isWall = true;
-									_isTouchWall = true;
-									SOUNDMANAGER->play("dig_stone", EFFECTVOLUME);
-								}
-								else if (obj == WALL_DOOR || obj == WALL_BASIC)
-								{
-									_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-									_map->setIsHaveTorch(sTileX, sTileY, false);
-									_tileY += 1;
-									_isMove = false;
-									_isWall = true;
-									if (obj == WALL_DOOR)
-									{
-										SOUNDMANAGER->play("door_open", EFFECTVOLUME);
-									}
-									else
-									{
-										SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
-										_isTouchWall = true;
-									}
-								}
-								else if (obj == WALL_END || obj == WALL_GOLD)
-								{
-									_tileY += 1;
-									_isMove = false;
-									_isWall = true;
-									_isTouchWall = true;
-									SOUNDMANAGER->play("dig_fail", EFFECTVOLUME);
-								}
-							}
-							else
-							{
-								if (obj == WALL_DOOR || obj == WALL_BASIC)
-								{
-									_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-									_map->setIsHaveTorch(sTileX, sTileY, false);
-									_tileY += 1;
-									_isMove = false;
-									_isWall = true;
-									if (obj == WALL_DOOR)
-									{
-										SOUNDMANAGER->play("door_open", EFFECTVOLUME);
-									}
-									else
-									{
-										SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
-										_isTouchWall = true;
-									}
-								}
-								else if (obj == WALL_CRACK || obj == WALL_END
-									|| obj == WALL_GOLD
-									|| obj == WALL_STONE)
-								{
-									_tileY += 1;
-									_isMove = false;
-									_isWall = true;
-									_isTouchWall = true;
-									SOUNDMANAGER->play("dig_fail", 0.3f);
-								}
-							}
-						}
-					}
-					if (!_isWall)
-					{
-						//웨폰과 에너미의 충돌처리
-						if (_weapon->getVCollision().size() != 0)
-						{
-							if (_weapon->getWeaponName() == "rapier")
-							{
-								if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileY))
-								{
-									_attack = true;
-									_isMove = false;
-									_isRush = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-								}
-								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
-								{
-									_tileY += 1;
-									_isMove = false;
-									_attack = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-								}
-							}
-							else
-							{
-								for (int i = 0; i < _weapon->getVCollision().size(); ++i)
-								{
-									if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
-									{
-										if (_isMove)
-										{
-											_tileY += 1;
-											_isMove = false;
-											_attack = true;
-											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-
+				playerMovement(UP, 0, -1);
 			}
 		}
 		//판정 벗어났을때
@@ -672,7 +275,7 @@ void player::update()
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-		if (/*_uiManager->getIsIntersectJudge() &&*/ !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
+		if (_uiManager->getIsIntersectJudge() && !_isMove && !_isRush && !_uiManager->getIsPlayerDead() && !_isThrowReady)
 		{
 			if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 			{
@@ -690,154 +293,9 @@ void player::update()
 					}
 				}
 			}
-
 			else
 			{
-				_playerDirection = DOWN;
-				_weapon->update();
-				_shovel->update();
-
-				if (_em->getIsCatch())
-				{
-					_attack = true;
-					CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-				}
-				else
-				{
-					_tileY += 1;
-					_tileRenderY = _tileY;
-					_isMove = true;
-
-					//삽과 벽 충돌처리
-					if (_shovel->getVCollision().size() != 0)
-					{
-						for (int i = 0; i < _shovel->getVCollision().size(); ++i)
-						{
-							int sTileX = (*(_shovel->getVCollision().begin() + i)).tileX;
-							int sTileY = (*(_shovel->getVCollision().begin() + i)).tileY;
-							OBJECT obj = _map->getTileObject(sTileX, sTileY);
-							if (_shovel->getShovelName() == "shovelTitanium")
-							{
-								if (obj == WALL_STONE)
-								{
-									_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-									_tileY -= 1;
-									_tileRenderY = _tileY;
-									_isMove = false;
-									_isWall = true;
-									_isTouchWall = true;
-									SOUNDMANAGER->play("dig_stone", 0.3f);
-								}
-								else if (obj == WALL_DOOR || obj == WALL_BASIC)
-								{
-									_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-									_map->setIsHaveTorch(sTileX, sTileY, false);
-									_tileY -= 1;
-									_tileRenderY = _tileY;
-									_isMove = false;
-									_isWall = true;
-									if (obj == WALL_DOOR)
-									{
-										SOUNDMANAGER->play("door_open", 0.3f);
-									}
-									else
-									{
-										SOUNDMANAGER->play("dig_dirt", 0.3f);
-										_isTouchWall = true;
-									}
-								}
-								else if (obj == WALL_END
-									|| obj == WALL_GOLD)
-								{
-									_tileY -= 1;
-									_tileRenderY = _tileY;
-									_isMove = false;
-									_isWall = true;
-									_isTouchWall = true;
-									SOUNDMANAGER->play("dig_fail", 0.3f);
-								}
-							}
-							else
-							{
-								if (obj == WALL_DOOR || obj == WALL_BASIC)
-								{
-									_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
-									_map->setIsHaveTorch(sTileX, sTileY, false);
-									_tileY -= 1;
-									_tileRenderY = _tileY;
-									_isMove = false;
-									_isWall = true;
-									if (obj == WALL_DOOR)
-									{
-										SOUNDMANAGER->play("door_open", 0.3f);
-									}
-									else
-									{
-										SOUNDMANAGER->play("dig_dirt", 0.3f);
-										_isTouchWall = true;
-									}
-								}
-								else if (obj == WALL_CRACK || obj == WALL_END
-									|| obj == WALL_GOLD
-									|| obj == WALL_STONE)
-								{
-									_tileY -= 1;
-									_tileRenderY = _tileY;
-									_isMove = false;
-									_isWall = true;
-									SOUNDMANAGER->play("dig_fail", 0.3f);
-									_isTouchWall = true;
-								}
-							}
-						}
-					}
-					if (!_isWall)
-					{
-						//웨폰과 에너미의 충돌처리
-						if (_weapon->getVCollision().size() != 0)
-						{
-							if (_weapon->getWeaponName() == "rapier")
-							{
-								if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileY))
-								{
-									_attack = true;
-									_isMove = false;
-									_isRush = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-								}
-								else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
-								{
-									_tileY -= 1;
-									_isMove = false;
-									_attack = true;
-									CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-								}
-							}
-							else
-							{
-								for (int i = 0; i < _weapon->getVCollision().size(); ++i)
-								{
-									if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
-									{
-										if (_isMove)
-										{
-											_tileY -= 1;
-											_isMove = false;
-											_attack = true;
-											CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			
-				
-				
+				playerMovement(DOWN, 0, 1);
 			}
 		}
 
@@ -916,7 +374,6 @@ void player::update()
 		case UP:
 			_gravity += 0.47f;
 			_y += -sinf(1 * PI / 2) * 9 + _gravity;
-			//_y -= 9;
 			_shadow.top += -sinf(1 * PI / 2) * 6;
 			_shadow.bottom = _shadow.top + IMAGEMANAGER->findImage("shadow_standard_1")->getHeight();
 			if (_shadow.top <= _tileRect.top - SHADOWMARGIN)
@@ -1073,13 +530,6 @@ void player::render(int tileX, int tileY)
 			IMAGEMANAGER->alphaFrameRender(_bodyImageName, getMemDC(), _body.left, _body.top, _currentFrameX, _currentFrameY, _alpha);
 			IMAGEMANAGER->alphaFrameRender(_headImageName, getMemDC(), _head.left, _head.top, _currentFrameX, _currentFrameY, _alpha);
 		}
-		char str[128];
-		sprintf_s(str, "bool : %d", _uiManager->getIsIntersectJudge());
-		DrawText(getMemDC(), str, strlen(str), &_shadow, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
-
-		
-
-		//_vision->render();
 	}
 	_bomb->render(tileX, tileY);
 
@@ -1087,11 +537,6 @@ void player::render(int tileX, int tileY)
 	{
 		_miss->render(getMemDC());
 	}
-}
-
-void player::render()
-{
-	_vision->render();
 }
 
 void player::damaged()
@@ -1503,6 +948,7 @@ void player::miss()
 void player::setupPlayerRect()
 {
 	_tileRect = _map->getRect(_tileX, _tileY);
+
 	//그림자 초기화
 	_shadow = RectMake(_tileRect.left,
 		_tileRect.top - SHADOWMARGIN,
@@ -1531,17 +977,210 @@ void player::setupPlayerRect()
 	CAMERAMANAGER->updateCamera((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2);
 }
 
+void player::playerMovement(PLAYER_ENEMY_DIRECTION dir, int tileXIncreseRange, int tileYIncreseRange)
+{
+	_playerDirection = dir;
+	_weapon->update();
+	_shovel->update();
+
+	//원숭이에게 잡혔을 때
+	if (_em->getIsCatch())
+	{
+		_attack = true;
+		CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+	}
+	else
+	{
+		_tileX += tileXIncreseRange;
+		_tileY += tileYIncreseRange;
+		if (dir == RIGHT || dir == LEFT)
+		{
+			_tileRenderX = _tileX;
+			_tileRenderY = _tileY;
+		}
+		_isMove = true;
+
+		//삽과 벽 충돌처리
+		if (_shovel->getVCollision().size() != 0)
+		{
+			for (int i = 0; i < _shovel->getVCollision().size(); ++i)
+			{
+				int sTileX = (*(_shovel->getVCollision().begin() + i)).tileX;
+				int sTileY = (*(_shovel->getVCollision().begin() + i)).tileY;
+				OBJECT obj = _map->getTileObject(sTileX, sTileY);
+				if (_shovel->getShovelName() == "shovelTitanium")
+				{
+					if (obj == WALL_STONE)
+					{
+						_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+						_map->setIsHaveTorch(sTileX, sTileY, false);
+						CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+						_tileX -= tileXIncreseRange;
+						_tileY -= tileYIncreseRange;
+						if (dir == RIGHT || dir == LEFT)
+						{
+							_tileRenderX = _tileX;
+							_tileRenderY = _tileY;
+						}
+						_isMove = false;
+						_isWall = true;
+						_isTouchWall = true;
+						SOUNDMANAGER->play("dig_stone", EFFECTVOLUME);
+					}
+					else if (obj == WALL_DOOR || obj == WALL_BASIC)
+					{
+						_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+						CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+						_map->setIsHaveTorch(sTileX, sTileY, false);
+						_tileX -= tileXIncreseRange;
+						_tileY -= tileYIncreseRange;
+						if (dir == RIGHT || dir == LEFT)
+						{
+							_tileRenderX = _tileX;
+							_tileRenderY = _tileY;
+						}
+						_isMove = false;
+						_isWall = true;
+						if (obj == WALL_DOOR)
+						{
+							SOUNDMANAGER->play("door_open", EFFECTVOLUME);
+						}
+						else
+						{
+							SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
+							_isTouchWall = true;
+						}
+					}
+					else if (obj == WALL_END || obj == WALL_GOLD)
+					{
+						_tileX -= tileXIncreseRange;
+						_tileY -= tileYIncreseRange;
+						if (dir == RIGHT || dir == LEFT)
+						{
+							_tileRenderX = _tileX;
+							_tileRenderY = _tileY;
+						}
+						_isMove = false;
+						_isWall = true;
+						_isTouchWall = true;
+						SOUNDMANAGER->play("dig_fail", EFFECTVOLUME);
+					}
+				}
+				else
+				{
+					if (obj == WALL_DOOR || obj == WALL_BASIC)
+					{
+						_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+						CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
+						_map->setIsHaveTorch(sTileX, sTileY, false);
+						_tileX -= tileXIncreseRange;
+						_tileY -= tileYIncreseRange;
+						if (dir == RIGHT || dir == LEFT)
+						{
+							_tileRenderX = _tileX;
+							_tileRenderY = _tileY;
+						}
+						_isMove = false;
+						_isWall = true;
+						if (obj == WALL_DOOR)
+						{
+							SOUNDMANAGER->play("door_open", EFFECTVOLUME);
+						}
+						else
+						{
+							SOUNDMANAGER->play("dig_dirt", EFFECTVOLUME);
+							_isTouchWall = true;
+						}
+					}
+					else if (obj == WALL_CRACK || obj == WALL_END
+						|| obj == WALL_GOLD
+						|| obj == WALL_STONE)
+					{
+						_tileX -= tileXIncreseRange;
+						_tileY -= tileYIncreseRange;
+						if (dir == RIGHT || dir == LEFT)
+						{
+							_tileRenderX = _tileX;
+							_tileRenderY = _tileY;
+						}
+						_isMove = false;
+						_isWall = true;
+						_isTouchWall = true;
+						SOUNDMANAGER->play("dig_fail", 0.3f);
+					}
+				}
+			}
+		}
+		if (!_isWall)
+		{
+			//웨폰과 에너미의 충돌처리
+			if (_weapon->getVCollision().size() != 0)
+			{
+				if (_weapon->getWeaponName() == "rapier")
+				{
+					if (!_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY) && _map->getIsEnemy(_weapon->getVCollision()[1].tileX, _weapon->getVCollision()[1].tileY))
+					{
+						_attack = true;
+						_isMove = false;
+						_isRush = true;
+						CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+						_weapon->setCollisionIndex(1);
+					}
+					else if (_map->getIsEnemy(_weapon->getVCollision()[0].tileX, _weapon->getVCollision()[0].tileY))
+					{
+						_tileX -= tileXIncreseRange;
+						_tileY -= tileYIncreseRange;
+						if (dir == RIGHT || dir == LEFT)
+						{
+							_tileRenderX = _tileX;
+							_tileRenderY = _tileY;
+						}
+						_isMove = false;
+						_attack = true;
+						CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+						_weapon->setCollisionIndex(0);
+					}
+				}
+				else
+				{
+					for (int i = 0; i < _weapon->getVCollision().size(); ++i)
+					{
+						if (_map->getIsEnemy((*(_weapon->getVCollision().begin() + i)).tileX, (*(_weapon->getVCollision().begin() + i)).tileY))
+						{
+							if (_isMove)
+							{
+								_tileX -= tileXIncreseRange;
+								_tileY -= tileYIncreseRange;
+								if (dir == RIGHT || dir == LEFT)
+								{
+									_tileRenderX = _tileX;
+									_tileRenderY = _tileY;
+								}
+								_isMove = false;
+								_attack = true;
+								CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+							}
+							_weapon->setCollisionIndex(i);
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 void player::renderShovelEffect(int tileX, int tileY)
 {
 	if (_isTouchWall && tileX == _shovel->getVCollision()[0].tileX && tileY == _shovel->getVCollision()[0].tileY)
 	{
 		if (_shovel->getShovelName() == "shovelTitanium")
 		{
-			IMAGEMANAGER->findImage("shovelTitanium")->frameRender(getMemDC(), _shovel->getVCollision()[0].rc.left, _shovel->getVCollision()[0].rc.top - (TILESIZE * 5) / 8, 0, 0);
+			IMAGEMANAGER->findImage("shovelTitaniumEffect")->frameRender(getMemDC(), _shovel->getVCollision()[0].rc.left, _shovel->getVCollision()[0].rc.top - (TILESIZE * 5) / 8, 0, _currentFrameY);
 		}
 		else
 		{
-			IMAGEMANAGER->findImage("shovelBasic")->frameRender(getMemDC(), _shovel->getVCollision()[0].rc.left, _shovel->getVCollision()[0].rc.top - (TILESIZE * 5) / 8, 0, 0);
+			IMAGEMANAGER->findImage("shovelBasicEffect")->frameRender(getMemDC(), _shovel->getVCollision()[0].rc.left, _shovel->getVCollision()[0].rc.top - (TILESIZE * 5) / 8, 0, _currentFrameY);
 		}
 	}
 }

@@ -487,6 +487,78 @@ void mapGenerator::render(int tileX, int tileY, bool isTile)
 				(_tiles[tileY][tileX].itemRect.left + _tiles[tileY][tileX].itemRect.right) / 2 - IMAGEMANAGER->findImage("cheese")->getFrameWidth() / 2,
 				(_tiles[tileY][tileX].itemRect.bottom + _tiles[tileY][tileX].itemRect.top) / 2 - IMAGEMANAGER->findImage("cheese")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
 			break;
+		case MAP_COIN1:
+			IMAGEMANAGER->frameRender("coin1", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin1")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin1")->getFrameHeight() / 2, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("coin1", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin1")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin1")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+			break;
+		case MAP_COIN2:
+			IMAGEMANAGER->frameRender("coin2", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin2")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin2")->getFrameHeight() / 2, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("coin2", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin2")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin2")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+			break;
+		case MAP_COIN3:
+			IMAGEMANAGER->frameRender("coin3", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin3")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin3")->getFrameHeight() / 2, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("coin3", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin3")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin3")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+			break;
+		case MAP_COIN4:
+			IMAGEMANAGER->frameRender("coin4", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin4")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin4")->getFrameHeight() / 2, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("coin4", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin4")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin4")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+			break;
+		case MAP_COIN5:
+			IMAGEMANAGER->frameRender("coin5", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin5")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin5")->getFrameHeight() / 2, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("coin5", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin5")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin5")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+			break;
+		case MAP_COIN6:
+			IMAGEMANAGER->frameRender("coin6", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin6")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin6")->getFrameHeight() / 2, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("coin6", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin6")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin6")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+			break;
+		case MAP_COIN7:
+			IMAGEMANAGER->frameRender("coin7", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin7")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin7")->getFrameHeight() / 2, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("coin7", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin7")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin7")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+			break;
+		case MAP_COIN8:
+			IMAGEMANAGER->frameRender("coin8", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin8")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin8")->getFrameHeight() / 2, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("coin8", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin8")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin8")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+			break;
+		case MAP_COIN9:
+			IMAGEMANAGER->frameRender("coin9", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin9")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin9")->getFrameHeight() / 2, 0, 0);
+			IMAGEMANAGER->alphaFrameRender("coin9", getMemDC(),
+				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin9")->getFrameWidth() / 2,
+				(_tiles[tileY][tileX].rc.bottom + _tiles[tileY][tileX].rc.top) / 2 - IMAGEMANAGER->findImage("coin9")->getFrameHeight() / 2, 0, 1, 255 - _tiles[tileY][tileX].alpha);
+			break;
 		case MAP_COIN10:
 			IMAGEMANAGER->frameRender("coin10", getMemDC(),
 				(_tiles[tileY][tileX].rc.left + _tiles[tileY][tileX].rc.right) / 2 - IMAGEMANAGER->findImage("coin10")->getFrameWidth() / 2,
@@ -1401,7 +1473,6 @@ bool mapGenerator::makeShop(int x, int y, ROOM_DIRECTION dir)
 			_tiles[y][x].objectFrameX = 4;
 		}
 		return true;
-		return true;
 	}
 	return false;
 }
@@ -2193,7 +2264,7 @@ void mapGenerator::testObject()
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].objectFrameY = 0;
 	
 */
-	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].item = MAP_BOMB;
+	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].item = MAP_TITANUM_SHOVEL;
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 1].itemDirection = UP;
 
 	_tiles[_rooms[_startRoomIndex].y + 1][_rooms[_startRoomIndex].x + 2].item = MAP_CHEESE;
@@ -2214,7 +2285,7 @@ void mapGenerator::testObject()
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 2].item = MAP_RAPIER;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 2].itemDirection = UP;
 									   
-	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].item = MAP_TITANUM_SHOVEL;
+	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].item = MAP_LONGSWORD;
 	_tiles[_rooms[_startRoomIndex].y + 3][_rooms[_startRoomIndex].x + 3].itemDirection = UP;
 
 }
@@ -2259,8 +2330,8 @@ void mapGenerator::settingItemBox()
 		int y = RND->getFromIntTo(_rooms[roomNum].y - 1, _rooms[roomNum].y + _rooms[roomNum].height + 1);
 		if (_tiles[y][x].obj == OBJ_NONE)
 		{
-			_tiles[y][x].obj = (OBJECT)(17+count);
-			if (17 + count == 17)
+			_tiles[y][x].obj = (OBJECT)(15+count);
+			if (15+ count == 15)
 			{
 				_redBoxRoomNum = roomNum;
 			}

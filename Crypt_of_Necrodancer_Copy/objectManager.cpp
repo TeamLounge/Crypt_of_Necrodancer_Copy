@@ -263,6 +263,7 @@ void objectManager::playerItemCollision()
 		}
 		_player->getVision()->setStartLightNum(BASICVISION + 1);
 		torchName = "torch_plus_1";
+		SOUNDMANAGER->play("pickup_general", 0.6f);
 		break;
 	case MAP_TORCH_PLUS_2:
 		if (_player->getVision()->getStartLightNum() == BASICVISION)
@@ -282,9 +283,7 @@ void objectManager::playerItemCollision()
 		}
 		_player->getVision()->setStartLightNum(BASICVISION + 2);
 		torchName = "torch_plus_2";
-		break;
-	case MAP_TITANUM_SHOVEL:
-
+		SOUNDMANAGER->play("pickup_general", 0.6f);
 		break;
 	case MAP_LEATHER_ARMOR:
 		if (_player->getBodyImageName() == "player_body_basic")
@@ -304,6 +303,7 @@ void objectManager::playerItemCollision()
 		}
 		_player->setBodyImageName("player_body_leather");
 		bodyName = "leather_armor";
+		SOUNDMANAGER->play("pickup_armor", 0.6f);
 		break;
 	case MAP_CHAIN_ARMOR:
 		if (_player->getBodyImageName() == "player_body_basic")
@@ -323,25 +323,8 @@ void objectManager::playerItemCollision()
 		}
 		_player->setBodyImageName("player_body_chain");
 		bodyName = "chain_armor";
-		break;
-	case MAP_DAGGER:
 
-		break;
-	case MAP_BROADSWORD:
-
-		break;
-
-	case MAP_RAPIER:
-		
-		break;
-	case MAP_LONGSWORD:
-		
-		break;
-	case MAP_SPEAR:
-
-		break;
-	case MAP_BOMB:
-
+		SOUNDMANAGER->play("pickup_armor", 0.6f);
 		break;
 	case MAP_APPLE:
 		if (foodName == "food_none")
@@ -364,6 +347,7 @@ void objectManager::playerItemCollision()
 
 		foodName = "apple";
 		_player->setFoodName("apple");
+		SOUNDMANAGER->play("pickup_general", 0.6f);
 		break;
 	case MAP_CHEESE:
 		if (foodName == "food_none")
@@ -386,10 +370,57 @@ void objectManager::playerItemCollision()
 
 		foodName = "cheese";
 		_player->setFoodName("cheese");
+		SOUNDMANAGER->play("pickup_general", 0.6f);
+		break;
+	case MAP_COIN1:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(1, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN2:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(2, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN3:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(3, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN4:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(4, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN5:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(5, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN6:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(6, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN7:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(7, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN8:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(8, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN9:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(9, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
 		break;
 	case MAP_COIN10:
 		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
 		_UIM->updateMoneyNumber(10, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
 	default:
 		break;
 	}

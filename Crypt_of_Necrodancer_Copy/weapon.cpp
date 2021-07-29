@@ -57,6 +57,8 @@ HRESULT weapon::init()
 	_weaponType = new dagger();
 	_weaponType->enter(this);
 
+	_collisionIndex = 0;
+
 	ZeroMemory(&_collision, sizeof(COLLISION));
 
 	UIMANAGER->addUI("weapon", _weapon.imageName.c_str(), &_weapon.x, &_weapon.y);

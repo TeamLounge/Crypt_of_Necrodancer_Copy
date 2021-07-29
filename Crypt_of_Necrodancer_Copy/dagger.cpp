@@ -20,11 +20,13 @@ weaponType * dagger::inputHandle(weapon* weapon)
 	case MAP_SPEAR:
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_DAGGER);
 		weapon->_UIM->minusItemHUD(THROW);
+		SOUNDMANAGER->play("pickup_weapon", 0.6f);
 		return new spear();
 		break;
 	case MAP_BROADSWORD:
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_DAGGER);
 		weapon->_UIM->minusItemHUD(THROW);
+		SOUNDMANAGER->play("pickup_weapon", 0.6f);
 		return new broadSword();
 		break;
 	case MAP_DAGGER:
@@ -34,11 +36,13 @@ weaponType * dagger::inputHandle(weapon* weapon)
 	case MAP_LONGSWORD:
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_DAGGER);
 		weapon->_UIM->minusItemHUD(THROW);
+		SOUNDMANAGER->play("pickup_weapon", 0.6f);
 		return new longSword();
 		break;
 	case MAP_RAPIER:
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_DAGGER);
 		weapon->_UIM->minusItemHUD(THROW);
+		SOUNDMANAGER->play("pickup_weapon", 0.6f);
 		return new rapier();
 		break;
 	}
