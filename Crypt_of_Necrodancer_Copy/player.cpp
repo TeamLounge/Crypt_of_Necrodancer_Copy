@@ -826,6 +826,7 @@ void player::miss()
 void player::setupPlayerRect()
 {
 	_tileRect = _map->getRect(_tileX, _tileY);
+
 	//그림자 초기화
 	_shadow = RectMake(_tileRect.left,
 		_tileRect.top - SHADOWMARGIN,
@@ -890,6 +891,7 @@ void player::playerMovement(PLAYER_ENEMY_DIRECTION dir, int tileXIncreseRange, i
 					if (obj == WALL_STONE)
 					{
 						_map->setTileObject(sTileX, sTileY, OBJ_NONE, 0, 0);
+						_map->setIsHaveTorch(sTileX, sTileY, false);
 						CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 20.0f);
 						_tileX -= tileXIncreseRange;
 						_tileY -= tileYIncreseRange;

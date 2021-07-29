@@ -191,6 +191,15 @@ void playGround::addImage()
 	IMAGEMANAGER->addImage("shadow_standard_2", "image/player/shadow_standard2.bmp", 72, 81, true, RGB(255, 0, 255), true);//검은색 짝대기
 
 	//coin
+	IMAGEMANAGER->addFrameImage("coin1", "image/item/coin/coin1.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin2", "image/item/coin/coin2.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin3", "image/item/coin/coin3.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin4", "image/item/coin/coin4.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin5", "image/item/coin/coin5.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin6", "image/item/coin/coin6.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin7", "image/item/coin/coin7.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin8", "image/item/coin/coin8.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addFrameImage("coin9", "image/item/coin/coin9.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addFrameImage("coin10", "image/item/coin/coin10.bmp", 72, 144, 1, 2, true, RGB(255, 0, 255), true);
 
 	//shopkeeper
@@ -216,4 +225,6 @@ void playGround::addSoundEffect()
 	SOUNDMANAGER->addSound("bomb_lit", "sound_effect/sfx_bomb_lit.ogg", false, false);
 	SOUNDMANAGER->addSound("bomb_explode", "sound_effect/sfx_bomb_explode.ogg", false, false);
 	SOUNDMANAGER->addSound("trap_bounce", "sound_effect/obj_trap_bounce.ogg", false, false);
+	SOUNDMANAGER->addSound("pickup_weapon", "sound_effect/sfx_pickup_weapon.ogg", false, false);
+	SOUNDMANAGER->addSound("pickup_gold", "sound_effect/sfx_pickup_gold_01.ogg", false, false);
 }

@@ -144,6 +144,12 @@ void enemyManager::updateWhiteSkeleton()
 		{
 			//에너미 map에 없애주고
 			_map->setIsEnemy((*_viWitheSkeleton)->getX(), (*_viWitheSkeleton)->getY(), false);
+
+			if (!_isboss)
+			{
+				//코인 떨어뜨려주고
+				_map->setTileItem((*_viWitheSkeleton)->getX(), (*_viWitheSkeleton)->getY(), MAP_COIN3);
+			}
 			//이거 삭제!
 			_viWitheSkeleton = _vWitheSkeleton.erase(_viWitheSkeleton);
 			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
@@ -217,9 +223,16 @@ void enemyManager::updateGreenSkeleton()
 		{
 			//에너미 map에 없애주고
 			_map->setIsEnemy((*_viGreenSkeleton)->getX(), (*_viGreenSkeleton)->getY(), false);
+
+			//코인 떨구고
+			if (!_isboss)
+			{
+				_map->setTileItem((*_viGreenSkeleton)->getX(), (*_viGreenSkeleton)->getY(), MAP_COIN6);
+			}
 			//이거 삭제!
 			_viGreenSkeleton = _vGreenSkeleton.erase(_viGreenSkeleton);
 			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
+
 		}
 		else
 		{
@@ -288,6 +301,13 @@ void enemyManager::updateBlackSkeleton()
 		{
 			//에너미 map에 없애주고
 			_map->setIsEnemy((*_viBlackSkeleton)->getX(), (*_viBlackSkeleton)->getY(), false);
+
+			if (!_isboss)
+			{
+				//코인 떨구기
+				_map->setTileItem((*_viBlackSkeleton)->getX(), (*_viBlackSkeleton)->getY(), MAP_COIN8);
+			}
+
 			//이거 삭제!
 			_viBlackSkeleton = _vBlackSkeleton.erase(_viBlackSkeleton);
 			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
@@ -358,6 +378,13 @@ void enemyManager::updateSlimeGreen()
 		{
 			//에너미 map에 없애주고
 			_map->setIsEnemy((*_viSlimeGreen)->getTileX(), (*_viSlimeGreen)->getTileY(), false);
+			
+			if (!_isboss)
+			{
+				//코인 떨구기
+				_map->setTileItem((*_viSlimeGreen)->getTileX(), (*_viSlimeGreen)->getTileY(), MAP_COIN3);
+			}
+			
 			//이거 삭제!
 			_viSlimeGreen = _vSlimeGreen.erase(_viSlimeGreen);
 			//타일 반짝이게
@@ -430,6 +457,12 @@ void enemyManager::updateSlimeGold()
 		{
 			//에너미 map에 없애주고
 			_map->setIsEnemy((*_viSlimeGold)->getTileX(), (*_viSlimeGold)->getTileY(), false);
+
+			if (!_isboss)
+			{
+				//코인 떨어뜨리기
+				_map->setTileItem((*_viSlimeGold)->getTileX(), (*_viSlimeGold)->getTileY(), MAP_COIN3);
+			}
 			//이거 삭제!
 			_viSlimeGold = _vSlimeGold.erase(_viSlimeGold);
 
@@ -505,11 +538,19 @@ void enemyManager::updateSlimeBlue()
 		{
 			//에너미 map에 없애주고
 			_map->setIsEnemy((*_viSlimeBlue)->getTileX(), (*_viSlimeBlue)->getTileY(), false);
+
+			if(!_isboss)
+			{
+				//코인 떨어뜨리기
+				_map->setTileItem((*_viSlimeBlue)->getTileX(), (*_viSlimeBlue)->getTileY(), MAP_COIN6);
+			}
+
 			//이거 삭제!
 			_viSlimeBlue = _vSlimeBlue.erase(_viSlimeBlue);
 
 			//타일 반짝이게
 			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
+
 		}
 		else
 		{
@@ -585,11 +626,20 @@ void enemyManager::updateGhost()
 		{
 			//에너미 map에 없애주고
 			_map->setIsEnemy((*_viGhost)->getX(), (*_viGhost)->getY(), false);
+
+			if (!_isboss)
+			{
+				//코인 떨어뜨리기
+				_map->setTileItem((*_viGhost)->getX(), (*_viGhost)->getY(), MAP_COIN2);
+			}
+
 			//이거 삭제!
 			_viGhost = _vGhost.erase(_viGhost);
 
 			//타일 반짝이게
 			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
+
+			
 		}
 		else
 		{
@@ -657,6 +707,13 @@ void enemyManager::updateMimic()
 		{
 			//에너미 map에 없애주고
 			_map->setIsEnemy((*_viMimic)->getX(), (*_viMimic)->getY(), false);
+
+			if (!_isboss)
+			{
+				//코인 떨어뜨리기
+				_map->setTileItem((*_viMimic)->getX(), (*_viMimic)->getY(), MAP_COIN2);
+			}
+
 			//이거 삭제!
 			_viMimic = _vMimic.erase(_viMimic);
 
@@ -739,10 +796,18 @@ void enemyManager::updateMonkeyBasic()
 		if ((*_viMonkeyBasic)->getHp() == 0)
 		{
 			_map->setIsEnemy((*_viMonkeyBasic)->getX(), (*_viMonkeyBasic)->getY(), false);
+
+			if (!_isboss)
+			{
+				//코인 떨어뜨리기
+				_map->setTileItem((*_viMonkeyBasic)->getX(), (*_viMonkeyBasic)->getY(), MAP_COIN2);
+			}
+
 			_viMonkeyBasic = _vMonkeyBasic.erase(_viMonkeyBasic);
 
 			//타일 반짝이게
 			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
+
 		}
 		else
 		{
@@ -868,10 +933,19 @@ void enemyManager::updateMinotaur()
 		if ((*_viMinotaur)->getHp() == 0)
 		{
 			_map->setIsEnemy((*_viMinotaur)->getX(), (*_viMinotaur)->getY(), false);
+
+			if (!_isboss)
+			{
+				//코인 떨어뜨리기
+				_map->setTileItem((*_viMinotaur)->getX(), (*_viMinotaur)->getY(), MAP_COIN10);
+			}
+
 			_viMinotaur = _vMinotaur.erase(_viMinotaur);
 
 			//타일 반짝이게
 			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
+
+			
 		}
 		else
 		{
@@ -936,10 +1010,19 @@ void enemyManager::updateZombie()
 		if ((*_viZombie)->getHp() == 0)
 		{
 			_map->setIsEnemy((*_viZombie)->getTileX(), (*_viZombie)->getTileY(), false);
+
+			if (!_isboss)
+			{
+				//코인 떨어뜨리기
+				_map->setTileItem((*_viZombie)->getTileX(), (*_viZombie)->getTileY(), MAP_COIN3);
+			}
+
 			_viZombie = _vZombie.erase(_viZombie);
 
 			//타일 반짝이게
 			_map->setTileFrameY(_player->getTileX(), _player->getTileY(), 1);
+
+			
 		}
 		else
 		{
@@ -1004,6 +1087,13 @@ void enemyManager::updateRedDragon()
 		if ((*_viRedDragon)->getHp() == 0)
 		{
 			_map->setIsEnemy((*_viRedDragon)->getX(), (*_viRedDragon)->getY(), false);
+
+			if (!_isboss)
+			{
+				//코인 떨어뜨리기
+				_map->setTileItem((*_viRedDragon)->getX(), (*_viRedDragon)->getY(), MAP_COIN10);
+			}
+
 			_viRedDragon = _vRedDragon.erase(_viRedDragon);
 
 			//타일 반짝이게

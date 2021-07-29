@@ -380,9 +380,55 @@ void objectManager::playerItemCollision()
 
 		foodName = "cheese";
 		break;
+	case MAP_COIN1:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(1, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN2:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(2, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN3:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(3, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN4:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(4, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN5:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(5, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN6:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(6, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN7:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(7, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN8:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(8, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
+	case MAP_COIN9:
+		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
+		_UIM->updateMoneyNumber(9, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
+		break;
 	case MAP_COIN10:
 		_map->setTileItem(playerTileX, playerTileY, MAP_ITEM_NONE);
 		_UIM->updateMoneyNumber(10, false);
+		SOUNDMANAGER->play("pickup_gold", 0.6f);
 	default:
 		break;
 	}

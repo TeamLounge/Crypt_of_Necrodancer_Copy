@@ -18,19 +18,23 @@ weaponType * rapier::inputHandle(weapon * weapon)
 		break;
 	case MAP_SPEAR:
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_RAPIER);
+		SOUNDMANAGER->play("pickup_weapon", 0.6f);
 		return new spear();
 		break;
 	case MAP_BROADSWORD:
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_RAPIER);
+		SOUNDMANAGER->play("pickup_weapon", 0.6f);
 		return new broadSword();
 		break;
 	case MAP_DAGGER:
 		weapon->_player->setIsThrow(false);
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_RAPIER);
+		SOUNDMANAGER->play("pickup_weapon", 0.6f);
 		return new dagger();
 		break;
 	case MAP_LONGSWORD:
 		weapon->_map->setTileItem(weapon->_player->getTileX(), weapon->_player->getTileY(), MAP_RAPIER);
+		SOUNDMANAGER->play("pickup_weapon", 0.6f);
 		return new longSword();
 		break;
 	case MAP_RAPIER:
