@@ -319,25 +319,6 @@ void objectManager::playerItemCollision()
 		_player->setBodyImageName("player_body_chain");
 		bodyName = "chain_armor";
 		break;
-	case MAP_DAGGER:
-
-		break;
-	case MAP_BROADSWORD:
-
-		break;
-
-	case MAP_RAPIER:
-		
-		break;
-	case MAP_LONGSWORD:
-		
-		break;
-	case MAP_SPEAR:
-
-		break;
-	case MAP_BOMB:
-
-		break;
 	case MAP_APPLE:
 		if (foodName == "food_none")
 		{
