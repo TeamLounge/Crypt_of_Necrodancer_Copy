@@ -43,6 +43,8 @@ private:
 	bool _isThrow; //던졌어??
 	bool _isThrowReady; //던질준비됐어?
 
+	bool _isHurtSoundOn; //맞는소리 냈어?
+
 	mapGenerator* _map;
 	
 	vision* _vision;
@@ -91,6 +93,8 @@ public:
 
 	void damaged();
 	void miss();
+	void attackSound();
+	void hurtSound();
 
 	PLAYER_ENEMY_DIRECTION getDirection() { return _playerDirection; }
 	void setDirection(PLAYER_ENEMY_DIRECTION dir) { _playerDirection = dir; }

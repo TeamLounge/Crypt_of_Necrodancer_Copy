@@ -50,6 +50,7 @@ HRESULT player::init()
 	_isMiss = false;
 	_isThrow = false;
 	_isThrowReady = false;
+	_isHurtSoundOn = false;
 
 	return S_OK;
 }
@@ -292,16 +293,15 @@ void player::update()
 		{
 			_isMiss = true;
 			_map->setTileFrameY(_tileX, _tileY, 0);
+			SOUNDMANAGER->play("miss_beat");
 		}
 
 		//던질준비가 되었다면 던져라
 		else if (_isThrowReady)
 		{
 			_playerDirection = LEFT;
-			_uiManager->minusItemHUD(PRESS);
-			_uiManager->minusItemHUD(THROW);
 			_isThrow = true;
-			_isThrowReady = false;
+			SOUNDMANAGER->play("throw");
 		}
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
@@ -455,6 +455,7 @@ void player::update()
 		{
 			_isMiss = true;
 			_map->setTileFrameY(_tileX, _tileY, 0);
+			SOUNDMANAGER->play("miss_beat");
 		}
 
 		//던질준비가 되었다면 던져라
@@ -462,9 +463,7 @@ void player::update()
 		{
 			_playerDirection = RIGHT;
 			_isThrow = true;
-			_uiManager->minusItemHUD(PRESS);
-			_uiManager->minusItemHUD(THROW);
-			_isThrowReady = false;
+			SOUNDMANAGER->play("throw");
 		}
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_UP))
@@ -627,6 +626,7 @@ void player::update()
 		{
 			_isMiss = true;
 			_map->setTileFrameY(_tileX, _tileY, 0);
+			SOUNDMANAGER->play("miss_beat");
 		}
 
 		//던질준비가 되었다면 던져라
@@ -634,9 +634,7 @@ void player::update()
 		{
 			_playerDirection = UP;
 			_isThrow = true;
-			_uiManager->minusItemHUD(PRESS);
-			_uiManager->minusItemHUD(THROW);
-			_isThrowReady = false;
+			SOUNDMANAGER->play("throw");
 		}
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
@@ -815,6 +813,7 @@ void player::update()
 		{
 			_isMiss = true;
 			_map->setTileFrameY(_tileX, _tileY, 0);
+			SOUNDMANAGER->play("miss_beat");
 		}
 
 		//던질준비가 되었다면 던져라
@@ -822,9 +821,7 @@ void player::update()
 		{
 			_playerDirection = DOWN;
 			_isThrow = true;
-			_uiManager->minusItemHUD(PRESS);
-			_uiManager->minusItemHUD(THROW);
-			_isThrowReady = false;
+			SOUNDMANAGER->play("throw");
 		}
 	}
 	_tileRect = _map->getRect(_tileX, _tileY);
@@ -1026,6 +1023,8 @@ void player::update()
 	_bomb->update();
 	damaged();
 	miss();
+	attackSound();
+	hurtSound();
 }
 
 
@@ -1088,6 +1087,7 @@ void player::damaged()
 			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVBlackSkeleton().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			_isHurtSoundOn = true;
 			break;
 		}
 	}
@@ -1112,6 +1112,7 @@ void player::damaged()
 			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVWitheSkeleton().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			_isHurtSoundOn = true;
 			break;
 		}
 	}
@@ -1136,6 +1137,7 @@ void player::damaged()
 			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVGreenSkeleton().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			_isHurtSoundOn = true;
 			break;
 		}
 	}
@@ -1163,6 +1165,7 @@ void player::damaged()
 			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVSlimeBlue().begin() + i))->setAttack(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			_isHurtSoundOn = true;
 			break;
 		}
 	}
@@ -1191,6 +1194,7 @@ void player::damaged()
 			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVSlimeBlue().begin() + i))->setAttack(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			_isHurtSoundOn = true;
 			break;
 		}
 	}
@@ -1215,6 +1219,7 @@ void player::damaged()
 			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVSlimeGold().begin() + i))->setAttack(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			_isHurtSoundOn = true;
 			break;
 		}
 	}
@@ -1241,6 +1246,7 @@ void player::damaged()
 			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVZombie().begin() + i))->setAttack(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			_isHurtSoundOn = true;
 			break;
 		}
 	}
@@ -1269,6 +1275,7 @@ void player::damaged()
 			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVGhost().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			_isHurtSoundOn = true;
 			break;
 		}
 	}
@@ -1296,6 +1303,7 @@ void player::damaged()
 			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVMimic().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			_isHurtSoundOn = true;
 			break;
 		}
 	}
@@ -1323,6 +1331,7 @@ void player::damaged()
 			_map->setTileFrameY(_tileX, _tileY, 0);
 			(*(_em->getVRedDragon().begin() + i))->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			_isHurtSoundOn = true;
 			break;
 		}
 	}
@@ -1350,6 +1359,7 @@ void player::damaged()
 			_map->setTileFrameY(_tileX, _tileY, 0);
 			_em->getDeathMetal()->setAttck(false);
 			CAMERAMANAGER->vibrateScreen((_shadow.left + _shadow.right) / 2, (_shadow.top + _shadow.bottom) / 2, 25.0f);
+			_isHurtSoundOn = true;
 		}
 	}
 }
@@ -1375,6 +1385,23 @@ void player::miss()
 	if (_missRange / TIMEMANAGER->getElapsedTime() < -200)
 	{
 		_isMiss = false;
+	}
+}
+
+void player::attackSound()
+{
+	if (_attack)
+	{
+		SOUNDMANAGER->play("attackVoice4", EFFECTVOLUME);
+	}
+}
+
+void player::hurtSound()
+{
+	if (_isAttacked && _isHurtSoundOn && !_uiManager->getIsPlayerDead())
+	{
+		SOUNDMANAGER->play("player_hurt", EFFECTVOLUME);
+		_isHurtSoundOn = false;
 	}
 }
 

@@ -7,3 +7,5 @@
 #include "rapier.h"
 #include "mapGenerator.h"
 #include "UIManager.h"
+#include "enemyManager.h"
+#include "throwDagger.h"

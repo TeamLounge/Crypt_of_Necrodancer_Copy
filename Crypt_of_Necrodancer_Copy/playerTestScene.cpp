@@ -31,6 +31,8 @@ HRESULT playerTestScene::init()
 	_UIM->setItemHUD();
 	_UIM->setMoney();
 	_UIM->setMoneyNumber();
+	_UIM->setDiamond();
+	_UIM->setDiaNumber();
 
 	//오브젝트
 	_objectManager = new objectManager;
@@ -41,8 +43,8 @@ HRESULT playerTestScene::init()
 	_objectManager->getBomb()->setBombMapMemoryAddressLink(_map);
 
 	//사운드 플레이
-	SOUNDMANAGER->play("zone1-1", 0.2f);
-	SOUNDMANAGER->play("zone1-1_shopkeeper", 0.2f);
+	SOUNDMANAGER->play("zone1-1", 0.4f);
+	SOUNDMANAGER->play("zone1-1_shopkeeper", 0.4f);
 	SOUNDMANAGER->setGroup("zone1-1");
 	SOUNDMANAGER->setGroup("zone1-1_shopkeeper");
 
@@ -80,6 +82,8 @@ HRESULT playerTestScene::init()
 	_player->setPlayerUIMemoryAddressLink(_UIM);
 	_player->setEmMemoryAddressLink(_em);
 
+	_weapon->setEMMemoryAddressLink(_em);
+
 	return S_OK;
 }
 
@@ -93,18 +97,21 @@ void playerTestScene::update()
 	_player->update();
 	_UIM->updateItemHUD();
 	//RENDERMANAGER->update();
+	_weapon->update();
 	_em->update();
 	_UIM->updateHeartBeat();
 	_UIM->plusItemHUD(BOMB);
 	_UIM->updateHeart();
+	_UIM->updateDiamond();
+	_UIM->updateDiaNumber(0, false);
 
 	_objectManager->update();
-	_weapon->update();
 	_shovel->update();
 
 	_shopkeeper->update();
 	_UIM->updateMoney();
 	_UIM->updateMoneyNumber(0, false);
+
 }
 
 void playerTestScene::render()
@@ -140,6 +147,8 @@ void playerTestScene::render()
 	_player->getBomb()->render();		//폭발 했을 때
 	_UIM->renderMoney();
 	_UIM->renderMoneyNumber();
+	_UIM->renderDiamond();
+	_UIM->renderDiaNumber();	
 
 	if (_UIM->getIsPlayerDead())
 	{

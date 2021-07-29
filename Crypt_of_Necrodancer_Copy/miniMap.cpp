@@ -16,6 +16,7 @@ HRESULT miniMap::init()
 	IMAGEMANAGER->addImage("minimap_wall_gold", "image/minimap/minimap_wall_gold.bmp", 6, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("minimap_wall_stone", "image/minimap/minimap_wall_stone.bmp", 6, 6, true, RGB(255, 0, 255));
 	_miniMapBuffer = new image;
+	_miniMapBuffer->init(0, 0);
 	return S_OK;
 }
 

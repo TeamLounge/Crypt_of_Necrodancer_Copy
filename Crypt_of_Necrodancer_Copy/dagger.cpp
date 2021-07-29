@@ -7,9 +7,17 @@
 #include "player.h"
 #include "rapier.h"
 #include "UIManager.h"
+#include "throwDagger.h"
+#include "enemyManager.h"
+#include "throwDagger.h"
 
 weaponType * dagger::inputHandle(weapon* weapon)
 {
+	if (weapon->_player->getIsThrow())
+	{
+		return new throwDagger();
+	}
+
 	if (weapon->_player->getTileX() == weapon->_playerBeforeX && weapon->_player->getTileY() == weapon->_playerBeforeY) return nullptr;
 
 	switch (weapon->_map->getTileItem(weapon->_player->getTileX(), weapon->_player->getTileY()))
@@ -48,175 +56,121 @@ weaponType * dagger::inputHandle(weapon* weapon)
 
 void dagger::update(weapon* weapon)
 {
-	//스로우가 아닐때
-	if (!weapon->_player->getIsThrow())
+	if (weapon->_effectDirection)
 	{
+		weapon->_effectDirection = false;
+		weapon->_isEffectOn = true;
 		if (weapon->_player->getDirection() == LEFT)
 		{
-			(weapon->_vCollision.begin() + 0)->rc = RectMake(
-				weapon->_player->getTileRect().left -TILESIZE,
-				weapon->_player->getTileRect().top,
-				TILESIZE, TILESIZE);
+			weapon->_weaponEffect.img = IMAGEMANAGER->findImage("dagger_LR");
+			weapon->_weaponEffect.currentFrameY = 1;
 
-			(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX() - 1;
-			(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY();
-
-			weapon->_throwTileX = weapon->_player->getTileX();
-			weapon->_throwTileY = weapon->_player->getTileY();
-		}
-
-		if (weapon->_player->getDirection() == UP)
-		{
-			(weapon->_vCollision.begin() + 0)->rc = RectMake(
-				weapon->_player->getTileRect().left,
-				weapon->_player->getTileRect().top - TILESIZE,
-				TILESIZE, TILESIZE);
-
-			(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX();
-			(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY() - 1;
-
-			weapon->_throwTileX = weapon->_player->getTileX();
-			weapon->_throwTileY = weapon->_player->getTileY();
+			weapon->_weaponEffect.rc = RectMake(weapon->_player->getTileRect().left - TILESIZE,
+				weapon->_player->getTileRect().top + 20, weapon->_weaponEffect.img->getFrameWidth(),
+				weapon->_weaponEffect.img->getFrameHeight());
 		}
 
 		if (weapon->_player->getDirection() == RIGHT)
 		{
-			(weapon->_vCollision.begin() + 0)->rc = RectMake(
-				weapon->_player->getTileRect().left + TILESIZE,
-				weapon->_player->getTileRect().top,
-				TILESIZE, TILESIZE);
+			weapon->_weaponEffect.img = IMAGEMANAGER->findImage("dagger_LR");
+			weapon->_weaponEffect.currentFrameY = 0;
 
-			(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX() + 1;
-			(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY();
+			weapon->_weaponEffect.rc = RectMake(weapon->_player->getTileRect().left + TILESIZE + 20,
+				weapon->_player->getTileRect().top + 20, weapon->_weaponEffect.img->getFrameWidth(),
+				weapon->_weaponEffect.img->getFrameHeight());
+		}
 
-			weapon->_throwTileX = weapon->_player->getTileX();
-			weapon->_throwTileY = weapon->_player->getTileY();
+		if (weapon->_player->getDirection() == UP)
+		{
+			weapon->_weaponEffect.img = IMAGEMANAGER->findImage("dagger_TB");
+			weapon->_weaponEffect.currentFrameY = 0;
+
+			weapon->_weaponEffect.rc = RectMake(weapon->_player->getTileRect().left + 20,
+				weapon->_player->getTileRect().top - TILESIZE, weapon->_weaponEffect.img->getFrameWidth(),
+				weapon->_weaponEffect.img->getFrameHeight());
 		}
 
 		if (weapon->_player->getDirection() == DOWN)
 		{
-			(weapon->_vCollision.begin() + 0)->rc = RectMake(
-				weapon->_player->getTileRect().left,
-				weapon->_player->getTileRect().top + TILESIZE,
-				TILESIZE, TILESIZE);
+			weapon->_weaponEffect.img = IMAGEMANAGER->findImage("dagger_TB");
+			weapon->_weaponEffect.currentFrameY = 1;
 
-			(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX();
-			(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY() + 1;
-
-			weapon->_throwTileX = weapon->_player->getTileX();
-			weapon->_throwTileY = weapon->_player->getTileY();
+			weapon->_weaponEffect.rc = RectMake(weapon->_player->getTileRect().left + 20,
+				weapon->_player->getTileRect().top + TILESIZE, weapon->_weaponEffect.img->getFrameWidth(),
+				weapon->_weaponEffect.img->getFrameHeight());
 		}
 	}
 
-	//스로우일때
-	else
+	if (weapon->_player->getDirection() == LEFT)
 	{
-		if (weapon->_player->getDirection() == LEFT)
+		(weapon->_vCollision.begin() + 0)->rc = RectMake(
+			weapon->_player->getTileRect().left -TILESIZE,
+			weapon->_player->getTileRect().top,
+			TILESIZE, TILESIZE);
+
+		(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX() - 1;
+		(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY();
+
+		weapon->_throwTileX = weapon->_player->getTileX();
+		weapon->_throwTileY = weapon->_player->getTileY();
+	}
+
+	if (weapon->_player->getDirection() == UP)
+	{
+		(weapon->_vCollision.begin() + 0)->rc = RectMake(
+			weapon->_player->getTileRect().left,
+			weapon->_player->getTileRect().top - TILESIZE,
+			TILESIZE, TILESIZE);
+
+		(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX();
+		(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY() - 1;
+
+		weapon->_throwTileX = weapon->_player->getTileX();
+		weapon->_throwTileY = weapon->_player->getTileY();
+	}
+
+	if (weapon->_player->getDirection() == RIGHT)
+	{
+		(weapon->_vCollision.begin() + 0)->rc = RectMake(
+			weapon->_player->getTileRect().left + TILESIZE,
+			weapon->_player->getTileRect().top,
+			TILESIZE, TILESIZE);
+
+		(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX() + 1;
+		(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY();
+
+		weapon->_throwTileX = weapon->_player->getTileX();
+		weapon->_throwTileY = weapon->_player->getTileY();
+	}
+
+	if (weapon->_player->getDirection() == DOWN)
+	{
+		(weapon->_vCollision.begin() + 0)->rc = RectMake(
+			weapon->_player->getTileRect().left,
+			weapon->_player->getTileRect().top + TILESIZE,
+			TILESIZE, TILESIZE);
+
+		(weapon->_vCollision.begin() + 0)->tileX = weapon->_player->getTileX();
+		(weapon->_vCollision.begin() + 0)->tileY = weapon->_player->getTileY() + 1;
+
+		weapon->_throwTileX = weapon->_player->getTileX();
+		weapon->_throwTileY = weapon->_player->getTileY();
+	}
+
+	if (weapon->_isEffectOn)
+	{
+		elapsedTime += TIMEMANAGER->getElapsedTime();
+		if (elapsedTime >= 0.045f)
 		{
-			for (int i = 0; i < weapon->_map->getXSize(); ++i)
+			elapsedTime -= 0.045f;
+
+			if (weapon->_weaponEffect.currentFrameX == weapon->_weaponEffect.img->getMaxFrameX())
 			{
-				(weapon->_vCollision.begin() + 0)->tileX = weapon->_throwTileX - i;
-				(weapon->_vCollision.begin() + 0)->tileY = weapon->_throwTileY;
-
-				OBJECT obj = weapon->_map->getTileObject((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY);
-
-				if (weapon->_map->getIsEnemy((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY))
-				{
-					weapon->_player->setAttack(true);
-				}
-
-				else if (obj == WALL_BASIC || obj == WALL_CRACK ||
-					obj == WALL_DOOR || obj == WALL_END || obj == WALL_GOLD || obj == WALL_STONE)
-				{
-					weapon->_map->setTileItem((weapon->_vCollision.begin() + 0)->tileX + 1,
-						(weapon->_vCollision.begin() + 0)->tileY, MAP_DAGGER);
-					CAMERAMANAGER->vibrateScreen((weapon->_player->getShadowRect().left + weapon->_player->getShadowRect().right) / 2,
-						(weapon->_player->getShadowRect().top + weapon->_player->getShadowRect().bottom) / 2, 30.0f);
-					weapon->_player->setIsThrow(false);
-					break;
-				}
+				weapon->_weaponEffect.currentFrameX = 0;
+				weapon->_isEffectOn = false;
 			}
-		}
 
-		if (weapon->_player->getDirection() == UP)
-		{
-			for (int i = 0; i < weapon->_map->getYSize(); ++i)
-			{
-				(weapon->_vCollision.begin() + 0)->tileX = weapon->_throwTileX;
-				(weapon->_vCollision.begin() + 0)->tileY = weapon->_throwTileY - i;
-
-				OBJECT obj = weapon->_map->getTileObject((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY);
-
-				if (weapon->_map->getIsEnemy((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY))
-				{
-					weapon->_player->setAttack(true);
-				}
-
-				else if (obj == WALL_BASIC || obj == WALL_CRACK ||
-					obj == WALL_DOOR || obj == WALL_END || obj == WALL_GOLD || obj == WALL_STONE)
-				{
-					weapon->_map->setTileItem((weapon->_vCollision.begin() + 0)->tileX,
-						(weapon->_vCollision.begin() + 0)->tileY + 1, MAP_DAGGER);
-					CAMERAMANAGER->vibrateScreen((weapon->_player->getShadowRect().left + weapon->_player->getShadowRect().right) / 2,
-						(weapon->_player->getShadowRect().top + weapon->_player->getShadowRect().bottom) / 2, 30.0f);
-					weapon->_player->setIsThrow(false);
-					break;
-				}
-			}
-		}
-
-		if (weapon->_player->getDirection() == RIGHT)
-		{
-			for (int i = 0; i < weapon->_map->getXSize(); ++i)
-			{
-				(weapon->_vCollision.begin() + 0)->tileX = weapon->_throwTileX + i;
-				(weapon->_vCollision.begin() + 0)->tileY = weapon->_throwTileY;
-
-				OBJECT obj = weapon->_map->getTileObject((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY);
-
-				if (weapon->_map->getIsEnemy((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY))
-				{
-					weapon->_player->setAttack(true);
-				}
-
-				else if (obj == WALL_BASIC || obj == WALL_CRACK ||
-					obj == WALL_DOOR || obj == WALL_END || obj == WALL_GOLD || obj == WALL_STONE)
-				{
-					weapon->_map->setTileItem((weapon->_vCollision.begin() + 0)->tileX - 1,
-						(weapon->_vCollision.begin() + 0)->tileY, MAP_DAGGER);
-					CAMERAMANAGER->vibrateScreen((weapon->_player->getShadowRect().left + weapon->_player->getShadowRect().right) / 2,
-						(weapon->_player->getShadowRect().top + weapon->_player->getShadowRect().bottom) / 2, 30.0f);
-					weapon->_player->setIsThrow(false);
-					break;
-				}
-			}
-		}
-
-		if (weapon->_player->getDirection() == DOWN)
-		{
-			for (int i = 0; i < weapon->_map->getYSize(); ++i)
-			{
-				(weapon->_vCollision.begin() + 0)->tileX = weapon->_throwTileX;
-				(weapon->_vCollision.begin() + 0)->tileY = weapon->_throwTileY + i;
-
-				OBJECT obj = weapon->_map->getTileObject((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY);
-
-				if (weapon->_map->getIsEnemy((weapon->_vCollision.begin() + 0)->tileX, (weapon->_vCollision.begin() + 0)->tileY))
-				{
-					weapon->_player->setAttack(true);
-				}
-
-				else if (obj == WALL_BASIC || obj == WALL_CRACK ||
-					obj == WALL_DOOR || obj == WALL_END || obj == WALL_GOLD || obj == WALL_STONE)
-				{
-					weapon->_map->setTileItem((weapon->_vCollision.begin() + 0)->tileX,
-						(weapon->_vCollision.begin() + 0)->tileY - 1, MAP_DAGGER);
-					CAMERAMANAGER->vibrateScreen((weapon->_player->getShadowRect().left + weapon->_player->getShadowRect().right) / 2,
-						(weapon->_player->getShadowRect().top + weapon->_player->getShadowRect().bottom) / 2, 30.0f);
-					weapon->_player->setIsThrow(false);
-					break;
-				}
-			}
+			else weapon->_weaponEffect.currentFrameX++;
 		}
 	}
 }
@@ -227,6 +181,12 @@ void dagger::enter(weapon* weapon)
 
 	weapon->_weapon.imageName = "dagger";
 	weapon->_weapon.img = IMAGEMANAGER->findImage("dagger");
+
+	weapon->_weapon.isThrow = true;
+	weapon->_isThrowRender = false;
+
+	elapsedTime = 0.f;
+	speed = 0.f;
 }
 
 void dagger::exit(weapon* weapon)

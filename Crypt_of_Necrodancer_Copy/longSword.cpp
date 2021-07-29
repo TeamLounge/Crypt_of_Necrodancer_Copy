@@ -6,6 +6,7 @@
 #include "weapon.h"
 #include "player.h"
 #include "rapier.h"
+#include "throwDagger.h"
 
 weaponType * longSword::inputHandle(weapon * weapon)
 {
@@ -43,6 +44,51 @@ weaponType * longSword::inputHandle(weapon * weapon)
 
 void longSword::update(weapon * weapon)
 {
+	if (weapon->_effectDirection)
+	{
+		weapon->_effectDirection = false;
+		weapon->_isEffectOn = true;
+		if (weapon->_player->getDirection() == LEFT)
+		{
+			weapon->_weaponEffect.img = IMAGEMANAGER->findImage("longSword_LR");
+			weapon->_weaponEffect.currentFrameY = 1;
+
+			weapon->_weaponEffect.rc = RectMake(weapon->_player->getTileRect().left - TILESIZE - TILESIZE,
+				weapon->_player->getTileRect().top + 20, weapon->_weaponEffect.img->getFrameWidth(),
+				weapon->_weaponEffect.img->getFrameHeight());
+		}
+
+		if (weapon->_player->getDirection() == RIGHT)
+		{
+			weapon->_weaponEffect.img = IMAGEMANAGER->findImage("longSword_LR");
+			weapon->_weaponEffect.currentFrameY = 0;
+
+			weapon->_weaponEffect.rc = RectMake(weapon->_player->getTileRect().left + TILESIZE + 20,
+				weapon->_player->getTileRect().top + 20, weapon->_weaponEffect.img->getFrameWidth(),
+				weapon->_weaponEffect.img->getFrameHeight());
+		}
+
+		if (weapon->_player->getDirection() == UP)
+		{
+			weapon->_weaponEffect.img = IMAGEMANAGER->findImage("longSword_TB");
+			weapon->_weaponEffect.currentFrameY = 0;
+
+			weapon->_weaponEffect.rc = RectMake(weapon->_player->getTileRect().left + 20,
+				weapon->_player->getTileRect().top - TILESIZE - TILESIZE, weapon->_weaponEffect.img->getFrameWidth(),
+				weapon->_weaponEffect.img->getFrameHeight());
+		}
+
+		if (weapon->_player->getDirection() == DOWN)
+		{
+			weapon->_weaponEffect.img = IMAGEMANAGER->findImage("longSword_TB");
+			weapon->_weaponEffect.currentFrameY = 1;
+
+			weapon->_weaponEffect.rc = RectMake(weapon->_player->getTileRect().left + 20,
+				weapon->_player->getTileRect().top + TILESIZE, weapon->_weaponEffect.img->getFrameWidth(),
+				weapon->_weaponEffect.img->getFrameHeight());
+		}
+	}
+
 	if (weapon->_player->getDirection() == LEFT)
 	{
 		for (int i = 0; i < 2; ++i)
@@ -98,6 +144,23 @@ void longSword::update(weapon * weapon)
 			(weapon->_vCollision.begin() + i)->tileY = weapon->_player->getTileY() + 1 + i;
 		}
 	}
+
+	if (weapon->_isEffectOn)
+	{
+		elapsedTime += TIMEMANAGER->getElapsedTime();
+		if (elapsedTime >= 0.045f)
+		{
+			elapsedTime -= 0.045f;
+
+			if (weapon->_weaponEffect.currentFrameX == weapon->_weaponEffect.img->getMaxFrameX())
+			{
+				weapon->_weaponEffect.currentFrameX = 0;
+				weapon->_isEffectOn = false;
+			}
+
+			else weapon->_weaponEffect.currentFrameX++;
+		}
+	}
 }
 
 void longSword::enter(weapon * weapon)
@@ -109,6 +172,12 @@ void longSword::enter(weapon * weapon)
 
 	weapon->_weapon.imageName = "longSword";
 	weapon->_weapon.img = IMAGEMANAGER->findImage("longSword");
+
+	weapon->_weapon.isThrow = false;
+	weapon->_isThrowRender = false;
+
+	elapsedTime = 0.f;
+	speed = 0.f;
 }
 
 void longSword::exit(weapon * weapon)

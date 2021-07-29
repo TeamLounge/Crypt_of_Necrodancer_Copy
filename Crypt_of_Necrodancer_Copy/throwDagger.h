@@ -3,7 +3,7 @@
 
 class weapon;
 
-class rapier : public weaponType
+class throwDagger : public weaponType
 {
 private:
 	float elapsedTime;  //이펙트 효과 돌리기위한
@@ -15,3 +15,4 @@ public:
 	virtual void enter(weapon* weapon);
 	virtual void exit(weapon* weapon);
 };
+

@@ -65,7 +65,7 @@ HRESULT bossScene::init()
 
 	_player->setPlayerUIMemoryAddressLink(_UIM);
 	_player->setEmMemoryAddressLink(_em);
-	SOUNDMANAGER->play("boss", 0.2f);
+	SOUNDMANAGER->play("boss", 0.4f);
 
 	return S_OK;
 }
