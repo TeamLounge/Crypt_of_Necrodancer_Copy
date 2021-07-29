@@ -2295,7 +2295,7 @@ void mapGenerator::settingTraps()
 	for (int i = 0; i < _rooms.size(); i++)
 	{
 		if (_rooms[i].roomState == ROOM_START || _rooms[i].roomState == ROOM_SHOP) continue;
-		int trapNum = RND->getInt(3);
+		int trapNum = RND->getInt(4);
 		int count = 0;
 		while (1)
 		{
@@ -2331,7 +2331,7 @@ void mapGenerator::settingItemBox()
 		if (_tiles[y][x].obj == OBJ_NONE)
 		{
 			_tiles[y][x].obj = (OBJECT)(15+count);
-			if (15+ count == 15)
+			if (15 + count == 15)
 			{
 				_redBoxRoomNum = roomNum;
 			}
