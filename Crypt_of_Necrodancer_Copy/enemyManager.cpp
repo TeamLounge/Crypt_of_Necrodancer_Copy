@@ -6,16 +6,16 @@ HRESULT enemyManager::init()
 {
 
 	setWhiteSkeleton();
-	//setGreenSkeleton();
-	//setBlackSkeleton();
+	setGreenSkeleton();
+	setBlackSkeleton();
 
-	//setSlimeGreen();
+	setSlimeGreen();
 	setSlimeGold();
 	setSlimeBlue();
 
-	//setGhost();
+	setGhost();
 
-	//setMimic();
+	setMimic();
 
 	setMonkeyBasic();
 	//setMonkeyWhite();
@@ -44,16 +44,16 @@ void enemyManager::update()
 	_weaponName = _weapon->getWeaponName();
 
 	updateWhiteSkeleton();
-	//updateGreenSkeleton();
-	//updateBlackSkeleton();
+	updateGreenSkeleton();
+	updateBlackSkeleton();
 
-	//updateSlimeGreen();
+	updateSlimeGreen();
 	updateSlimeGold();
 	updateSlimeBlue();
 
-	//updateGhost();
-	
-	//updateMimic();
+	updateGhost();
+
+	updateMimic();
 
 
 	updateMonkeyBasic();
@@ -72,16 +72,16 @@ void enemyManager::render(int tileX, int tileY)
 {
 
 	renderWhiteSkeleton(tileX, tileY);
-	//renderGreenSkeleton(tileX, tileY);
-	//renderBlackSkeleton(tileX, tileY);
+	renderGreenSkeleton(tileX, tileY);
+	renderBlackSkeleton(tileX, tileY);
 
-	//renderSlimeGreen(tileX, tileY);
+	renderSlimeGreen(tileX, tileY);
 	renderSlimeGold(tileX, tileY);
 	renderSlimeBlue(tileX, tileY);
 
-	//renderGhost(tileX, tileY);
+	renderGhost(tileX, tileY);
 
-	//renderMimic(tileX, tileY);
+	renderMimic(tileX, tileY);
 
 
 	renderMonkeyBasic(tileX, tileY);
@@ -103,7 +103,7 @@ void enemyManager::setWhiteSkeleton(bool boss)
 	{
 		whiteSkeleton* _skeleton = new whiteSkeleton;
 		_skeleton->setTileMapLinK(_map);
-		_skeleton->init(_player->getTileX(), _player->getTileY() , boss);
+		_skeleton->init(_player->getTileX(), _player->getTileY(), boss);
 		_vWitheSkeleton.emplace_back(_skeleton);
 	}
 }
@@ -114,22 +114,23 @@ void enemyManager::updateWhiteSkeleton()
 		if (_player->getAttack())
 		{//플레이어 공격!
 			//공격렉트중에
-			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
-			{
-				RECT rc;//혹시 무기가?....
-				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
-				{//창?롱소드?레이피어?이라면?
-					//닿앗다면?
-					if (IntersectRect(&rc, &(*_viWitheSkeleton)->getRect(), &_viCollision->rc))
-					{
-						//까줍니다.
-						(*_viWitheSkeleton)->setHp((*_viWitheSkeleton)->getHp() - 1);
-						//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
-						_player->setAttack(false);
-					}
+			RECT rc;//혹시 무기가?....
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{//창?롱소드?레이피어?이라면?
+				//닿앗다면?
+				if (IntersectRect(&rc, &(*_viWitheSkeleton)->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
+				{
+					//까줍니다.
+					(*_viWitheSkeleton)->setHp((*_viWitheSkeleton)->getHp() - 1);
+					//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
+					_player->setAttack(false);
 				}
-				else
-				{//닿앗다면?
+			}
+			else
+			{
+				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+				{
+					//닿앗다면?
 					if (IntersectRect(&rc, &(*_viWitheSkeleton)->getRect(), &_viCollision->rc))
 					{
 						//까줍니다.
@@ -183,24 +184,26 @@ void enemyManager::updateGreenSkeleton()
 	for (_viGreenSkeleton = _vGreenSkeleton.begin(); _viGreenSkeleton != _vGreenSkeleton.end();)
 	{//플레이어 공격!
 			//공격렉트중에
-		if (_player->getAttack()) {
-
-			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
-			{
-				RECT rc;//혹시 무기가?....
-				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
-				{//창?롱소드?레이피어?이라면?
-					//닿앗다면?
-					if (IntersectRect(&rc, &(*_viGreenSkeleton)->getRect(), &_viCollision->rc))
-					{
-						//까줍니다.
-						(*_viGreenSkeleton)->setHp((*_viGreenSkeleton)->getHp() - 1);
-						//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
-						_player->setAttack(false);
-					}
+		if (_player->getAttack())
+		{//플레이어 공격!
+			//공격렉트중에
+			RECT rc;//혹시 무기가?....
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{//창?롱소드?레이피어?이라면?
+				//닿앗다면?
+				if (IntersectRect(&rc, &(*_viGreenSkeleton)->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
+				{
+					//까줍니다.
+					(*_viGreenSkeleton)->setHp((*_viGreenSkeleton)->getHp() - 1);
+					//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
+					_player->setAttack(false);
 				}
-				else
-				{//닿앗다면?
+			}
+			else
+			{
+				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+				{
+					//닿앗다면?
 					if (IntersectRect(&rc, &(*_viGreenSkeleton)->getRect(), &_viCollision->rc))
 					{
 						//까줍니다.
@@ -252,24 +255,26 @@ void enemyManager::updateBlackSkeleton()
 	for (_viBlackSkeleton = _vBlackSkeleton.begin(); _viBlackSkeleton != _vBlackSkeleton.end();)
 	{//플레이어 공격!
 			//공격렉트중에
-		if (_player->getAttack()) {
-
-			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
-			{
-				RECT rc;//혹시 무기가?....
-				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
-				{//창?롱소드?레이피어?이라면?
-					//닿앗다면?
-					if (IntersectRect(&rc, &(*_viBlackSkeleton)->getRect(), &_viCollision->rc))
-					{
-						//까줍니다.
-						(*_viBlackSkeleton)->setHp((*_viBlackSkeleton)->getHp() - 1);
-						//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
-						_player->setAttack(false);
-					}
+		if (_player->getAttack())
+		{//플레이어 공격!
+			//공격렉트중에
+			RECT rc;//혹시 무기가?....
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{//창?롱소드?레이피어?이라면?
+				//닿앗다면?
+				if (IntersectRect(&rc, &(*_viBlackSkeleton)->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
+				{
+					//까줍니다.
+					(*_viBlackSkeleton)->setHp((*_viBlackSkeleton)->getHp() - 1);
+					//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
+					_player->setAttack(false);
 				}
-				else
-				{//닿앗다면?
+			}
+			else
+			{
+				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+				{
+					//닿앗다면?
 					if (IntersectRect(&rc, &(*_viBlackSkeleton)->getRect(), &_viCollision->rc))
 					{
 						//까줍니다.
@@ -323,22 +328,23 @@ void enemyManager::updateSlimeGreen()
 		if (_player->getAttack())
 		{//플레이어 공격!
 			//공격렉트중에
-			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
-			{
-				RECT rc;//혹시 무기가?....
-				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
-				{//창?롱소드?레이피어?이라면?
-					//닿앗다면?
-					if (IntersectRect(&rc, &(*_viSlimeGreen)->getRect(), &_viCollision->rc))
-					{
-						//까줍니다.
-						(*_viSlimeGreen)->setHp((*_viSlimeGreen)->getHp() - 1);
-						//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
-						_player->setAttack(false);
-					}
+			RECT rc;//혹시 무기가?....
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{//창?롱소드?레이피어?이라면?
+				//닿앗다면?
+				if (IntersectRect(&rc, &(*_viSlimeGreen)->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
+				{
+					//까줍니다.
+					(*_viSlimeGreen)->setHp((*_viSlimeGreen)->getHp() - 1);
+					//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
+					_player->setAttack(false);
 				}
-				else
-				{//닿앗다면?
+			}
+			else
+			{
+				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+				{
+					//닿앗다면?
 					if (IntersectRect(&rc, &(*_viSlimeGreen)->getRect(), &_viCollision->rc))
 					{
 						//까줍니다.
@@ -394,22 +400,23 @@ void enemyManager::updateSlimeGold()
 		if (_player->getAttack())
 		{//플레이어 공격!
 			//공격렉트중에
-			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
-			{
-				RECT rc;//혹시 무기가?....
-				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
-				{//창?롱소드?레이피어?이라면?
-					//닿앗다면?
-					if (IntersectRect(&rc, &(*_viSlimeGold)->getRect(), &_viCollision->rc))
-					{
-						//까줍니다.
-						(*_viSlimeGold)->setHp((*_viSlimeGold)->getHp() - 1);
-						//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
-						_player->setAttack(false);
-					}
+			RECT rc;//혹시 무기가?....
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{//창?롱소드?레이피어?이라면?
+				//닿앗다면?
+				if (IntersectRect(&rc, &(*_viSlimeGold)->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
+				{
+					//까줍니다.
+					(*_viSlimeGold)->setHp((*_viSlimeGold)->getHp() - 1);
+					//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
+					_player->setAttack(false);
 				}
-				else
-				{//닿앗다면?
+			}
+			else
+			{
+				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+				{
+					//닿앗다면?
 					if (IntersectRect(&rc, &(*_viSlimeGold)->getRect(), &_viCollision->rc))
 					{
 						//까줍니다.
@@ -417,7 +424,8 @@ void enemyManager::updateSlimeGold()
 					}
 				}
 			}
-		}//만약에 해당에너미가 hp=0이라면?
+		}
+		//만약에 해당에너미가 hp=0이라면?
 		if ((*_viSlimeGold)->getHp() == 0)
 		{
 			//에너미 map에 없애주고
@@ -466,30 +474,33 @@ void enemyManager::updateSlimeBlue()
 		if (_player->getAttack())
 		{//플레이어 공격!
 			//공격렉트중에
-			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+			RECT rc;//혹시 무기가?....
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{//창?롱소드?레이피어?이라면?
+				//닿앗다면?
+				if (IntersectRect(&rc, &(*_viSlimeBlue)->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
+				{
+					//까줍니다.
+					(*_viSlimeBlue)->setHp((*_viSlimeBlue)->getHp() - 1);
+					//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
+					_player->setAttack(false);
+				}
+			}
+			else
 			{
-				RECT rc;//혹시 무기가?....
-				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
-				{//창?롱소드?레이피어?이라면?
+				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+				{
 					//닿앗다면?
 					if (IntersectRect(&rc, &(*_viSlimeBlue)->getRect(), &_viCollision->rc))
 					{
 						//까줍니다.
 						(*_viSlimeBlue)->setHp((*_viSlimeBlue)->getHp() - 1);
-						//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
-						_player->setAttack(false);
-					}
-				}
-				else
-				{	//닿앗다면?
-					if (IntersectRect(&rc, &(*_viSlimeBlue)->getRect(), &_viCollision->rc))
-					{
-						(*_viSlimeBlue)->setHp((*_viSlimeBlue)->getHp() - 1);
-						
 					}
 				}
 			}
-		}//만약에 해당에너미가 hp=0이라면?
+		}
+
+		//만약에 해당에너미가 hp=0이라면?
 		if ((*_viSlimeBlue)->getHp() == 0)
 		{
 			//에너미 map에 없애주고
@@ -544,27 +555,27 @@ void enemyManager::updateGhost()
 		if (_player->getAttack() && (*_viGhost)->getIsFind())
 		{//플레이어 공격! && 고스트와 미믹은 기믹이 붙어야 되기 때문에 미믹이 발견 했는지도 추가가 됫어용
 			//공격렉트중에
-			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+			RECT rc;//혹시 무기가?....
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{//창?롱소드?레이피어?이라면?
+				//닿앗다면?
+				if (IntersectRect(&rc, &(*_viGhost)->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
+				{
+					//까줍니다.
+					(*_viGhost)->setHp((*_viGhost)->getHp() - 1);
+					//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
+					_player->setAttack(false);
+				}
+			}
+			else
 			{
-				RECT rc;//혹시 무기가?....
-				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
-				{//창?롱소드?레이피어?이라면?
+				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+				{
 					//닿앗다면?
 					if (IntersectRect(&rc, &(*_viGhost)->getRect(), &_viCollision->rc))
 					{
 						//까줍니다.
 						(*_viGhost)->setHp((*_viGhost)->getHp() - 1);
-						//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
-						_player->setAttack(false);
-					}
-				}
-				else
-				{//닿앗다면?
-					if (IntersectRect(&rc, &(*_viGhost)->getRect(), &_viCollision->rc))
-					{
-						//까줍니다.
-						(*_viGhost)->setHp((*_viGhost)->getHp() - 1);
-
 					}
 				}
 			}
@@ -617,22 +628,23 @@ void enemyManager::updateMimic()
 		if (_player->getAttack() && (*_viMimic)->getIsFind())
 		{//플레이어 공격! && 고스트와 미믹은 기믹이 붙어야 되기 때문에 미믹이 발견 했는지도 추가가 됫어용
 			//공격렉트중에
-			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
-			{
-				RECT rc;//혹시 무기가?....
-				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
-				{//창?롱소드?레이피어?이라면?
-					//닿앗다면?
-					if (IntersectRect(&rc, &(*_viMimic)->getRect(), &_viCollision->rc))
-					{
-						//까줍니다.
-						(*_viMimic)->setHp((*_viMimic)->getHp() - 1);
-						//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
-						_player->setAttack(false);
-					}
+			RECT rc;//혹시 무기가?....
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{//창?롱소드?레이피어?이라면?
+				//닿앗다면?
+				if (IntersectRect(&rc, &(*_viMimic)->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
+				{
+					//까줍니다.
+					(*_viMimic)->setHp((*_viMimic)->getHp() - 1);
+					//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
+					_player->setAttack(false);
 				}
-				else
-				{//닿앗다면?
+			}
+			else
+			{
+				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+				{
+					//닿앗다면?
 					if (IntersectRect(&rc, &(*_viMimic)->getRect(), &_viCollision->rc))
 					{
 						//까줍니다.
@@ -698,21 +710,26 @@ void enemyManager::updateMonkeyBasic()
 			}
 			else
 			{
-				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
-				{
-					RECT rc;
-					if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+				RECT rc;//혹시 무기가?....
+				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+				{//창?롱소드?레이피어?이라면?
+					//닿앗다면?
+					if (IntersectRect(&rc, &(*_viMonkeyBasic)->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
 					{
-						if (IntersectRect(&rc, &(*_viMonkeyBasic)->getRect(), &_viCollision->rc))
-						{
-							(*_viMonkeyBasic)->setHp((*_viMonkeyBasic)->getHp() - 1);
-							_player->setAttack(false);
-						}
+						//까줍니다.
+						(*_viMonkeyBasic)->setHp((*_viMonkeyBasic)->getHp() - 1);
+						//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
+						_player->setAttack(false);
 					}
-					else
+				}
+				else
+				{
+					for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
 					{
+						//닿앗다면?
 						if (IntersectRect(&rc, &(*_viMonkeyBasic)->getRect(), &_viCollision->rc))
 						{
+							//까줍니다.
 							(*_viMonkeyBasic)->setHp((*_viMonkeyBasic)->getHp() - 1);
 						}
 					}
@@ -820,23 +837,29 @@ void enemyManager::updateMinotaur()
 {
 	for (_viMinotaur = _vMinotaur.begin(); _viMinotaur != _vMinotaur.end();)
 	{
-		if (_player->getAttack()) {
-
-			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
-			{
-				RECT rc;
-				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+		if (_player->getAttack())
+		{//플레이어 공격!
+			//공격렉트중에
+			RECT rc;//혹시 무기가?....
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{//창?롱소드?레이피어?이라면?
+				//닿앗다면?
+				if (IntersectRect(&rc, &(*_viMinotaur)->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
 				{
-					if (IntersectRect(&rc, &(*_viMinotaur)->getRect(), &_viCollision->rc))
-					{
-						(*_viMinotaur)->setHp((*_viMinotaur)->getHp() - 1);
-						_player->setAttack(false);
-					}
+					//까줍니다.
+					(*_viMinotaur)->setHp((*_viMinotaur)->getHp() - 1);
+					//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
+					_player->setAttack(false);
 				}
-				else
+			}
+			else
+			{
+				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
 				{
+					//닿앗다면?
 					if (IntersectRect(&rc, &(*_viMinotaur)->getRect(), &_viCollision->rc))
 					{
+						//까줍니다.
 						(*_viMinotaur)->setHp((*_viMinotaur)->getHp() - 1);
 					}
 				}
@@ -882,23 +905,29 @@ void enemyManager::updateZombie()
 {
 	for (_viZombie = _vZombie.begin(); _viZombie != _vZombie.end();)
 	{
-		if (_player->getAttack()) {
-
-			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
-			{
-				RECT rc;
-				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+		if (_player->getAttack())
+		{//플레이어 공격!
+			//공격렉트중에
+			RECT rc;//혹시 무기가?....
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{//창?롱소드?레이피어?이라면?
+				//닿앗다면?
+				if (IntersectRect(&rc, &(*_viZombie)->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
 				{
-					if (IntersectRect(&rc, &(*_viZombie)->getRect(), &_viCollision->rc))
-					{
-						(*_viZombie)->setHp((*_viZombie)->getHp() - 1);
-						_player->setAttack(false);
-					}
+					//까줍니다.
+					(*_viZombie)->setHp((*_viZombie)->getHp() - 1);
+					//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
+					_player->setAttack(false);
 				}
-				else
+			}
+			else
+			{
+				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
 				{
+					//닿앗다면?
 					if (IntersectRect(&rc, &(*_viZombie)->getRect(), &_viCollision->rc))
 					{
+						//까줍니다.
 						(*_viZombie)->setHp((*_viZombie)->getHp() - 1);
 					}
 				}
@@ -944,23 +973,29 @@ void enemyManager::updateRedDragon()
 {
 	for (_viRedDragon = _vRedDragon.begin(); _viRedDragon != _vRedDragon.end();)
 	{
-		if (_player->getAttack()) {
-
-			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
-			{
-				RECT rc;
-				if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+		if (_player->getAttack())
+		{//플레이어 공격!
+			//공격렉트중에
+			RECT rc;//혹시 무기가?....
+			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			{//창?롱소드?레이피어?이라면?
+				//닿앗다면?
+				if (IntersectRect(&rc, &(*_viRedDragon)->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
 				{
-					if (IntersectRect(&rc, &(*_viRedDragon)->getRect(), &_viCollision->rc))
-					{
-						(*_viRedDragon)->setHp((*_viRedDragon)->getHp() - 1);
-						_player->setAttack(false);
-					}
+					//까줍니다.
+					(*_viRedDragon)->setHp((*_viRedDragon)->getHp() - 1);
+					//관통없이 하나만 해야하기 때문에 플레이어는 공격상태 꺼주자 
+					_player->setAttack(false);
 				}
-				else
+			}
+			else
+			{
+				for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
 				{
+					//닿앗다면?
 					if (IntersectRect(&rc, &(*_viRedDragon)->getRect(), &_viCollision->rc))
 					{
+						//까줍니다.
 						(*_viRedDragon)->setHp((*_viRedDragon)->getHp() - 1);
 					}
 				}
@@ -1002,35 +1037,36 @@ void enemyManager::updateDeathMetal()
 
 	if (_player->getAttack()) {
 
-		for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
+
+		RECT rc;
+		if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
 		{
-			RECT rc;
-			if (_weaponName == "spear" || _weaponName == "longSword" || _weaponName == "rapier")
+			if (IntersectRect(&rc, &_deathMetal->getRect(), &_vCollision[_weapon->getCollisionIndex()].rc))
 			{
-				if (IntersectRect(&rc, &_deathMetal->getRect(), &_viCollision->rc))
+				if (_deathMetal->getHp() >= 7)
 				{
-					if (_deathMetal->getHp() >= 7)
-					{
-						if (!((_player->getDirection() == LEFT && _deathMetal->getJudgMundetDirection() == RIGHT) ||
-							(_player->getDirection() == RIGHT && _deathMetal->getJudgMundetDirection() == LEFT) ||
-							(_player->getDirection() == UP && _deathMetal->getJudgMundetDirection() == DOWN) ||
-							(_player->getDirection() == DOWN && _deathMetal->getJudgMundetDirection() == UP)))
-						{
-							_deathMetal->setHp(_deathMetal->getHp() - 1);
-							_deathMetal->setIsDamaged(true);
-							_player->setAttack(false);
-						}
-					}
-					else
+					if (!((_player->getDirection() == LEFT && _deathMetal->getJudgMundetDirection() == RIGHT) ||
+						(_player->getDirection() == RIGHT && _deathMetal->getJudgMundetDirection() == LEFT) ||
+						(_player->getDirection() == UP && _deathMetal->getJudgMundetDirection() == DOWN) ||
+						(_player->getDirection() == DOWN && _deathMetal->getJudgMundetDirection() == UP)))
 					{
 						_deathMetal->setHp(_deathMetal->getHp() - 1);
 						_deathMetal->setIsDamaged(true);
 						_player->setAttack(false);
 					}
-
 				}
+				else
+				{
+					_deathMetal->setHp(_deathMetal->getHp() - 1);
+					_deathMetal->setIsDamaged(true);
+					_player->setAttack(false);
+				}
+
 			}
-			else
+		}
+		else
+		{
+			for (_viCollision = _vCollision.begin(); _viCollision != _vCollision.end(); ++_viCollision)
 			{
 				if (IntersectRect(&rc, &_deathMetal->getRect(), &_viCollision->rc))
 				{

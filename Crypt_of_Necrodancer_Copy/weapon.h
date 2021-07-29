@@ -45,6 +45,8 @@ public:
 	int _throwTileX;
 	int _throwTileY;
 
+	int _collisionIndex;
+
 	weapon();
 	~weapon();
 
@@ -69,5 +71,8 @@ public:
 
 	vector<COLLISION> getVCollision() { return _vCollision; }
 	vector<COLLISION>::iterator getVICollision() { return _viCollision; }
+
+	int getCollisionIndex() { return _collisionIndex; }
+	void setCollisionIndex(int index) { _collisionIndex = index; }
 };
 

@@ -87,7 +87,6 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render(int tileX, int tileY);
-	virtual void render();
 
 	void damaged();
 	void miss();
