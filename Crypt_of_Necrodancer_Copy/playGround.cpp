@@ -21,9 +21,9 @@ HRESULT playGround::init()
 
 
 	SCENEMANAGER->addScene("player_test", new playerTestScene);
-	SCENEMANAGER->changeScene("player_test");
+	//SCENEMANAGER->changeScene("player_test");
 	SCENEMANAGER->addScene("bossScene", new bossScene);
-	//SCENEMANAGER->changeScene("bossScene");
+	SCENEMANAGER->changeScene("bossScene");
 
 
 	return S_OK;
