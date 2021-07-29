@@ -99,6 +99,8 @@ public:
 	void setPlayerMapMemoryAddressLink(mapGenerator* map) { _map = map; };
 	void setPlayerUIMemoryAddressLink(UIManager* ui) { _uiManager = ui; };
 	void setupPlayerRect();
+	void playerMovement(PLAYER_ENEMY_DIRECTION dir, int tileXIncreseRange, int tileYIncreseRange);
+
 
 	int getTileX() { return _tileX; }
 	int getTileY() { return _tileY; }
