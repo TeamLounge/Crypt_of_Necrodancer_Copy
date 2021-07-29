@@ -129,9 +129,9 @@ void playerTestScene::update()
 		_map->setTileTerrain(stairBossX, stairBossY, STAIR_NONE);
 		if (_player->getTileX() == stairBossX && _player->getTileY() == stairBossY)
 		{
-			SCENEMANAGER->changeScene("bossScene");
 			SOUNDMANAGER->stop("zone1-1");
 			SOUNDMANAGER->stop("zone1-1_shopkeeper");
+			SCENEMANAGER->changeScene("bossScene");
 		}
 	}
 }
